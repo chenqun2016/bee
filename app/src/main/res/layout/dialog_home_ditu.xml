@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:padding="15dp"
+    android:background="@drawable/bg_round_white">
+
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="160dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="当前您定位区域超出配送范围，请重新定位。"
+        android:textColor="@color/color_282525"
+        android:textSize="15sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp">
+
+
+        <TextView
+            android:id="@+id/tv_guangguang"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="40dp"
+            android:text="先逛逛看"
+            android:background="@drawable/btn_stroke_yellow"
+            android:textColor="@color/color_FF6200"
+            android:textSize="17sp"/>
+
+        <TextView
+            android:id="@+id/tv_restart"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/btn_gradient_yellow_round"
+            android:layout_height="40dp"
+            android:text="重新定位"
+            android:textColor="@color/white"
+            android:textSize="17sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

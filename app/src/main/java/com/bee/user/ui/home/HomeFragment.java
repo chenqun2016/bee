@@ -1,5 +1,6 @@
 package com.bee.user.ui.home;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,26 +15,26 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.HomeBean;
+import com.bee.user.bean.HomeGridview2Bean;
 import com.bee.user.ui.base.fragment.BaseFragment;
-import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
+import com.bee.user.widget.MyGridView;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -51,7 +52,7 @@ public class HomeFragment extends BaseFragment {
     public RecyclerView recyclerview;
 
     private List<BannerBean> adsList = new ArrayList<>();//banner数据
-
+    private Dialog dingweiDialog;
 
     public static HomeFragment newInstance(int arg) {
         Bundle arguments = new Bundle();
@@ -60,11 +61,43 @@ public class HomeFragment extends BaseFragment {
         fragment.setArguments(arguments);
         return fragment;
     }
+
+    @OnClick({R.id.ll_tongzhi})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_tongzhi:
+
+                if (null == dingweiDialog) {
+                    dingweiDialog = new Dialog(getActivity(), R.style.loadingDialogTheme);
+                    View inflate = View.inflate(getActivity(), R.layout.dialog_home_ditu, null);
+                    inflate.findViewById(R.id.tv_guangguang).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (null != dingweiDialog) {
+                                dingweiDialog.dismiss();
+                            }
+
+                        }
+                    });
+                    dingweiDialog.setContentView(inflate);
+                }
+
+                dingweiDialog.show();
+
+                break;
+        }
+    }
+
+
     @Override
     public void onDestroy() {
         unbinder.unbind();
+        if (null != dingweiDialog && dingweiDialog.isShowing()) {
+            dingweiDialog.dismiss();
+        }
         super.onDestroy();
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,27 +115,81 @@ public class HomeFragment extends BaseFragment {
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 
 
-                int scrollRangle = appBarLayout.getTotalScrollRange();
-
-                LogUtil.d("verticalOffset=="+verticalOffset+"--scrollRangle=="+scrollRangle);
-
-                if (verticalOffset == 0) {
-                    appbar.setAlpha(1);
-                } else if(verticalOffset >= scrollRangle){
-                    appbar.setAlpha(0);
-
-                }else{
-                    //保留一位小数
-                    float alpha =(scrollRangle - Math.abs(verticalOffset)) * 1.0f / scrollRangle;
-                    appbar.setAlpha(alpha);
-                }
+//                int scrollRangle = appBarLayout.getTotalScrollRange();
+//
+//                LogUtil.d("verticalOffset=="+verticalOffset+"--scrollRangle=="+scrollRangle);
+//
+//                if (verticalOffset == 0) {
+//                    appbar.setAlpha(1);
+//                } else if(verticalOffset >= scrollRangle){
+//                    appbar.setAlpha(0);
+//
+//                }else{
+//                    //保留一位小数
+//                    float alpha =(scrollRangle - Math.abs(verticalOffset)) * 1.0f / scrollRangle;
+//                    appbar.setAlpha(alpha);
+//                }
 
             }
         });
 
 
-        View  headerViewBanner = View.inflate(getContext(), R.layout.item_home_banner, null);
+        View headerViewBanner = View.inflate(getContext(), R.layout.item_home_banner, null);
+        View headerView2 = View.inflate(getContext(), R.layout.item_home_2, null);
+        View headerView3 = View.inflate(getContext(), R.layout.item_home_3, null);
+        initHeaderViewBanner(headerViewBanner);
+        initHeaderView2(headerView2);
+        initHeaderView3(headerView3);
 
+
+        HomeAdapter homeAdapter = new HomeAdapter();
+        homeAdapter.addHeaderView(headerViewBanner);
+        homeAdapter.addHeaderView(headerView2);
+        homeAdapter.addHeaderView(headerView3);
+        recyclerview.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerview.setAdapter(homeAdapter);
+        homeAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+
+            }
+        });
+
+        ArrayList<HomeBean> homeBeans = new ArrayList<>();
+        homeBeans.add(new HomeBean());
+        homeBeans.add(new HomeBean());
+        homeBeans.add(new HomeBean());
+        homeBeans.add(new HomeBean());
+        homeBeans.add(new HomeBean());
+        homeAdapter.setNewInstance(homeBeans);
+    }
+
+    private void initHeaderView3(View headerView3) {
+        MyGridView gridview = headerView3.findViewById(R.id.gridview);
+
+        List<HomeGridview2Bean> homeGridview2Beans = new ArrayList<>();
+        HomeGridview2Bean bean = new HomeGridview2Bean();
+        bean.title = "销量排行榜";
+        bean.name = "鸡胸肉沙拉";
+        bean.time = "00:00:00";
+        bean.money = "10.0";
+        bean.title = "20.0";
+
+        homeGridview2Beans.add(bean);
+        homeGridview2Beans.add(bean);
+        homeGridview2Beans.add(bean);
+        homeGridview2Beans.add(bean);
+
+        gridview.setAdapter(new HomeGridview2Adapter(getActivity(), homeGridview2Beans));
+    }
+
+    private void initHeaderView2(View headerView2) {
+        MyGridView gridview = headerView2.findViewById(R.id.gridview);
+
+        gridview.setAdapter(new HomeGridviewAdapter(getActivity()));
+    }
+
+    private void initHeaderViewBanner(View headerViewBanner) {
         ConvenientBanner mBanner = (ConvenientBanner) headerViewBanner.findViewById(R.id.banner2);
 //        LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) mBanner.getLayoutParams();
 //        params2.width = DisplayUtil.getWindowWidth(getActivity());
@@ -125,7 +212,6 @@ public class HomeFragment extends BaseFragment {
             }
 
 
-
         }, adsList);
         mBanner.setPageIndicator(new int[]{R.drawable.point_banner_grey, R.drawable.point_banner_yellow});
         mBanner.setOnItemClickListener(new OnItemClickListener() {
@@ -136,25 +222,6 @@ public class HomeFragment extends BaseFragment {
         });
         mBanner.setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
 
-
-        HomeAdapter homeAdapter = new HomeAdapter();
-        homeAdapter.addHeaderView(headerViewBanner);
-        recyclerview.setLayoutManager(new GridLayoutManager(getActivity(),2));
-        recyclerview.setAdapter(homeAdapter);
-        homeAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
-            @Override
-            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-
-            }
-        });
-
-        ArrayList<HomeBean> homeBeans = new ArrayList<>();
-        homeBeans.add(new HomeBean());
-        homeBeans.add(new HomeBean());
-        homeBeans.add(new HomeBean());
-        homeBeans.add(new HomeBean());
-        homeBeans.add(new HomeBean());
-        homeAdapter.setNewInstance(homeBeans);
     }
 
 

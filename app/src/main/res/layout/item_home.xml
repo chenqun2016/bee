@@ -11,7 +11,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingBottom="9dp"
-        android:background="@drawable/bg_round_white">
+        android:background="@drawable/bg_transfer">
 
 
         <ImageView
