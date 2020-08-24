@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Bee</string>
+    <string name="mimalogin">密码登录</string>
+    <string name="phonelogin">手机号登录</string>
+</resources>

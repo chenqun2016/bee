@@ -1,0 +1,4 @@
+include ':bottomindicator'
+include ':base'
+include ':app'
+rootProject.name = "Bee"

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--全局主题颜色值-->
+    <color name="theme_color">#ffffff</color>
+
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+    <color name="transparent">#00ffffff</color>
+    <color name="white">#ffffff</color>
+
+    <color name="color_282626">#282626</color>
+    <color name="color_ccc">#CCCCCC</color>
+    <color name="color_eee">#EEEEEE</color>
+    <color name="color_7B7777">#7B7777</color>
+    <color name="color_3D7DFB">#3D7DFB</color>
+    <color name="color_EDEDED">#EDEDED</color>
+    <color name="color_272525">#272525</color>
+    <color name="color_FF6100">#FF6100</color>
+    <color name="color_F5F5F5">#F5F5F5</color>
+    <color name="color_CBCBCB">#CBCBCB</color>
+    <color name="color_282525">#282525</color>
+    <color name="color_7C7877">#7C7877</color>
+    <color name="color_FF6200">#FF6200</color>
+    <color name="color_FF5050">#FF5050</color>
+
+</resources>
