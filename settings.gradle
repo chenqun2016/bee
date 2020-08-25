@@ -1,3 +1,4 @@
+include ':crecyclerview'
 include ':bottomindicator'
 include ':base'
 include ':app'

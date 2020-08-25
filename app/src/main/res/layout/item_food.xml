@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:paddingRight="5dp"
+    android:paddingLeft="5dp"
+    android:paddingBottom="17dp"
+    android:background="@drawable/shadow">
+
+
+    <ImageView
+        android:id="@+id/tv_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-18dp"
+        android:layout_marginRight="12dp"
+        android:layout_below="@+id/tv_image"
+        android:background="#000000"/>
+
+    <TextView
+        android:id="@+id/tv_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.00"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/color_FF5050"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/tv_image"/>
+
+    <TextView
+        android:id="@+id/tv_moneypast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.00"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/color_ccc"
+        android:layout_alignBottom="@+id/tv_money"
+        android:layout_toRightOf="@+id/tv_money"/>
+
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="人气至尊豪华鳗鱼组合套餐"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/color_282525"
+        android:layout_marginTop="9dp"
+        android:layout_below="@+id/tv_money"/>
+
+
+    <TextView
+        android:id="@+id/tv_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="剩100份"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/color_FF5050"
+        android:layout_marginTop="9dp"
+        android:layout_below="@+id/tv_title"/>
+
+    <TextView
+        android:id="@+id/tv_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3公里，约15分钟"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/tv_tag"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/color_7C7877"
+        android:layout_marginTop="9dp"
+        android:layout_below="@+id/tv_title"/>
+
+    <TextView
+        android:id="@+id/tv_sells"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3公里，约15分钟"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/color_7C7877"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_alignBottom="@+id/tv_des"
+        android:layout_marginTop="9dp"/>
+</RelativeLayout>

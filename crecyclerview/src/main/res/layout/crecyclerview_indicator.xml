@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_default"
+    android:orientation="vertical">
+
+    <com.huaxiafinance.www.crecyclerview.cindicatorview.indicator.TitleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/white" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.huaxiafinance.www.crecyclerview.cindicatorview.CViewPager
+            android:id="@+id/cindicator_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/shadow_img"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_zhuangtailan2" />
+
+    </FrameLayout>
+</LinearLayout>

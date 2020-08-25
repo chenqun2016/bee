@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.HomeGridview2Bean;
+import com.bee.user.ui.CRecyclerViewActivity;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.MyGridView;
@@ -173,14 +175,63 @@ public class HomeFragment extends BaseFragment {
         bean.name = "鸡胸肉沙拉";
         bean.time = "00:00:00";
         bean.money = "10.0";
-        bean.title = "20.0";
+        bean.title = "限时秒杀";
 
         homeGridview2Beans.add(bean);
+         bean = new HomeGridview2Bean();
+        bean.title = "销量排行榜";
+        bean.name = "鸡胸肉沙拉";
+        bean.time = "00:00:00";
+        bean.money = "10.0";
+        bean.title = "精选午餐";
         homeGridview2Beans.add(bean);
+         bean = new HomeGridview2Bean();
+        bean.title = "销量排行榜";
+        bean.name = "鸡胸肉沙拉";
+        bean.time = "00:00:00";
+        bean.money = "10.0";
+        bean.title = "销量排行榜";
         homeGridview2Beans.add(bean);
+        bean = new HomeGridview2Bean();
+        bean.title = "销量排行榜";
+        bean.name = "鸡胸肉沙拉";
+        bean.time = "00:00:00";
+        bean.money = "10.0";
+        bean.title = "附近好店";
         homeGridview2Beans.add(bean);
 
         gridview.setAdapter(new HomeGridview2Adapter(getActivity(), homeGridview2Beans));
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        Intent   intent = new Intent(getContext(), CRecyclerViewActivity.class);
+                        intent.putExtra("title", "限时秒杀");
+                        intent.putExtra("entity", "WucanEntity");
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        Intent   intent1 = new Intent(getContext(), CRecyclerViewActivity.class);
+                        intent1.putExtra("title", "精选午餐");
+                        intent1.putExtra("entity", "WucanEntity");
+                        startActivity(intent1);
+                        break;
+                    case 2:
+                        Intent   intent2 = new Intent(getContext(), CRecyclerViewActivity.class);
+                        intent2.putExtra("title", "销量排行榜");
+                        intent2.putExtra("entity", "WucanEntity");
+                        startActivity(intent2);
+                        break;
+                    case 3:
+                        Intent  intent3 = new Intent(getContext(), CRecyclerViewActivity.class);
+                        intent3.putExtra("title", "附近好店");
+                        intent3.putExtra("entity", "StoreEntity");
+                        startActivity(intent3);
+                        break;
+                }
+            }
+        });
     }
 
     private void initHeaderView2(View headerView2) {

@@ -17,6 +17,9 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
+
+//        rxandroid
+        maven { url "https://oss.jfrog.org/libs-snapshot" }
     }
 }
 

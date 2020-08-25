@@ -42,6 +42,7 @@
         <activity android:name=".ui.login.ResetPasswordActivity" />
         <activity android:name=".ui.login.LoginActivity"
             android:launchMode="singleTop"/>
+        <activity android:name=".ui.CRecyclerViewActivity" />
     </application>
 
 </manifest>
