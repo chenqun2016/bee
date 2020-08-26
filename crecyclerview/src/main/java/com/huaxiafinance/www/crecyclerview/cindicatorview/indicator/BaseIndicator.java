@@ -20,7 +20,7 @@ public abstract class BaseIndicator extends HorizontalScrollView implements Indi
     private LinearLayout.LayoutParams mTabItemScreenLayoutParams;//所有item在一个屏幕均分时候的params
     private LinearLayout mContentLayout;
     private ViewPager mViewPager;
-    private PagerAdapter mViewPagerAdapter;
+    protected PagerAdapter mViewPagerAdapter;
     private ViewPager.OnPageChangeListener mUserPageListener;//用户设置的监听器
     private int mTabCount;
     private int mCurrentPosition, mScrollPosition;

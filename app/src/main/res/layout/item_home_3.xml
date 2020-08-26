@@ -6,9 +6,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_transfer"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:background="@drawable/shadow"
+        android:padding="5dp">
 
         <com.bee.user.widget.MyGridView
             android:id="@+id/gridview"
@@ -27,8 +26,8 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="12dp"
         android:scaleType="fitXY"
         android:src="@drawable/banner"/>

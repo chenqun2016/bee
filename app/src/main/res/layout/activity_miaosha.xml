@@ -40,18 +40,19 @@
         android:gravity="center"
         android:textStyle="bold"
         android:maxLines="1"
-        android:text="@string/app_name"
+        android:text="限时秒杀"
         android:textColor="@color/white"
         android:textSize="22sp" />
 
 
-    <com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView
-        android:id="@+id/crecyclerview"
+
+    <com.huaxiafinance.www.crecyclerview.cindicatorview.CIndicatorView
+        android:id="@+id/cindicator"
         android:layout_below="@+id/toolbar_title"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="7dp"
         android:layout_marginRight="7dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

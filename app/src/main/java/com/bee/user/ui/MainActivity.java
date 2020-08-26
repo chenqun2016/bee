@@ -14,7 +14,9 @@ import com.bee.user.event.MainEvent;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.home.HomeFragment;
+import com.bee.user.ui.home.MiaoshaFragment;
 import com.bee.user.ui.login.LoginActivity;
+import com.bee.user.ui.nearby.NearbyFragment;
 import com.gyf.immersionbar.ImmersionBar;
 import com.huaxiafinance.lc.bottomindicator.IOnTab3Click;
 import com.huaxiafinance.lc.bottomindicator.IconTabPageIndicator;
@@ -42,15 +44,16 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private ArrayList<Fragment> fragments;
 
-    @Override
-    protected void initImmersionBar() {
-         ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
-    }
+//    @Override
+//    protected void initImmersionBar() {
+//         ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         EventBus.getDefault().register(this);
         initView();
@@ -59,9 +62,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private void initView() {
         fragments = new ArrayList<>();
         fragments.add(HomeFragment.newInstance(0));
-        fragments.add(new BaseFragment());
-        fragments.add(new BaseFragment());
-        fragments.add(new BaseFragment());
+        fragments.add(NearbyFragment.newInstance());
+        fragments.add(MiaoshaFragment.newInstance(0));
+        fragments.add(MiaoshaFragment.newInstance(0));
 
         MainAdapter myAdapter = new MainAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setCanScroll(false);
@@ -104,9 +107,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         switch (position) {
             case 0:
+                status_bar.setBackgroundResource(R.drawable.btn_gradient_yellow);
+                break;
             case 1:
             case 2:
             case 3:
+                status_bar.setBackgroundResource(R.color.white);
                 break;
         }
     }

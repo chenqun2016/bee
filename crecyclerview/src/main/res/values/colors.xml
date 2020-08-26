@@ -9,4 +9,8 @@
     <color name="tab_text_selecteda">#5c6df9</color>
 
     <color name="background_default">#F7F7F7</color>
+
+
+    <color name="FF6200">#FF6200</color>
+    <color name="white_half">#66ffffff</color>
 </resources>

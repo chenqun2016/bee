@@ -29,7 +29,6 @@ public class CIndicatorView extends FrameLayout {
     private CViewPager mViewpager;
     private TitleIndicator mIndicator;
     private static final int pageLimits = 3;//viewpage单边最多缓存页面的数量
-    private ImageView shadowImg;
 
     public CIndicatorView(Context context) {
         super(context);
@@ -46,7 +45,6 @@ public class CIndicatorView extends FrameLayout {
     private void init() {
         View layout = LayoutInflater.from(getContext()).inflate(R.layout.crecyclerview_indicator, this, true);
         ll_content = (LinearLayout) layout.findViewById(R.id.ll_content);
-        shadowImg=(ImageView)layout.findViewById(R.id.shadow_img);
         mIndicator = (TitleIndicator) layout.findViewById(R.id.indicator);
         mViewpager = (CViewPager) layout.findViewById(R.id.cindicator_viewpager);
 
@@ -114,10 +112,6 @@ public class CIndicatorView extends FrameLayout {
         }
     }
 
-    public void hintShadow(){
-        shadowImg.setVisibility(View.GONE);
-        ll_content.setBackgroundColor(Color.WHITE);
-    }
 
     final class FragmentAdapter extends FragmentStatePagerAdapter {
         private List<Fragment> mFragments;

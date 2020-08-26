@@ -10,6 +10,8 @@
         android:id="@+id/banner2"
         android:layout_width="match_parent"
         android:layout_height="110dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:background="@color/color_3D7DFB"
         app:canLoop="true"/>
 </LinearLayout>

@@ -14,6 +14,8 @@ import com.bee.user.ui.base.activity.BaseActivity;
 import com.gyf.immersionbar.ImmersionBar;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -89,7 +91,7 @@ public class CRecyclerViewActivity extends BaseActivity {
                 return;
             }
 
-            Class<?> aClass = Class.forName("com.bee.user.entity." + entity);
+            Class<?> aClass = Class.forName( entity);
 
             crecyclerview.setView(aClass);
             if(null != intent.getExtras()){
@@ -106,17 +108,35 @@ public class CRecyclerViewActivity extends BaseActivity {
             crecyclerview.start();
 
 
-            ArrayList<FoodBean> foodBeans = new ArrayList<>();
-            foodBeans.add(new FoodBean());
-            foodBeans.add(new FoodBean());
-            foodBeans.add(new FoodBean());
-            foodBeans.add(new FoodBean());
-            foodBeans.add(new FoodBean());
-            foodBeans.add(new FoodBean());
-            foodBeans.add(new FoodBean());
+            ArrayList foodBeans = new ArrayList();
+            ParameterizedType genericSuperclass = (ParameterizedType) aClass.getGenericSuperclass();
+            Class c = (Class) genericSuperclass.getActualTypeArguments()[0];
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+            foodBeans.add(c.newInstance());
+
 
             crecyclerview.getBaseAdapter().setList(foodBeans);
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
             e.printStackTrace();
         }
 
