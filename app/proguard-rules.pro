@@ -20,6 +20,12 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+
+-keep class com.bee.user.bean.** {*;}
+-keep class com.bee.user.entity.** {*;}
+-keep class com.bee.user.event.** {*;}
+
+
 # 状态栏,导航栏 管理工具ImmersionBar
  -keep class com.gyf.immersionbar.* {*;}
  -dontwarn com.gyf.immersionbar.**

@@ -18,6 +18,7 @@
     <color name="color_EDEDED">#EDEDED</color>
     <color name="color_272525">#272525</color>
     <color name="color_FF6100">#FF6100</color>
+    <color name="color_FF6100_8">#80FF6100</color>
     <color name="color_F5F5F5">#F5F5F5</color>
     <color name="color_CBCBCB">#CBCBCB</color>
     <color name="color_282525">#282525</color>
@@ -26,4 +27,6 @@
     <color name="color_FF5050">#FF5050</color>
     <color name="color_FF6300">#FF6300</color>
     <color name="color_2CD18A">#2CD18A</color>
+    <color name="color_3B3838">#3B3838</color>
+    <color name="color_FF4F4F">#FF4F4F</color>
 </resources>

@@ -44,6 +44,7 @@
             android:launchMode="singleTop"/>
         <activity android:name=".ui.CRecyclerViewActivity" />
         <activity android:name=".ui.home.MiaoshaActivity" />
+        <activity android:name=".ui.nearby.StoreActivity" />
     </application>
 
 </manifest>

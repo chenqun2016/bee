@@ -37,7 +37,7 @@
         android:layout_below="@+id/tv_title"
         android:scaleType="fitXY"
         android:layout_marginTop="10dp"
-        android:src="@drawable/icon_xuangou"/>
+        android:src="@drawable/food2"/>
 
     <TextView
         android:id="@+id/tv_name"

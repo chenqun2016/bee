@@ -3,7 +3,6 @@ package com.bee.user.entity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +17,7 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.ui.home.StoreFoodAdapter;
+import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.ToastUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -44,13 +44,14 @@ public class StoreEntity extends BaseCEntity<StoreBean> {
     @Override
     public void onClick(Context context, StoreBean item) {
         super.onClick(context, item);
-        ToastUtil.ToastShort(context,"嘿嘿");
+
+        context.startActivity(new Intent(context, StoreActivity.class));
     }
 
 
     @Override
     public int getItemLayou() {
-        return R.layout.item_store;
+        return R.layout.item_nearby;
     }
 
     @Override

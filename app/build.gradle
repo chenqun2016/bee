@@ -50,22 +50,25 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'com.android.support:multidex:1.0.3'
-
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.2.0'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+
 
 //状态栏,导航栏 管理工具
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
 //注解
     implementation 'com.jakewharton:butterknife:10.2.3'
-
-
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
-
 
     //图片
     implementation 'com.squareup.picasso:picasso:2.5.2'
 
 
+//    二级联动订餐列表
+    implementation 'com.kunminx.linkage:linkage-recyclerview:2.0.2'
 
 //    banner
     implementation 'com.bigkoo:convenientbanner:2.1.5'

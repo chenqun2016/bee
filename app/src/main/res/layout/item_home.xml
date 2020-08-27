@@ -20,7 +20,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="14sp"
             android:scaleType="fitXY"
-            android:src="@drawable/icon_libao" />
+            android:src="@drawable/food2" />
 
         <TextView
             android:id="@+id/tv_title"
