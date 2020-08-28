@@ -1,6 +1,7 @@
 package com.bee.user.ui.nearby;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -130,6 +131,7 @@ public class StoreFragment extends BaseFragment {
                     selected ?  R.color.color_272525 : R.color.color_7B7777));
             tvTitle.setEllipsize(selected ? TextUtils.TruncateAt.MARQUEE : TextUtils.TruncateAt.END);
             tvTitle.setFocusable(selected);
+            tvTitle.setTypeface(selected? Typeface.DEFAULT_BOLD:Typeface.DEFAULT);
             tvTitle.setFocusableInTouchMode(selected);
             tvTitle.setMarqueeRepeatLimit(selected ? MARQUEE_REPEAT_LOOP_MODE : MARQUEE_REPEAT_NONE_MODE);
         }

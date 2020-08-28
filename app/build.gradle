@@ -73,6 +73,9 @@ dependencies {
 //    banner
     implementation 'com.bigkoo:convenientbanner:2.1.5'
 
+//    ratingbar
+    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
+
     implementation project(':bottomindicator')
     implementation project(':base')
     implementation project(':crecyclerview')

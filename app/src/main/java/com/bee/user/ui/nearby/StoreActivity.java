@@ -136,10 +136,10 @@ public class StoreActivity extends BaseActivity {
                 fragment = StoreFragment.newInstance(DisplayUtil.getWindowHeight(this) - app_barbar.getMeasuredHeight());
                 break;
             case 1:
-                fragment = StoreFragment.newInstance(DisplayUtil.getWindowHeight(this) - app_barbar.getMeasuredHeight());
+                fragment = new CommentFragment();
                 break;
             case 2:
-                fragment = StoreFragment.newInstance(DisplayUtil.getWindowHeight(this) - app_barbar.getMeasuredHeight());
+                fragment = new CommentFragment();
                 break;
         }
         mFragments[index] = fragment;

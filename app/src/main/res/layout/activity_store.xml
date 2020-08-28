@@ -144,7 +144,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_toLeftOf="@+id/iv_search"
                             android:layout_toRightOf="@+id/iv_back"
-                            android:background="@drawable/bg_round15dp_grey"
+                            android:background="@drawable/bg_round_grey"
                             android:drawableLeft="@drawable/icon_search_xiao"
                             android:drawablePadding="10dp"
                             android:gravity="center_vertical"
