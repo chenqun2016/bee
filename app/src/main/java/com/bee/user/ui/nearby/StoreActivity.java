@@ -3,8 +3,8 @@ package com.bee.user.ui.nearby;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,16 +14,23 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bee.user.R;
+import com.bee.user.event.StoreEvent;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.gyf.immersionbar.ImmersionBar;
 
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 创建人：进京赶考
@@ -39,6 +46,17 @@ public class StoreActivity extends BaseActivity {
     @BindView(R.id.background)
     View background;
 
+    @BindView(R.id.iv_back)
+    ImageView iv_back;
+    @BindView(R.id.tv_search_1)
+    TextView tv_search_1;
+    @BindView(R.id.iv_search)
+    ImageView iv_search;
+    @BindView(R.id.iv_shoucang)
+    ImageView iv_shoucang;
+    @BindView(R.id.iv_more)
+    ImageView iv_more;
+
 
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
@@ -47,6 +65,12 @@ public class StoreActivity extends BaseActivity {
 
     private Fragment[] mFragments;
     String[] titles = new String[]{"菜单","评价","商家"};
+
+    @OnClick({R.id.cl_qujiesuan})
+    public void onClick(View view){
+
+    }
+
 
         @Override
     protected void initImmersionBar() {
@@ -59,9 +83,16 @@ public class StoreActivity extends BaseActivity {
 
         setContentView(R.layout.activity_store);
 
+        EventBus.getDefault().register(this);
         mFragments = new Fragment[titles.length];
         initViews();
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initViews() {
@@ -90,17 +121,42 @@ public class StoreActivity extends BaseActivity {
 
                 if (verticalOffset == 0) {
                     background.setAlpha(0);
-                } else if(verticalOffset >= scrollRangle){
+                    iv_back.setImageResource(R.drawable.icon_back_bai);
+                    tv_search_1.setVisibility(View.GONE);
+                    iv_search.setVisibility(View.VISIBLE);
+                    iv_shoucang.setImageResource(R.drawable.icon_shoucang);
+                    iv_more.setImageResource(R.drawable.icon_more);
+                } else if(Math.abs(verticalOffset) >= scrollRangle){
                     background.setAlpha(1);
-
+                    tv_search_1.setVisibility(View.VISIBLE);
+                    iv_back.setImageResource(R.drawable.icon_back_anse);
+                    iv_search.setVisibility(View.GONE);
+                    iv_shoucang.setImageResource(R.drawable.icon_shoucang_1);
+                    iv_more.setImageResource(R.drawable.icon_more_shen);
                 }else{
                     //保留一位小数
                     float alpha =( Math.abs(verticalOffset)) * 1.0f / scrollRangle;
                     background.setAlpha(alpha);
                 }
 
+
             }
         });
+    }
+
+    private void showChooseTypeDialog(){
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.dialog_store_bottom);
+        bottomSheetDialog.findViewById(R.id.iv_goods_add).setVisibility(View.GONE);
+        bottomSheetDialog.findViewById(R.id.iv_goods_comment).setVisibility(View.GONE);
+        try {
+            bottomSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet)
+                    .setBackgroundResource(android.R.color.transparent);
+        }catch (Exception e){
+
+        }
+
+        bottomSheetDialog.show();
     }
 
 
@@ -139,10 +195,17 @@ public class StoreActivity extends BaseActivity {
                 fragment = new CommentFragment();
                 break;
             case 2:
-                fragment = new CommentFragment();
+                fragment = new StoreDesFragment();
                 break;
         }
         mFragments[index] = fragment;
         return mFragments[index];
     }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(StoreEvent event) {
+
+        showChooseTypeDialog();
+      }
 }

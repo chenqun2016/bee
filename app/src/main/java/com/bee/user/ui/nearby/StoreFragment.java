@@ -12,12 +12,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.ElemeGroupedItem;
+import com.bee.user.event.StoreEvent;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.home.HomeFragment;
 import com.bee.user.utils.DisplayUtil;
+import com.bee.user.widget.AddRemoveView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kunminx.linkage.LinkageRecyclerView;
@@ -28,6 +32,8 @@ import com.kunminx.linkage.adapter.viewholder.LinkageSecondaryViewHolder;
 import com.kunminx.linkage.bean.BaseGroupedItem;
 import com.kunminx.linkage.contract.ILinkagePrimaryAdapterConfig;
 import com.kunminx.linkage.contract.ILinkageSecondaryAdapterConfig;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -91,7 +97,7 @@ public class StoreFragment extends BaseFragment {
 
         int anInt = getArguments().getInt("height");
 //        linkage.setLayoutHeight(DisplayUtil.px2dip(linkage.getContext(),anInt));
-        linkage.init(items,new StoreFragment.ElemePrimaryAdapterConfig(), new StoreFragment.ElemeSecondaryAdapterConfig());
+        linkage.init(items,new StoreFragment.ElemePrimaryAdapterConfig(), new ElemeSecondaryAdapterConfig());
     }
 
 
@@ -190,9 +196,20 @@ public class StoreFragment extends BaseFragment {
                 //TODO
             });
 
-            holder.getView(R.id.iv_goods_add).setOnClickListener(v -> {
-                //TODO
+            AddRemoveView iv_goods_add = holder.getView(R.id.iv_goods_add) ;
+            TextView tv_choosetype = holder.getView(R.id.tv_choosetype) ;
+            tv_choosetype.setOnClickListener(v -> {
+
+                EventBus.getDefault().post(new StoreEvent());
             });
+
+            if((holder.getAbsoluteAdapterPosition() % 2) == 0){
+                iv_goods_add.setVisibility(View.GONE);
+                tv_choosetype.setVisibility(View.VISIBLE);
+            }else{
+                iv_goods_add.setVisibility(View.VISIBLE);
+                tv_choosetype.setVisibility(View.GONE);
+            }
         }
 
         @Override
