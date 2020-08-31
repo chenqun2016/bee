@@ -51,22 +51,19 @@ public class CRecyclerViewActivity extends BaseActivity {
     @BindView(R.id.toolbar_title)
     TextView toolbar_title;
 
-    @OnClick({R.id.back})
-    public void onClick(View view){
-        switch (view.getId()){
-            case R.id.back:
-                finish();
-                break;
-        }
-    }
+
     @Override
     protected void initImmersionBar() {
         ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
     }
+
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_model_crecyclerview);
+    public int getLayoutId() {
+        return R.layout.activity_model_crecyclerview;
+    }
+
+    @Override
+    public void initViews() {
 
         ViewGroup.LayoutParams layoutParams = statusheight.getLayoutParams();
         layoutParams.height = ImmersionBar.getStatusBarHeight(this);
@@ -139,7 +136,6 @@ public class CRecyclerViewActivity extends BaseActivity {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
-
 
     }
 

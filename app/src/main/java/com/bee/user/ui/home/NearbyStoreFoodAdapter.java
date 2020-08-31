@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +16,6 @@ import com.bee.user.bean.StoreBean;
 import com.bee.user.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,20 +23,20 @@ import java.util.List;
  * 创建时间：2020/08/26  15：11
  * 描述：
  */
-public class StoreFoodAdapter extends RecyclerView.Adapter<StoreFoodAdapter.ViewHolder>{
+public class NearbyStoreFoodAdapter extends RecyclerView.Adapter<NearbyStoreFoodAdapter.ViewHolder>{
 
 
     private OnItemClickListener mListener;
     List<StoreBean.StoreFood> list ;
 
-    public StoreFoodAdapter(List<StoreBean.StoreFood> list) {
+    public NearbyStoreFoodAdapter(List<StoreBean.StoreFood> list) {
         this.list = list;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recyclerview_store_food, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nearby_store_food, parent, false);
         ViewHolder vh = new ViewHolder(view);
         return vh;
     }

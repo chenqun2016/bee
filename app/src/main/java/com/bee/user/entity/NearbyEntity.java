@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.StoreBean;
-import com.bee.user.ui.home.StoreFoodAdapter;
+import com.bee.user.ui.home.NearbyStoreFoodAdapter;
 import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.ToastUtil;
@@ -35,7 +35,7 @@ import io.reactivex.rxjava3.core.Observable;
  * 创建时间：2020/08/25  22：46
  * 描述：
  */
-public class StoreEntity extends BaseCEntity<StoreBean> {
+public class NearbyEntity extends BaseCEntity<StoreBean> {
     @Override
     public Observable getPageAt(int page, int row) {
         return null;
@@ -81,8 +81,8 @@ public class StoreEntity extends BaseCEntity<StoreBean> {
         storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","15"));
         storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","16"));
 
-        StoreFoodAdapter homeFooterAdapter = new StoreFoodAdapter(storeFoods);
-        homeFooterAdapter.setOnItemClickListener(new StoreFoodAdapter.OnItemClickListener() {
+        NearbyStoreFoodAdapter homeFooterAdapter = new NearbyStoreFoodAdapter(storeFoods);
+        homeFooterAdapter.setOnItemClickListener(new NearbyStoreFoodAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String id) {
                 ToastUtil.ToastShort(mContext,"haha"+id);

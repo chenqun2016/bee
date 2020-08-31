@@ -31,22 +31,21 @@ public class MiaoshaActivity extends BaseActivity {
     CIndicatorView cindicator;
     private  final  String[] str = {"08:00/已开抢","10:00/抢购中","12:00/即将开始","14:00/即将开始"};
 
-    @OnClick(R.id.back)
-    public void onClick(){
-        finish();
-    }
+
 
     @Override
     protected void initImmersionBar() {
         ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
     }
 
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public int getLayoutId() {
+        return R.layout.activity_miaosha;
+    }
 
-        setContentView(R.layout.activity_miaosha);
-
+    @Override
+    public void initViews() {
 
         ViewGroup.LayoutParams layoutParams = statusheight.getLayoutParams();
         layoutParams.height = ImmersionBar.getStatusBarHeight(this);

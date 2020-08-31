@@ -49,17 +49,18 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //         ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
 //    }
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-
-        EventBus.getDefault().register(this);
-        initView();
+    public int getLayoutId() {
+        return R.layout.activity_main;
     }
 
-    private void initView() {
+    @Override
+    public void initViews() {
+
+        EventBus.getDefault().register(this);
+
+
         fragments = new ArrayList<>();
         fragments.add(HomeFragment.newInstance(0));
         fragments.add(NearbyFragment.newInstance());

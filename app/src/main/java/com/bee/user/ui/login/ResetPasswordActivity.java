@@ -13,10 +13,15 @@ import com.bee.user.ui.base.activity.BaseActivity;
  * 描述：忘记密码重置密码页面
  */
 public class ResetPasswordActivity extends BaseActivity {
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_reset_password);
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_reset_password;
+    }
+
+    @Override
+    public void initViews() {
+
     }
 }

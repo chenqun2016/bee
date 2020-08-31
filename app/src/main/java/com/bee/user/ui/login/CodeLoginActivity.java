@@ -25,15 +25,12 @@ import com.bee.user.utils.LogUtil;
 public class CodeLoginActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_code_login);
-
-        initView();
+    public int getLayoutId() {
+        return R.layout.activity_code_login;
     }
 
-    private void initView() {
+    @Override
+    public void initViews() {
         findViewById(R.id.tv_mimalogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

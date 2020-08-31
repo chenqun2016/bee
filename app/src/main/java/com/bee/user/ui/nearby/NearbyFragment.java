@@ -9,12 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bee.user.R;
-import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.StoreBean;
-import com.bee.user.entity.LunchEntity;
-import com.bee.user.entity.StoreEntity;
+import com.bee.user.entity.NearbyEntity;
 import com.bee.user.ui.base.fragment.BaseFragment;
-import com.bee.user.ui.home.MiaoshaFragment;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 
 import java.util.ArrayList;
@@ -40,7 +37,7 @@ public class NearbyFragment extends BaseFragment {
 
         View view = inflater.inflate(R.layout.fragment_nearby_list,container,false);
         crecyclerview =  view.findViewById(R.id.crecyclerview);
-        crecyclerview.setView(StoreEntity.class);
+        crecyclerview.setView(NearbyEntity.class);
         return view;
     }
 

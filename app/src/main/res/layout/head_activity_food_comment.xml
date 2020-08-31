@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/color_F5F5F5"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <include
+            layout="@layout/item_store"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/color_F5F5F5"/>
+
+    <TextView
+        android:id="@+id/tv_food_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:textColor="@color/color_282626"
+        android:textStyle="bold"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:drawableRight="@drawable/icon_link"
+        android:paddingRight="10dp"
+        android:text="商品评价"/>
+</LinearLayout>

@@ -1,7 +1,6 @@
 package com.bee.user.entity;
 
 import android.content.Context;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bee.user.PicassoRoundTransform;
@@ -35,7 +34,7 @@ public class LunchEntity extends BaseCEntity<FoodBean> {
 
     @Override
     public int getItemLayou() {
-        return R.layout.item_food;
+        return R.layout.item_food_chart;
     }
 
     @Override

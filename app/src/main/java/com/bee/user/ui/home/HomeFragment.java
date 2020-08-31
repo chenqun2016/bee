@@ -2,14 +2,11 @@ package com.bee.user.ui.home;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,13 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
-import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.HomeGridview2Bean;
 import com.bee.user.entity.LunchEntity;
-import com.bee.user.entity.StoreEntity;
+import com.bee.user.entity.NearbyEntity;
 import com.bee.user.ui.CRecyclerViewActivity;
 import com.bee.user.ui.base.fragment.BaseFragment;
+import com.bee.user.ui.nearby.FoodActivity;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.MyGridView;
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -165,6 +162,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
 
+                startActivity(new Intent(getContext(), FoodActivity.class));
             }
         });
 
@@ -232,7 +230,7 @@ public class HomeFragment extends BaseFragment {
                     case 3:
                         Intent  intent3 = new Intent(getContext(), CRecyclerViewActivity.class);
                         intent3.putExtra("title", "附近好店");
-                        intent3.putExtra("entity", StoreEntity.class.getName());
+                        intent3.putExtra("entity", NearbyEntity.class.getName());
                         startActivity(intent3);
                         break;
                 }

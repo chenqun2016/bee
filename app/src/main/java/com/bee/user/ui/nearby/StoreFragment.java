@@ -1,6 +1,7 @@
 package com.bee.user.ui.nearby;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bee.user.BeeApplication;
 import com.bee.user.R;
 import com.bee.user.bean.ElemeGroupedItem;
 import com.bee.user.event.StoreEvent;
@@ -97,7 +99,9 @@ public class StoreFragment extends BaseFragment {
 
         int anInt = getArguments().getInt("height");
 //        linkage.setLayoutHeight(DisplayUtil.px2dip(linkage.getContext(),anInt));
-        linkage.init(items,new StoreFragment.ElemePrimaryAdapterConfig(), new ElemeSecondaryAdapterConfig());
+        ElemeSecondaryAdapterConfig elemeSecondaryAdapterConfig = new ElemeSecondaryAdapterConfig();
+        elemeSecondaryAdapterConfig.setContext(BeeApplication.getInstance());
+        linkage.init(items,new StoreFragment.ElemePrimaryAdapterConfig(),elemeSecondaryAdapterConfig );
     }
 
 
@@ -192,8 +196,10 @@ public class StoreFragment extends BaseFragment {
 
             ((TextView) holder.getView(R.id.iv_goods_name)).setText(item.info.getTitle());
 //            Picasso.with(mContext).load(item.info.getImgUrl()).into((ImageView) holder.getView(R.id.iv_goods_img));
-            holder.getView(R.id.iv_goods_item).setOnClickListener(v -> {
-                //TODO
+            View view = holder.getView(R.id.iv_goods_item);
+            view .setOnClickListener(v -> {
+
+                mContext.startActivity(new Intent(mContext,FoodActivity.class));
             });
 
             AddRemoveView iv_goods_add = holder.getView(R.id.iv_goods_add) ;

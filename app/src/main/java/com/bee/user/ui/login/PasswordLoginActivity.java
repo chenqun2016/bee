@@ -16,11 +16,15 @@ import com.bee.user.ui.base.activity.BaseActivity;
  */
 public class PasswordLoginActivity extends BaseActivity {
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_password_login);
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_password_login;
+    }
+
+    @Override
+    public void initViews() {
 
         findViewById(R.id.tv_mimalogin).setOnClickListener(new View.OnClickListener() {
             @Override
