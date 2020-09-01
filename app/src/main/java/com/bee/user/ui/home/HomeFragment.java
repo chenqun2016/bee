@@ -161,7 +161,6 @@ public class HomeFragment extends BaseFragment {
         homeAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-
                 startActivity(new Intent(getContext(), FoodActivity.class));
             }
         });
@@ -240,8 +239,18 @@ public class HomeFragment extends BaseFragment {
 
     private void initHeaderView2(View headerView2) {
         MyGridView gridview = headerView2.findViewById(R.id.gridview);
+        HomeGridviewAdapter homeGridviewAdapter = new HomeGridviewAdapter(getActivity());
+        gridview.setAdapter(homeGridviewAdapter);
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        gridview.setAdapter(new HomeGridviewAdapter(getActivity()));
+                Intent intent = new Intent(getContext(), FoodByTypeActivity.class);
+                intent.putExtra("title",homeGridviewAdapter.strs[i]);
+                intent.putExtra("type",i);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initHeaderViewBanner(View headerViewBanner) {

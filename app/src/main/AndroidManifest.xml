@@ -48,6 +48,7 @@
         <activity android:name=".ui.nearby.DingWeiActivity" />
         <activity android:name=".ui.nearby.FoodActivity" />
         <activity android:name=".ui.nearby.CommentActivity" />
+        <activity android:name=".ui.home.FoodByTypeActivity" />
     </application>
 
 </manifest>

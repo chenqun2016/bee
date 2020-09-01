@@ -23,10 +23,10 @@ import butterknife.ButterKnife;
 public class HomeGridviewAdapter extends BaseAdapter {
     private Context context;
 
-    String[] strs = new String[]{"美食广场","营养早餐","品质午餐","品质晚餐","下午茶",
+    public String[] strs = new String[]{"美食广场","营养早餐","品质午餐","品质晚餐","下午茶",
     "咖啡奶茶","现切水果","面包点心","简餐便当","新人礼包"};
 
-    int[] ints = new int[]{R.drawable.icon_meishi,R.drawable.icon_zaocan,R.drawable.icon_wucan,R.drawable.icon_yexiao,R.drawable.icon_xiawucha
+    public int[] ints = new int[]{R.drawable.icon_meishi,R.drawable.icon_zaocan,R.drawable.icon_wucan,R.drawable.icon_yexiao,R.drawable.icon_xiawucha
             ,R.drawable.icon_kafei,R.drawable.icon_shuiguo,R.drawable.icon_dianxin,R.drawable.icon_biandang,R.drawable.icon_libao};
 
     public HomeGridviewAdapter(Context mContext) {

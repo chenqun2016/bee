@@ -4,9 +4,12 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
+import com.bee.user.utils.DisplayUtil;
 import com.bigkoo.convenientbanner.holder.Holder;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by chenqun on 2017/6/15.
@@ -28,7 +31,10 @@ public class BannerImageHolder extends Holder<BannerBean> {
 
     @Override
     public void updateUI(BannerBean data) {
-        imageView.setImageResource(data.url);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        Picasso.with(imageView.getContext())
+                .load(data.url)
+                .fit()
+                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(imageView.getContext(),5),0, PicassoRoundTransform.CornerType.ALL))
+                .into(imageView);
     }
 }
