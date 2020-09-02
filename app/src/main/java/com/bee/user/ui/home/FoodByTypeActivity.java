@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.R;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.widget.RadioGroupPlus;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,9 @@ public class FoodByTypeActivity extends BaseActivity {
 
     @BindView(R.id.toolbar_title)
      TextView toolbar_title;
+
+    @BindView(R.id.rgp_tags)
+    RadioGroupPlus rgp_tags;
     @Override
     public int getLayoutId() {
         return R.layout.activity_food_by_type;
@@ -49,5 +53,23 @@ public class FoodByTypeActivity extends BaseActivity {
         homeBeans.add(new HomeBean());
         homeBeans.add(new HomeBean());
         homeAdapter.setNewInstance(homeBeans);
+
+        rgp_tags.check(R.id.rb_1);
+        rgp_tags.setOnCheckedChangeListener(new RadioGroupPlus.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroupPlus group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_1:
+                        break;
+                    case R.id.rb_2:
+                        break;
+                    case R.id.rb_3:
+                        break;
+                    case R.id.rb_4:
+                        break;
+
+                }
+            }
+        });
     }
 }
