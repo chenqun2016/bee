@@ -1,17 +1,14 @@
 package com.bee.user.ui.nearby;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -20,6 +17,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bee.user.R;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.event.StoreEvent;
+import com.bee.user.ui.adapter.SelectedFoodAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
@@ -122,6 +120,8 @@ public class StoreActivity extends BaseActivity {
         layoutParams1.height = ImmersionBar.getStatusBarHeight(this)+DisplayUtil.dip2px(this,44);
 
         vp.setAdapter(new FragmentAdapter(this));
+        vp.setUserInputEnabled(false);
+
         new TabLayoutMediator(tabLayout, vp, (tab, position) -> {
             tab.setText(titles[position]);
         }).attach();

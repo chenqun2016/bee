@@ -15,9 +15,13 @@
             android:id="@+id/collapsing"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_chengse"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/bg_chengse"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -143,7 +147,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_toLeftOf="@+id/iv_search"
                             android:layout_toRightOf="@+id/iv_back"
-                            android:background="@drawable/bg_round_grey"
+                            android:background="@drawable/bg_round100_grey"
                             android:drawableLeft="@drawable/icon_search_xiao"
                             android:drawablePadding="10dp"
                             android:gravity="center_vertical"

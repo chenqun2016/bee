@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.CommentBean;
+import com.bee.user.ui.adapter.CommentAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 

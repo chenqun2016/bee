@@ -1,4 +1,4 @@
-package com.bee.user.ui.nearby;
+package com.bee.user.ui.adapter;
 
 import com.bee.user.R;
 import com.bee.user.bean.DingWeiBean;

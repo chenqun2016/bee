@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bee.user.R;
+import com.bee.user.ui.adapter.StoreTimeAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.widget.MyGridView;
 

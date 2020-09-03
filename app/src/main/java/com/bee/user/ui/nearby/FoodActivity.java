@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.CommentBean;
+import com.bee.user.ui.adapter.CommentAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.home.BannerImageHolder;
 import com.bee.user.utils.LogUtil;
@@ -105,7 +106,7 @@ public class FoodActivity extends BaseActivity {
 
 
         recyclerview.setLayoutManager(new LinearLayoutManager(recyclerview.getContext()));
-        CommentAdapter  mAdapter = new CommentAdapter();
+        CommentAdapter mAdapter = new CommentAdapter();
         recyclerview.setAdapter(mAdapter);
         mAdapter.getLoadMoreModule().setEnableLoadMore(false);
 

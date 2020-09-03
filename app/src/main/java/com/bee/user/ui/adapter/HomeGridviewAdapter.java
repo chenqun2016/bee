@@ -1,4 +1,4 @@
-package com.bee.user.ui.home;
+package com.bee.user.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

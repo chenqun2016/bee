@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.StoreBean;
-import com.bee.user.ui.home.NearbyStoreFoodAdapter;
+import com.bee.user.ui.adapter.NearbyStoreFoodAdapter;
 import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.ToastUtil;

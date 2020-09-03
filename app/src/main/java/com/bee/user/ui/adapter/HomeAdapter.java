@@ -1,4 +1,4 @@
-package com.bee.user.ui.home;
+package com.bee.user.ui.adapter;
 
 import android.view.View;
 import android.widget.ImageView;

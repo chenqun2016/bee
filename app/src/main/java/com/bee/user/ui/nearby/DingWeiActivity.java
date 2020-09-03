@@ -1,13 +1,11 @@
 package com.bee.user.ui.nearby;
 
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.DingWeiBean;
+import com.bee.user.ui.adapter.DingWeiAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 
 import java.util.ArrayList;

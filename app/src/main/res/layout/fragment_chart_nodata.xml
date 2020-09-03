@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_nonet"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="120dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@color/color_FF6100"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_3B3838"
+            android:layout_gravity="center_horizontal"
+            android:text="网络链接失败"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
+            android:textColor="@color/color_7C7877"
+            android:layout_gravity="center_horizontal"
+            android:text="请检查您的网络设置或重新加载"/>
+
+        <TextView
+            android:layout_width="230dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:textSize="17sp"
+            android:background="@drawable/btn_stroke_yellow"
+            android:textColor="@color/FF6200"
+            android:layout_gravity="center_horizontal"
+            android:text="重新加载"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_havedata"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="5dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="10dp"
+            android:text="购物车"
+            android:textColor="@color/color_282525"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</FrameLayout>

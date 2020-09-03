@@ -5,9 +5,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.CommentBean;
+import com.bee.user.ui.adapter.CommentAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.widget.RadioGroupPlus;
-import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class CommentActivity extends BaseActivity {
     public void initViews() {
 
         recyclerview.setLayoutManager(new LinearLayoutManager(recyclerview.getContext()));
-        CommentAdapter  mAdapter = new CommentAdapter();
+        CommentAdapter mAdapter = new CommentAdapter();
         recyclerview.setAdapter(mAdapter);
         mAdapter.getLoadMoreModule().setEnableLoadMore(false);
 

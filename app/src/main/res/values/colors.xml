@@ -10,6 +10,8 @@
     <color name="transparent">#00ffffff</color>
     <color name="white">#ffffff</color>
 
+    <color name="color_000_c">#cc000000</color>
+
     <color name="color_282626">#282626</color>
     <color name="color_ccc">#CCCCCC</color>
     <color name="color_eee">#EEEEEE</color>

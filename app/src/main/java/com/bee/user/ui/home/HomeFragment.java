@@ -20,6 +20,9 @@ import com.bee.user.bean.HomeGridview2Bean;
 import com.bee.user.entity.LunchEntity;
 import com.bee.user.entity.NearbyEntity;
 import com.bee.user.ui.CRecyclerViewActivity;
+import com.bee.user.ui.adapter.HomeAdapter;
+import com.bee.user.ui.adapter.HomeGridview2Adapter;
+import com.bee.user.ui.adapter.HomeGridviewAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.nearby.FoodActivity;
 import com.bee.user.utils.LogUtil;
@@ -277,7 +280,7 @@ public class HomeFragment extends BaseFragment {
 
 
         }, adsList);
-        mBanner.setPageIndicator(new int[]{R.drawable.point_banner_grey, R.drawable.point_banner_yellow});
+        mBanner.setPageIndicator(new int[]{R.drawable.point_banner_yellow, R.drawable.point_banner_grey});
         mBanner.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {

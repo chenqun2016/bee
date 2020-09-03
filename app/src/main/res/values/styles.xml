@@ -7,8 +7,13 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:windowAnimationStyle">@style/Animation_Activity</item>
-<!--        <item name="android:windowBackground">@android:color/transparent</item>-->
-<!--        <item name="android:windowIsTranslucent">true</item>-->
+    </style>
+
+
+
+    <style name="AppThemeTranslucent" parent="AppTheme">
+                <item name="android:windowBackground">@android:color/transparent</item>
+                <item name="android:windowIsTranslucent">true</item>
     </style>
 
 <!--    页面关闭动画-->

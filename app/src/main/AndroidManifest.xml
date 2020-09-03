@@ -49,6 +49,8 @@
         <activity android:name=".ui.nearby.FoodActivity" />
         <activity android:name=".ui.nearby.CommentActivity" />
         <activity android:name=".ui.home.FoodByTypeActivity" />
+        <activity android:name=".ui.nearby.ImagesActivity"
+            android:theme="@style/AppThemeTranslucent"/>
     </application>
 
 </manifest>

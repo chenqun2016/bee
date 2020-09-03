@@ -13,6 +13,7 @@ import com.bee.user.R;
 import com.bee.user.event.MainEvent;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.base.fragment.BaseFragment;
+import com.bee.user.ui.chart.ChartFragment;
 import com.bee.user.ui.home.HomeFragment;
 import com.bee.user.ui.home.MiaoshaFragment;
 import com.bee.user.ui.login.LoginActivity;
@@ -64,7 +65,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         fragments = new ArrayList<>();
         fragments.add(HomeFragment.newInstance(0));
         fragments.add(NearbyFragment.newInstance());
-        fragments.add(MiaoshaFragment.newInstance(0));
+        fragments.add(new ChartFragment());
         fragments.add(MiaoshaFragment.newInstance(0));
 
         MainAdapter myAdapter = new MainAdapter(getSupportFragmentManager(), fragments);

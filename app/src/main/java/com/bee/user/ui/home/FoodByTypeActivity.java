@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.HomeBean;
+import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.widget.RadioGroupPlus;
 
