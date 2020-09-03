@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ImageButton
         android:id="@+id/iv_back"
@@ -30,7 +31,7 @@
         android:id="@+id/tv_shoujihaodenglu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_close"
+        android:layout_below="@+id/iv_back"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="40dp"
         android:textStyle="bold"
@@ -76,13 +77,14 @@
             android:layout_height="60dp"
             android:orientation="horizontal">
 
-            <TextView
+            <EditText
                 android:id="@+id/ed_user_code"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="60dp"
                 android:hint="请输入验证码"
                 android:inputType="number"
+                android:background="@color/transparent"
                 android:maxLength="10"
                 android:gravity="center_vertical"
                 android:textColor="@color/color_282626"

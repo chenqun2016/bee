@@ -28,8 +28,8 @@ public class BasePreActivity extends AppCompatActivity {
     protected View status_bar;
 
     //该属性能防止屏幕被截图和录制
-    private boolean mCanScreenshort= true;;
-    private boolean mAdjustView = true;
+    private boolean mCanScreenshort= false;;
+    private boolean mAdjustView = false;
     private ViewGroup.LayoutParams mParams =  new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
 
