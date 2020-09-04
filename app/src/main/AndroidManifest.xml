@@ -51,6 +51,7 @@
         <activity android:name=".ui.home.FoodByTypeActivity" />
         <activity android:name=".ui.nearby.ImagesActivity"
             android:theme="@style/AppThemeTranslucent"/>
+        <activity android:name=".ui.order.OrderActivity" />
     </application>
 
 </manifest>

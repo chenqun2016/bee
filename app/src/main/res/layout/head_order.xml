@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_round10dp_white"
+        android:paddingLeft="15dp"
+        android:paddingTop="17dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="27dp">
+
+
+        <TextView
+            android:id="@+id/tv_dizhi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/icon_link"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:text="请选择收货地址"
+            android:textColor="@color/color_282525"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_dizhi2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_dizhi"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:text="夏雨天(女士)13708263728"
+            android:textColor="@color/color_7C7877"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_dizhi2"
+            android:layout_marginTop="20dp"
+            android:text="送达时间"
+            android:textColor="@color/color_282525"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_time_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_dizhi2"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:drawableRight="@drawable/icon_link"
+            android:drawablePadding="10dp"
+            android:text="大约12:30送到"
+            android:textColor="@color/FF6200"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_paytype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_time"
+            android:layout_marginTop="20dp"
+            android:text="支付方式"
+            android:textColor="@color/color_282525"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_youhuiquan_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_time"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:text="可用米粒 1000"
+            android:textColor="@color/FF6200"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+</FrameLayout>
