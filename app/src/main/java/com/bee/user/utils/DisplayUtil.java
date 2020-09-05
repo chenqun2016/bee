@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import java.lang.reflect.Field;
 
@@ -170,5 +171,10 @@ public class DisplayUtil {
         Bitmap ret = Bitmap.createBitmap(decorView.getDrawingCache());
         decorView.destroyDrawingCache();
         return ret;
+    }
+
+//    设置斜线
+    public static void setXiexian(TextView textView) {
+        textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG );
     }
 }

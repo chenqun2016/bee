@@ -122,6 +122,7 @@
             android:textSize="17sp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_below="@+id/toolbar_title"

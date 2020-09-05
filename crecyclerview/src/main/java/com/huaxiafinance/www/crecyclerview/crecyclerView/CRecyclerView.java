@@ -46,7 +46,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * Created by chenqun on 2017/2/17.
  */
 
-public class CRecyclerView<T> extends FrameLayout implements SwipeRefreshLayout.OnRefreshListener {
+public class CRecyclerView<T > extends FrameLayout implements SwipeRefreshLayout.OnRefreshListener {
     protected int row = 8;
 
     protected SwipeRefreshLayout mSwipeRefreshLayout;
@@ -102,7 +102,6 @@ public class CRecyclerView<T> extends FrameLayout implements SwipeRefreshLayout.
 
     public CRecyclerView(Context context) {
         this(context, null);
-        this.mContext = context;
     }
 
     public CRecyclerView(Context context, AttributeSet attrs) {
@@ -205,7 +204,7 @@ public class CRecyclerView<T> extends FrameLayout implements SwipeRefreshLayout.
     }
 
 
-    public void setAdapter(BaseQuickAdapter<T, BaseViewHolder> adapter) {
+    protected void setAdapter(BaseQuickAdapter<T, BaseViewHolder> adapter) {
         this.mAdapter = adapter;
         mRecyclerView.setAdapter(adapter);
         adapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {

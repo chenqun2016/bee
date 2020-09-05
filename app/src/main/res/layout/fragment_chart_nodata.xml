@@ -8,7 +8,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="@dimen/bg_white_grey"
         android:background="@drawable/bg_gradient_white_grey" />
 
     <LinearLayout

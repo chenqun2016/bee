@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_round10dp_white">
+
+
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="30dp"
+            android:textSize="15sp"
+            android:textColor="@color/color_FF5549"
+            android:text="¥"/>
+
+        <TextView
+            android:id="@+id/tv_money_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_money"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="6dp"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_FF5549"
+            android:text="10"/>
+
+        <TextView
+            android:id="@+id/tv_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_money_value"
+            android:layout_marginLeft="26dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_7C7877"
+            android:text="满59元可用"/>
+
+
+        <TextView
+            android:id="@+id/tv_des1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/tv_money_value"
+            android:text="全场通用红包"
+            android:textColor="@color/color_272525"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_des2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_des1"
+            android:layout_below="@+id/tv_des1"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_7C7877"
+            android:text="有效期2020-10-01"/>
+
+        <TextView
+            android:id="@+id/tv_des3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_des2"
+            android:layout_below="@+id/tv_des2"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/color_7C7877"
+            android:text="全品类通用"/>
+
+
+        <CheckBox
+            android:id="@+id/cb_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:button="@drawable/checkbutton_chart"
+            android:gravity="center" />
+    </RelativeLayout>
+</FrameLayout>

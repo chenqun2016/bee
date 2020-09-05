@@ -58,7 +58,7 @@ public abstract class BaseCEntity<T> implements Serializable {
     }
 
     //    多类型item 时设置 item  如：adapter.addItemType(MultipleItem.TEXT, R.layout.item_text_view);
-    public void addItemType(BaseMultiItemQuickAdapter adapter) {
+    public void addItemType(CMultiRecyclerView.MultipleItemQuickAdapter adapter) {
     }
 
     public void convert(BaseViewHolder helper, T item, int position) {
