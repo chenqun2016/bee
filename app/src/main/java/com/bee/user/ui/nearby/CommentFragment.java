@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.R;
 import com.bee.user.bean.CommentBean;
 import com.bee.user.ui.adapter.CommentAdapter;
+import com.bee.user.ui.adapter.TagsCommentAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
+import com.bee.user.widget.FlowTagLayout;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 
 import java.util.ArrayList;
@@ -32,7 +34,8 @@ import butterknife.Unbinder;
  */
 public class CommentFragment extends BaseFragment {
 
-
+    @BindView(R.id.tags)
+    FlowTagLayout tags;
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
@@ -86,7 +89,34 @@ public class CommentFragment extends BaseFragment {
 
         initLoadMore();
 
+        initTags();
+
         refresh();
+
+
+    }
+
+    private void initTags() {
+
+        TagsCommentAdapter<String> tagsAdapter = new TagsCommentAdapter<>(getContext());
+
+        tags.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_SINGLE);
+        tags.setAdapter(tagsAdapter);
+
+        tags.setOnTagSelectListener(new FlowTagLayout.OnTagSelectListener() {
+            @Override
+            public void onItemSelect(FlowTagLayout parent, List<Integer> selectedList) {
+
+            }
+        });
+
+        List<String> dataSource = new ArrayList<>();
+        dataSource.add("全部");
+        dataSource.add("最新");
+        dataSource.add("推荐");
+        dataSource.add("吐槽");
+        dataSource.add("有图");
+        tagsAdapter.onlyAddAll(dataSource);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.bee.user.ui.order;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -71,9 +72,6 @@ public class OrderActivity extends BaseActivity {
         ArrayList<StoreBean> beans = new ArrayList<>();
         beans.add(new StoreBean());
         beans.add(new StoreBean());
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
         orderAdapter.setNewInstance(beans);
 
     }
@@ -86,6 +84,14 @@ public class OrderActivity extends BaseActivity {
                 fit().
                 transform(new PicassoRoundTransform(DisplayUtil.dip2px(this,10),0, PicassoRoundTransform.CornerType.ALL)).
                 into(imageview);
+
+        foot.findViewById(R.id.ll_beizhu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(OrderActivity.this,BeizhuActivity.class));
+            }
+        });
 
     }
 }

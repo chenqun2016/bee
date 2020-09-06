@@ -14,6 +14,8 @@ public class YouhuiquanBean implements MultiItemEntity {
 
     public int viewType = type1;
 
+    public boolean isSelected = false;
+
     @Override
     public int getItemType() {
         return viewType;

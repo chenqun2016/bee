@@ -42,8 +42,8 @@ public class NearbyEntity extends BaseCEntity<StoreBean> {
     }
 
     @Override
-    public void onClick(Context context, StoreBean item) {
-        super.onClick(context, item);
+    public void onClick(Context context, StoreBean item,int position) {
+        super.onClick(context, item,position);
 
         context.startActivity(new Intent(context, StoreActivity.class));
     }

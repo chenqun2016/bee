@@ -27,8 +27,8 @@ public class LunchEntity extends BaseCEntity<FoodBean> {
     }
 
     @Override
-    public void onClick(Context context, FoodBean item) {
-        super.onClick(context, item);
+    public void onClick(Context context, FoodBean item,int position) {
+        super.onClick(context, item,position);
         ToastUtil.ToastShort(context,"嘿嘿");
     }
 

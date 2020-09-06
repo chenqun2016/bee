@@ -53,6 +53,7 @@
             android:theme="@style/AppThemeTranslucent"/>
         <activity android:name=".ui.order.OrderActivity" />
         <activity android:name=".ui.order.YouhuiquanActivity" />
+        <activity android:name=".ui.order.BeizhuActivity" />
     </application>
 
 </manifest>

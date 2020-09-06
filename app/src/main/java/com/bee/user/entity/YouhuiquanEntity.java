@@ -3,6 +3,7 @@ package com.bee.user.entity;
 import android.content.Context;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bee.user.R;
@@ -21,17 +22,35 @@ import io.reactivex.rxjava3.core.Observable;
  * 描述：
  */
 public class YouhuiquanEntity extends BaseCEntity<YouhuiquanBean> {
+
+    private int index = -1;
     @Override
     public Observable getPageAt(int page, int row) {
         return null;
     }
 
     @Override
-    public void onClick(Context context, YouhuiquanBean item) {
-        super.onClick(context, item);
+    public void onClick(Context context, BaseQuickAdapter<YouhuiquanBean, BaseViewHolder> mAdapter, int position) {
+        YouhuiquanBean item = mAdapter.getItem(position);
         if(item.type == 0){
 
+            if(index != -1 && index != position){
+                YouhuiquanBean itemPre = mAdapter.getItem(index);
+                if(itemPre.isSelected){
+                    itemPre.isSelected = false;
+                    mAdapter.notifyItemChanged(index);
+                }
+            }
+            item.isSelected = !item.isSelected;
+            this. index = position;
+            mAdapter.notifyItemChanged(position);
         }
+    }
+
+    @Override
+    public void onClick(Context context, YouhuiquanBean item,int position) {
+        super.onClick(context, item,position);
+
     }
 
 
@@ -55,7 +74,7 @@ public class YouhuiquanEntity extends BaseCEntity<YouhuiquanBean> {
                 TextView tv_des1 = helper.findView(R.id.tv_des1);
                 TextView tv_des2 = helper.findView(R.id.tv_des2);
                 TextView tv_des3 = helper.findView(R.id.tv_des3);
-                CheckBox cb_1 = helper.findView(R.id.cb_1);
+                ImageView cb_1 = helper.findView(R.id.cb_1);
 
                 if(item.type == 0){
                     tv_money.setTextColor(tv_money.getResources().getColor(R.color.color_FF5549));
@@ -64,7 +83,12 @@ public class YouhuiquanEntity extends BaseCEntity<YouhuiquanBean> {
                     tv_des1.setTextColor(tv_money.getResources().getColor(R.color.color_272525));
                     tv_des2.setTextColor(tv_money.getResources().getColor(R.color.color_7C7877));
                     tv_des3.setTextColor(tv_money.getResources().getColor(R.color.color_7C7877));
-                    cb_1.setButtonDrawable(R.drawable.checkbutton_chart);
+                    if(item.isSelected){
+                        cb_1.setImageResource(R.drawable.icon_xuanzhong_gouwuche);
+                    }else{
+                        cb_1.setImageResource(R.drawable.icon_gouxuan_gouwuche);
+                    }
+
                 }else{
                     tv_money.setTextColor(tv_money.getResources().getColor(R.color.color_CBCBCB));
                     tv_money_value.setTextColor(tv_money.getResources().getColor(R.color.color_CBCBCB));
@@ -72,7 +96,7 @@ public class YouhuiquanEntity extends BaseCEntity<YouhuiquanBean> {
                     tv_des1.setTextColor(tv_money.getResources().getColor(R.color.color_CBCBCB));
                     tv_des2.setTextColor(tv_money.getResources().getColor(R.color.color_CBCBCB));
                     tv_des3.setTextColor(tv_money.getResources().getColor(R.color.color_CBCBCB));
-                    cb_1.setButtonDrawable(R.drawable.icon_gouxuan_gouwuche);
+                    cb_1.setImageResource(R.drawable.icon_gouxuan_gouwuche);
                 }
 
 

@@ -216,7 +216,7 @@ public class CRecyclerView<T > extends FrameLayout implements SwipeRefreshLayout
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                model.onClick(getContext(), mAdapter.getItem(position));
+                model.onClick(getContext(), mAdapter,position);
             }
         });
         adapter.setOnItemChildClickListener(new OnItemChildClickListener() {

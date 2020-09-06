@@ -40,9 +40,13 @@ public abstract class BaseCEntity<T> implements Serializable {
     public abstract Observable getPageAt(int page, int row);
 
     //每个条目的点击事件
-    public void onClick(Context context, T item) {
+    public void onClick(Context context, T item,int position) {
     }
 
+    public void onClick(Context context, BaseQuickAdapter<T, BaseViewHolder> mAdapter, int position) {
+        onClick(context,mAdapter.getItem(position),position);
+
+    }
     //每个条目中 自条目 的点击事件
     public void OnItemChildClick(BaseQuickAdapter adapter, View view, int position) {
     }
@@ -68,4 +72,5 @@ public abstract class BaseCEntity<T> implements Serializable {
     public void convert(BaseQuickAdapter adapter,BaseViewHolder helper, T item, int position) {
         convert(helper, item,position);
     }
+
 }

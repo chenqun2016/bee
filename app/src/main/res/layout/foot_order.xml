@@ -7,6 +7,7 @@
     <include layout="@layout/foot_chart"/>
 
     <LinearLayout
+        android:id="@+id/ll_beizhu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"

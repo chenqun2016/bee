@@ -81,14 +81,14 @@
             android:text="全品类通用"/>
 
 
-        <CheckBox
+        <ImageView
             android:id="@+id/cb_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="30dp"
-            android:button="@drawable/checkbutton_chart"
+            android:scaleType="centerInside"
             android:gravity="center" />
     </RelativeLayout>
 </FrameLayout>

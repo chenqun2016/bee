@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <ImageButton
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/transparent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/icon_back_anse"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="订单备注"
+        android:textColor="@color/color_282626"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/iv_wancheng"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/transparent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="完成"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:textColor="@color/color_272525"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:gravity="start"
+        android:text="辣椒少放一点"
+        android:maxLength="50"
+        android:hint="请输入"
+        android:inputType="textMultiLine"
+        android:maxLines="4"
+        android:textSize="15sp"
+        android:textColor="@color/color_272525"
+        android:background="@drawable/bg_round10dp_grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_title"
+        />
+
+    <TextView
+        android:id="@+id/tv_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="0/50个字"
+        android:textSize="11sp"
+        android:textColor="@color/color_CBCBCB"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="11dp"
+        app:layout_constraintBottom_toBottomOf="@+id/et_content"/>
+
+
+    <TextView
+        android:id="@+id/tv_kuaijieshuru"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="13sp"
+        android:textColor="@color/color_7C7877"
+        android:text="快捷输入"/>
+
+    <com.bee.user.widget.FlowTagLayout
+        android:id="@+id/tags"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_kuaijieshuru"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

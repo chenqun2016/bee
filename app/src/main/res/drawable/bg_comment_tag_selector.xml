@@ -1,5 +1,21 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/bg_store_comment_tag_grey"  android:state_checked="false" />
-    <item android:drawable="@drawable/bg_store_comment_tag_yellow"  android:state_checked="true" />
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/color_FF6600"/>
+            <corners android:radius="2dp" />
+        </shape>
+    </item>
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/color_FF6600"/>
+            <corners android:radius="2dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/color_F5F5F5"/>
+            <corners android:radius="2dp" />
+        </shape>
+    </item>
 </selector>
