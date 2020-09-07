@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.bee.user.BeeApplication;
+
 public class ToastUtil {
 
 
@@ -31,6 +33,15 @@ public class ToastUtil {
                     Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    private static long time = 0;
+
+    public static void ToastShortFromNet(String text) {
+        if (System.currentTimeMillis() - time >= 2000) {//吐司的间隔时间
+            Toast.makeText(BeeApplication.getInstance(), text, Toast.LENGTH_SHORT).show();
+            time = System.currentTimeMillis();
         }
     }
 }

@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 
 import com.bee.user.BeeApplication;
+import com.bee.user.Constants;
 
 import java.util.Map;
 import java.util.Set;
@@ -105,4 +106,25 @@ public class SPUtils {
         return share.getStringSet(key, defValues);
     }
 
+
+    private String mUid;//用户uid
+
+    public boolean isLogin() {
+
+        return !TextUtils.isEmpty(getUid());
+    }
+
+    public String getUid() {
+        if (TextUtils.isEmpty(mUid)) {
+            return get(Constants.UID, "");
+        } else {
+            return mUid;
+        }
+
+    }
+
+    public void setUid(String uid) {
+        mUid = uid;
+        put(Constants.UID, uid);
+    }
 }

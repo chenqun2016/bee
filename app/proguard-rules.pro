@@ -39,3 +39,28 @@
  -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
      <init>(java.lang.Throwable);
  }
+
+
+# 一键登录
+-keep class cn.com.chinatelecom.** {*;}
+-keep class com.unicom.xiaowo.login.** {*;}
+-keep class com.cmic.sso.sdk.** {*;}
+-keep class com.mobile.auth.** {*;}
+ -keep class com.nirvana.** {*;}
+ -keep class com.alibaba.fastjson.** {*;}
+-keepclasseswithmembernames class * {
+    native <methods>;
+ }
+ -keepclassmembers class * {
+    @android.support.annotation.Keep <fields>;
+    @android.support.annotation.Keep <methods>;
+ }
+ -keep @android.support.annotation.Keep class * {*;}
+ -dontwarn
+
+ # --- uc crash start ----（如果集成了UC crash收集组件需要增加这个配置）
+ -keep class com.uc.crashsdk.** { *; }
+ -keep interface com.uc.crashsdk.** { *; }
+ # --- uc crash end ---
+ -keepattributes Signature
+ -keepattributes *Annotation*
