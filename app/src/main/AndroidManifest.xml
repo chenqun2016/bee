@@ -71,9 +71,8 @@
         <!--联通电信授权页-->
         <activity
             android:name="com.mobile.auth.gatewayauth.LoginAuthActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
-            android:theme="@style/authsdk_activity_dialog"
+            android:screenOrientation="portrait"
         android:launchMode="singleTop" />
         <!--协议页面webview-->
         <activity
@@ -81,12 +80,13 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:launchMode="singleTop"
-            android:screenOrientation="behind" />
+            android:screenOrientation="portrait" />
         <!--移动授权页-->
         <activity
             android:name="com.cmic.sso.sdk.activity.LoginAuthActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop" />
 
     </application>

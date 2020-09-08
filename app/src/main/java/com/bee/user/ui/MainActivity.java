@@ -2,11 +2,13 @@ package com.bee.user.ui;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -26,14 +28,18 @@ import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.chart.ChartFragment;
 import com.bee.user.ui.home.HomeFragment;
 import com.bee.user.ui.home.MiaoshaFragment;
+import com.bee.user.ui.login.CodeLoginActivity;
+import com.bee.user.ui.login.LoginActivity;
 import com.bee.user.ui.nearby.NearbyFragment;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
+import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.huaxiafinance.lc.bottomindicator.IOnTab3Click;
 import com.huaxiafinance.lc.bottomindicator.IconTabPageIndicator;
 import com.huaxiafinance.lc.bottomindicator.viewpager.CustomViewPager;
 import com.mobile.auth.gatewayauth.AuthRegisterViewConfig;
+import com.mobile.auth.gatewayauth.AuthRegisterXmlConfig;
 import com.mobile.auth.gatewayauth.AuthUIConfig;
 import com.mobile.auth.gatewayauth.AuthUIControlClickListener;
 import com.mobile.auth.gatewayauth.CustomInterface;
@@ -41,6 +47,7 @@ import com.mobile.auth.gatewayauth.PhoneNumberAuthHelper;
 import com.mobile.auth.gatewayauth.PreLoginResultListener;
 import com.mobile.auth.gatewayauth.TokenResultListener;
 import com.mobile.auth.gatewayauth.model.TokenRet;
+import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -215,6 +222,15 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                             LogUtil.e("获取token成功:\n" + ret);
 
 //                            调用后台登录接口
+                            Api.getClient().login(token).subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new BaseSubscriber<UserBean>() {
+                                        @Override
+                                        public void onSuccess(UserBean userBean) {
+
+                                        }
+                                    });
 
                         }
                     }
@@ -267,15 +283,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //                一键登录
                 if("700002".equals(code)){
 
-                    Api.getClient().login(token).subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new BaseSubscriber<UserBean>() {
-                                @Override
-                                public void onSuccess(UserBean userBean) {
-
-                                }
-                            });
 
                 }else if("700001".equals(code)){
 //                其它手机号登录
@@ -316,51 +323,132 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         initDynamicView();
         mAlicomAuthHelper.removeAuthRegisterXmlConfig();
         mAlicomAuthHelper.removeAuthRegisterViewConfig();
-        mAlicomAuthHelper.addAuthRegistViewConfig("switch_acc_tv", new AuthRegisterViewConfig.Builder()
-                .setView(switchTV)
+
+
+//        密码登录
+        mAlicomAuthHelper.addAuthRegistViewConfig("login_other", new AuthRegisterViewConfig.Builder()
+                .setView(otherLogin)
                 .setRootViewId(AuthRegisterViewConfig.RootViewId.ROOT_VIEW_ID_BODY)
                 .setCustomInterface(new CustomInterface() {
                     @Override
                     public void onClick(Context context) {
+                        startActivity(new Intent(MainActivity.this, CodeLoginActivity.class));
                         mAlicomAuthHelper.quitLoginPage();
                     }
                 }).build());
+
+//        增加微信微博登录方式
+        mAlicomAuthHelper.addAuthRegisterXmlConfig(new AuthRegisterXmlConfig.Builder()
+                .setLayout(R.layout.item_onekey_login_bottom, new AbstractPnsViewDelegate() {
+                    @Override
+                    public void onViewCreated(View view) {
+                        view.findViewById(R.id.iv_weixin).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ToastUtil.ToastShortFromNet("微信登录");
+                            }
+                        });
+
+                        view.findViewById(R.id.iv_weibo).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ToastUtil.ToastShortFromNet("微博登录");
+                            }
+                        });
+                    }
+                })
+                .build());
+
         int authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
         if (Build.VERSION.SDK_INT == 26) {
             authPageOrientation = ActivityInfo.SCREEN_ORIENTATION_BEHIND;
         }
         mAlicomAuthHelper.setAuthUIConfig(new AuthUIConfig.Builder()
-                .setAppPrivacyOne("《自定义隐私协议》", "https://www.baidu.com")
-                .setAppPrivacyColor(Color.GRAY, Color.parseColor("#002E00"))
-                .setPrivacyState(false)
-                .setCheckboxHidden(true)
-                .setStatusBarColor(Color.TRANSPARENT)
-                .setStatusBarUIFlag(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+
+//                导航栏设置
+                .setStatusBarColor(Color.WHITE)
+//                .setStatusBarUIFlag(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+//                .setStatusBarHidden(false)
                 .setLightColor(true)
-                .setAuthPageActIn("in_activity", "out_activity")
-                .setAuthPageActOut("in_activity", "out_activity")
-                .setVendorPrivacyPrefix("《")
-                .setVendorPrivacySuffix("》")
+                .setNavText("")
+                .setNavColor(getResources().getColor(R.color.white))
+                .setNavReturnImgPath("icon_guanbi")
+                .setNavTextSize(18)
+                .setNavReturnScaleType(ImageView.ScaleType.CENTER_INSIDE)
+
+//                协议页面导航栏设置
+                .setWebNavColor(getResources().getColor(R.color.white))
+                .setWebNavTextColor(getResources().getColor(R.color.color_282525))
+                .setWebNavReturnImgPath("icon_back_anse")
+                .setWebViewStatusBarColor(getResources().getColor(R.color.color_FF6200))
+
+//                设置LOGO
+                .setLogoOffsetY(30)
                 .setLogoImgPath("logo_login")
                 .setLogoScaleType(ImageView.ScaleType.CENTER_INSIDE)
                 .setLogoHeight(-2)
                 .setLogoWidth(-2)
-                .setNavHidden(true)
+
+//                LOGO下面一行
+                .setSloganOffsetY(140)
+                .setSloganText("使用本机号码一键登录")
+                .setSloganTextColor(getResources().getColor(R.color.color_7C7877))
+                .setSloganTextSize(12)
+
+                //                掩码手机号
+                .setNumberColor(getResources().getColor(R.color.color_282525))
+                .setNumberSize(30)
+                .setNumFieldOffsetY(170)
+
+//                登录按钮
+                .setLogBtnText("同意协议并登录")
+                .setLogBtnTextColor(getResources().getColor(R.color.white))
+                .setLogBtnTextSize(17)
+                .setLogBtnBackgroundPath("btn_gradient_yellow_round")
+                .setLogBtnHeight(40)
+                .setLogBtnMarginLeftAndRight(42)
+                .setLogBtnWidth(290)
+                .setLogBtnOffsetY(250)
+
+//                关闭自带其它方式登录
+                .setSwitchAccHidden(true)
+
+//                隐私协议设置
+                .setPrivacyOffsetY(370)
+                .setPrivacyMargin(55)
+                .setAppPrivacyOne("《自定义隐私协议》", "https://www.baidu.com")
+                .setAppPrivacyColor(getResources().getColor(R.color.color_7C7877), getResources().getColor(R.color.color_3e7dfb))
+                .setPrivacyState(false)
+                .setCheckboxHidden(true)
+                .setPrivacyBefore("未注册手机号码登录将自动生成账号，且代表您已阅读并同意")
+                .setProtocolGravity(Gravity.LEFT)
+                .setVendorPrivacyPrefix("《")
+                .setVendorPrivacySuffix("》")
+
+//                页面动画
+                .setAuthPageActIn("next_enter_in", "next_exit_out")
+                .setAuthPageActOut("pre_enter_in", "pre_exit_out")
+
+
                 .setScreenOrientation(authPageOrientation)
                 .create());
     }
 
-    private TextView switchTV;
+
+    private TextView otherLogin;
 //    初始化一键登录自定义页面
     private void initDynamicView() {
 
-        switchTV = new TextView(getApplicationContext());
-        RelativeLayout.LayoutParams mLayoutParams2 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, (int) DisplayUtil.dp2px(this, 50));
+        otherLogin = new TextView(getApplicationContext());
+        RelativeLayout.LayoutParams mLayoutParams2 = new RelativeLayout.LayoutParams((int)DisplayUtil.dp2px(this, 290), (int) DisplayUtil.dp2px(this, 40));
         mLayoutParams2.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-        mLayoutParams2.setMargins(0, (int) DisplayUtil.dp2px(this, 450), 0, 0);
-        switchTV.setText("-----  自定义view  -----");
-        switchTV.setTextColor(0xff999999);
-        switchTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13.0F);
-        switchTV.setLayoutParams(mLayoutParams2);
+        mLayoutParams2.setMargins((int) DisplayUtil.dp2px(this, 42), (int) DisplayUtil.dp2px(this, 315), (int) DisplayUtil.dp2px(this, 42), 0);
+        otherLogin.setText("使用其他手机号登录");
+        otherLogin.setGravity(Gravity.CENTER);
+        otherLogin.setTextColor(getResources().getColor(R.color.color_FF6200));
+        otherLogin.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17.0F);
+        otherLogin.setLayoutParams(mLayoutParams2);
+        otherLogin.setBackgroundResource(R.drawable.btn_stroke_yellow);
+
     }
 }
