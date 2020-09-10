@@ -47,13 +47,14 @@ public class HttpOkInterceptor implements Interceptor {
 
         //header添加公共参数
         Request.Builder builder = oriRequest.newBuilder()
-                .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+                .addHeader("Content-Type", "application/json")
+//                .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
                 .addHeader("uid", "")//用户id（已登录用户传）
                 .addHeader("channel", DeviceUtils.getAppMetaData()+"" ) // app下载渠道
                 .addHeader("osType", "android")//系统 （ios、android...）
                 .addHeader("osVersion", android.os.Build.VERSION.SDK_INT+"") // 系统版本号
                 .addHeader("netType", NetWorkUtil.getNetworkType().name()+"") // 网络类型 （4G、WIFI...）
-                .addHeader("deviceToken", DeviceUtils.getIMEI()+"") // 唯一设备ID
+                .addHeader("deviceToken", DeviceUtils.getIMEI()+"") // 唯一设备IDDeviceUtils.getIMEI()+
                 .addHeader("model", DeviceUtils.getModel()+"") // 设备型号（iphone8、ipad、xiaomi...）
                 .addHeader("support", URLEncoder.encode(NetWorkUtil.getNetworkOperatorName())+" ") // 运营商（移动、联通、电信...）
                 .addHeader("appVersion", DeviceUtils.getAppVersionName()+"");// app版本
@@ -63,78 +64,78 @@ public class HttpOkInterceptor implements Interceptor {
         //添加实体 公共参数
         if(mAddParams){
             //Body
-            FormBody responseBody = new FormBody.Builder()
-                    .add("transTime", System.currentTimeMillis() + "")
-                    .add("token", "")
-                    .add("channel", "android")//【0:wap、1:ios、2:android、3:pc】
-                    .build();
-
-            for (int i = 0; i < responseBody.size(); i++) {
-                hashMap.put(responseBody.name(i), URLDecoder.decode(responseBody.value(i)));
-            }
-
-            builder.post(responseBody);
+//            FormBody responseBody = new FormBody.Builder()
+//                    .add("transTime", System.currentTimeMillis() + "")
+//                    .add("token", "")
+//                    .add("channel", "android")//【0:wap、1:ios、2:android、3:pc】
+//                    .build();
+//
+//            for (int i = 0; i < responseBody.size(); i++) {
+//                hashMap.put(responseBody.name(i), URLDecoder.decode(responseBody.value(i)));
+//            }
+//
+//            builder.post(responseBody);
         }
         //获取url后接拼接参数
-        String url = oriRequest.url().toString();
-        LogUtil.d("apiurl", "url==" + url);
-        if (url.contains("?")) {
-            String substring = url.substring(url.indexOf("?") + 1);
-            String[] params = substring.split("&");
-            for (int i = 0; i < params.length; i++) {
-                String param = params[i];
-                if (param.contains("=")) {
-                    String[] split = param.split("=");
-                    if(split.length>1){
-                        hashMap.put(split[0], URLDecoder.decode(split[1])+"");
-                    }else if(split.length>0){
-                        hashMap.put(split[0], "");
-                    }
-                }
-            }
-        }
+//        String url = oriRequest.url().toString();
+//        LogUtil.d("apiurl", "url==" + url);
+//        if (url.contains("?")) {
+//            String substring = url.substring(url.indexOf("?") + 1);
+//            String[] params = substring.split("&");
+//            for (int i = 0; i < params.length; i++) {
+//                String param = params[i];
+//                if (param.contains("=")) {
+//                    String[] split = param.split("=");
+//                    if(split.length>1){
+//                        hashMap.put(split[0], URLDecoder.decode(split[1])+"");
+//                    }else if(split.length>0){
+//                        hashMap.put(split[0], "");
+//                    }
+//                }
+//            }
+//        }
+//
+//        //获取实体参数
+//        RequestBody requestBody = oriRequest.body();
+//        boolean hasRequestBody = requestBody != null;
+//        if (hasRequestBody) {
+//            Buffer buffer = new Buffer();
+//            requestBody.writeTo(buffer);
+//
+//            Charset charset = Constants.UTF8;
+//            MediaType contentType = requestBody.contentType();
+//            if (contentType != null) {
+//                charset = contentType.charset(Constants.UTF8);
+//            }
+//            String s = buffer.readString(charset);
+//            LogUtil.d("apiurl", "body==" + s);
+//
+//            //上传文件的参数不加密
+//            if (!TextUtils.isEmpty(s) && !s.contains("Content-Type: image/jpg")) {
+//                String[] params = s.split("&");
+//                for (int i = 0; i < params.length; i++) {
+//                    String param = params[i];
+//                    if (param.contains("=")) {
+//                        String[] split = param.split("=");
+//                        if(split.length>1){
+//                            hashMap.put(split[0], URLDecoder.decode(split[1])+"");
+//                        }else if(split.length>0){
+//                            hashMap.put(split[0], "");
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        LogUtil.d("paramsMap", hashMap.toString());
 
-        //获取实体参数
-        RequestBody requestBody = oriRequest.body();
-        boolean hasRequestBody = requestBody != null;
-        if (hasRequestBody) {
-            Buffer buffer = new Buffer();
-            requestBody.writeTo(buffer);
-
-            Charset charset = Constants.UTF8;
-            MediaType contentType = requestBody.contentType();
-            if (contentType != null) {
-                charset = contentType.charset(Constants.UTF8);
-            }
-            String s = buffer.readString(charset);
-            LogUtil.d("apiurl", "body==" + s);
-
-            //上传文件的参数不加密
-            if (!TextUtils.isEmpty(s) && !s.contains("Content-Type: image/jpg")) {
-                String[] params = s.split("&");
-                for (int i = 0; i < params.length; i++) {
-                    String param = params[i];
-                    if (param.contains("=")) {
-                        String[] split = param.split("=");
-                        if(split.length>1){
-                            hashMap.put(split[0], URLDecoder.decode(split[1])+"");
-                        }else if(split.length>0){
-                            hashMap.put(split[0], "");
-                        }
-                    }
-                }
-            }
-        }
-        LogUtil.d("paramsMap", hashMap.toString());
-
-        //RSA加密参数
-        String s = new Gson().toJson(hashMap);
-        LogUtil.d("paramsMap", s);
-        byte[] signature = EncryptUtils.encryptRSA(s.getBytes(), Base64.decode(Constants.getRSA(),Base64.NO_WRAP), true, "RSA/ECB/PKCS1Padding");
-        String encode = Base64Utils.encode(signature);
-        LogUtil.d("paramsMapkey", "encode=="+encode);
-        //添加请求头
-        builder.addHeader("signature",encode+"");
+//        //RSA加密参数
+//        String s = new Gson().toJson(hashMap);
+//        LogUtil.d("paramsMap", s);
+//        byte[] signature = EncryptUtils.encryptRSA(s.getBytes(), Base64.decode(Constants.getRSA(),Base64.NO_WRAP), true, "RSA/ECB/PKCS1Padding");
+//        String encode = Base64Utils.encode(signature);
+//        LogUtil.d("paramsMapkey", "encode=="+encode);
+//        //添加请求头
+//        builder.addHeader("signature",encode+"");
 
         Request request = builder.build();
         return chain.proceed(request);//chain.proceed(chain.request());

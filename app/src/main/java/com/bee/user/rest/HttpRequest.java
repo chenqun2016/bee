@@ -7,8 +7,12 @@ package com.bee.user.rest;
  */
 public class HttpRequest {
 
-    public static final  String baseUrl = "https://www.baidu.com/";
+    public static final  String baseUrl = "http://dev-bee-uhs-uaa.quxianfeng.vip/";
 
 
     public static final  String login = "member/login/oneLogin";
+    public static final  String login_password = "member/login/password";
+
+    public static final  String login_code = "member/login/smscode";
+    public static final  String resetPassword = "member/resetPassword";
 }

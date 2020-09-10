@@ -222,17 +222,19 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                             LogUtil.e("获取token成功:\n" + ret);
 
 //                            调用后台登录接口
-                            Api.getClient().login(token).subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                                    .subscribeOn(Schedulers.io())
+                            Api.getClient().login(token,"Android")
+                                    .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new BaseSubscriber<UserBean>() {
                                         @Override
                                         public void onSuccess(UserBean userBean) {
 
+                                            SPUtils.geTinstance().setLoginCache(userBean);
                                         }
                                     });
 
                         }
+//
                     }
                 });
             }
@@ -252,6 +254,18 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //                        mAlicomAuthHelper.quitLoginPage();
                     }
                 });
+                TokenRet tokenRet = null;
+                try {
+                    tokenRet = JSON.parseObject(ret, TokenRet.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+//                SIM卡无法检测
+                if(tokenRet != null && ("600007").equals(tokenRet.getCode())) {
+                    startActivity(new Intent(MainActivity.this, CodeLoginActivity.class));
+
+                }
+
             }
         };
 

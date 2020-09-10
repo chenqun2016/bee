@@ -1,7 +1,12 @@
 package com.bee.user.ui.base.activity;
 
+import android.animation.Animator;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 
@@ -43,4 +48,39 @@ public abstract class BaseActivity extends BasePreActivity {
 
     public abstract int getLayoutId() ;
     public abstract void initViews();
+
+
+
+    private Dialog dialog;
+    private View dialogView;
+    //加载中 弹窗 不能回退
+    public void showLoadingDialog() {
+        initLoadingDialog();
+        dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                return keyCode == KeyEvent.KEYCODE_BACK;
+            }
+        });
+        if (null != dialog) {
+            dialog.show();
+        }
+    }
+
+    private void initLoadingDialog() {
+        if (null == dialogView) {
+            dialogView = View.inflate(this, R.layout.loading_large, null);
+        }
+        if (null == dialog) {
+            dialog = new Dialog(dialogView.getContext(), R.style.loadingDialogTheme);
+            dialog.setContentView(dialogView);
+        }
+    }
+
+    public void closeLoadingDialog() {
+        if (null != dialog && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
 }

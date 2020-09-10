@@ -8,6 +8,8 @@ import android.text.TextUtils;
 
 import com.bee.user.BeeApplication;
 import com.bee.user.Constants;
+import com.bee.user.bean.UserBean;
+import com.google.gson.Gson;
 
 import java.util.Map;
 import java.util.Set;
@@ -107,7 +109,10 @@ public class SPUtils {
     }
 
 
+    /**********************************************************/
+
     private String mUid;//用户uid
+    private UserBean mUser;
 
     public boolean isLogin() {
 
@@ -126,5 +131,32 @@ public class SPUtils {
     public void setUid(String uid) {
         mUid = uid;
         put(Constants.UID, uid);
+    }
+
+
+    public void setUserBean(UserBean value) {
+        mUser = value;
+        if (null != value) {
+            share.edit().putString(Constants.USER_INFO, new Gson().toJson(value)).apply();
+        } else {
+            share.edit().putString(Constants.USER_INFO, "").apply();
+        }
+    }
+
+    public UserBean getUserInfo() {
+        if (null == mUser) {
+            String json = share.getString(Constants.USER_INFO, "");
+            if (!TextUtils.isEmpty(json)) {
+                return new Gson().fromJson(json, UserBean.class);
+            }
+            return null;
+        } else {
+            return mUser;
+        }
+    }
+
+    public void setLoginCache(UserBean userBean) {
+        setUserBean(userBean);
+        setUid("1");
     }
 }

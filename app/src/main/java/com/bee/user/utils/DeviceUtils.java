@@ -52,9 +52,11 @@ public class DeviceUtils {
      */
     @SuppressLint({"HardwareIds", "MissingPermission"})
     public static String getIMEI() {
-        TelephonyManager tm =
-                (TelephonyManager) BeeApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
-        return tm != null ? tm.getDeviceId() : "";
+//        TelephonyManager tm =
+//                (TelephonyManager) BeeApplication.getInstance().getSystemService(Context.TELEPHONY_SERVICE);
+//        return tm != null ? tm.getDeviceId() : "";
+
+        return "";
     }
 
 

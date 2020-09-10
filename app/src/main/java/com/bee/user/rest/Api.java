@@ -18,8 +18,9 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -34,8 +35,14 @@ public class Api {
     public static ApiService getClient() {
 
         //log 设置请求log拦截器
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);//NONE,BASIC ,HEADERS, BODY
+        okhttp3.logging.HttpLoggingInterceptor interceptor = new okhttp3.logging.HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                LogUtil.d("httplog",message);
+            }
+        });
+        interceptor.setLevel(BuildConfig.DEBUG ?  okhttp3.logging.HttpLoggingInterceptor.Level.BODY :  okhttp3.logging.HttpLoggingInterceptor.Level.NONE);//NONE,BASIC ,HEADERS, BODY
+
         File cacheFile = new File(BeeApplication.getInstance().getCacheDir(), "cache");
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
         //添加证书
@@ -47,6 +54,7 @@ public class Api {
                 .writeTimeout(40, TimeUnit.SECONDS)
                 .addInterceptor(interceptor)
                 .addNetworkInterceptor(new HttpCacheInterceptor())
+
                 .cache(cache).build();
 //https 秘钥
 //.newBuilder().sslSocketFactory(SSLContextUtil.getSslSocketFactory(DemoApp.getInstance().getAssets().open("server.crt"))).build()
@@ -54,7 +62,7 @@ public class Api {
         Retrofit client = new Retrofit.Builder()
                 .baseUrl(HttpRequest.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(okClient)
                 .build();
 
@@ -63,9 +71,9 @@ public class Api {
     //没有实体公共参数
     public static ApiService getClientNo() {
         //log 设置请求log拦截器
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);//NONE,BASIC ,HEADERS, BODY
-        File cacheFile = new File(BeeApplication.getInstance().getCacheDir(), "cache");
+        okhttp3.logging.HttpLoggingInterceptor interceptor = new okhttp3.logging.HttpLoggingInterceptor();
+        interceptor.setLevel(BuildConfig.DEBUG ?  okhttp3.logging.HttpLoggingInterceptor.Level.BODY :  okhttp3.logging.HttpLoggingInterceptor.Level.NONE);//NONE,BASIC ,HEADERS, BODY
+          File cacheFile = new File(BeeApplication.getInstance().getCacheDir(), "cache");
         Cache cache = new Cache(cacheFile, 1024 * 1024 * 100); //100Mb
         //添加证书
         OkHttpClient okClient = new OkHttpClient.Builder()
@@ -84,7 +92,7 @@ public class Api {
         Retrofit client = new Retrofit.Builder()
                 .baseUrl(HttpRequest.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(okClient)
                 .build();
 
@@ -94,8 +102,8 @@ public class Api {
 //    没有缓存
     public static ApiService getClientNoWithNoCache() {
         //log 设置请求log拦截器
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);//NONE,BASIC ,HEADERS, BODY
+        okhttp3.logging.HttpLoggingInterceptor interceptor = new okhttp3.logging.HttpLoggingInterceptor();
+        interceptor.setLevel(BuildConfig.DEBUG ?  okhttp3.logging.HttpLoggingInterceptor.Level.BODY :  okhttp3.logging.HttpLoggingInterceptor.Level.NONE);//NONE,BASIC ,HEADERS, BODY
         //添加证书
         OkHttpClient okClient = new OkHttpClient.Builder()
                 .proxy(Proxy.NO_PROXY)
@@ -112,7 +120,7 @@ public class Api {
         Retrofit client = new Retrofit.Builder()
                 .baseUrl(HttpRequest.baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(okClient)
                 .build();
 

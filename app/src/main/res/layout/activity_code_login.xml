@@ -93,14 +93,11 @@
                 android:textSize="16sp" />
 
 
-            <TextView
+            <com.bee.user.widget.SendCodeView
                 android:id="@+id/code_text"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="发送验证码"
-                android:gravity="center"
-                android:textColor="@color/color_3D7DFB"
-                android:textSize="12sp"/>
+                android:layout_height="match_parent"/>
+
         </LinearLayout>
 
         <View
@@ -130,7 +127,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_gravity="center_horizontal"
-                android:textColor="@color/color_7B7777"
+                android:textColor="@color/color_7C7877"
                 android:textSize="12sp"
                 android:layout_marginTop="12dp"
                 android:text=""/>
