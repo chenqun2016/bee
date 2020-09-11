@@ -35,6 +35,7 @@ import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
+import com.google.gson.Gson;
 import com.huaxiafinance.lc.bottomindicator.IOnTab3Click;
 import com.huaxiafinance.lc.bottomindicator.IconTabPageIndicator;
 import com.huaxiafinance.lc.bottomindicator.viewpager.CustomViewPager;
@@ -54,10 +55,13 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.RequestBody;
 
 /**
  * 创建时间：2020/8/19
@@ -222,7 +226,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                             LogUtil.e("获取token成功:\n" + ret);
 
 //                            调用后台登录接口
-                            Api.getClient().login(token,"Android")
+                            Map<String, String> map = new HashMap<>();
+                            map.put("accessToken", token);
+                            map.put("osType", "Android");
+
+                            Api.getClient().login(Api.getRequestBody(map))
                                     .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new BaseSubscriber<UserBean>() {
@@ -232,6 +240,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                                             SPUtils.geTinstance().setLoginCache(userBean);
                                         }
                                     });
+
+
 
                         }
 //

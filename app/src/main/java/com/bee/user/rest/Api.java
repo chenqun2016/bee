@@ -6,10 +6,12 @@ import com.bee.user.BeeApplication;
 import com.bee.user.BuildConfig;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.utils.NetWorkUtil;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.Proxy;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -17,6 +19,7 @@ import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -29,6 +32,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * 描述：
  */
 public class Api {
+    public static Gson gson = new Gson();
+
+    public static RequestBody getRequestBody(Map<String, String> map){
+
+        return RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),gson.toJson(map));
+    }
 
 
 

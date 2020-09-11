@@ -47,7 +47,7 @@ public class HttpOkInterceptor implements Interceptor {
 
         //header添加公共参数
         Request.Builder builder = oriRequest.newBuilder()
-                .addHeader("Content-Type", "application/json")
+                .addHeader("Content-Type", "application/json;charset=utf-8")
 //                .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
                 .addHeader("uid", "")//用户id（已登录用户传）
                 .addHeader("channel", DeviceUtils.getAppMetaData()+"" ) // app下载渠道

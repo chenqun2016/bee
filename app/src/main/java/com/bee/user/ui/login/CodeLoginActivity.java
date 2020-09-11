@@ -25,8 +25,12 @@ import com.bee.user.utils.LogUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.ClearEditText;
 import com.bee.user.widget.SendCodeView;
+import com.google.gson.Gson;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -37,6 +41,7 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.BiFunction;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.RequestBody;
 
 /**
  * 创建人：进京赶考
@@ -72,7 +77,12 @@ public class CodeLoginActivity extends BaseActivity {
                 String code = ed_user_code.getText().toString();
 
                 showLoadingDialog();
-                Api.getClient().login_code(phone,code).
+
+                Map<String, String> map = new HashMap<>();
+                map.put("phone", phone);
+                map.put("smsCode", code);
+
+                Api.getClient().login_code(Api.getRequestBody(map)).
                         subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new BaseSubscriber<UserBean>() {
