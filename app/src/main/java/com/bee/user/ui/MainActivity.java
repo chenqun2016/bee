@@ -453,7 +453,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 .setAuthPageActIn("next_enter_in", "next_exit_out")
                 .setAuthPageActOut("pre_enter_in", "pre_exit_out")
 
-
                 .setScreenOrientation(authPageOrientation)
                 .create());
     }

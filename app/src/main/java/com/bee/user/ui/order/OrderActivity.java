@@ -13,6 +13,7 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.ui.adapter.OrderAdapter;
+import com.bee.user.ui.base.BaseDialog;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.gyf.immersionbar.ImmersionBar;
@@ -22,6 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 创建人：进京赶考
@@ -38,6 +40,11 @@ public class OrderActivity extends BaseActivity {
 
     @BindView(R.id.toolbar_title)
     TextView toolbar_title;
+
+    @OnClick({R.id.tv_confirm})
+    public void onClick(View view){
+        startActivity(new Intent(this,PayActivity.class));
+    }
 
     @Override
     protected void initImmersionBar() {
@@ -77,6 +84,13 @@ public class OrderActivity extends BaseActivity {
     }
 
     private void initHeadFootView(View head, View foot) {
+        TextView tv_time_value = head.findViewById(R.id.tv_time_value);
+        tv_time_value.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showChooseTimeDialog();
+            }
+        });
 
         ImageView imageview = foot.findViewById(R.id.imageview);
         Picasso.with(this).
@@ -93,5 +107,20 @@ public class OrderActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private void showChooseTimeDialog() {
+        BaseDialog baseDialog = new BaseDialog(this) {
+            @Override
+            protected int provideContentViewId() {
+                return R.layout.dialog_order_choose_time;
+            }
+
+            @Override
+            protected void initViews(BaseDialog dialog) {
+
+            }
+        };
+        baseDialog.show();
     }
 }
