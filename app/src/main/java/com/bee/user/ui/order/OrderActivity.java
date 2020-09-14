@@ -110,6 +110,8 @@ public class OrderActivity extends BaseActivity {
     }
 
     private void showChooseTimeDialog() {
+        try {
+
         BaseDialog baseDialog = new BaseDialog(this) {
             @Override
             protected int provideContentViewId() {
@@ -122,5 +124,8 @@ public class OrderActivity extends BaseActivity {
             }
         };
         baseDialog.show();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

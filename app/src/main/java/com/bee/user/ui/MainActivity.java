@@ -143,11 +143,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MainEvent event) {
-
-    }
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
     }
@@ -233,11 +228,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                             Api.getClient().login(Api.getRequestBody(map))
                                     .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                                     .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new BaseSubscriber<UserBean>() {
+                                    .subscribe(new BaseSubscriber<String>() {
                                         @Override
-                                        public void onSuccess(UserBean userBean) {
-
-                                            SPUtils.geTinstance().setLoginCache(userBean);
+                                        public void onSuccess(String userBean) {
+                                            SPUtils.geTinstance().setLoginCache(null);
                                         }
                                     });
 
@@ -474,4 +468,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         otherLogin.setBackgroundResource(R.drawable.btn_stroke_yellow);
 
     }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MainEvent event) {
+
+    }
+
 }

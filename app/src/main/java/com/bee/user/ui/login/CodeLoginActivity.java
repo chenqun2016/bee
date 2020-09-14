@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.bean.UserBean;
+import com.bee.user.event.LoginEvent;
+import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.ui.base.activity.BaseActivity;
@@ -28,6 +30,10 @@ import com.bee.user.widget.SendCodeView;
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -85,11 +91,11 @@ public class CodeLoginActivity extends BaseActivity {
                 Api.getClient().login_code(Api.getRequestBody(map)).
                         subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new BaseSubscriber<UserBean>() {
+                        .subscribe(new BaseSubscriber<String>() {
                             @Override
-                            public void onSuccess(UserBean userBean) {
+                            public void onSuccess(String userBean) {
                                 closeLoadingDialog();
-                                SPUtils.geTinstance().setLoginCache(userBean);
+//                                SPUtils.geTinstance().setLoginCache(userBean);
                                 finish();
                             }
 
@@ -107,6 +113,7 @@ public class CodeLoginActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
         if(null != code_text){
             code_text.onDestory();
         }
@@ -114,6 +121,7 @@ public class CodeLoginActivity extends BaseActivity {
     }
     @Override
     public void initViews() {
+        EventBus.getDefault().register(this);
         findViewById(R.id.tv_mimalogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,4 +271,12 @@ public class CodeLoginActivity extends BaseActivity {
             tv_agree.setBackgroundResource(R.drawable.btn_gradient_grey_round);
         }
     }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginEvent(LoginEvent event) {
+
+        finish();
+    }
+
 }

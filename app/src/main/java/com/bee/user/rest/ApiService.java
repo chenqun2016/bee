@@ -23,7 +23,7 @@ public interface ApiService {
      * 一键登陆
      */
     @POST(HttpRequest.login)
-    Observable<BaseResult<UserBean>> login(@Body RequestBody info);
+    Observable<BaseResult<String>> login(@Body RequestBody info);
 
 
     /**
@@ -31,7 +31,7 @@ public interface ApiService {
      * @Query("phone") String phone,@Query("password") String password
      */
     @POST(HttpRequest.login_password)
-    Observable<BaseResult<UserBean>> login_password(@Body RequestBody info);
+    Observable<BaseResult<String>> login_password(@Body RequestBody info);
 
 
     /**
@@ -39,14 +39,14 @@ public interface ApiService {
      * @Query("phone") String phone,@Query("smsCode") String smsCode
      */
     @POST(HttpRequest.login_code)
-    Observable<BaseResult<UserBean>> login_code(@Body RequestBody info);
+    Observable<BaseResult<String>> login_code(@Body RequestBody info);
 
     /**
      * 重置密码
      * @Query("phone") String phone,@Query("password") String password,@Query("smsCode") String smsCode
      */
     @POST(HttpRequest.resetPassword)
-    Observable<BaseResult<UserBean>> resetPassword(@Body RequestBody info);
+    Observable<BaseResult<String>> resetPassword(@Body RequestBody info);
 
 
     /**

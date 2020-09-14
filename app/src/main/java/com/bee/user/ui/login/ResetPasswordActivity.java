@@ -75,10 +75,10 @@ public class ResetPasswordActivity extends BaseActivity {
                 Api.getClient().resetPassword(Api.getRequestBody(map))
                         .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new BaseSubscriber<UserBean>() {
+                        .subscribe(new BaseSubscriber<String>() {
                             @Override
-                            public void onSuccess(UserBean userBean) {
-                                SPUtils.geTinstance().setLoginCache(userBean);
+                            public void onSuccess(String userBean) {
+//                                SPUtils.geTinstance().setLoginCache(userBean);
                                 finish();
                             }
                         });

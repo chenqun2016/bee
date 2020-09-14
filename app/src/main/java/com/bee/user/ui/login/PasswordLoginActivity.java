@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.bean.UserBean;
+import com.bee.user.event.LoginEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.ui.base.activity.BaseActivity;
@@ -21,6 +22,8 @@ import com.google.gson.Gson;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -96,12 +99,14 @@ public class PasswordLoginActivity extends BaseActivity {
                 Api.getClient().login_password(Api.getRequestBody(map))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new BaseSubscriber<UserBean>() {
+                        .subscribe(new BaseSubscriber<String>() {
                             @Override
-                            public void onSuccess(UserBean userBean) {
+                            public void onSuccess(String userBean) {
                                 closeLoadingDialog();
                                 tv_agree.setEnabled(true);
-                                SPUtils.geTinstance().setLoginCache(userBean);
+//                                SPUtils.geTinstance().setLoginCache(userBean);
+
+                                EventBus.getDefault().post(new LoginEvent());
                                 finish();
                             }
 

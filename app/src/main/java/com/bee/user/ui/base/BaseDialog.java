@@ -32,18 +32,6 @@ public abstract class BaseDialog extends Dialog {
         initPosition();
     }
 
-    @Override
-    public void show() {
-        super.show();
-
-    }
-
-    @Override
-    public void dismiss() {
-        super.dismiss();
-    }
-
-
     protected abstract int provideContentViewId();
 
     protected abstract void initViews(BaseDialog dialog);
