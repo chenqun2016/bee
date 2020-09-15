@@ -113,7 +113,7 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
         this.mOnNumChangedListener = listener;
     }
 
-     interface OnNumChangedListener{
+    public  interface OnNumChangedListener{
         void onNumChangedListener(int num);
     }
 }

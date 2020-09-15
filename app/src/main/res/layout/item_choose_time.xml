@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="13dp"
+    android:paddingRight="14dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="13dp"
+        android:textColor="@color/color_7C7877"
+        android:text="10:30-11:30(5元配送费)"
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:id="@+id/iv_choosetype"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_xuanzhong_gouwuche"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/tv_time"
+        android:background="@color/color_eee"/>
+</RelativeLayout>

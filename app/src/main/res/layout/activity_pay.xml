@@ -25,7 +25,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="选择红包/优惠券"
+        android:text="收银台"
         android:textColor="@color/color_282626"
         android:textSize="18sp"
         android:textStyle="bold"
