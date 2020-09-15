@@ -58,9 +58,9 @@ android {
             // 不显示Log
             buildConfigField "boolean", "LOG_DEBUG", "false"
 
-            minifyEnabled true
+            minifyEnabled false
             zipAlignEnabled true //是否zip优化
-            shrinkResources true //删除一些无用资源
+            shrinkResources false //删除一些无用资源
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            可以进一步压缩代码
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
