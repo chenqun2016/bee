@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/tv_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_282525"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:text="万福轩3号楼2幢"/>
+
+    <TextView
+        android:id="@+id/tv_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="4dp"
+        android:paddingLeft="4dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/tag_choose_address_green"
+        android:layout_toRightOf="@+id/tv_address"
+        android:textSize="11sp"
+        android:textColor="@color/color_2CD18A"
+        android:text="公司"/>
+
+    <TextView
+        android:id="@+id/tv_address2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_282525"
+        android:layout_below="@+id/tv_address"
+        android:textSize="13sp"
+        android:layout_marginTop="5dp"
+        android:text="210室"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_7C7877"
+        android:layout_below="@+id/tv_address2"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"
+        android:text="夏雨天(女士)13708263728"/>
+
+    <ImageView
+        android:id="@+id/imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/icon_link"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/color_F5F5F5"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tv_name"/>
+</RelativeLayout>

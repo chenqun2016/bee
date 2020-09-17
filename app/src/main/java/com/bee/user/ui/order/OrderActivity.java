@@ -8,12 +8,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
+import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.StoreBean;
@@ -32,6 +34,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -53,10 +56,29 @@ public class OrderActivity extends BaseActivity {
     @BindView(R.id.toolbar_title)
     TextView toolbar_title;
 
+    private TextView tv_dizhi;
+    private TextView tv_dizhi2;
+
     @OnClick({R.id.tv_confirm})
     public void onClick(View view){
-        showChooseCanjuDialog();
+        switch (view.getId()){
+            case R.id.tv_confirm:
+                showChooseCanjuDialog();
+                break;
 
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == 1){
+
+            AddressBean address = (AddressBean) data.getSerializableExtra("address");
+            tv_dizhi.setText("1");
+            tv_dizhi2.setVisibility(View.VISIBLE);
+            tv_dizhi2.setText("2");
+        }
     }
 
     @Override
@@ -97,6 +119,16 @@ public class OrderActivity extends BaseActivity {
     }
 
     private void initHeadFootView(View head, View foot) {
+        tv_dizhi    = head.findViewById(R.id.tv_dizhi);
+        tv_dizhi2   = head.findViewById(R.id.tv_dizhi2);
+        tv_dizhi2.setVisibility(View.GONE);
+        tv_dizhi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(OrderActivity.this,ChooseAddressActivity.class),1);
+            }
+        });
+
         TextView tv_time_value = head.findViewById(R.id.tv_time_value);
         tv_time_value.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +154,7 @@ public class OrderActivity extends BaseActivity {
 
     }
 
+//    选择餐具
     private void showChooseCanjuDialog(){
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(R.layout.dialog_choose_canju);
@@ -138,6 +171,7 @@ public class OrderActivity extends BaseActivity {
         tv_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 startActivity(new Intent(OrderActivity.this,PayActivity.class));
             }
         });

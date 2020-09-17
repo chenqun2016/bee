@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_yellow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_lianxiren"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="14dp"
+        android:text="联系人"
+        android:textColor="@color/color_282525"
+        android:textSize="13sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <EditText
+        android:background="@null"
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="14dp"
+        android:hint="姓名"
+        android:text=""
+        android:textColor="@color/color_3B3838"
+        android:textColorHint="@color/color_7C7877"
+        android:textSize="13sp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="10dp"
+        app:layout_constraintLeft_toRightOf="@+id/tv_lianxiren"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/color_F5F5F5"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_name"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <com.bee.user.widget.RadioGroupPlus
+        android:id="@+id/rgp_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        app:layout_constraintLeft_toLeftOf="@+id/line1"
+        app:layout_constraintTop_toBottomOf="@+id/line1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_1"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:background="@drawable/bg_new_address"
+                android:button="@null"
+                android:gravity="center"
+                android:text="女士"
+                android:textColor="@drawable/color_new_address"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/rb_2"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/bg_new_address"
+                android:button="@null"
+                android:gravity="center"
+                android:text="先生"
+                android:textColor="@drawable/color_new_address"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+    </com.bee.user.widget.RadioGroupPlus>
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/color_F5F5F5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rgp_sex" />
+
+    <TextView
+        android:id="@+id/tv_dianhua"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="14dp"
+        android:text="电   话"
+        android:textColor="@color/color_282525"
+        android:textSize="13sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line2" />
+
+    <EditText
+        android:background="@null"
+        android:id="@+id/tv_phone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:hint="手机号码"
+        android:text=""
+        android:textColor="@color/color_3B3838"
+        android:textColorHint="@color/color_7C7877"
+        android:textSize="13sp"
+        app:layout_constraintRight_toRightOf="@+id/tv_name"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/line2" />
+
+    <View
+        android:id="@+id/line3"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/color_F5F5F5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dianhua" />
+
+
+    <TextView
+        android:id="@+id/tv_dizhi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="14dp"
+        android:text="地   址"
+        android:textColor="@color/color_282525"
+        android:textSize="13sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line3" />
+
+    <EditText
+        android:background="@null"
+        android:id="@+id/tv_dizhi_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:hint="选择收货地址"
+        android:text=""
+        android:textColor="@color/color_3B3838"
+        android:textColorHint="@color/color_7C7877"
+        android:textSize="13sp"
+        app:layout_constraintRight_toRightOf="@+id/tv_name"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/line3" />
+
+    <View
+        android:id="@+id/line4"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/color_F5F5F5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dizhi" />
+
+
+    <TextView
+        android:id="@+id/tv_menpai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="14dp"
+        android:text="门牌号"
+        android:textColor="@color/color_282525"
+        android:textSize="13sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line4" />
+
+    <EditText
+        android:background="@null"
+        android:id="@+id/tv_menpai_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:hint="例：5号楼101室"
+        android:text=""
+        android:textColor="@color/color_3B3838"
+        android:textColorHint="@color/color_7C7877"
+        android:textSize="13sp"
+        app:layout_constraintRight_toRightOf="@+id/tv_name"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/line4" />
+
+    <View
+        android:id="@+id/line5"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/color_F5F5F5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_menpai" />
+
+
+    <TextView
+        android:id="@+id/tv_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="14dp"
+        android:text="标   签"
+        android:textColor="@color/color_282525"
+        android:textSize="13sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line5" />
+
+    <com.bee.user.widget.RadioGroupPlus
+        android:id="@+id/rgp_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/line5">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_3"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:background="@drawable/bg_new_address"
+                android:button="@null"
+                android:gravity="center"
+                android:text="家"
+                android:textColor="@drawable/color_new_address"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/rb_4"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/bg_new_address"
+                android:button="@null"
+                android:gravity="center"
+                android:text="公司"
+                android:textColor="@drawable/color_new_address"
+                android:textSize="13sp" />
+
+            <RadioButton
+                android:id="@+id/rb_5"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/bg_new_address"
+                android:button="@null"
+                android:gravity="center"
+                android:text="学校"
+                android:textColor="@drawable/color_new_address"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+    </com.bee.user.widget.RadioGroupPlus>
+
+    <View
+        android:id="@+id/line6"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/color_F5F5F5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_tags" />
+    
+    
+    <TextView
+        android:id="@+id/tv_sure"
+        android:layout_width="290dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:textSize="17sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:text="保存"
+        android:background="@drawable/btn_gradient_grey_round"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line6"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

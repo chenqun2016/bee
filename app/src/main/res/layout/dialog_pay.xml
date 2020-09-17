@@ -32,6 +32,7 @@
         android:text="请输入支付密码"/>
 
     <TextView
+        android:id="@+id/tv_pay"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="47dp"

@@ -1,6 +1,8 @@
 package com.bee.user.ui.order;
 
+import android.content.Intent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
@@ -42,6 +44,14 @@ public class PayActivity extends BaseActivity {
                 }
             }
         });
+        TextView tv_pay = bottomSheetDialog.findViewById(R.id.tv_pay);
+        tv_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(PayActivity.this,PayStatusActivity.class));
+            }
+        });
+
         bottomSheetDialog.setCanceledOnTouchOutside(false);
         try {
             bottomSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet)

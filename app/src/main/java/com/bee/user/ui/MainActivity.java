@@ -205,40 +205,37 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
-                        if (tokenRet != null && ("600024").equals(tokenRet.getCode())) {
-                            LogUtil.e("终端自检成功:\n" + ret);
-                            canOneKeyLogin = true;
-                        }
-
-                        if (tokenRet != null && ("600001").equals(tokenRet.getCode())) {
-                            LogUtil.e("唤起授权页成功:\n" + ret);
-                        }
-
-                        if (tokenRet != null && ("600000").equals(tokenRet.getCode())) {
-                            token = tokenRet.getToken();
-                            mAlicomAuthHelper.quitLoginPage();
-                            LogUtil.e("获取token成功:\n" + ret);
+                        if(null != tokenRet){
+                            String code = tokenRet.getCode();
+                            if (("600024").equals(code)) {
+                                LogUtil.e("终端自检成功:\n" + ret);
+                                canOneKeyLogin = true;
+                            }else if (("600001").equals(code)) {
+                                LogUtil.e("唤起授权页成功:\n" + ret);
+                            }else if (("600000").equals(code)) {
+                                token = tokenRet.getToken();
+                                mAlicomAuthHelper.quitLoginPage();
+                                LogUtil.e("获取token成功:\n" + ret);
 
 //                            调用后台登录接口
-                            Map<String, String> map = new HashMap<>();
-                            map.put("accessToken", token);
-                            map.put("osType", "Android");
+                                Map<String, String> map = new HashMap<>();
+                                map.put("accessToken", token);
+                                map.put("osType", "Android");
 
-                            Api.getClient().login(Api.getRequestBody(map))
-                                    .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new BaseSubscriber<String>() {
-                                        @Override
-                                        public void onSuccess(String userBean) {
-                                            SPUtils.geTinstance().setLoginCache(null);
-                                        }
-                                    });
+                                Api.getClient().login(Api.getRequestBody(map))
+                                        .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new BaseSubscriber<String>() {
+                                            @Override
+                                            public void onSuccess(String userBean) {
+                                                SPUtils.geTinstance().setLoginCache(null);
+                                            }
+                                        });
 
 
 
+                            }
                         }
-//
                     }
                 });
             }
@@ -264,11 +261,21 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-//                SIM卡无法检测
-                if(tokenRet != null && ("600007").equals(tokenRet.getCode())) {
-                    startActivity(new Intent(MainActivity.this, CodeLoginActivity.class));
 
+                if(null != tokenRet) {
+                    String code = tokenRet.getCode();
+                    if ("600008".equals(code) ||
+                            "600002".equals(code) ||
+                            "600005".equals(code) ||
+                            "600007".equals(code) ||
+                            "600011".equals(code) ||
+                            "600015".equals(code) ||
+                            "600021".equals(code)){
+//                                其他登录方式
+                        startActivity(new Intent(MainActivity.this, CodeLoginActivity.class));
+                    }
                 }
+
 
             }
         };

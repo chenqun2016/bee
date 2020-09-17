@@ -42,7 +42,7 @@
         android:maxLines="1"
         android:text="限时秒杀"
         android:textColor="@color/white"
-        android:textSize="22sp" />
+        android:textSize="18sp" />
 
 
 
