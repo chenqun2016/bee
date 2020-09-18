@@ -65,4 +65,13 @@
         <item name="android:windowExitAnimation">@anim/dialog_exit</item>
     </style>
 
+
+
+
+<!--    popwindow动画-->
+    <style name="AnimTools" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/push_in</item>
+        <item name="android:windowExitAnimation">@anim/push_out</item>
+    </style>
+
 </resources>

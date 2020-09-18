@@ -8,8 +8,8 @@
                 android:right="1dp"
                 android:left="1dp"
                 android:bottom="1.2dp" />
-            <solid android:color="#015c6df9" />
-            <corners android:radius="10dp" />
+<!--            <solid android:color="#015c6df9" />-->
+<!--            <corners android:radius="10dp" />-->
         </shape>
     </item>
     <item>
@@ -19,8 +19,8 @@
                 android:right="1dp"
                 android:left="1dp"
                 android:bottom="1.2dp" />
-            <solid android:color="#025c6df9" />
-            <corners android:radius="10dp" />
+<!--            <solid android:color="#025c6df9" />-->
+<!--            <corners android:radius="10dp" />-->
         </shape>
     </item>
     <item>
@@ -30,8 +30,8 @@
                 android:right="1dp"
                 android:left="1dp"
                 android:bottom="1.2dp" />
-            <solid android:color="#035c6df9" />
-            <corners android:radius="10dp" />
+<!--            <solid android:color="#035c6df9" />-->
+<!--            <corners android:radius="10dp" />-->
         </shape>
     </item>
     <item>
@@ -41,8 +41,8 @@
                 android:right="1dp"
                 android:left="1dp"
                 android:bottom="1.2dp" />
-            <solid android:color="#045c6df9" />
-            <corners android:radius="10dp" />
+<!--            <solid android:color="#045c6df9" />-->
+<!--            <corners android:radius="10dp" />-->
         </shape>
     </item>
     <item>
@@ -52,8 +52,8 @@
                 android:right="1dp"
                 android:left="1dp"
                 android:bottom="1.2dp" />
-            <solid android:color="#055c6df9" />
-            <corners android:radius="10dp" />
+<!--            <solid android:color="#055c6df9" />-->
+<!--            <corners android:radius="10dp" />-->
         </shape>
     </item>
     <!--   <item>
@@ -105,6 +105,7 @@
     <!-- Background -->
     <item>
         <shape>
+
             <solid android:color="@color/white" />
             <corners android:radius="10dp" />
         </shape>

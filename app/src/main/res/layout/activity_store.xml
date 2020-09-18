@@ -194,5 +194,11 @@
 
     <!--    </androidx.core.widget.NestedScrollView>-->
 
+    <include layout="@layout/dialog_store_bottom_selected"
+        android:id="@+id/view_selected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"/>
+
     <include layout="@layout/item_store_bottom"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

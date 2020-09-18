@@ -80,6 +80,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     CustomViewPager mViewPager;
 
     private ArrayList<Fragment> fragments;
+    private boolean mCanOneKeyLogin = true;
 
 //    @Override
 //    protected void initImmersionBar() {
@@ -171,8 +172,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
             configLoginTokenPort();
 
-            mAlicomAuthHelper.getLoginToken(MainActivity.this, 5000);
-//            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            if(mCanOneKeyLogin){
+                mAlicomAuthHelper.getLoginToken(MainActivity.this, 5000);
+            }else{
+                startActivity(new Intent(MainActivity.this, CodeLoginActivity.class));
+            }
             return true;
         }
         return false;
@@ -182,7 +186,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private static final int SERVICE_TYPE_AUTH = 1;//号码认证
     private static final int SERVICE_TYPE_LOGIN = 2;//一键登录
     private String token;
-    private boolean canOneKeyLogin = true;
     private PhoneNumberAuthHelper mAlicomAuthHelper;
     private TokenResultListener mTokenListener;
     private void initLogins() {
@@ -209,7 +212,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                             String code = tokenRet.getCode();
                             if (("600024").equals(code)) {
                                 LogUtil.e("终端自检成功:\n" + ret);
-                                canOneKeyLogin = true;
                             }else if (("600001").equals(code)) {
                                 LogUtil.e("唤起授权页成功:\n" + ret);
                             }else if (("600000").equals(code)) {
@@ -272,7 +274,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                             "600015".equals(code) ||
                             "600021".equals(code)){
 //                                其他登录方式
-                        startActivity(new Intent(MainActivity.this, CodeLoginActivity.class));
+                        mCanOneKeyLogin = false;
+
                     }
                 }
 
