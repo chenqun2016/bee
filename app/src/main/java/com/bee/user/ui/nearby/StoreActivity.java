@@ -1,12 +1,18 @@
 package com.bee.user.ui.nearby;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.Transformation;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -29,6 +35,7 @@ import com.bee.user.event.StoreEvent;
 import com.bee.user.ui.adapter.FoodChooseTypeAdapter;
 import com.bee.user.ui.adapter.SelectedFoodAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.order.OrderActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.DragDialogLayout;
@@ -88,21 +95,34 @@ public class StoreActivity extends BaseActivity {
     @BindView(R.id.view_selected)
     DragDialogLayout view_selected;
 
+    @BindView(R.id.view_background)
+    View view_background;
 
     private Fragment[] mFragments;
     String[] titles = new String[]{"菜单", "评价", "商家"};
-    private PopupWindow popupWindow;
-    private ObjectAnimator objectAnimatorY;
 
-    @OnClick({R.id.cl_qujiesuan, R.id.tv_dingwei})
+    private int windowHeight;
+    private int heightSelected;
+
+    ViewGroup.LayoutParams params;
+
+    @OnClick({R.id.tv_confirm,R.id.cl_qujiesuan, R.id.tv_dingwei,R.id.view_background})
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.tv_confirm:
+                startActivity(new Intent(this, OrderActivity.class));
+                break;
             case R.id.cl_qujiesuan:
                 showSelectedDialog();
                 break;
             case R.id.tv_dingwei:
 
                 startActivity(new Intent(this, DingWeiActivity.class));
+                break;
+            case R.id.view_background:
+
+                close();
                 break;
         }
 
@@ -130,6 +150,7 @@ public class StoreActivity extends BaseActivity {
     public void initViews() {
         EventBus.getDefault().register(this);
         mFragments = new Fragment[titles.length];
+        windowHeight = DisplayUtil.getWindowHeight(this);
 
 
         ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
@@ -208,17 +229,32 @@ public class StoreActivity extends BaseActivity {
             }
         });
 
+        initSelectedFoodDialog();
 
+
+
+    }
+
+    private void initSelectedFoodDialog() {
         findViewById(R.id.clean).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (null != popupWindow && popupWindow.isShowing()) {
-                    popupWindow.dismiss();
-                }
-
+                close();
             }
         });
 
+
+        view_selected.setNextPageListener(new DragDialogLayout.ShowNextPageNotifier() {
+            @Override
+            public void onDragNext() {
+                closeOhter();
+
+                params.height = 0;
+                view_selected.setLayoutParams(params);
+
+                isShow = !isShow;
+            }
+        });
 
         RecyclerView recyclerview = findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
@@ -237,7 +273,24 @@ public class StoreActivity extends BaseActivity {
 
             }
         });
+
+        view_background.setAlpha(0);
+        view_selected.post(new Runnable() {
+            @Override
+            public void run() {
+                heightSelected = view_selected.getMeasuredHeight();
+
+                if (heightSelected > windowHeight / 2f) {
+                    heightSelected = windowHeight / 2;
+                }
+                params = view_selected.getLayoutParams();
+                params.height = 0;
+                view_selected.setLayoutParams(params);
+                view_selected.setVisibility(View.VISIBLE);
+            }
+        });
     }
+
 
     private void showChooseTypeDialog() {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
@@ -285,124 +338,6 @@ public class StoreActivity extends BaseActivity {
     }
 
 
-    private void showSelectedDialog() {
-        showPopWindow();
-
-//        BottomSheetDialog showSelectedDialog = new BottomSheetDialog(this);
-//        showSelectedDialog.setContentView(R.layout.dialog_store_bottom_selected);
-//        showSelectedDialog.findViewById(R.id.clean).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if( showSelectedDialog.isShowing()){
-//                    showSelectedDialog.dismiss();
-//                }
-//
-//            }
-//        });
-//
-//
-//        RecyclerView recyclerview = showSelectedDialog.findViewById(R.id.recyclerview);
-//        recyclerview.setLayoutManager(new LinearLayoutManager(this));
-//
-//        List<FoodBean> foodBeans = new ArrayList<>();
-//        foodBeans.add(new FoodBean());
-//        foodBeans.add(new FoodBean());
-//        foodBeans.add(new FoodBean());
-//        foodBeans.add(new FoodBean());
-//
-//        SelectedFoodAdapter selectedFoodAdapter = new SelectedFoodAdapter(foodBeans);
-//        recyclerview.setAdapter(selectedFoodAdapter);
-//        selectedFoodAdapter.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-//
-//            }
-//        });
-//
-//        try {
-//            showSelectedDialog.getWindow().findViewById(R.id.design_bottom_sheet)
-//                    .setBackgroundResource(android.R.color.transparent);
-//        }catch (Exception e){
-//
-//        }
-//        showSelectedDialog.show();
-    }
-
-    //    int height;
-    private void showPopWindow() {
-        float windowHeight = DisplayUtil.getWindowHeight(this);
-        float[] y = {0, -1400f};
-        LogUtil.d("windowHeight", "windowHeight==" + windowHeight);
-        objectAnimatorY = ObjectAnimator.ofFloat(view_selected, "translationY", y);
-        objectAnimatorY.setDuration(2000);
-        objectAnimatorY.start();
-
-
-//        if (null == popupWindow) {
-//            View view  = View.inflate(this, R.layout.dialog_store_bottom_selected, null);
-//            height = view.getHeight();
-//
-//            view.findViewById(R.id.clean).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    if(null != popupWindow && popupWindow.isShowing()){
-//                        popupWindow.dismiss();
-//                    }
-//
-//                }
-//            });
-//
-//
-//            RecyclerView recyclerview = view.findViewById(R.id.recyclerview);
-//            recyclerview.setLayoutManager(new LinearLayoutManager(this));
-//
-//            List<FoodBean> foodBeans = new ArrayList<>();
-//            foodBeans.add(new FoodBean());
-//            foodBeans.add(new FoodBean());
-//            foodBeans.add(new FoodBean());
-//            foodBeans.add(new FoodBean());
-//
-//            SelectedFoodAdapter selectedFoodAdapter = new SelectedFoodAdapter(foodBeans);
-//            recyclerview.setAdapter(selectedFoodAdapter);
-//            selectedFoodAdapter.setOnItemClickListener(new OnItemClickListener() {
-//                @Override
-//                public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-//
-//                }
-//            });
-//
-//
-//            popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//
-//
-//
-//            popupWindow.setAnimationStyle(R.style.AnimTools);
-//            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//            popupWindow.setFocusable(true);
-//            popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//                @Override
-//                public void onDismiss() {
-//                    setWindowBackground(false);
-//                }
-//            });
-//            popupWindow.update();
-//            popupWindow.setOutsideTouchable(true);
-//        }
-//        setWindowBackground(true);
-//        int measuredHeight = cl_qujiesuan.getMeasuredHeight();
-//        popupWindow.showAsDropDown(cl_qujiesuan, 0, -(measuredHeight+height+1500));
-    }
-
-    public void setWindowBackground(boolean b) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        if (b) {
-            lp.alpha = 0.5f;
-        } else {
-            lp.alpha = 1f;
-        }
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        getWindow().setAttributes(lp);
-    }
 
 
     final class FragmentAdapter extends FragmentStateAdapter {
@@ -451,5 +386,167 @@ public class StoreActivity extends BaseActivity {
     public void onMessageEvent(StoreEvent event) {
 
         showChooseTypeDialog();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//已选商品相关代码
+
+    boolean isShow = false;
+
+    private void showSelectedDialog() {
+        if (!isShow) {
+            show();
+
+        } else {
+            close();
+        }
+
+
+    }
+
+    private ValueAnimator showAnimation;
+    private ValueAnimator closeAnimation;
+    private ValueAnimator alphaAnimation1;
+    private ValueAnimator alphaAnimation2;
+
+
+    public void show() {
+        if (null != alphaAnimation2 && alphaAnimation2.isRunning()) {
+            alphaAnimation2.end();
+        }
+
+        view_background.setVisibility(View.VISIBLE);
+        ViewGroup.LayoutParams layoutParams = view_background.getLayoutParams();
+        layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        view_background.setLayoutParams(layoutParams);
+
+        if (null == alphaAnimation1) {
+            alphaAnimation1 = ValueAnimator.ofFloat(0, 1);
+            alphaAnimation1.setDuration(300);
+            alphaAnimation1.setInterpolator(new LinearInterpolator());
+            alphaAnimation1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    view_background.setAlpha((Float) valueAnimator.getAnimatedValue());
+                }
+            });
+        }
+        alphaAnimation1.start();
+
+
+
+
+        if (null != closeAnimation && closeAnimation.isRunning()) {
+            closeAnimation.end();
+        }
+
+        if (null == showAnimation) {
+            showAnimation = ValueAnimator.ofInt(0, heightSelected);
+            showAnimation.setDuration(300);
+            showAnimation.setInterpolator(new LinearInterpolator());
+            showAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    params.height = (int) valueAnimator.getAnimatedValue();
+                    view_selected.setLayoutParams(params);
+                }
+            });
+        }
+        showAnimation.start();
+
+        isShow = !isShow;
+    }
+
+    public void close() {
+        closeOhter();
+
+
+        if (null == closeAnimation) {
+            closeAnimation = ValueAnimator.ofInt(heightSelected, 0);
+            closeAnimation.setDuration(300);
+            closeAnimation.setInterpolator(new LinearInterpolator());
+            closeAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    params.height = (int) valueAnimator.getAnimatedValue();
+                    view_selected.setLayoutParams(params);
+                }
+            });
+        }
+
+        closeAnimation.start();
+
+        isShow = !isShow;
+    }
+
+    private void closeOhter() {
+        if (null != alphaAnimation1 && alphaAnimation1.isRunning()) {
+            alphaAnimation1.end();
+        }
+
+        if (null == alphaAnimation2) {
+            alphaAnimation2 = ValueAnimator.ofFloat(1, 0);
+            alphaAnimation2.setDuration(300);
+            alphaAnimation2.setInterpolator(new LinearInterpolator());
+            alphaAnimation2.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    view_background.setVisibility(View.GONE);
+                    ViewGroup.LayoutParams layoutParams = view_background.getLayoutParams();
+                    layoutParams.height = 1;
+                    layoutParams.width = 1;
+                    view_background.setLayoutParams(layoutParams);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+                    view_background.setVisibility(View.GONE);
+                    ViewGroup.LayoutParams layoutParams = view_background.getLayoutParams();
+                    layoutParams.height = 1;
+                    layoutParams.width = 1;
+                    view_background.setLayoutParams(layoutParams);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+                }
+            });
+            alphaAnimation2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    view_background.setAlpha((Float) valueAnimator.getAnimatedValue());
+                }
+            });
+        }
+        alphaAnimation2.start();
+
+
+
+        if (null != showAnimation && showAnimation.isRunning()) {
+            showAnimation.end();
+        }
     }
 }
