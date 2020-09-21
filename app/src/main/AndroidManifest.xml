@@ -95,6 +95,7 @@
         <activity android:name=".ui.order.ChooseAddressActivity" />
         <activity android:name=".ui.order.NewAddressActivity" />
         <activity android:name=".ui.order.PayStatusActivity" />
+        <activity android:name=".ui.home.NewsActivity" />
 
     </application>
 

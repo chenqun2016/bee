@@ -75,9 +75,12 @@ public class HomeFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.ll_tongzhi})
+    @OnClick({R.id.ll_tongzhi,R.id.iv_msg})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.iv_msg:
+                startActivity(new Intent(getContext(),NewsActivity.class));
+                break;
             case R.id.ll_tongzhi:
 
                 if (null == dingweiDialog) {
