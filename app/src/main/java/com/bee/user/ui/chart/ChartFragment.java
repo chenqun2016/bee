@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,12 +19,12 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.StoreBean;
-import com.bee.user.entity.NearbyEntity;
 import com.bee.user.ui.adapter.ChartAdapter;
 import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.nearby.FoodActivity;
 import com.bee.user.ui.order.OrderActivity;
+import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.squareup.picasso.Picasso;
@@ -59,8 +58,9 @@ public class ChartFragment extends BaseFragment {
 
     @OnClick({R.id.tv_confirm})
     public void onClick(View view){
-        Intent intent = new Intent(getContext(), OrderActivity.class);
+        Intent intent = new Intent(getContext(), OrderingActivity.class);
         startActivity(intent);
+
     }
 
     @Override

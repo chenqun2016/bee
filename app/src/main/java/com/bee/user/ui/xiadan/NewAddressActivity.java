@@ -1,14 +1,11 @@
-package com.bee.user.ui.order;
+package com.bee.user.ui.xiadan;
 
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.login.PasswordLoginActivity;
-import com.bee.user.utils.CommonUtil;
 import com.bee.user.widget.RadioGroupPlus;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
@@ -19,7 +16,6 @@ import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.BiFunction;
 import io.reactivex.rxjava3.functions.Function4;
 
 /**

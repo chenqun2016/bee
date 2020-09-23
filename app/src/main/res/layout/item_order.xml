@@ -4,161 +4,126 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
-        android:background="@drawable/bg_round10dp_white"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:paddingRight="15dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="17dp"
-        android:paddingBottom="27dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round10dp_white"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="15dp">
 
 
         <TextView
-            android:id="@+id/tv_store"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="新天地大厦店"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:drawableRight="@drawable/icon_link"
             android:drawablePadding="10dp"
-            android:gravity="center_vertical"
+            android:textSize="17sp"
             android:textColor="@color/color_282525"
-            android:textSize="17sp"/>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_below="@+id/tv_store"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"/>
+            android:text="新天地大厦店"/>
 
         <TextView
-            android:id="@+id/tv_baozhuangfei"
+            android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/recyclerview"
-            android:layout_marginTop="10dp"
-            android:text="包装费"
-            android:textColor="@color/color_282525"
-            android:textSize="13sp"/>
-
-        <TextView
-            android:id="@+id/tv_baozhuangfei_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/recyclerview"
-            android:textStyle="bold"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp"
-            android:text="¥2"
-            android:textColor="@color/color_282525"
-            android:textSize="12sp"/>
-        <TextView
-            android:id="@+id/tv_peisongfei"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_baozhuangfei"
-            android:layout_marginTop="20dp"
-            android:text="配送费"
-            android:textColor="@color/color_282525"
-            android:textSize="13sp"/>
-        <TextView
-            android:id="@+id/tv_peisongfei_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_baozhuangfei"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="20dp"
-            android:textStyle="bold"
-            android:text="¥1"
-            android:textColor="@color/color_282525"
-            android:textSize="12sp"/>
-        <TextView
-            android:id="@+id/tv_youhuiquan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_peisongfei"
-            android:layout_marginTop="20dp"
-            android:text="优惠券"
-            android:textColor="@color/color_282525"
-            android:textSize="13sp"/>
-
-        <TextView
-            android:id="@+id/tv_youhuiquan_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_peisongfei"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="20dp"
-            android:gravity="center_vertical"
-            android:drawableRight="@drawable/icon_link"
-            android:drawablePadding="10dp"
-            android:text="3张可用"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/name"
+            app:layout_constraintBottom_toBottomOf="@+id/name"
+            android:textSize="12sp"
             android:textColor="@color/FF6200"
-            android:textSize="13sp"/>
-
+            android:text="等待支付"/>
         <View
-            android:id="@+id/line"
+            android:id="@+id/view10dp"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name"/>
+        <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/tv_youhuiquan_value"
-            android:background="@color/color_F5F5F5"/>
-
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view10dp"
+            android:background="@color/color_eee"/>
+        <ImageView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view10dp"
+            android:background="@color/FF6200"/>
 
         <TextView
-            android:id="@+id/tv_total_value"
+            android:id="@+id/tv_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/line"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="12dp"
-            android:textStyle="bold"
-            android:gravity="center_vertical"
-            android:text="¥42.9"
             android:textColor="@color/color_282525"
-            android:textSize="20sp"/>
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/map"
+            android:text="22.9"/>
 
         <TextView
             android:id="@+id/tv_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_total_value"
-            android:layout_toLeftOf="@+id/tv_total_value"
-            android:layout_marginBottom="3dp"
-            android:gravity="center_vertical"
-            android:text="合计："
-            android:textColor="@color/color_3B3838"
-            android:textSize="12sp"/>
+            android:textColor="@color/color_7C7877"
+            android:layout_marginTop="4dp"
+            android:textSize="11sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_money"
+            android:text="共1件"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/map"
+            app:layout_constraintRight_toLeftOf="@+id/tv_money"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
 
         <TextView
-            android:id="@+id/tv_total_youhui_value"
+            android:id="@+id/tv_zailaiyidan"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_total_value"
-            android:layout_toLeftOf="@+id/tv_total"
-            android:layout_marginRight="25dp"
-            android:layout_marginBottom="3dp"
-            android:textStyle="bold"
-            android:gravity="center_vertical"
-            android:text="¥12.9"
-            android:textColor="@color/color_FF5050"
-            android:textSize="12sp"/>
+            android:layout_height="30dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@drawable/btn_stroke_yellow"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="10dp"
+            android:text="再来一单"
+            android:textSize="15sp"
+            android:textColor="@color/FF6200"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerview"/>
 
         <TextView
-            android:id="@+id/tv_total_youhui"
+            android:id="@+id/tv_pinglun"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_total_youhui_value"
-            android:layout_toLeftOf="@+id/tv_total_youhui_value"
-            android:gravity="center_vertical"
-            android:text="合计优惠："
+            android:layout_height="30dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:background="@drawable/btn_stroke_grey"
+            android:layout_marginRight="10dp"
+            app:layout_constraintRight_toLeftOf="@+id/tv_zailaiyidan"
+            android:layout_marginTop="10dp"
+            android:text="评论得12积分"
+            android:textSize="15sp"
             android:textColor="@color/color_3B3838"
-            android:textSize="12sp"/>
-    </RelativeLayout>
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerview"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -1,4 +1,4 @@
-package com.bee.user.ui.order;
+package com.bee.user.ui.xiadan;
 
 import android.content.Intent;
 import android.view.View;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.bee.user.R;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.order.OrderActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,6 +45,9 @@ public class PayStatusActivity extends BaseActivity {
                 startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.btn_2:
+
+                Intent intent = new Intent(this, OrderActivity.class);
+                startActivity(intent);
                 break;
         }
     }

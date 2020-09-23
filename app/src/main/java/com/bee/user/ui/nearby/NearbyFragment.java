@@ -47,20 +47,20 @@ public class NearbyFragment extends BaseFragment {
             crecyclerview.start();
 
 
-            ArrayList<StoreBean> StoreBeans = new ArrayList<StoreBean>();
-            StoreBeans.add(new StoreBean());
-            StoreBeans.add(new StoreBean());
-            StoreBeans.add(new StoreBean());
-            StoreBeans.add(new StoreBean());
-            StoreBeans.add(new StoreBean());
-            StoreBeans.add(new StoreBean());
-            StoreBeans.add(new StoreBean());
-            StoreBeans.add(new StoreBean());
-            StoreBeans.add(new StoreBean());
-            StoreBeans.add(new StoreBean());
-            StoreBeans.add(new StoreBean());
-            StoreBeans.add(new StoreBean());
-            crecyclerview.getBaseAdapter().setList(StoreBeans);
+            ArrayList<StoreBean> beans = new ArrayList<StoreBean>();
+            beans.add(new StoreBean());
+            beans.add(new StoreBean());
+            beans.add(new StoreBean());
+            beans.add(new StoreBean());
+            beans.add(new StoreBean());
+            beans.add(new StoreBean());
+            beans.add(new StoreBean());
+            beans.add(new StoreBean());
+            beans.add(new StoreBean());
+            beans.add(new StoreBean());
+            beans.add(new StoreBean());
+            beans.add(new StoreBean());
+            crecyclerview.getBaseAdapter().setList(beans);
         }
     }
 

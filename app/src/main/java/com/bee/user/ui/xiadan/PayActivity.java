@@ -1,4 +1,4 @@
-package com.bee.user.ui.order;
+package com.bee.user.ui.xiadan;
 
 import android.content.Intent;
 import android.view.View;

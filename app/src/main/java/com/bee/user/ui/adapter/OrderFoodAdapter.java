@@ -2,9 +2,6 @@ package com.bee.user.ui.adapter;
 
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bee.user.R;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.utils.DisplayUtil;
@@ -24,7 +21,7 @@ import java.util.List;
 public class OrderFoodAdapter extends BaseQuickAdapter<FoodBean,BaseViewHolder> {
 
     public OrderFoodAdapter( @Nullable List<FoodBean> data) {
-        super(R.layout.item_order_food, data);
+        super(R.layout.item_ordering_food, data);
     }
 
     @Override

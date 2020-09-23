@@ -63,9 +63,9 @@
         <activity android:name=".ui.home.FoodByTypeActivity" />
         <activity android:name=".ui.nearby.ImagesActivity"
             android:theme="@style/AppThemeTranslucent"/>
-        <activity android:name=".ui.order.OrderActivity" />
-        <activity android:name=".ui.order.YouhuiquanActivity" />
-        <activity android:name=".ui.order.BeizhuActivity" />
+        <activity android:name=".ui.xiadan.OrderingActivity" />
+        <activity android:name=".ui.xiadan.YouhuiquanActivity" />
+        <activity android:name=".ui.xiadan.BeizhuActivity" />
 
 
 
@@ -91,11 +91,14 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:launchMode="singleTop" />
-        <activity android:name=".ui.order.PayActivity" />
-        <activity android:name=".ui.order.ChooseAddressActivity" />
-        <activity android:name=".ui.order.NewAddressActivity" />
-        <activity android:name=".ui.order.PayStatusActivity" />
+        <activity android:name=".ui.xiadan.PayActivity" />
+        <activity android:name=".ui.xiadan.ChooseAddressActivity" />
+        <activity android:name=".ui.xiadan.NewAddressActivity" />
+        <activity android:name=".ui.xiadan.PayStatusActivity" />
         <activity android:name=".ui.home.NewsActivity" />
+        <activity android:name=".ui.order.OrderActivity" />
+        <activity android:name=".ui.home.NewsItemActivity" />
+        <activity android:name=".ui.order.OrderDetailActivity" />
 
     </application>
 

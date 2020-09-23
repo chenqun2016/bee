@@ -1,22 +1,12 @@
 package com.bee.user.ui.nearby;
 
 import android.animation.Animator;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.Transformation;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,7 +25,7 @@ import com.bee.user.event.StoreEvent;
 import com.bee.user.ui.adapter.FoodChooseTypeAdapter;
 import com.bee.user.ui.adapter.SelectedFoodAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.order.OrderActivity;
+import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.DragDialogLayout;
@@ -111,7 +101,7 @@ public class StoreActivity extends BaseActivity {
         switch (view.getId()) {
 
             case R.id.tv_confirm:
-                startActivity(new Intent(this, OrderActivity.class));
+                startActivity(new Intent(this, OrderingActivity.class));
                 break;
             case R.id.cl_qujiesuan:
                 showSelectedDialog();

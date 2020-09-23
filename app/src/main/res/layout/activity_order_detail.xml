@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bg_white_grey"
+        android:background="@drawable/bg_gradient_white_grey" />
+
+    <ImageButton
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/transparent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/icon_back_anse" />
+
+   <TextView
+       android:id="@+id/tv_title"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:textSize="25sp"
+       android:textStyle="bold"
+       android:drawableRight="@drawable/icon_link"
+       android:drawablePadding="10dp"
+       android:textColor="@color/color_282525"
+       android:layout_marginLeft="10dp"
+       android:layout_marginTop="10dp"
+       android:layout_below="@+id/iv_back"
+       android:text="订单已送达"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_below="@+id/tv_title"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

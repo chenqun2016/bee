@@ -10,12 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.R;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.StoreBean;
-import com.bee.user.ui.order.YouhuiquanActivity;
+import com.bee.user.ui.xiadan.YouhuiquanActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +24,9 @@ import java.util.List;
  * 创建时间：2020/09/04  21：47
  * 描述：
  */
-public class OrderAdapter extends BaseQuickAdapter<StoreBean, BaseViewHolder> {
-    public OrderAdapter( ) {
-        super(R.layout.item_order);
+public class OrderingAdapter extends BaseQuickAdapter<StoreBean, BaseViewHolder> {
+    public OrderingAdapter( ) {
+        super(R.layout.item_ordering);
     }
 
     @Override

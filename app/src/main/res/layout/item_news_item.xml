@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_round5dp_grey_ccc"
+        android:text="12:06"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/bg_round10dp_white"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="15dp">
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:text="赠送一张5元红包！"
+            android:textColor="@color/color_282525"
+            android:textSize="14sp" />
+
+
+        <ImageView
+            android:id="@+id/imageview2"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_below="@+id/tv_title"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="15dp"
+            android:background="@color/FF6200" />
+
+        <TextView
+            android:id="@+id/tv_des"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/imageview2"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:text="1故宫博物院自7月21日起有序开放，需使命预约购票需使命预约购票"
+            android:textColor="@color/color_3B3838"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_click"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_des"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:text="点击查看详细>"
+            android:textColor="@color/color_3B3838"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
