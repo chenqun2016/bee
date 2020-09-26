@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
+        android:textStyle="bold"
         android:text="选择餐具"
         android:textColor="@color/color_282626"
         android:textSize="17sp"

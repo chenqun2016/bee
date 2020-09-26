@@ -5,26 +5,21 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.OrderBean;
 import com.bee.user.ui.order.OrderDetailActivity;
+import com.bee.user.ui.order.OrderingMapActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseCEntity;
 import com.squareup.picasso.Picasso;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import io.reactivex.rxjava3.core.Observable;
 
 /**
@@ -75,6 +70,15 @@ public class OrderEntity extends BaseCEntity<OrderBean> {
         TextView tv_total = helper.findView(R.id.tv_total);
         TextView tv_zailaiyidan = helper.findView(R.id.tv_zailaiyidan);
         TextView tv_pinglun = helper.findView(R.id.tv_pinglun);
+
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, OrderingMapActivity.class);
+                intent.putExtra("type",item.type);
+                mContext.startActivity(intent);
+            }
+        });
 
         switch (item.type){
                 case 0:

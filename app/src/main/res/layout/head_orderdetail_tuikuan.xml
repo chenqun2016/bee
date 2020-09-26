@@ -145,6 +145,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <include layout="@layout/item_orderdetail_head"/>
+    <include layout="@layout/item_orderdetail_head_card"/>
 
 </LinearLayout>

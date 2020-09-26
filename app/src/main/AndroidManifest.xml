@@ -99,6 +99,7 @@
         <activity android:name=".ui.order.OrderActivity" />
         <activity android:name=".ui.home.NewsItemActivity" />
         <activity android:name=".ui.order.OrderDetailActivity" />
+        <activity android:name=".ui.order.OrderingMapActivity" />
 
     </application>
 
