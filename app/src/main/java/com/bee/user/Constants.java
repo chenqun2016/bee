@@ -19,4 +19,14 @@ public class Constants {
     public static String getRSA(){
         return "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC5zS5NObS9AQDwH5sSUNTA2jY6RyUEMGpu9UqmAWNCuDlFo0GovMQkbRuyNy/qXj3V6+0dElG7nCaFQyQ4quww0eZwPE6Sc7iFu3QdoTFPQ4prqpUcYZlcHRdWTntJaaodsI1fMB67eo/oaI4+97MW1za/6nqcGVECz/Z0rqhQswIDAQAB";
     }
+
+
+
+    //订单详情中 订单状态
+    public static final int TYPE_COMPLETE = 0;
+    public static final int TYPE_PAY_WAITE = 1;
+    public static final int TYPE_READY = 2;
+    public static final int TYPE_PEISONG = 3;
+    public static final int TYPE_TUIKUAN = 4;
+    public static final int TYPE_CANCELED = 5;
 }

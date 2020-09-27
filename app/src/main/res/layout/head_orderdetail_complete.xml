@@ -55,6 +55,7 @@
                 android:textColor="@color/FF6200"
                 android:text="评价得积分"/>
             <TextView
+                android:id="@+id/tv_shouhou"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

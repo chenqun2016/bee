@@ -5,8 +5,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bee.user.R;
+import com.bee.user.event.CloseEvent;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.OnClick;
 
@@ -29,9 +34,15 @@ public class PayActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-
+        EventBus.getDefault().register(this);
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     private void showPayDialog(){
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
@@ -63,4 +74,8 @@ public class PayActivity extends BaseActivity {
         bottomSheetDialog.show();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCloseEvent(CloseEvent event) {
+        finish();
+    }
 }

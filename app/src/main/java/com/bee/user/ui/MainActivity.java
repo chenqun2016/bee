@@ -481,7 +481,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(MainEvent event) {
+    public void onMainEvent(MainEvent event) {
 
     }
 

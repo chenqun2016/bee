@@ -21,6 +21,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bee.user.R;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.FoodTypeBean;
+import com.bee.user.event.CloseEvent;
+import com.bee.user.event.MainEvent;
 import com.bee.user.event.StoreEvent;
 import com.bee.user.ui.adapter.FoodChooseTypeAdapter;
 import com.bee.user.ui.adapter.SelectedFoodAdapter;
@@ -372,12 +374,6 @@ public class StoreActivity extends BaseActivity {
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(StoreEvent event) {
-
-        showChooseTypeDialog();
-    }
-
 
 
 
@@ -538,5 +534,17 @@ public class StoreActivity extends BaseActivity {
         if (null != showAnimation && showAnimation.isRunning()) {
             showAnimation.end();
         }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onStoreEvent(StoreEvent event) {
+        showChooseTypeDialog();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCloseEvent(CloseEvent event) {
+        finish();
     }
 }

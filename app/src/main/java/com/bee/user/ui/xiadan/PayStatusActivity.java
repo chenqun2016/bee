@@ -6,9 +6,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bee.user.R;
+import com.bee.user.event.CloseEvent;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.order.OrderActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -60,5 +63,6 @@ public class PayStatusActivity extends BaseActivity {
     @Override
     public void initViews() {
 
+        EventBus.getDefault().post(new CloseEvent());
     }
 }

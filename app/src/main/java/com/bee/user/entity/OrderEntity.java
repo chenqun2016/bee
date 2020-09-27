@@ -12,6 +12,8 @@ import com.bee.user.R;
 import com.bee.user.bean.OrderBean;
 import com.bee.user.ui.order.OrderDetailActivity;
 import com.bee.user.ui.order.OrderingMapActivity;
+import com.bee.user.ui.order.TuiKuanActivity;
+import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -104,9 +106,23 @@ public class OrderEntity extends BaseCEntity<OrderBean> {
                 case 4:
                     map.setVisibility(View.GONE);
                     tv_zailaiyidan.setText("退款进度");
+                    tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(mContext, TuiKuanActivity.class);
+                            mContext.startActivity(intent);
+                        }
+                    });
                     type.setText("退款成功");
                     type.setTextColor(type.getResources().getColor(R.color.color_7C7877));
                     tv_pinglun.setText("再来一单");
+
+                    tv_pinglun.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mContext.startActivity(new Intent(mContext, OrderingActivity.class));
+                        }
+                    });
                     break;
 
             }

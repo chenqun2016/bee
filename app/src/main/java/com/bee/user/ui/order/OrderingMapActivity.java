@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.gyf.immersionbar.ImmersionBar;
@@ -33,7 +34,7 @@ public class OrderingMapActivity extends BaseActivity {
 
     @Override
     protected void initImmersionBar() {
-         ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
+        ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
     }
 
     @Override
@@ -45,24 +46,24 @@ public class OrderingMapActivity extends BaseActivity {
     public void initViews() {
         Intent intent = getIntent();
         int type = intent.getIntExtra("type", 0);
-        switch (type){
-                case 0://等待支付
-                    vie2.setVisibility(View.GONE);
-                    view1.setVisibility(View.VISIBLE);
-                    break;
-                case 1://商家正在备货
-                case 2://商品配送中
-                    vie2.setVisibility(View.VISIBLE);
-                    view1.setVisibility(View.GONE);
-                    break;
-                case 3://订单已送达
-                    break;
-                case 4://订单已取消
-                    break;
-                case 5://退款中
-                    break;
-                default:
-                    break;
+        switch (type) {
+            case Constants.TYPE_PAY_WAITE://等待支付
+                vie2.setVisibility(View.GONE);
+                view1.setVisibility(View.VISIBLE);
+                break;
+            case Constants.TYPE_READY://商家正在备货
+            case Constants.TYPE_PEISONG://商品配送中
+                vie2.setVisibility(View.VISIBLE);
+                view1.setVisibility(View.GONE);
+                break;
+            case Constants.TYPE_COMPLETE://订单已送达
+                break;
+            case Constants.TYPE_CANCELED://订单已取消
+                break;
+            case Constants.TYPE_TUIKUAN://退款中
+                break;
+            default:
+                break;
         }
 
 

@@ -11,6 +11,7 @@ import com.bee.user.R;
 import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.ImageBean;
 import com.bee.user.ui.nearby.ImagesActivity;
+import com.bee.user.utils.CommonUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.module.LoadMoreModule;
@@ -35,27 +36,10 @@ public class CommentAdapter extends BaseQuickAdapter<CommentBean, BaseViewHolder
     protected void convert(@NotNull BaseViewHolder helper, CommentBean commentBean) {
 
         RecyclerView images = helper.findView(R.id.images);
-        images.setLayoutManager(new LinearLayoutManager(images.getContext(),LinearLayoutManager.HORIZONTAL,false));
-        ArrayList<ImageBean> imageBeans = new ArrayList<>();
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        CommentImagesAdapter commentImagesAdapter = new CommentImagesAdapter(imageBeans);
-        images.setAdapter(commentImagesAdapter);
 
-        commentImagesAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+        CommonUtil.initCommentAdapter(images);
 
-                Intent intent = new Intent(images.getContext(), ImagesActivity.class);
-                intent.putExtra("datas",imageBeans);
-                images.getContext().startActivity(intent);
-            }
-        });
+
     }
 
 

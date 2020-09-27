@@ -12,6 +12,7 @@ import com.bee.user.R;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.ui.xiadan.YouhuiquanActivity;
+import com.bee.user.utils.CommonUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
@@ -36,16 +37,9 @@ public class OrderDetailAdapter extends BaseQuickAdapter<StoreBean, BaseViewHold
 
         RecyclerView recyclerView = baseViewHolder.findView(R.id.recyclerview);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(tv_store.getContext()));
-
-        List<FoodBean> foodBeans = new ArrayList<>();
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
+        CommonUtil.initOrderFoodAdapter(recyclerView);
 
 
-        OrderFoodAdapter adapter = new OrderFoodAdapter(foodBeans);
-        recyclerView.setAdapter(adapter);
 
 
 

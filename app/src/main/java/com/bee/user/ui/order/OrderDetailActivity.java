@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.TraceBean;
@@ -20,6 +21,7 @@ import com.bee.user.ui.adapter.OrderCancelAdapter;
 import com.bee.user.ui.adapter.OrderDetailAdapter;
 import com.bee.user.ui.adapter.OrderTraceAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.utils.CommonUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -64,18 +66,18 @@ public class OrderDetailActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_title:
                 switch (type) {
-                    case 0://等待支付
-                        break;
-                    case 1://商家正在备货
-                        break;
-                    case 2://商品配送中
-                        break;
-                    case 3://订单已送达
-                        break;
-                    case 4://订单已取消
-                        break;
-                    case 5://退款中
-                        break;
+//                    case Constants.TYPE_PAY_WAITE://等待支付
+//                        break;
+//                    case Constants.TYPE_READY://商家正在备货
+//                        break;
+//                    case Constants.TYPE_PEISONG://商品配送中
+//                        break;
+//                    case Constants.TYPE_COMPLETE://订单已送达
+//                        break;
+//                    case Constants.TYPE_CANCELED://订单已取消
+//                        break;
+//                    case Constants.TYPE_TUIKUAN://退款中
+//                        break;
                     default:
                         showTraceDialog();
                         break;
@@ -116,33 +118,34 @@ public class OrderDetailActivity extends BaseActivity {
         initFootView(foot);
 
         View head;
+
         switch (type) {
 
-            case 0:
+            case Constants.TYPE_PAY_WAITE://等待支付
                 tv_title.setText("等待支付，剩余10");
                 head = View.inflate(this, R.layout.head_orderdetail_waite, null);
                 initHeadViewWaite(head);
 
                 countDown();
                 break;
-            case 1:
+            case Constants.TYPE_READY://商家正在备货
                 tv_title.setText("商家正在备货");
                 head = View.inflate(this, R.layout.head_orderdetail_beihuo, null);
                 initHeadViewbeihuo(head);
 
                 break;
-            case 2:
+            case Constants.TYPE_PEISONG://商品配送中
                 tv_title.setText("商品配送中");
                 head = View.inflate(this, R.layout.head_orderdetail_beihuo, null);
                 initHeadViewbeihuo(head);
 
                 break;
-            case 3:
+            case Constants.TYPE_COMPLETE://订单已送达
                 tv_title.setText("订单已送达");
                 head = View.inflate(this, R.layout.head_orderdetail_complete, null);
                 initHeadView(head);
                 break;
-            case 4:
+            case Constants.TYPE_CANCELED://订单已取消
                 tv_title.setText("订单已取消");
                 head = View.inflate(this, R.layout.head_orderdetail_quxiao, null);
                 initHeadViewQuxiao(head);
@@ -152,7 +155,7 @@ public class OrderDetailActivity extends BaseActivity {
                 tv_people_des.setVisibility(View.GONE);
                 ll_bottom.setVisibility(View.VISIBLE);
                 break;
-            case 5://退款中
+            case Constants.TYPE_TUIKUAN://退款中
                 head = View.inflate(this, R.layout.head_orderdetail_tuikuan, null);
                 initHeadViewtuikuan(head);
                 tv_title.setText("订单已送达");
@@ -226,7 +229,14 @@ public class OrderDetailActivity extends BaseActivity {
 
     //    默认
     private void initHeadView(View head) {
-
+        TextView tv_shouhou = head.findViewById(R.id.tv_shouhou);
+        tv_shouhou.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OrderDetailActivity.this, ShouHouActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initFootView(View foot) {
@@ -269,19 +279,10 @@ public class OrderDetailActivity extends BaseActivity {
             }
         });
         RecyclerView recyclerview = bottomSheetDialog.findViewById(R.id.recyclerview);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        OrderTraceAdapter orderTraceAdapter = new OrderTraceAdapter();
-        recyclerview.setAdapter(orderTraceAdapter);
 
-        ArrayList<TraceBean> traceBeans = new ArrayList<>();
-        traceBeans.add(new TraceBean(0));
-        traceBeans.add(new TraceBean(0));
-        traceBeans.add(new TraceBean(0));
-        traceBeans.add(new TraceBean(0));
-        traceBeans.add(new TraceBean(0));
-        traceBeans.add(new TraceBean(0));
-        traceBeans.add(new TraceBean(1));
-        orderTraceAdapter.setNewInstance(traceBeans);
+        CommonUtil.initTraceAdapter(recyclerview);
+
+
 
 
         bottomSheetDialog.setCanceledOnTouchOutside(false);

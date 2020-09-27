@@ -17,6 +17,7 @@ import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.StoreBean;
+import com.bee.user.event.CloseEvent;
 import com.bee.user.ui.adapter.ChooseTimeAdapter;
 import com.bee.user.ui.adapter.OrderingAdapter;
 import com.bee.user.ui.base.BaseDialog;
@@ -29,6 +30,10 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -86,7 +91,14 @@ public class OrderingActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void initViews() {
+        EventBus.getDefault().register(this);
         toolbar_title.setText("确认订单");
 
         ViewGroup.LayoutParams layoutParams = statusheight.getLayoutParams();
@@ -342,12 +354,14 @@ public class OrderingActivity extends BaseActivity {
 
             }
         };
-
-
-
             baseDialog.show();
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCloseEvent(CloseEvent event) {
+        finish();
     }
 }

@@ -36,7 +36,7 @@ public class OrderTraceAdapter extends BaseQuickAdapter<TraceBean, BaseViewHolde
         step_msg.setText("系统取消了订单，理由是“超过15分钟未支付”");
 
         if(baseViewHolder.getLayoutPosition() == getData().size() -1){
-            left_line.setVisibility(View.INVISIBLE);
+            left_line.setVisibility(View.GONE);
         }else{
             left_line.setVisibility(View.VISIBLE);
         }
