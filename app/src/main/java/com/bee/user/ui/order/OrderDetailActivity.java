@@ -21,6 +21,7 @@ import com.bee.user.ui.adapter.OrderCancelAdapter;
 import com.bee.user.ui.adapter.OrderDetailAdapter;
 import com.bee.user.ui.adapter.OrderTraceAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.nearby.CommentActivity;
 import com.bee.user.utils.CommonUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -120,6 +121,11 @@ public class OrderDetailActivity extends BaseActivity {
         View head;
 
         switch (type) {
+            case Constants.TYPE_COMPLETE://订单已送达
+                tv_title.setText("订单已送达");
+                head = View.inflate(this, R.layout.head_orderdetail_complete, null);
+                initHeadView(head);
+                break;
 
             case Constants.TYPE_PAY_WAITE://等待支付
                 tv_title.setText("等待支付，剩余10");
@@ -140,11 +146,7 @@ public class OrderDetailActivity extends BaseActivity {
                 initHeadViewbeihuo(head);
 
                 break;
-            case Constants.TYPE_COMPLETE://订单已送达
-                tv_title.setText("订单已送达");
-                head = View.inflate(this, R.layout.head_orderdetail_complete, null);
-                initHeadView(head);
-                break;
+
             case Constants.TYPE_CANCELED://订单已取消
                 tv_title.setText("订单已取消");
                 head = View.inflate(this, R.layout.head_orderdetail_quxiao, null);
@@ -234,6 +236,16 @@ public class OrderDetailActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(OrderDetailActivity.this, ShouHouActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        TextView tv_comment = head.findViewById(R.id.tv_comment);
+        tv_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(OrderDetailActivity.this, OrderCommentActivity.class);
                 startActivity(intent);
             }
         });

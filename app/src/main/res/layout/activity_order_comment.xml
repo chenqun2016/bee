@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_F5F5F5"
+    android:orientation="vertical">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bg_white_grey"
+        android:background="@drawable/bg_gradient_white_grey" />
+
+    <ImageButton
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/transparent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/icon_back_anse" />
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="订单评价"
+        android:textColor="@color/color_282626"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_title"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_round10dp_white"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp">
+
+                <CheckBox
+                    android:id="@+id/cb_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbutton_chart"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/niming"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="匿名评价"
+                    android:textColor="@color/color_3C3838"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/cb_1"
+                    app:layout_constraintRight_toLeftOf="@+id/cb_1"
+                    app:layout_constraintTop_toTopOf="@+id/cb_1" />
+
+
+                <ImageView
+                    android:id="@+id/iv_goods_img"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/food2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/iv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="精品海鲜捞面"
+                    android:textColor="@color/color_282626"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_goods_img"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/iv_pinfen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="综合评分4.9"
+                    android:textColor="@color/color_7B7777"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_goods_img"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_name" />
+
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/ratin1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="30dp"
+                    android:maxWidth="25dp"
+                    android:maxHeight="25dp"
+                    android:rating="4"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_pinfen"
+                    app:mrb_progressBackgroundTint="@color/color_ccc"
+                    app:mrb_progressTint="@color/color_FF564A"
+                    app:mrb_secondaryProgressTint="@color/white" />
+
+                <TextView
+                    android:id="@+id/ratin_text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="超赞"
+                    android:textColor="@color/color_FF564A"
+                    android:textSize="12sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ratin1" />
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/ratin2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="10dp"
+                    android:maxWidth="14dp"
+                    android:maxHeight="14dp"
+                    android:rating="4"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ratin_text1"
+                    app:mrb_progressBackgroundTint="@color/color_ccc"
+                    app:mrb_progressTint="@color/color_FF564A"
+                    app:mrb_secondaryProgressTint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="包装"
+                    android:textColor="@color/color_282626"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ratin2"
+                    app:layout_constraintRight_toLeftOf="@+id/ratin2"
+                    app:layout_constraintTop_toTopOf="@+id/ratin2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="一般"
+                    android:textColor="@color/FF6200"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ratin2"
+                    app:layout_constraintLeft_toRightOf="@+id/ratin2"
+                    app:layout_constraintTop_toTopOf="@+id/ratin2" />
+
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/ratin3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="6dp"
+                    android:maxWidth="14dp"
+                    android:maxHeight="14dp"
+                    android:rating="4"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ratin2"
+                    app:mrb_progressBackgroundTint="@color/color_ccc"
+                    app:mrb_progressTint="@color/color_8D99AE"
+                    app:mrb_secondaryProgressTint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="味道"
+                    android:textColor="@color/color_282626"
+                    android:textSize="13sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ratin3"
+                    app:layout_constraintRight_toLeftOf="@+id/ratin3"
+                    app:layout_constraintTop_toTopOf="@+id/ratin3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="一般"
+                    android:textColor="@color/FF6200"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ratin3"
+                    app:layout_constraintLeft_toRightOf="@+id/ratin3"
+                    app:layout_constraintTop_toTopOf="@+id/ratin3" />
+
+
+                <EditText
+                    android:id="@+id/et_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/bg_round10dp_grey"
+                    android:gravity="start"
+                    android:hint="请输入"
+                    android:inputType="textMultiLine"
+                    android:maxLength="50"
+                    android:maxLines="4"
+                    android:padding="10dp"
+                    android:text="菜品味道好，包装大气美观，明天接着点"
+                    android:textColor="@color/color_272525"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ratin3" />
+
+                <TextView
+                    android:id="@+id/tv_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="11dp"
+                    android:text="评论文字/图片 12积分"
+                    android:textColor="@color/color_CBCBCB"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/et_content"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_round10dp_white"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="25dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="有没有不错或者较差的食物？"
+                    android:textColor="@color/color_282626"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_1" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_round10dp_white"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp">
+
+
+                <TextView
+                    android:id="@+id/niming2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="已对配送员匿名"
+                    android:textColor="@color/color_3C3838"
+                    android:textSize="12sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/iv_people_img"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/food2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/iv_people_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="张三丰"
+                    android:textColor="@color/color_282626"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_people_img"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/iv_people_pinfen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="综合评分4.9"
+                    android:textColor="@color/color_7B7777"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_people_img"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_people_name" />
+
+
+                <com.bee.user.widget.RadioGroupPlus
+                    android:id="@+id/people_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_people_pinfen">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_1"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:button="@null"
+                            android:drawableTop="@drawable/tab_nearby_selector"
+                            android:drawablePadding="10dp"
+                            android:gravity="center"
+                            android:text="非常差"
+                            android:textColor="@drawable/color_new_address"
+                            android:textSize="12sp" />
+
+                        <RadioButton
+                            android:id="@+id/rb_2"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:button="@null"
+                            android:drawableTop="@drawable/tab_nearby_selector"
+                            android:drawablePadding="10dp"
+                            android:gravity="center"
+                            android:text="一般"
+                            android:textColor="@drawable/color_new_address"
+                            android:textSize="12sp" />
+
+
+                        <RadioButton
+                            android:id="@+id/rb_3"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:button="@null"
+                            android:drawableTop="@drawable/tab_nearby_selector"
+                            android:drawablePadding="10dp"
+                            android:gravity="center"
+                            android:text="超赞"
+                            android:textColor="@drawable/color_new_address"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </com.bee.user.widget.RadioGroupPlus>
+
+                <com.bee.user.widget.FlowTagLayout
+                    android:id="@+id/tags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/people_comment" />
+
+
+                <EditText
+                    android:id="@+id/et_people_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/bg_round10dp_grey"
+                    android:gravity="start"
+                    android:hint="您的建议会督促我做的更好"
+                    android:inputType="textMultiLine"
+                    android:maxLength="50"
+                    android:maxLines="4"
+                    android:padding="10dp"
+                    android:text=""
+                    android:textColor="@color/color_272525"
+                    android:textColorHint="@color/color_ccc"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tags" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="290dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/btn_gradient_yellow_round"
+                android:gravity="center"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

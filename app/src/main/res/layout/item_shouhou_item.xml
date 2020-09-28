@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/iv_goods_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/iv_goods_img"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@drawable/food2" />
+
+
+    <TextView
+        android:id="@+id/iv_goods_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iv_goods_img"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/iv_goods_img"
+        android:layout_toRightOf="@+id/iv_goods_img"
+        android:textColor="@color/color_272525"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="精品海鲜捞面" />
+
+    <TextView
+        android:id="@+id/iv_goods_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_goods_name"
+        android:layout_alignLeft="@+id/iv_goods_name"
+        android:layout_marginTop="4dp"
+        android:text="x1"
+        android:textColor="@color/color_7B7777"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/iv_goods_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_goods_num"
+        android:layout_alignLeft="@+id/iv_goods_num"
+        android:text="¥10"
+        android:textColor="@color/color_272525"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
+
+    <CheckBox
+        android:id="@+id/cb_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:button="@drawable/checkbutton_chart" />
+
+
+</RelativeLayout>
+
+

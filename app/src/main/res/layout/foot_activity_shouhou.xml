@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_round10dp_white"
+        android:paddingLeft="10dp"
+        android:paddingTop="20dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="20dp">
+
+
+        <TextView
+            android:id="@+id/tv_reason"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="退款原因"
+            android:textColor="@color/color_282626"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_tuikuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:drawableRight="@drawable/icon_link"
+            android:drawablePadding="10dp"
+            android:text="选择退款原因"
+            android:textColor="@color/color_3C3838"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_xiangxi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_reason"
+            android:layout_marginTop="15dp"
+            android:text="补充详细信息以便商家更快帮您处理"
+            android:textColor="@color/color_7C7877"
+            android:textSize="12sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/images"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/tv_xiangxi"
+            android:layout_marginTop="50dp" />
+
+    </RelativeLayout>
+</FrameLayout>

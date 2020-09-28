@@ -25,6 +25,10 @@ import io.reactivex.rxjava3.functions.Function4;
  */
 public class NewAddressActivity extends BaseActivity {
 
+    @BindView(R.id.toolbar_title)
+    TextView toolbar_title;
+
+
     @BindView(R.id.tv_name)
     TextView tv_name;
     @BindView(R.id.rgp_sex)
@@ -64,6 +68,9 @@ public class NewAddressActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        toolbar_title.setText("新增地址");
+
+
         InitialValueObservable<CharSequence> c1 = RxTextView.textChanges(tv_name);
         InitialValueObservable<CharSequence> c2 = RxTextView.textChanges(tv_phone);
         InitialValueObservable<CharSequence> c3 = RxTextView.textChanges(tv_dizhi_text);

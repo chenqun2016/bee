@@ -44,6 +44,7 @@
                 android:textColor="@color/FF6200"
                 android:text="再来一单"/>
             <TextView
+                android:id="@+id/tv_comment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
