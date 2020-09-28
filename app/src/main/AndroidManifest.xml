@@ -103,6 +103,7 @@
         <activity android:name=".ui.order.TuiKuanActivity" />
         <activity android:name=".ui.order.ShouHouActivity" />
         <activity android:name=".ui.order.OrderCommentActivity" />
+        <activity android:name=".ui.order.OrderCommentStatusActivity" />
 
     </application>
 

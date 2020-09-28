@@ -1,6 +1,8 @@
 package com.bee.user.ui.order;
 
+import android.content.Intent;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 创建人：进京赶考
@@ -29,6 +32,15 @@ public class OrderCommentActivity extends BaseActivity {
 
     @BindView(R.id.tags)
     FlowTagLayout tags;
+
+
+    @BindView(R.id.tv_tijiao)
+    TextView tv_tijiao;
+
+    @OnClick({R.id.tv_tijiao})
+    public void onClick(){
+        startActivity(new Intent(this,OrderCommentStatusActivity.class));
+    }
 
     @Override
     public int getLayoutId() {

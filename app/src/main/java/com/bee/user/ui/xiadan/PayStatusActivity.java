@@ -46,11 +46,14 @@ public class PayStatusActivity extends BaseActivity {
         switch (view.getId()){
             case R.id.btn_1:
                 startActivity(new Intent(this, MainActivity.class));
+                finish();
                 break;
             case R.id.btn_2:
 
                 Intent intent = new Intent(this, OrderActivity.class);
                 startActivity(intent);
+
+                finish();
                 break;
         }
     }
