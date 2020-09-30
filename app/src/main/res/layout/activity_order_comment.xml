@@ -363,7 +363,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:button="@null"
-                            android:drawableTop="@drawable/tab_nearby_selector"
+                            android:drawableTop="@drawable/selector_order_comment_xiaolian"
                             android:drawablePadding="10dp"
                             android:gravity="center"
                             android:text="非常差"
