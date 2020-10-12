@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
@@ -29,22 +31,19 @@
 
             <RadioButton
                 android:id="@+id/rb_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="10dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:button="@null"
+                android:background="@drawable/selector_order_comment_dianzan2"
                 android:gravity="center" />
 
             <RadioButton
                 android:id="@+id/rb_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingLeft="10dp"
-                android:paddingBottom="10dp"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginLeft="20dp"
                 android:button="@null"
+                android:background="@drawable/selector_order_comment_dianzan1"
                 android:gravity="center" />
         </LinearLayout>
     </com.bee.user.widget.RadioGroupPlus>

@@ -215,7 +215,7 @@
                 <EditText
                     android:id="@+id/et_content"
                     android:layout_width="match_parent"
-                    android:layout_height="130dp"
+                    android:layout_height="150dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="10dp"
@@ -224,7 +224,7 @@
                     android:hint="请输入"
                     android:inputType="textMultiLine"
                     android:maxLength="50"
-                    android:maxLines="4"
+                    android:maxLines="3"
                     android:padding="10dp"
                     android:text="菜品味道好，包装大气美观，明天接着点"
                     android:textColor="@color/color_272525"
@@ -239,10 +239,27 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="11dp"
                     android:text="评论文字/图片 12积分"
-                    android:textColor="@color/color_CBCBCB"
+                    android:textColor="@color/color_7C7877"
                     android:textSize="11sp"
                     app:layout_constraintBottom_toBottomOf="@+id/et_content"
                     app:layout_constraintRight_toRightOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/tv_paizhao"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginBottom="11dp"
+                    android:paddingTop="15dp"
+                    android:background="@drawable/xuxian_xiao"
+                    android:drawableTop="@drawable/icon_xiangji"
+                    android:gravity="center"
+                    android:text="上传凭证"
+                    android:textColor="@color/color_CBCBCB"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/et_content"
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -313,7 +330,7 @@
                     android:id="@+id/iv_people_img"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:src="@drawable/food2"
+                    android:src="@drawable/icon_kuaidiyuan"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -365,6 +382,7 @@
                             android:button="@null"
                             android:drawableTop="@drawable/selector_order_comment_xiaolian"
                             android:drawablePadding="10dp"
+                            android:background="@null"
                             android:gravity="center"
                             android:text="非常差"
                             android:textColor="@drawable/color_new_address"
@@ -376,8 +394,9 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:button="@null"
-                            android:drawableTop="@drawable/tab_nearby_selector"
+                            android:drawableTop="@drawable/selector_order_comment_xiaolian2"
                             android:drawablePadding="10dp"
+                            android:background="@null"
                             android:gravity="center"
                             android:text="一般"
                             android:textColor="@drawable/color_new_address"
@@ -390,8 +409,9 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:button="@null"
-                            android:drawableTop="@drawable/tab_nearby_selector"
+                            android:drawableTop="@drawable/selector_order_comment_xiaolian3"
                             android:drawablePadding="10dp"
+                            android:background="@null"
                             android:gravity="center"
                             android:text="超赞"
                             android:textColor="@drawable/color_new_address"

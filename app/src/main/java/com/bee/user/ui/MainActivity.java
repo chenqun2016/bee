@@ -30,6 +30,7 @@ import com.bee.user.ui.home.HomeFragment;
 import com.bee.user.ui.home.MiaoshaFragment;
 import com.bee.user.ui.login.CodeLoginActivity;
 import com.bee.user.ui.login.LoginActivity;
+import com.bee.user.ui.mine.MineFragment;
 import com.bee.user.ui.nearby.NearbyFragment;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
@@ -103,7 +104,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         fragments.add(HomeFragment.newInstance(0));
         fragments.add(NearbyFragment.newInstance());
         fragments.add(new ChartFragment());
-        fragments.add(MiaoshaFragment.newInstance(0));
+        fragments.add(new MineFragment());
 
         MainAdapter myAdapter = new MainAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setCanScroll(false);
@@ -156,8 +157,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 break;
             case 1:
             case 2:
-            case 3:
                 status_bar.setBackgroundResource(R.color.white);
+                break;
+            case 3:
+                status_bar.setBackgroundResource(R.drawable.btn_gradient_yellow);
                 break;
         }
     }
@@ -168,19 +171,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     public boolean onTab3Click() {
-        if(!SPUtils.geTinstance().isLogin()){
 
-            configLoginTokenPort();
-
-            if(mCanOneKeyLogin){
-                mAlicomAuthHelper.getLoginToken(MainActivity.this, 5000);
-            }else{
-                startActivity(new Intent(MainActivity.this, CodeLoginActivity.class));
-            }
-            return true;
-        }
         return false;
-
     }
 
     private static final int SERVICE_TYPE_AUTH = 1;//号码认证
@@ -483,6 +475,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainEvent(MainEvent event) {
 
+        if(mCanOneKeyLogin){
+            configLoginTokenPort();
+
+            mAlicomAuthHelper.getLoginToken(MainActivity.this, 5000);
+        }else{
+            startActivity(new Intent(MainActivity.this, CodeLoginActivity.class));
+        }
     }
 
 }

@@ -1,9 +1,11 @@
 package com.bee.user.ui.order;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,6 +47,12 @@ public class OrderCommentActivity extends BaseActivity {
     @Override
     public int getLayoutId() {
         return R.layout.activity_order_comment;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setmAdjustView(true);
+        super.onCreate(savedInstanceState);
     }
 
     @Override

@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.OrderBean;
+import com.bee.user.ui.order.OrderCommentActivity;
 import com.bee.user.ui.order.OrderDetailActivity;
 import com.bee.user.ui.order.OrderingMapActivity;
 import com.bee.user.ui.order.TuiKuanActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
+import com.bee.user.ui.xiadan.PayActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -84,9 +86,16 @@ public class OrderEntity extends BaseCEntity<OrderBean> {
 
         switch (item.type){
                 case 0:
-                    break;
                 case 1:
+                    map.setVisibility(View.VISIBLE);
                     tv_zailaiyidan.setText("去支付");
+                    tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(mContext, PayActivity.class);
+                            mContext.startActivity(intent);
+                        }
+                    });
                     type.setText("等待支付");
                     type.setTextColor(type.getResources().getColor(R.color.FF6200));
                     tv_pinglun.setVisibility(View.GONE);
@@ -94,14 +103,48 @@ public class OrderEntity extends BaseCEntity<OrderBean> {
                 case 2:
                     map.setVisibility(View.GONE);
                     tv_zailaiyidan.setText("再来一单");
+                    tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(mContext, OrderingActivity.class);
+                            mContext.startActivity(intent);
+                        }
+                    });
+
                     type.setText("已送达");
                     type.setTextColor(type.getResources().getColor(R.color.color_7C7877));
+
+                    tv_pinglun.setText("评论得12积分");
+                    tv_pinglun.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(mContext, OrderCommentActivity.class);
+                            mContext.startActivity(intent);
+                        }
+                    });
                     break;
                 case 3:
                     map.setVisibility(View.GONE);
                     tv_zailaiyidan.setText("再来一单");
+                    tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(mContext, OrderingActivity.class);
+                            mContext.startActivity(intent);
+                        }
+                    });
+
                     type.setText("已送达");
                     type.setTextColor(type.getResources().getColor(R.color.color_7C7877));
+
+                    tv_pinglun.setText("评论得12积分");
+                    tv_pinglun.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(mContext, OrderCommentActivity.class);
+                            mContext.startActivity(intent);
+                        }
+                    });
                     break;
                 case 4:
                     map.setVisibility(View.GONE);

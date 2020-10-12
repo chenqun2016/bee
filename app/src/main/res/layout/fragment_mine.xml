@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bg_orange"
+        android:background="@drawable/bg_jianbian" />
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:paddingTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <RelativeLayout
+                android:id="@+id/rl_unread"
+                android:padding="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/icon_xiaoxi" />
+
+
+                <ImageView
+                    android:id="@+id/iv_unread"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp"
+                    android:layout_alignRight="@+id/iv_msg"
+                    android:background="@drawable/cycle"
+                    android:gravity="center" />
+            </RelativeLayout>
+
+            
+            <ImageView
+                android:id="@+id/tv_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/icon_touxiang"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="立即登陆"
+                android:textSize="16sp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toTopOf="@+id/tv_icon"
+                app:layout_constraintLeft_toRightOf="@+id/tv_icon"/>
+
+            <TextView
+                android:id="@+id/tv_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:text="省多少你说了算"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_name"/>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_round10dp_white"
+                android:paddingTop="30dp"
+                android:paddingBottom="26dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_icon">
+
+                <TextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="10dp"
+                    android:textColor="@color/color_3B3838"
+                    android:text="0\n米粒/充值"/>
+                <TextView
+                    android:id="@+id/tv_2"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="10dp"
+                    android:textColor="@color/color_3B3838"
+                    android:text="0\n卡券包"/>
+                <TextView
+                    android:id="@+id/tv_3"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="10dp"
+                    android:textColor="@color/color_3B3838"
+                    android:text="0\n礼品卡"/>
+                <TextView
+                    android:id="@+id/tv_4"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:lineSpacingExtra="10dp"
+                    android:textColor="@color/color_3B3838"
+                    android:text="0\n我的积分"/>
+
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

@@ -157,6 +157,6 @@ public class SPUtils {
 
     public void setLoginCache(UserBean userBean) {
         setUserBean(userBean);
-        setUid("");
+        setUid("1");
     }
 }
