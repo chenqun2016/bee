@@ -105,6 +105,11 @@
         <activity android:name=".ui.order.ShouHouActivity" />
         <activity android:name=".ui.order.OrderCommentActivity" />
         <activity android:name=".ui.order.OrderCommentStatusActivity" />
+        <activity android:name=".ui.mine.UserInfoActivity" />
+        <activity android:name=".ui.mine.SettingActivity" />
+        <activity android:name=".ui.mine.AcountSafeActivity" />
+        <activity android:name=".ui.mine.SetPasswordActivity1" />
+        <activity android:name=".ui.mine.SetPasswordActivity2" />
 
     </application>
 

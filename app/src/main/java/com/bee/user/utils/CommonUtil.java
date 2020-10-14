@@ -33,6 +33,15 @@ import java.util.List;
  * 描述：
  */
 public class CommonUtil {
+    public static final java.text.DecimalFormat myformat = new java.text.DecimalFormat("###,##0.0000");
+
+    public static String moneyType(double d) {
+        String format = myformat.format(d);
+        int i = format.lastIndexOf(".");
+        return format.substring(0, i + 3);
+    }
+
+
 
     //校验手机号码
     public static final boolean isMobileNoAll(CharSequence mobiles) {

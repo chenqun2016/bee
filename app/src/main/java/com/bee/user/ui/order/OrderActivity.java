@@ -1,5 +1,9 @@
 package com.bee.user.ui.order;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -8,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.home.HomeFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -27,6 +32,15 @@ public class OrderActivity extends BaseActivity {
 
     String[] titles = new String[]{"全部", "待支付", "已收货", "待评价", "退款"};
     private Fragment[] mFragments;
+
+
+    public static Intent newInstance(Context context, int index) {
+        Intent intent = new Intent(context, OrderActivity.class);
+        intent.putExtra("index",index);
+        return intent;
+    }
+
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_order;
@@ -34,6 +48,7 @@ public class OrderActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        int index = getIntent().getIntExtra("index", 0);
         mFragments = new Fragment[titles.length];
 
         vp.setAdapter(new FragmentAdapter(this));
@@ -42,6 +57,14 @@ public class OrderActivity extends BaseActivity {
         new TabLayoutMediator(tabLayout, vp, (tab, position) -> {
             tab.setText(titles[position]);
         }).attach();
+
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                tabLayout.getTabAt(index).select();
+            }
+        });
+
     }
 
 

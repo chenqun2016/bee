@@ -1,6 +1,8 @@
 package com.bee.user.widget;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.widget.GridView;
 
@@ -17,6 +19,8 @@ public class MyGridView extends GridView {
 
     public MyGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        //去掉点击效果
+        setSelector(new ColorDrawable(Color.TRANSPARENT));
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
