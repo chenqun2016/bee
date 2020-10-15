@@ -6,8 +6,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shadow"
-        android:padding="5dp">
+        android:layout_margin="5dp"
+        android:background="@drawable/bg_round10dp_white">
 
         <com.bee.user.widget.MyGridView
             android:id="@+id/gridview"

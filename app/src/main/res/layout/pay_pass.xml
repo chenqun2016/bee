@@ -242,7 +242,8 @@
                 android:gravity="center"
                 android:scaleType="centerInside"
                 android:background="@drawable/selector_pay_del"
-                android:src="@drawable/ico_delete" />
+                android:src="@drawable/iconanjian" />
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

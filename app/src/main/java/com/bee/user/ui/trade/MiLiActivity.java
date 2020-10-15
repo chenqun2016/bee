@@ -2,12 +2,18 @@ package com.bee.user.ui.trade;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.gyf.immersionbar.ImmersionBar;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 
 import butterknife.BindView;
 
@@ -21,6 +27,13 @@ public class MiLiActivity extends BaseActivity {
     View statusheight;
 
 
+
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
+    @BindView(R.id.view_pager)
+    ViewPager2 vp;
+
+    String[] titles = new String[]{"在线充值", "充值卡/代金券"};
 
 
     @Override
@@ -38,5 +51,52 @@ public class MiLiActivity extends BaseActivity {
         ViewGroup.LayoutParams layoutParams = statusheight.getLayoutParams();
         layoutParams.height = ImmersionBar.getStatusBarHeight(this);
         statusheight.setLayoutParams(layoutParams);
+
+
+        int index = getIntent().getIntExtra("index", 0);
+
+
+
+        vp.setAdapter(new FragmentAdapter(this));
+//        vp.setUserInputEnabled(false);
+
+        new TabLayoutMediator(tabLayout, vp, (tab, position) -> {
+            tab.setText(titles[position]);
+        }).attach();
+
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                tabLayout.getTabAt(index).select();
+            }
+        });
+
     }
+
+
+    final class FragmentAdapter extends FragmentStateAdapter {
+
+
+        public FragmentAdapter(@NonNull FragmentActivity fragmentActivity) {
+            super(fragmentActivity);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            if(0 == position){
+                return new MiLiChongzhiFragment();
+            }else{
+                return new MiLiDaijinquanFragment();
+            }
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return titles.length;
+        }
+    }
+
+
 }
