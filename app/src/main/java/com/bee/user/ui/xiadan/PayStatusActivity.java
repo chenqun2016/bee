@@ -67,5 +67,10 @@ public class PayStatusActivity extends BaseActivity {
     public void initViews() {
 
         EventBus.getDefault().post(new CloseEvent());
+
+
+        iv_icon.setImageResource(R.drawable.icon_dengdaichuli);
+        iv_icon.setImageResource(R.drawable.icon_zhifushibai);
+        iv_icon.setImageResource(R.drawable.icon_zhifuchenggong);
     }
 }

@@ -4,4 +4,5 @@
     <dimen name="title_bar_height">44dp</dimen>
     <dimen name="bg_white_grey">120dp</dimen>
     <dimen name="bg_orange">190dp</dimen>
+    <dimen name="line_keyboard_pay">0.5dp</dimen>
 </resources>

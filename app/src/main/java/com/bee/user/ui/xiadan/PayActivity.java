@@ -6,7 +6,9 @@ import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.event.CloseEvent;
+import com.bee.user.ui.base.BaseDialog;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.widget.PayPassView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -45,32 +47,39 @@ public class PayActivity extends BaseActivity {
     }
 
     private void showPayDialog(){
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(R.layout.dialog_pay);
-        bottomSheetDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+        BaseDialog bottomSheetDialog = new BaseDialog(this){
             @Override
-            public void onClick(View view) {
-                if(null != bottomSheetDialog && bottomSheetDialog.isShowing()){
-                    bottomSheetDialog.dismiss();
-                }
+            protected int provideContentViewId() {
+                return R.layout.dialog_pay;
             }
-        });
-        TextView tv_pay = bottomSheetDialog.findViewById(R.id.tv_pay);
-        tv_pay.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
-                startActivity(new Intent(PayActivity.this,PayStatusActivity.class));
+            protected void initViews(BaseDialog dialog) {
+                dialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(null != dialog && dialog.isShowing()){
+                            dialog.dismiss();
+                        }
+                    }
+                });
+
+                PayPassView paypassview = dialog.findViewById(R.id.paypassview);
+                paypassview.setOnFinishInput(new PayPassView.OnPasswordInputFinish() {
+                    @Override
+                    public void inputFinish() {
+                        startActivity(new Intent(PayActivity.this,PayStatusActivity.class));
+                    }
+
+                    @Override
+                    public void inputFirst() {
+
+                    }
+                });
+
+
             }
-        });
-
-        bottomSheetDialog.setCanceledOnTouchOutside(false);
-        try {
-            bottomSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet)
-                    .setBackgroundResource(android.R.color.transparent);
-        }catch (Exception e){
-
-        }
-
+        };
         bottomSheetDialog.show();
     }
 

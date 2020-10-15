@@ -21,6 +21,7 @@ import com.bee.user.event.MainEvent;
 import com.bee.user.ui.adapter.MineGridviewAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.order.OrderActivity;
+import com.bee.user.ui.trade.MiLiActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.MyGridView;
@@ -63,7 +64,8 @@ public class MineFragment extends BaseFragment {
     MyGridView gridview;
 
     @OnClick({R.id.tv_icon,R.id.tv_name,R.id.tv_des,
-            R.id.tv_order_list, R.id.tv_daizhifu, R.id.tv_daishouhuo, R.id.tv_daipingjia, R.id.tv_shouhou})
+            R.id.tv_order_list, R.id.tv_daizhifu, R.id.tv_daishouhuo, R.id.tv_daipingjia, R.id.tv_shouhou,
+    R.id.tv_1})
     public void onClick(View view){
 
         switch (view.getId()){
@@ -96,8 +98,11 @@ public class MineFragment extends BaseFragment {
                 getContext().startActivity(OrderActivity.newInstance(getContext(),4));
                 break;
 
-        }
 
+            case R.id.tv_1:
+                getContext().startActivity(new Intent(getContext(), MiLiActivity.class));
+                break;
+        }
     }
 
 

@@ -15,11 +15,14 @@ import butterknife.OnClick;
  */
 public class AcountSafeActivity extends BaseActivity {
 
-    @OnClick({R.id.tv_mimalogin_text})
+    @OnClick({R.id.tv_mimalogin_text,R.id.tv_zhifumima_text})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_mimalogin_text:
                 startActivity(new Intent(this,SetPasswordActivity1.class));
+                break;
+            case R.id.tv_zhifumima_text:
+                startActivity(new Intent(this,SetPayPasswordActivity.class));
                 break;
         }
     }
