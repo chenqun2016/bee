@@ -1,5 +1,6 @@
 package com.bee.user.ui.trade;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,6 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.gyf.immersionbar.ImmersionBar;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 创建人：进京赶考
@@ -35,6 +37,11 @@ public class MiLiActivity extends BaseActivity {
 
     String[] titles = new String[]{"在线充值", "充值卡/代金券"};
 
+
+    @OnClick({R.id.trade_list})
+    public void onClick(View view){
+        startActivity(new Intent(this,TradeListActivity.class));
+    }
 
     @Override
     protected void initImmersionBar() {

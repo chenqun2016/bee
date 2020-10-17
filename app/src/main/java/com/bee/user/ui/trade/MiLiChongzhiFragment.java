@@ -1,10 +1,12 @@
 package com.bee.user.ui.trade;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,25 +27,35 @@ import java.util.ArrayList;
  * 描述：
  */
 public class MiLiChongzhiFragment extends BaseFragment {
+
+    MiLiChongzhiAdapter miLiChongzhiAdapter;
+    MyGridView gridview;
+
+    TextView tv_sure;
+
     @Override
     protected void getDatas() {
 
     }
-    MiLiChongzhiAdapter miLiChongzhiAdapter;
-    MyGridView gridview;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_milichongzhi,container,false);
         gridview  = view.findViewById(R.id.gridview);
-
+        tv_sure  = view.findViewById(R.id.tv_sure);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(),TradeStatusActivity.class));
+            }
+        });
 
         ArrayList<MiLiChongzhiBean> miLiChongzhiBeans = new ArrayList<>();
         miLiChongzhiBeans.add(new MiLiChongzhiBean("50米粒","送10米粒"));

@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+        android:id="@+id/tv_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -14,4 +15,105 @@
         android:text="卡号"
         android:textSize="16sp"
         android:textColor="@color/color_282626"/>
+
+
+
+    <EditText
+        android:id="@+id/card_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        app:layout_constraintLeft_toRightOf="@+id/tv_card"
+        app:layout_constraintTop_toTopOf="@+id/tv_card"
+        android:layout_marginLeft="18dp"
+        android:textSize="16sp"
+        android:hint="请输入12位卡号"
+        android:textColorHint="@color/color_ccc"/>
+
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_card"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/color_eee"/>
+
+
+    <TextView
+        android:id="@+id/tv_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/line1"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:text="密码"
+        android:textSize="16sp"
+        android:textColor="@color/color_282626"/>
+
+
+
+    <EditText
+        android:id="@+id/pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        app:layout_constraintLeft_toRightOf="@+id/tv_pass"
+        app:layout_constraintTop_toTopOf="@+id/tv_pass"
+        android:layout_marginLeft="18dp"
+        android:textSize="16sp"
+        android:hint="请输入6位密码"
+        android:textColorHint="@color/color_ccc"/>
+
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_pass"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/color_eee"/>
+    
+    
+    <TextView
+        android:id="@+id/tv_arror"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="60dp"
+        android:drawablePadding="10dp"
+        android:drawableLeft="@drawable/icon_cuowu"
+        android:text="对不起，您输入的卡号有误"
+        android:textColor="@color/color_FF564A"
+        android:textSize="14sp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:background="@drawable/btn_stroke_bg_yellow"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line2"/>
+
+
+    <TextView
+        android:id="@+id/tv_sure"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_arror"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:background="@drawable/btn_gradient_yellow_round"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="30dp"
+        android:text="立即兑换"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

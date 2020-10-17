@@ -20,6 +20,7 @@
         android:numColumns="3"/>
     
     <TextView
+        android:id="@+id/tv_sure"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:textColor="@color/white"
