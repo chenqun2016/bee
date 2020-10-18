@@ -114,6 +114,7 @@
         <activity android:name=".ui.trade.MiLiActivity" />
         <activity android:name=".ui.trade.TradeStatusActivity" />
         <activity android:name=".ui.trade.TradeListActivity" />
+        <activity android:name=".ui.trade.TradeDetailActivity" />
 
     </application>
 
