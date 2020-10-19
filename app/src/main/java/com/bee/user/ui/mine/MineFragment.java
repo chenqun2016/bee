@@ -75,7 +75,7 @@ public class MineFragment extends BaseFragment {
                 if(SPUtils.geTinstance().isLogin()){
                    startActivity(new Intent(getContext(),UserInfoActivity.class));
                 }else{
-                    EventBus.getDefault().post(new MainEvent());
+                    EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_login));
                 }
                 break;
 

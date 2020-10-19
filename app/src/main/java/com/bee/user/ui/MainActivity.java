@@ -475,13 +475,19 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainEvent(MainEvent event) {
 
-        if(mCanOneKeyLogin){
-            configLoginTokenPort();
+        if(MainEvent.TYPE_login == event.TYPE){
+            if(mCanOneKeyLogin){
+                configLoginTokenPort();
 
-            mAlicomAuthHelper.getLoginToken(MainActivity.this, 5000);
-        }else{
-            startActivity(new Intent(MainActivity.this, CodeLoginActivity.class));
+                mAlicomAuthHelper.getLoginToken(MainActivity.this, 5000);
+            }else{
+                startActivity(new Intent(MainActivity.this, CodeLoginActivity.class));
+            }
+        }else if(MainEvent.TYPE_set_index == event.TYPE){
+            onPageSelected(event.index);
+            mIndicator.setCurrentItem(event.index);
         }
+
     }
 
 }

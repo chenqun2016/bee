@@ -105,6 +105,7 @@
             android:layout_height="wrap_content"
             android:text="亲爱的顾客，感谢您的好评，我们将再接再厉提供更好的
 服务，期待您再次点餐！"
+            android:lineSpacingExtra="4dp"
             android:textSize="13sp"
             android:layout_marginTop="8dp"
             android:textColor="@color/color_282525"/>

@@ -25,6 +25,7 @@ import com.bee.user.ui.adapter.HomeGridview2Adapter;
 import com.bee.user.ui.adapter.HomeGridviewAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.nearby.FoodActivity;
+import com.bee.user.ui.search.SearchActivity;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.MyGridView;
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -75,9 +76,12 @@ public class HomeFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.ll_tongzhi,R.id.iv_msg})
+    @OnClick({R.id.ll_tongzhi,R.id.iv_msg,R.id.ll_search})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ll_search:
+                startActivity(new Intent(getContext(), SearchActivity.class));
+                break;
             case R.id.iv_msg:
                 startActivity(new Intent(getContext(),NewsActivity.class));
                 break;

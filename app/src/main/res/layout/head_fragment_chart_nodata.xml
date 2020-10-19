@@ -21,6 +21,7 @@
 
 
         <ImageView
+            android:id="@+id/iv_icon"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:layout_width="200dp"
@@ -28,6 +29,7 @@
             android:src="@color/color_FF6100"/>
 
         <TextView
+            android:id="@+id/tv_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -37,6 +39,7 @@
             android:text="还没有可结算的商品"/>
 
         <TextView
+            android:id="@+id/tv_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -46,6 +49,7 @@
             android:text="可以去看看有哪些想买的"/>
 
         <TextView
+            android:id="@+id/tv_guangguang"
             android:layout_width="230dp"
             android:layout_height="40dp"
             android:layout_marginTop="25dp"
@@ -60,13 +64,15 @@
 
     <TextView
         android:id="@+id/tv_tag"
-        android:layout_width="240dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_empty"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="20dp"
         android:text="为你推荐附近精选"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
         android:textColor="@color/color_282525"
         android:textSize="16sp"
         android:gravity="center"
