@@ -18,6 +18,7 @@ import com.bee.user.bean.StoreBean;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.ToastUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +33,7 @@ import java.util.List;
  * 创建时间：2020/10/19  21：16
  * 描述：
  */
-public class NearbyAdapter extends BaseQuickAdapter<StoreBean, BaseViewHolder> {
+public class NearbyAdapter extends BaseQuickAdapter<StoreBean, BaseViewHolder> implements LoadMoreModule {
     public NearbyAdapter() {
         super(R.layout.item_nearby);
     }

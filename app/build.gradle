@@ -112,4 +112,5 @@ dependencies {
     implementation project(':bottomindicator')
     implementation project(':base')
     implementation project(':crecyclerview')
+    implementation project(':citypicker')
 }

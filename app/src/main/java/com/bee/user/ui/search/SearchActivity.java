@@ -27,6 +27,7 @@ import com.bee.user.ui.adapter.TagsAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.nearby.FoodActivity;
 import com.bee.user.ui.nearby.StoreActivity;
+import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.widget.ClearEditText;
 import com.bee.user.widget.FlowTagLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -189,15 +190,10 @@ public class SearchActivity extends BaseActivity {
             }
         });
 
-        ArrayList<StoreBean> beans = new ArrayList<StoreBean>();
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
-        nearbyAdapter.setNewInstance(beans);
+        LoadmoreUtils loadmoreUtils = new LoadmoreUtils(StoreBean.class);
+        loadmoreUtils.initLoadmore(nearbyAdapter);
+        loadmoreUtils.refresh(nearbyAdapter);
+
     }
 
 

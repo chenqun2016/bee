@@ -1,3 +1,4 @@
+include ':citypicker'
 include ':crecyclerview'
 include ':bottomindicator'
 include ':base'

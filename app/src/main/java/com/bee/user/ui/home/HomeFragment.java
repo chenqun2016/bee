@@ -3,13 +3,17 @@ package com.bee.user.ui.home;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +24,7 @@ import com.bee.user.bean.HomeGridview2Bean;
 import com.bee.user.entity.LunchEntity;
 import com.bee.user.entity.NearbyEntity;
 import com.bee.user.ui.CRecyclerViewActivity;
+import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.adapter.HomeGridview2Adapter;
 import com.bee.user.ui.adapter.HomeGridviewAdapter;
@@ -35,6 +40,12 @@ import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.zaaach.citypicker.CityPicker;
+import com.zaaach.citypicker.adapter.OnPickListener;
+import com.zaaach.citypicker.model.City;
+import com.zaaach.citypicker.model.HotCity;
+import com.zaaach.citypicker.model.LocateState;
+import com.zaaach.citypicker.model.LocatedCity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +71,10 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.recyclerview)
     public RecyclerView recyclerview;
 
+    @BindView(R.id.tv_dingwei)
+    TextView tv_dingwei;
+
+
     private List<BannerBean> adsList = new ArrayList<>();//banner数据
     private Dialog dingweiDialog;
 
@@ -76,9 +91,12 @@ public class HomeFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.ll_tongzhi,R.id.iv_msg,R.id.ll_search})
+    @OnClick({R.id.ll_tongzhi,R.id.iv_msg,R.id.ll_search,R.id.tv_dingwei})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_dingwei:
+               showCityPicker();
+                break;
             case R.id.ll_search:
                 startActivity(new Intent(getContext(), SearchActivity.class));
                 break;
@@ -298,5 +316,53 @@ public class HomeFragment extends BaseFragment {
 
     }
 
+    public void showCityPicker(){
+        MainActivity activity = (MainActivity) getActivity();
+        List<HotCity> hotCities = new ArrayList<>();
+        hotCities.add(new HotCity("北京", "北京", "101010100"));
+        hotCities.add(new HotCity("上海", "上海", "101020100"));
+        hotCities.add(new HotCity("广州", "广东", "101280101"));
+        hotCities.add(new HotCity("深圳", "广东", "101280601"));
+        hotCities.add(new HotCity("杭州", "浙江", "101210101"));
+
+
+        activity.setStatusBar(1);
+        CityPicker.from(this)
+                .enableAnimation(true)
+                .setAnimationStyle(R.style.DefaultCityPickerAnimation)
+                .setLocatedCity(null)
+                .setHotCities(hotCities)
+                .setOnPickListener(new OnPickListener() {
+                    @Override
+                    public void onPick(int position, City data) {
+                        tv_dingwei.setText(data.getName());
+                        Toast.makeText(
+                                getContext(),
+                                String.format("点击的数据：%s，%s", data.getName(), data.getCode()),
+                                Toast.LENGTH_SHORT)
+                                .show();
+
+                        activity.setStatusBar(0);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        activity.setStatusBar(0);
+                        Toast.makeText(getContext(), "取消选择", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onLocate() {
+                        //开始定位，这里模拟一下定位
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                CityPicker.from(HomeFragment.this).locateComplete(new LocatedCity("深圳", "广东", "101280601"), LocateState.SUCCESS);
+                            }
+                        }, 3000);
+                    }
+                })
+                .show();
+    }
 
 }

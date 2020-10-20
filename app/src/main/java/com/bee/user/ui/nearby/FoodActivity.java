@@ -124,7 +124,12 @@ public class FoodActivity extends BaseActivity {
         View bottom = View.inflate(this, R.layout.bottom_food_list, null);
         mAdapter.addFooterView(bottom);
 
-        List<CommentBean> sampleData = CommentFragment.getSampleData(5);
+        List<CommentBean> sampleData = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            CommentBean status = new CommentBean();
+            sampleData.add(status);
+        }
+
         mAdapter.setList(sampleData);
 
         initBanner();

@@ -55,7 +55,12 @@ public class CommentActivity extends BaseActivity {
         recyclerview.setAdapter(mAdapter);
         mAdapter.getLoadMoreModule().setEnableLoadMore(false);
 
-        List<CommentBean> sampleData = CommentFragment.getSampleData(5);
+        List<CommentBean> sampleData = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            CommentBean status = new CommentBean();
+            sampleData.add(status);
+        }
+
         mAdapter.setList(sampleData);
 
 //        rgp_tags.check(R.id.rb_1);

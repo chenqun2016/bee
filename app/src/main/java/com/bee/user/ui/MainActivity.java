@@ -164,6 +164,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 break;
         }
     }
+    public void setStatusBar(int a){
+        if(a == 0){
+            status_bar.setBackgroundResource(R.drawable.btn_gradient_yellow);
+        }else{
+            status_bar.setBackgroundResource(R.color.white);
+        }
+    }
 
     @Override
     public void onPageScrollStateChanged(int state) {
