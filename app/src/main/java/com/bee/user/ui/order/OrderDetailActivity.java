@@ -2,10 +2,12 @@ package com.bee.user.ui.order;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,19 +17,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.Constants;
 import com.bee.user.R;
+import com.bee.user.bean.OrderGridviewItemBean;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.TraceBean;
 import com.bee.user.ui.adapter.OrderCancelAdapter;
 import com.bee.user.ui.adapter.OrderDetailAdapter;
+import com.bee.user.ui.adapter.OrderGridviewItemAdapter;
 import com.bee.user.ui.adapter.OrderTraceAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.nearby.CommentActivity;
+import com.bee.user.ui.xiadan.OrderingActivity;
+import com.bee.user.ui.xiadan.PayActivity;
 import com.bee.user.utils.CommonUtil;
+import com.bee.user.widget.MyGridView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -37,6 +45,8 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+
+import static com.bee.user.bean.OrderGridviewItemBean.TYPE_reOrder;
 
 /**
  * 创建人：进京赶考
@@ -180,18 +190,46 @@ public class OrderDetailActivity extends BaseActivity {
 
     //退款中
     private void initHeadViewtuikuan(View head) {
+        MyGridView gridview_tuikuan = head.findViewById(R.id.gridview_tuikuan);
 
+        ArrayList<OrderGridviewItemBean> beans = new ArrayList<>();
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cancel_Order_beihuo,R.drawable.icon_quxiaodingdan,"取消订单",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cuidan,R.drawable.icon_cuidan,"催单",R.color.color_ccc));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_change_order,R.drawable.icon_gaidingdanxinxi,"改订单信息",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_rider,R.drawable.icon_lianxiqishou,"联系骑手",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_shop,R.drawable.icon_lianxishangjia,"联系商家",R.color.color_3B3838));
+
+
+        setGridviewAdapter(gridview_tuikuan,beans);
+
+    }
+
+    private void setGridviewAdapter(MyGridView gridview_tuikuan, ArrayList<OrderGridviewItemBean> beans) {
+        OrderGridviewItemAdapter adapter = new OrderGridviewItemAdapter(this,beans);
+        gridview_tuikuan.setAdapter(adapter);
+        gridview_tuikuan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                performGridviewClick(adapter,i);
+            }
+        });
     }
 
     //备货
     private void initHeadViewbeihuo(View head) {
-        TextView tv_cancer_order = head.findViewById(R.id.tv_cancer_order);
-        tv_cancer_order.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showCancelConfirmDialog();
-            }
-        });
+
+        MyGridView gridview_beihuo = head.findViewById(R.id.gridview_beihuo);
+
+        ArrayList<OrderGridviewItemBean> beans = new ArrayList<>();
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cancel_Order_beihuo,R.drawable.icon_quxiaodingdan,"取消订单",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cuidan,R.drawable.icon_cuidan,"催单",R.color.color_ccc));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_change_order,R.drawable.icon_gaidingdanxinxi,"改订单信息",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_rider,R.drawable.icon_lianxiqishou,"联系骑手",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_shop,R.drawable.icon_lianxishangjia,"联系商家",R.color.color_3B3838));
+
+        setGridviewAdapter(gridview_beihuo,beans);
+
+
 
         TextView tv_jingkuai = head.findViewById(R.id.tv_jingkuai);
 
@@ -206,13 +244,16 @@ public class OrderDetailActivity extends BaseActivity {
 
     //等待支付
     private void initHeadViewWaite(View head) {
-        TextView tv_cancel_waite = head.findViewById(R.id.tv_cancel_waite);
-        tv_cancel_waite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showCancelDialog();
-            }
-        });
+        MyGridView gridview_3 = head.findViewById(R.id.gridview_3);
+
+        ArrayList<OrderGridviewItemBean> beans = new ArrayList<>();
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cancel_Order,R.drawable.icon_quxiaodingdan,"取消订单",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_shop,R.drawable.icon_lianxishangjia,"联系商家",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_pay_now,R.drawable.icon_lijizhifu,"立即支付",R.color.color_FF6200));
+
+        setGridviewAdapter(gridview_3,beans);
+
+
 
         TextView tv_des = head.findViewById(R.id.tv_des);
 
@@ -231,24 +272,59 @@ public class OrderDetailActivity extends BaseActivity {
 
     //    默认
     private void initHeadView(View head) {
-        TextView tv_shouhou = head.findViewById(R.id.tv_shouhou);
-        tv_shouhou.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(OrderDetailActivity.this, ShouHouActivity.class);
-                startActivity(intent);
-            }
-        });
+        ArrayList<OrderGridviewItemBean> beans = new ArrayList<>();
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_reOrder,R.drawable.icon_zailaiyidan,"再来一单",R.color.color_FF6200));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_comment,R.drawable.icon_pinglundefen,"评价得积分",R.color.color_FF6200));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_shouhou,R.drawable.icon_shouhou,"申请售后",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_shop,R.drawable.icon_lianxishangjia,"联系商家",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_rider,R.drawable.icon_lianxiqishou,"联系骑手",R.color.color_3B3838));
 
+        MyGridView gridview_complete = head.findViewById(R.id.gridview_complete);
+        setGridviewAdapter(gridview_complete,beans);
+    }
 
-        TextView tv_comment = head.findViewById(R.id.tv_comment);
-        tv_comment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(OrderDetailActivity.this, OrderCommentActivity.class);
-                startActivity(intent);
+    private void performGridviewClick(OrderGridviewItemAdapter orderGridviewItemAdapter, int i) {
+        OrderGridviewItemBean bean = orderGridviewItemAdapter.getList().get(i);
+        if(null != bean){
+            int type =  bean.type;
+
+            Intent intent;
+            switch (type){
+                case OrderGridviewItemBean.TYPE_reOrder://再来一单
+                    startActivity(OrderingActivity.newIntent(this,new ArrayList<StoreBean>()));
+                    break;
+                case OrderGridviewItemBean.TYPE_comment://评价得积分
+                    intent = new Intent(OrderDetailActivity.this, OrderCommentActivity.class);
+                    startActivity(intent);
+                    break;
+                case OrderGridviewItemBean.TYPE_shouhou://申请售后
+                    intent = new Intent(OrderDetailActivity.this, ShouHouActivity.class);
+                    startActivity(intent);
+                    break;
+                case OrderGridviewItemBean.TYPE_contact_shop://联系商家
+                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "10086")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    break;
+                case OrderGridviewItemBean.TYPE_contact_rider://联系骑手
+                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "10010")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    break;
+                case OrderGridviewItemBean.TYPE_pay_now://立即支付
+                   startActivity(PayActivity.newIntent(this,new ArrayList<StoreBean>()));
+                    break;
+                case OrderGridviewItemBean.TYPE_cancel_Order://取消订单
+                    showCancelDialog();
+                    break;
+                case OrderGridviewItemBean.TYPE_cancel_Order_beihuo://取消订单_正在备货
+                    showCancelConfirmDialog();
+                    break;
+                case OrderGridviewItemBean.TYPE_cuidan://催单
+
+                    break;
+                case OrderGridviewItemBean.TYPE_change_order://改订单信息
+
+                    break;
+
             }
-        });
+        }
     }
 
     private void initFootView(View foot) {

@@ -46,91 +46,17 @@
         android:layout_marginTop="15dp"
         android:background="@color/color_F5F5F5" />
 
-    <LinearLayout
-        android:id="@+id/ll_1"
+
+    <com.bee.user.widget.MyGridView
+        android:id="@+id/gridview_beihuo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view_line"
         android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+        android:verticalSpacing="20dp"
+        android:cacheColorHint="@color/white"
+        android:scrollbars="none"
+        android:numColumns="3"/>
 
-        <TextView
-            android:id="@+id/tv_cancer_order"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/icon_link"
-            android:drawablePadding="8dp"
-            android:gravity="center"
-            android:text="取消订单"
-            android:textColor="@color/color_3B3838"
-            android:textSize="13sp"
-            android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/icon_link"
-            android:drawablePadding="8dp"
-            android:gravity="center"
-            android:text="催单"
-            android:textColor="@color/color_ccc"
-            android:textSize="13sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/icon_link"
-            android:drawablePadding="8dp"
-            android:gravity="center"
-            android:text="改订单信息"
-            android:textColor="@color/color_3B3838"
-            android:textSize="13sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_1"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/icon_link"
-            android:drawablePadding="8dp"
-            android:gravity="center"
-            android:text="联系骑手"
-            android:textColor="@color/color_3B3838"
-            android:textSize="13sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@drawable/icon_link"
-            android:drawablePadding="8dp"
-            android:gravity="center"
-            android:text="联系商家"
-            android:textColor="@color/color_3B3838"
-            android:textSize="13sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text=""
-            android:textColor="@color/color_3B3838"
-            android:textSize="13sp" />
-    </LinearLayout>
 </RelativeLayout>

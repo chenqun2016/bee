@@ -26,86 +26,15 @@
             android:text="感谢您对趣鲜蜂的信任，期待再次光临！"/>
 
 
-        <LinearLayout
+        <com.bee.user.widget.MyGridView
+            android:id="@+id/gridview_complete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:drawablePadding="8dp"
-                android:drawableTop="@drawable/icon_link"
-                android:textColor="@color/FF6200"
-                android:text="再来一单"/>
-            <TextView
-                android:id="@+id/tv_comment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:drawablePadding="8dp"
-                android:drawableTop="@drawable/icon_link"
-                android:textColor="@color/FF6200"
-                android:text="评价得积分"/>
-            <TextView
-                android:id="@+id/tv_shouhou"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="13sp"
-                android:drawablePadding="8dp"
-                android:drawableTop="@drawable/icon_link"
-                android:textColor="@color/color_3B3838"
-                android:text="申请售后"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:drawablePadding="8dp"
-                android:drawableTop="@drawable/icon_link"
-                android:textColor="@color/color_3B3838"
-                android:text="联系商家"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textStyle="bold"
-                android:textSize="13sp"
-                android:drawablePadding="8dp"
-                android:drawableTop="@drawable/icon_link"
-                android:textColor="@color/color_3B3838"
-                android:text="联系骑手"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="13sp"
-                android:textColor="@color/color_3B3838"
-                android:text=""/>
-        </LinearLayout>
+            android:layout_marginTop="30dp"
+            android:verticalSpacing="20dp"
+            android:cacheColorHint="@color/white"
+            android:scrollbars="none"
+            android:numColumns="3"/>
     </LinearLayout>
 
 

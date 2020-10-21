@@ -1,10 +1,12 @@
 package com.bee.user.ui.xiadan;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bee.user.R;
+import com.bee.user.bean.StoreBean;
 import com.bee.user.event.CloseEvent;
 import com.bee.user.ui.base.BaseDialog;
 import com.bee.user.ui.base.activity.BaseActivity;
@@ -14,6 +16,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.Serializable;
+import java.util.List;
 
 import butterknife.OnClick;
 
@@ -39,6 +44,11 @@ public class PayActivity extends BaseActivity {
         EventBus.getDefault().register(this);
     }
 
+    public static Intent newIntent(Context context, List<StoreBean> datas) {
+        Intent intent = new Intent(context, PayActivity.class);
+        intent.putExtra("data", (Serializable) datas);
+        return intent;
+    }
 
     @Override
     protected void onDestroy() {

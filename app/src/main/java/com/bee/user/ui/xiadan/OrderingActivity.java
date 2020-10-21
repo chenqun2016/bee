@@ -1,6 +1,8 @@
 package com.bee.user.ui.xiadan;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -35,7 +37,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -67,6 +71,12 @@ public class OrderingActivity extends BaseActivity {
                 break;
 
         }
+    }
+
+   public static Intent newIntent(Context context, List<StoreBean> datas) {
+       Intent intent = new Intent(context, OrderingActivity.class);
+       intent.putExtra("data", (Serializable) datas);
+        return intent;
     }
 
     @Override

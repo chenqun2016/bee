@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.OrderBean;
+import com.bee.user.bean.StoreBean;
 import com.bee.user.ui.order.OrderCommentActivity;
 import com.bee.user.ui.order.OrderDetailActivity;
 import com.bee.user.ui.order.OrderingMapActivity;
@@ -92,8 +93,7 @@ public class OrderEntity extends BaseCEntity<OrderBean> {
                     tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(mContext, PayActivity.class);
-                            mContext.startActivity(intent);
+                            mContext.startActivity(PayActivity.newIntent(mContext,new ArrayList<StoreBean>()));
                         }
                     });
                     type.setText("等待支付");
@@ -106,8 +106,7 @@ public class OrderEntity extends BaseCEntity<OrderBean> {
                     tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(mContext, OrderingActivity.class);
-                            mContext.startActivity(intent);
+                            mContext.startActivity(OrderingActivity.newIntent(mContext,new ArrayList<StoreBean>()));
                         }
                     });
 
