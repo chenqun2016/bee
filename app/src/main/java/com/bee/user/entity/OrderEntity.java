@@ -86,7 +86,7 @@ public class OrderEntity extends BaseCEntity<OrderBean> {
         });
 
         switch (item.type){
-                case 0:
+
                 case 1:
                     map.setVisibility(View.VISIBLE);
                     tv_zailaiyidan.setText("去支付");
@@ -100,6 +100,7 @@ public class OrderEntity extends BaseCEntity<OrderBean> {
                     type.setTextColor(type.getResources().getColor(R.color.FF6200));
                     tv_pinglun.setVisibility(View.GONE);
                     break;
+                case 0:
                 case 2:
                     map.setVisibility(View.GONE);
                     tv_zailaiyidan.setText("再来一单");

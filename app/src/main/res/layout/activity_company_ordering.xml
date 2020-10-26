@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    <!--    <View-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="@dimen/bg_white_grey"-->
+    <!--        android:background="@drawable/bg_gradient_white_grey" />-->
+
+
+    <ImageButton
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/transparent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/icon_back_anse"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="我的评价"
+        android:textColor="@color/color_282626"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_title"
+        android:layout_marginTop="5sp"
+        android:scrollbars="none">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/tv_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:lineSpacingExtra="10dp"
+                android:text="感谢您咨询趣鲜蜂企业订餐，请如实填写以下信息，我们将在3个工作日之内与您取得联系。\n如您希望立即与我们联系，请拨打企业合作热线：4000-XXXX-XXXX（工作时间周一至周五9:00-18:00）"
+                android:textColor="@color/color_282525"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_F5F5F5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_1" />
+
+            <TextView
+                android:id="@+id/tv_qiye"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="企业名称"
+                android:textColor="@color/color_282525"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+            <EditText
+                android:id="@+id/tv_qiye_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/transparent"
+                android:hint="请填写企业名称"
+                android:textColor="@color/color_3B3838"
+                android:textColorHint="@color/color_7C7877"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_qiye"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_F5F5F5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_qiye_text" />
+
+
+            <TextView
+                android:id="@+id/tv_chengshi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="所在城市"
+                android:textColor="@color/color_282525"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line2" />
+
+            <TextView
+                android:id="@+id/tv_chengshi_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:background="@color/transparent"
+                android:drawableRight="@drawable/icon_link"
+                android:hint="请选城市"
+                android:textColor="@color/color_3B3838"
+                android:textColorHint="@color/color_7C7877"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_qiye_text"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_chengshi" />
+
+            <View
+                android:id="@+id/line3"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_F5F5F5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_chengshi_text" />
+
+
+            <TextView
+                android:id="@+id/tv_guimo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="企业规模"
+                android:textColor="@color/color_282525"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line3" />
+
+            <EditText
+                android:id="@+id/tv_guimo_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:hint="请填写员工人数"
+                android:textColor="@color/color_3B3838"
+                android:textColorHint="@color/color_7C7877"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_qiye_text"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_guimo" />
+
+            <View
+                android:id="@+id/line4"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_F5F5F5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_guimo_text" />
+
+
+            <TextView
+                android:id="@+id/tv_lianxiren"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="联系人"
+                android:textColor="@color/color_282525"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line4" />
+
+            <EditText
+                android:id="@+id/tv_lianxiren_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:hint="请填写联系人姓名"
+                android:textColor="@color/color_3B3838"
+                android:textColorHint="@color/color_7C7877"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_qiye_text"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_lianxiren" />
+
+            <View
+                android:id="@+id/line5"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_F5F5F5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_lianxiren_text" />
+
+
+            <com.bee.user.widget.RadioGroupPlus
+                android:id="@+id/rgp_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_lianxiren_text"
+                app:layout_constraintTop_toBottomOf="@+id/line5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_1"
+                        android:layout_width="60dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/bg_new_address"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="女士"
+                        android:textColor="@drawable/color_new_address"
+                        android:textSize="13sp" />
+
+                    <RadioButton
+                        android:id="@+id/rb_2"
+                        android:layout_width="60dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/bg_new_address"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="先生"
+                        android:textColor="@drawable/color_new_address"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+            </com.bee.user.widget.RadioGroupPlus>
+
+            <View
+                android:id="@+id/line6"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_F5F5F5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line5" />
+
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="联系人"
+                android:textColor="@color/color_282525"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line6" />
+
+            <EditText
+                android:id="@+id/tv_phone_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:hint="请填写联系人姓名"
+                android:textColor="@color/color_3B3838"
+                android:textColorHint="@color/color_7C7877"
+                android:textSize="13sp"
+                app:layout_constraintLeft_toLeftOf="@+id/tv_qiye_text"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_phone" />
+
+            <View
+                android:id="@+id/line7"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_F5F5F5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_phone_text" />
+
+
+            <TextView
+                android:id="@+id/tv_agree"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="30dp"
+                android:background="@drawable/btn_gradient_grey_round"
+                android:gravity="center"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line7" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

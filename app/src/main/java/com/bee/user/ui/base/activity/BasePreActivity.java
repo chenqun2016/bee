@@ -36,6 +36,7 @@ public class BasePreActivity extends AppCompatActivity {
     protected void setCanScreenshort(boolean mCanScreenshort) {
         this.mCanScreenshort = mCanScreenshort;
     }
+    //需要在super.onCreate之前调用。
     public void setmAdjustView(boolean mAdjustView) {
         this.mAdjustView = mAdjustView;
     }

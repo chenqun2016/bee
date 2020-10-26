@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="290dp"
+    android:background="@drawable/bg_round10dp_white"
+    android:layout_height="wrap_content">
+
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/color_282626"
+        android:textSize="17sp"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/tv_title"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:padding="10dp"
+        android:src="@drawable/icon_guanbi" />
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_fankui"
+        android:layout_marginTop="39dp"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/tv_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:layout_marginBottom="35dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/color_3B3838"
+        android:layout_below="@+id/icon"
+        android:layout_marginTop="15dp"
+        android:text="提交成功，谢谢您的反馈！"/>
+
+
+</RelativeLayout>

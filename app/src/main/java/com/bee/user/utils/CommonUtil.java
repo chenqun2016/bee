@@ -1,8 +1,10 @@
 package com.bee.user.utils;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -15,14 +17,25 @@ import com.bee.user.R;
 import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.ImageBean;
+import com.bee.user.bean.OrderGridviewItemBean;
+import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.TraceBean;
 import com.bee.user.ui.adapter.CommentImagesAdapter;
+import com.bee.user.ui.adapter.OrderCancelAdapter;
 import com.bee.user.ui.adapter.OrderFoodAdapter;
+import com.bee.user.ui.adapter.OrderGridviewItemAdapter;
 import com.bee.user.ui.adapter.OrderTraceAdapter;
+import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.nearby.ImagesActivity;
+import com.bee.user.ui.order.OrderCommentActivity;
+import com.bee.user.ui.order.OrderDetailActivity;
+import com.bee.user.ui.order.ShouHouActivity;
+import com.bee.user.ui.xiadan.OrderingActivity;
+import com.bee.user.ui.xiadan.PayActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,5 +126,128 @@ public class CommonUtil {
 
         OrderFoodAdapter adapter = new OrderFoodAdapter(foodBeans);
         recyclerView.setAdapter(adapter);
+    }
+
+    public static void performOrderGridviewClick(BaseActivity activity, OrderGridviewItemAdapter adapter, int i) {
+        OrderGridviewItemBean bean = adapter.getList().get(i);
+        if(null != bean){
+            int type =  bean.type;
+
+            Intent intent;
+            switch (type){
+                case OrderGridviewItemBean.TYPE_reOrder://再来一单
+                    activity. startActivity(OrderingActivity.newIntent(activity,new ArrayList<StoreBean>()));
+                    break;
+                case OrderGridviewItemBean.TYPE_comment://评价得积分
+                    intent = new Intent(activity, OrderCommentActivity.class);
+                    activity.  startActivity(intent);
+                    break;
+                case OrderGridviewItemBean.TYPE_shouhou://申请售后
+                    intent = new Intent(activity, ShouHouActivity.class);
+                    activity.  startActivity(intent);
+                    break;
+                case OrderGridviewItemBean.TYPE_contact_shop://联系商家
+                    callPhone(activity,"10010");
+                    break;
+                case OrderGridviewItemBean.TYPE_contact_rider://联系骑手
+                    callPhone(activity,"10086");
+                    break;
+                case OrderGridviewItemBean.TYPE_pay_now://立即支付
+                    activity.  startActivity(PayActivity.newIntent(activity,new ArrayList<StoreBean>()));
+                    break;
+                case OrderGridviewItemBean.TYPE_cancel_Order://取消订单
+                    showCancelDialog(activity);
+                    break;
+                case OrderGridviewItemBean.TYPE_cancel_Order_beihuo://取消订单_正在备货
+                    showCancelConfirmDialog(activity,bean);
+                    break;
+                case OrderGridviewItemBean.TYPE_cuidan://催单
+
+                    break;
+                case OrderGridviewItemBean.TYPE_change_order://改订单信息
+
+                    break;
+
+            }
+        }
+    }
+
+    private static void callPhone(Context c,String s) {
+        c.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + s)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+    }
+
+    //    取消订单dialog
+    private static void showCancelDialog(BaseActivity activity) {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(activity);
+        bottomSheetDialog.setContentView(R.layout.dialog_order_detail_cancel);
+        bottomSheetDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (null != bottomSheetDialog && bottomSheetDialog.isShowing()) {
+                    bottomSheetDialog.dismiss();
+                }
+            }
+        });
+        RecyclerView recyclerview = bottomSheetDialog.findViewById(R.id.recyclerview);
+        recyclerview.setLayoutManager(new LinearLayoutManager(activity));
+        OrderCancelAdapter orderTraceAdapter = new OrderCancelAdapter();
+        recyclerview.setAdapter(orderTraceAdapter);
+        orderTraceAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                orderTraceAdapter.selected = position;
+                orderTraceAdapter.notifyDataSetChanged();
+
+            }
+        });
+
+        ArrayList<String> beans = new ArrayList<>();
+        beans.add("忘记使用红包");
+        beans.add("信息填写错误");
+        beans.add("送达时间选错了");
+        beans.add("买错了/买少了");
+        beans.add("我不想要了");
+        orderTraceAdapter.setNewInstance(beans);
+
+
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+        try {
+            bottomSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet)
+                    .setBackgroundResource(android.R.color.transparent);
+        } catch (Exception e) {
+
+        }
+
+        bottomSheetDialog.show();
+    }
+    //    取消订单dialog
+    private static void showCancelConfirmDialog(BaseActivity activity, OrderGridviewItemBean bean) {
+        Dialog dialog = new Dialog(activity, R.style.loadingDialogTheme);
+        View inflate = View.inflate(activity, R.layout.dialog_order_detail_cancel_confirm, null);
+        inflate.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (null != dialog && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        inflate.findViewById(R.id.tv_cancer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (null != dialog && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        inflate.findViewById(R.id.tv_contact).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callPhone(activity,"10086");
+            }
+        });
+
+        dialog.setContentView(inflate);
+        dialog.show();
     }
 }

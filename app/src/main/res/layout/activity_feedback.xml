@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bg_white_grey"
+        android:background="@drawable/bg_gradient_white_grey" />
+
+    <ImageButton
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/transparent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/icon_back_anse" />
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_centerHorizontal="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="意见反馈"
+        android:textColor="@color/color_282626"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar_title"
+        android:layout_marginTop="25dp"
+        android:overScrollMode="never"
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_round10dp_white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="请选择您要反馈的问题类型"
+                android:textColor="@color/color_282525"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <com.bee.user.widget.FlowTagLayout
+                android:id="@+id/tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:id="@+id/et_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@drawable/bg_round10dp_grey"
+                    android:gravity="start"
+                    android:hint="请描述您的详细问题，以便我们尽快为您处理(必填)"
+                    android:textColorHint="@color/color_ccc"
+                    android:inputType="textMultiLine"
+                    android:maxLength="50"
+                    android:maxLines="3"
+                    android:padding="10dp"
+                    android:textColor="@color/color_282525"
+                    android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/tv_paizhao"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/xuxian_xiao"
+                    android:drawableTop="@drawable/icon_xiangji"
+                    android:gravity="center"
+                    android:paddingTop="15dp"
+                    android:text="上传凭证"
+                    android:textColor="@color/color_CBCBCB"
+                    android:textSize="11sp" />
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="请输入联系信息(选填)"
+                android:textColor="@color/color_282525"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:background="@color/transparent"
+                android:gravity="center_vertical"
+                android:hint="请输入联系人姓名"
+                android:inputType="text"
+                android:textColor="@color/color_3B3838"
+                android:textColorHint="@color/color_ccc"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="20dp"
+                android:background="@color/color_eee" />
+
+            <EditText
+                android:id="@+id/et_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:background="@color/transparent"
+                android:gravity="center_vertical"
+                android:hint="请输入联系人电话"
+                android:inputType="text"
+                android:textColor="@color/color_3B3838"
+                android:textColorHint="@color/color_ccc"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="20dp"
+                android:background="@color/color_eee" />
+
+            <TextView
+                android:id="@+id/tv_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:visibility="gone"
+                android:background="@color/transparent"
+                android:gravity="center_vertical"
+                android:text="手机号码有误，请重新输入！"
+                android:textColor="@color/color_FF564A"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:id="@+id/tv_agree"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="30dp"
+                android:background="@drawable/btn_gradient_grey_round"
+                android:gravity="center"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

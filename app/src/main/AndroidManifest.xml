@@ -117,6 +117,9 @@
         <activity android:name=".ui.trade.TradeListActivity" />
         <activity android:name=".ui.trade.TradeDetailActivity" />
         <activity android:name=".ui.search.SearchActivity" />
+        <activity android:name=".ui.mine.FeedbackActivity" />
+        <activity android:name=".ui.mine.MyCommentActivity" />
+        <activity android:name=".ui.mine.CompanyOrderingActivity" />
 
     </application>
 

@@ -210,7 +210,7 @@ public class OrderDetailActivity extends BaseActivity {
         gridview_tuikuan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                performGridviewClick(adapter,i);
+                CommonUtil.performOrderGridviewClick(OrderDetailActivity.this,adapter,i);
             }
         });
     }
@@ -283,49 +283,6 @@ public class OrderDetailActivity extends BaseActivity {
         setGridviewAdapter(gridview_complete,beans);
     }
 
-    private void performGridviewClick(OrderGridviewItemAdapter orderGridviewItemAdapter, int i) {
-        OrderGridviewItemBean bean = orderGridviewItemAdapter.getList().get(i);
-        if(null != bean){
-            int type =  bean.type;
-
-            Intent intent;
-            switch (type){
-                case OrderGridviewItemBean.TYPE_reOrder://再来一单
-                    startActivity(OrderingActivity.newIntent(this,new ArrayList<StoreBean>()));
-                    break;
-                case OrderGridviewItemBean.TYPE_comment://评价得积分
-                    intent = new Intent(OrderDetailActivity.this, OrderCommentActivity.class);
-                    startActivity(intent);
-                    break;
-                case OrderGridviewItemBean.TYPE_shouhou://申请售后
-                    intent = new Intent(OrderDetailActivity.this, ShouHouActivity.class);
-                    startActivity(intent);
-                    break;
-                case OrderGridviewItemBean.TYPE_contact_shop://联系商家
-                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "10086")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                    break;
-                case OrderGridviewItemBean.TYPE_contact_rider://联系骑手
-                    startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "10010")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                    break;
-                case OrderGridviewItemBean.TYPE_pay_now://立即支付
-                   startActivity(PayActivity.newIntent(this,new ArrayList<StoreBean>()));
-                    break;
-                case OrderGridviewItemBean.TYPE_cancel_Order://取消订单
-                    showCancelDialog();
-                    break;
-                case OrderGridviewItemBean.TYPE_cancel_Order_beihuo://取消订单_正在备货
-                    showCancelConfirmDialog();
-                    break;
-                case OrderGridviewItemBean.TYPE_cuidan://催单
-
-                    break;
-                case OrderGridviewItemBean.TYPE_change_order://改订单信息
-
-                    break;
-
-            }
-        }
-    }
 
     private void initFootView(View foot) {
         line4 = foot.findViewById(R.id.line4);
@@ -385,65 +342,6 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
 
-    private void showCancelDialog() {
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(R.layout.dialog_order_detail_cancel);
-        bottomSheetDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (null != bottomSheetDialog && bottomSheetDialog.isShowing()) {
-                    bottomSheetDialog.dismiss();
-                }
-            }
-        });
-        RecyclerView recyclerview = bottomSheetDialog.findViewById(R.id.recyclerview);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        OrderCancelAdapter orderTraceAdapter = new OrderCancelAdapter();
-        recyclerview.setAdapter(orderTraceAdapter);
-        orderTraceAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                orderTraceAdapter.selected = position;
-                orderTraceAdapter.notifyDataSetChanged();
 
-            }
-        });
-
-        ArrayList<String> beans = new ArrayList<>();
-        beans.add("忘记使用红包");
-        beans.add("信息填写错误");
-        beans.add("送达时间选错了");
-        beans.add("买错了/买少了");
-        beans.add("我不想要了");
-        orderTraceAdapter.setNewInstance(beans);
-
-
-        bottomSheetDialog.setCanceledOnTouchOutside(false);
-        try {
-            bottomSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet)
-                    .setBackgroundResource(android.R.color.transparent);
-        } catch (Exception e) {
-
-        }
-
-        bottomSheetDialog.show();
-    }
-
-    private void showCancelConfirmDialog() {
-        Dialog dialog = new Dialog(this, R.style.loadingDialogTheme);
-        View inflate = View.inflate(this, R.layout.dialog_order_detail_cancel_confirm, null);
-        inflate.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (null != dialog && dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-            }
-        });
-
-
-        dialog.setContentView(inflate);
-        dialog.show();
-    }
 
 }

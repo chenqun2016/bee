@@ -16,7 +16,7 @@
         android:background="@color/transparent"
         android:drawableTop="@drawable/bg_kongbai4"
         android:drawablePadding="10dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="70dp"
         android:gravity="center"
         android:lineSpacingMultiplier="1.2"
         android:text="近一年暂无交易记录"

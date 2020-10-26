@@ -188,10 +188,14 @@ public class MineFragment extends BaseFragment {
                     case 4:
                         break;
                     case 5:
+                        intent = new Intent(getContext(),CompanyOrderingActivity.class);
+                        startActivity(intent);
                         break;
                     case 6:
                         break;
                     case 7:
+                        intent = new Intent(getContext(),MyCommentActivity.class);
+                        startActivity(intent);
                         break;
                     case 8:
                         break;
@@ -200,6 +204,8 @@ public class MineFragment extends BaseFragment {
                     case 10:
                         break;
                     case 11:
+                        intent = new Intent(getContext(),FeedbackActivity.class);
+                        startActivity(intent);
                         break;
                 }
             }
