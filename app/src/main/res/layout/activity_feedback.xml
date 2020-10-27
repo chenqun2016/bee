@@ -40,6 +40,7 @@
         android:layout_marginTop="25dp"
         android:overScrollMode="never"
 
+        android:scrollbars="none"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="20dp"

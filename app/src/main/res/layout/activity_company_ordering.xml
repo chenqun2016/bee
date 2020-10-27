@@ -19,26 +19,22 @@
         android:background="@color/transparent"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:src="@drawable/icon_back_anse"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:src="@drawable/icon_back_anse" />
 
     <TextView
         android:id="@+id/toolbar_title"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/title_bar_height"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="我的评价"
+        android:text="企业订餐"
         android:textColor="@color/color_282626"
         android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textStyle="bold" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -97,6 +93,7 @@
                 android:layout_marginLeft="18dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="10dp"
+             android:lines="1"
                 android:background="@color/transparent"
                 android:hint="请填写企业名称"
                 android:textColor="@color/color_3B3838"
@@ -138,6 +135,7 @@
                 android:background="@color/transparent"
                 android:drawableRight="@drawable/icon_link"
                 android:hint="请选城市"
+                android:lines="1"
                 android:textColor="@color/color_3B3838"
                 android:textColorHint="@color/color_7C7877"
                 android:textSize="13sp"
@@ -175,6 +173,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:hint="请填写员工人数"
+                android:lines="1"
                 android:textColor="@color/color_3B3838"
                 android:textColorHint="@color/color_7C7877"
                 android:textSize="13sp"
@@ -212,6 +211,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:hint="请填写联系人姓名"
+                android:lines="1"
                 android:textColor="@color/color_3B3838"
                 android:textColorHint="@color/color_7C7877"
                 android:textSize="13sp"
@@ -301,6 +301,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:hint="请填写联系人姓名"
+                android:lines="1"
                 android:textColor="@color/color_3B3838"
                 android:textColorHint="@color/color_7C7877"
                 android:textSize="13sp"

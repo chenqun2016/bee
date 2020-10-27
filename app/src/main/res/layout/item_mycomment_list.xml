@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_marginTop="10dp"
+        android:clickable="true"
         app:ios="false"
         app:leftSwipe="true"
         app:swipeEnable="true">
@@ -15,7 +16,8 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/sl_content">
 
 
             <RelativeLayout

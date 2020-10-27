@@ -99,8 +99,11 @@ public class MineFragment extends BaseFragment {
                 break;
 
 
-            case R.id.tv_1:
+            case R.id.tv_1://米粒/充值
                 getContext().startActivity(new Intent(getContext(), MiLiActivity.class));
+                break;
+            case R.id.tv_2://卡券包
+                getContext().startActivity(new Intent(getContext(), CouponActivity.class));
                 break;
         }
     }
@@ -192,6 +195,8 @@ public class MineFragment extends BaseFragment {
                         startActivity(intent);
                         break;
                     case 6:
+                        intent = new Intent(getContext(),CompanyCooperateActivity.class);
+                        startActivity(intent);
                         break;
                     case 7:
                         intent = new Intent(getContext(),MyCommentActivity.class);

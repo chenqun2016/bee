@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bg_white_grey"
+        android:background="@drawable/bg_gradient_white_grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageButton
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/transparent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/icon_back_anse" />
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="企业合作"
+        android:textColor="@color/color_282626"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/toolbar_title"
+    android:layout_marginTop="25dp"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:elevation="0dp"
+            app:tabBackground="@android:color/transparent"
+            app:tabIndicator="@drawable/line_tab_indicator"
+            app:tabIndicatorColor="@color/color_FF6100"
+            app:tabIndicatorFullWidth="true"
+            app:tabIndicatorGravity="bottom"
+            app:tabMode="fixed"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabSelectedTextColor="@color/FF6200"
+            app:tabTextColor="@color/color_282525" />
+
+
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

@@ -120,6 +120,8 @@
         <activity android:name=".ui.mine.FeedbackActivity" />
         <activity android:name=".ui.mine.MyCommentActivity" />
         <activity android:name=".ui.mine.CompanyOrderingActivity" />
+        <activity android:name=".ui.mine.CompanyCooperateActivity" />
+        <activity android:name=".ui.mine.CouponActivity" />
 
     </application>
 
