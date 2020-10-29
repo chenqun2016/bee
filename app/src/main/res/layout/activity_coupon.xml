@@ -32,44 +32,36 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="企业合作"
+        android:text="卡包券"
         android:textColor="@color/color_282626"
         android:textSize="18sp"
         android:textStyle="bold" />
 
-<androidx.core.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/toolbar_title"
-    android:layout_marginTop="25dp"
-    android:scrollbars="none">
 
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="48dp"
+        android:layout_below="@+id/toolbar_title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:elevation="0dp"
+        app:tabBackground="@android:color/transparent"
+        app:tabIndicator="@drawable/line_tab_indicator"
+        app:tabIndicatorColor="@color/color_FF6100"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorGravity="bottom"
+        app:tabMode="fixed"
+        app:tabRippleColor="@android:color/transparent"
+        app:tabSelectedTextColor="@color/FF6200"
+        app:tabTextColor="@color/color_282525" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:elevation="0dp"
-            app:tabBackground="@android:color/transparent"
-            app:tabIndicator="@drawable/line_tab_indicator"
-            app:tabIndicatorColor="@color/color_FF6100"
-            app:tabIndicatorFullWidth="true"
-            app:tabIndicatorGravity="bottom"
-            app:tabMode="fixed"
-            app:tabRippleColor="@android:color/transparent"
-            app:tabSelectedTextColor="@color/FF6200"
-            app:tabTextColor="@color/color_282525" />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLayout"
+        android:layout_marginTop="5dp" />
 
-
-    </LinearLayout>
-
-
-</androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>
