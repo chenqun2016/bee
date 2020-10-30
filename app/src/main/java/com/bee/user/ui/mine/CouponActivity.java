@@ -31,7 +31,7 @@ public class CouponActivity extends BaseActivity {
     ViewPager2 vp;
 
 
-    String[] titles = new String[]{"优惠券(3)", "失效券"};
+    String[] titles = new String[]{"优惠券", "失效券"};
 
 
     @Override
