@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_emptyview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:drawableTop="@drawable/bg_kongbai4"
+        android:drawablePadding="10dp"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.2"
+        android:text="近一年暂无交易记录"
+        android:textColor="@color/color_3B3838"
+        android:textSize="15sp"
+        android:visibility="visible" />
+
+
+    <TextView
+        android:id="@+id/tv_guangguang"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="去随便逛逛"
+        android:textSize="17sp"
+        android:textColor="@color/FF6200"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:layout_marginRight="72dp"
+        android:layout_marginLeft="72dp"
+        android:background="@drawable/btn_stroke_yellow"/>
+</LinearLayout>

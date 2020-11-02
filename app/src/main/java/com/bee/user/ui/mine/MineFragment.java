@@ -185,6 +185,8 @@ public class MineFragment extends BaseFragment {
                     case 1:
                         break;
                     case 2:
+                        intent = new Intent(getContext(),BillActivity.class);
+                        startActivity(intent);
                         break;
                     case 3:
                         break;

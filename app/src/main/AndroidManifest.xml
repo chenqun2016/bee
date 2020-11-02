@@ -122,6 +122,8 @@
         <activity android:name=".ui.mine.CompanyOrderingActivity" />
         <activity android:name=".ui.mine.CompanyCooperateActivity" />
         <activity android:name=".ui.mine.CouponActivity" />
+        <activity android:name=".ui.mine.BillActivity" />
+        <activity android:name=".ui.mine.BillListActivity" />
 
     </application>
 

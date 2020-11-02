@@ -8,9 +8,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.trade.MiLiActivity;
-import com.bee.user.ui.trade.MiLiChongzhiFragment;
-import com.bee.user.ui.trade.MiLiDaijinquanFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -31,7 +28,7 @@ public class CouponActivity extends BaseActivity {
     ViewPager2 vp;
 
 
-    String[] titles = new String[]{"优惠券", "失效券"};
+    String[] titles = new String[]{"优惠券(3)", "失效券"};
 
 
     @Override
