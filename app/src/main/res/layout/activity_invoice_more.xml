@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bg_white_grey"
+        android:background="@drawable/bg_gradient_white_grey" />
+
+    <ImageButton
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/transparent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/icon_back_anse" />
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="发票申请"
+        android:textColor="@color/color_282626"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="开票记录"
+        android:textColor="@color/color_282626"
+        android:textSize="13sp" />
+
+
+
+
+        <RelativeLayout
+            android:id="@+id/rl_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar_title"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_round10dp_white">
+
+
+
+
+            <TextView
+                android:id="@+id/tv_kaihuhang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="18dp"
+                android:text="开户银行"
+                android:textColor="@color/color_282525"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/tv_kaihuhang_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_kaihuhang"
+                android:layout_alignBottom="@+id/tv_kaihuhang"
+                android:layout_marginLeft="52dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/tv_kaihuhang"
+                android:background="@null"
+                android:hint="填写开户银行(非必填)"
+                android:textColor="@color/color_3B3838"
+                android:textColorHint="@color/color_7C7877"
+                android:textSize="13sp" />
+
+
+            <View
+                android:id="@+id/line5"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/tv_kaihuhang_et"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_F5F5F5" />
+
+            <TextView
+                android:id="@+id/tv_bank_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line5"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="银行账号"
+                android:textColor="@color/color_282525"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/tv_bank_num_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line5"
+                android:layout_alignLeft="@+id/tv_kaihuhang_et"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:hint="填写银行账号(非必填)"
+                android:textColor="@color/color_3B3838"
+                android:textColorHint="@color/color_7C7877"
+                android:textSize="13sp" />
+
+            <View
+                android:id="@+id/line6"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/tv_bank_num_et"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_F5F5F5" />
+
+
+            <TextView
+                android:id="@+id/tv_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line6"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="银行地址"
+                android:textColor="@color/color_282525"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/tv_area_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line6"
+                android:layout_alignLeft="@+id/tv_kaihuhang_et"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+
+                android:hint="填写银行地址(非必填)"
+                android:textColor="@color/color_3B3838"
+                android:textColorHint="@color/color_7C7877"
+                android:textSize="13sp" />
+
+            <View
+                android:id="@+id/line7"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/tv_area_et"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_F5F5F5" />
+
+            <TextView
+                android:id="@+id/tv_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line7"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="银行电话"
+                android:textColor="@color/color_282525"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tv_phone_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line7"
+                android:drawableRight="@drawable/icon_link"
+                android:layout_alignLeft="@+id/tv_kaihuhang_et"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:hint="填写银行电话(非必填)"
+                android:textColor="@color/color_3B3838"
+                android:textColorHint="@color/color_7C7877"
+                android:textSize="13sp" />
+
+            <View
+                android:id="@+id/line8"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/tv_phone_et"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/color_F5F5F5" />
+
+            <TextView
+                android:id="@+id/tv_beizhu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line8"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="备注"
+                android:textColor="@color/color_282525"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+
+            <EditText
+                android:id="@+id/tv_beizhu_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line8"
+                android:layout_alignLeft="@+id/tv_kaihuhang_et"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:hint="自行填写"
+                android:textColor="@color/color_3B3838"
+                android:textColorHint="@color/color_7C7877"
+                android:textSize="13sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_sure"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="42dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="42dp"
+            android:layout_marginBottom="35dp"
+            android:layout_below="@+id/rl_content"
+            android:background="@drawable/btn_gradient_yellow_round"
+            android:gravity="center"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+</RelativeLayout>

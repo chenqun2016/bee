@@ -42,6 +42,7 @@ public class BillActivity extends BaseActivity {
                 startActivity(new Intent(this,BillListActivity.class));
                 break;
             case R.id.tv_confirm:
+                startActivity(new Intent(this,InvoicingActivity.class));
                 break;
 
         }
