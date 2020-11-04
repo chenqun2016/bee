@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:background="@color/color_3D7DFB"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_pinglundefen"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"/>
+
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:textStyle="bold"
+            android:textSize="75sp"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="米粒"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/tv_num"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="28dp"/>
+        
+        
+        
+        <TextView
+            android:id="@+id/tv_zengsong"
+            android:layout_width="70dp"
+            android:layout_height="27dp"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:layout_marginTop="47dp"
+            android:layout_marginRight="25dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/btn_stroke5dp_white"
+            android:gravity="center"
+            android:text="赠送好友"/>
+
+        <TextView
+            android:id="@+id/tv_chongzhi"
+            android:layout_width="70dp"
+            android:layout_height="27dp"
+            android:textColor="@color/white"
+            android:textSize="13sp"
+            android:layout_marginBottom="47dp"
+            android:layout_marginRight="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn_stroke5dp_white"
+            android:gravity="center"
+            android:text="充入余额"/>
+    </RelativeLayout>
+</FrameLayout>

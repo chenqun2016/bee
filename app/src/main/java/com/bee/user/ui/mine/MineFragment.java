@@ -65,7 +65,7 @@ public class MineFragment extends BaseFragment {
 
     @OnClick({R.id.tv_icon,R.id.tv_name,R.id.tv_des,
             R.id.tv_order_list, R.id.tv_daizhifu, R.id.tv_daishouhuo, R.id.tv_daipingjia, R.id.tv_shouhou,
-    R.id.tv_1,R.id.tv_2})
+    R.id.tv_1,R.id.tv_2,R.id.tv_3})
     public void onClick(View view){
 
         switch (view.getId()){
@@ -104,6 +104,9 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.tv_2://卡券包
                 getContext().startActivity(new Intent(getContext(), CouponActivity.class));
+                break;
+            case R.id.tv_3://卡券包
+                getContext().startActivity(new Intent(getContext(), GiftcardActivity.class));
                 break;
         }
     }
