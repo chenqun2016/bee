@@ -27,6 +27,10 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
     private int num = 0;//选中数量
 
 
+    public void setMin(int min) {
+        this.min = min;
+    }
+
     private int min = 0;
     private int max = 100;
     private OnNumChangedListener mOnNumChangedListener;

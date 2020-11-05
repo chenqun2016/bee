@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/bg_round10dp_white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp">
+        
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@color/color_FF6300"
+            android:scaleType="centerInside"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"/>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_282525"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="300米粒"/>
+
+            <TextView
+                android:id="@+id/tv_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_7C7877"
+                android:layout_marginTop="6dp"
+                android:textSize="12sp"
+                android:layout_toRightOf="@+id/iv_image"
+                android:text="2020-07-22 16:00"/>
+
+            <TextView
+                android:id="@+id/tv_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_7C7877"
+                android:textSize="12sp"
+                android:layout_marginTop="6dp"
+                android:text="赠给好友：海阔天空"/>
+
+            <TextView
+                android:id="@+id/tv_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_stroke_tag"
+                android:paddingRight="3dp"
+                android:paddingLeft="3dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:textColor="@color/FF6200"
+                android:textSize="10sp"
+                android:layout_marginTop="6dp"
+                android:text="取消赠送"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</FrameLayout>

@@ -126,7 +126,10 @@
         <activity android:name=".ui.mine.BillListActivity" />
         <activity android:name=".ui.mine.InvoicingActivity" />
         <activity android:name=".ui.mine.InvoicingMoreActivity" />
-        <activity android:name=".ui.mine.GiftcardActivity" />
+        <activity android:name=".ui.giftcard.GiftcardActivity" />
+        <activity android:name=".ui.giftcard.GiftcardRecordActivity" />
+        <activity android:name=".ui.giftcard.BuyGiftcardActivity" />
+        <activity android:name=".ui.giftcard.GiftcardStatusActivity" />
 
     </application>
 

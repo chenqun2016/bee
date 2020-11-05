@@ -20,6 +20,7 @@ import com.bee.user.R;
 import com.bee.user.event.MainEvent;
 import com.bee.user.ui.adapter.MineGridviewAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
+import com.bee.user.ui.giftcard.GiftcardActivity;
 import com.bee.user.ui.order.OrderActivity;
 import com.bee.user.ui.trade.MiLiActivity;
 import com.bee.user.utils.CommonUtil;

@@ -1,16 +1,15 @@
 package com.bee.user.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bee.user.R;
-import com.bee.user.bean.HomeGridview2Bean;
 import com.bee.user.bean.MiLiChongzhiBean;
 
 import java.util.ArrayList;
@@ -62,7 +61,12 @@ public class MiLiChongzhiAdapter extends BaseAdapter {
         }
         MiLiChongzhiBean bean = list.get(position);
         viewHolder.tv_1.setText(bean.text1);
-        viewHolder.tv_2.setText(bean.text2);
+        if(TextUtils.isEmpty(bean.text2)){
+            viewHolder.tv_2.setVisibility(View.GONE);
+        }else{
+            viewHolder.tv_2.setText(bean.text2);
+        }
+
 
         if(position == mIndex){
             viewHolder.tv_1.setTextColor(viewHolder.tv_1.getResources().getColor(R.color.color_FF6200));
@@ -71,7 +75,7 @@ public class MiLiChongzhiAdapter extends BaseAdapter {
         }else{
             viewHolder.tv_1.setTextColor(viewHolder.tv_1.getResources().getColor(R.color.color_282626));
             viewHolder.tv_2.setTextColor(viewHolder.tv_2.getResources().getColor(R.color.color_7C7877));
-            viewHolder.ll_content.setBackgroundResource(R.drawable.btn_stroke5dp_grey);
+            viewHolder.ll_content.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
         }
 
 

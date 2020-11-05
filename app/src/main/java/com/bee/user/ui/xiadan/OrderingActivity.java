@@ -2,7 +2,6 @@ package com.bee.user.ui.xiadan;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -203,12 +202,12 @@ public class OrderingActivity extends BaseActivity {
                 if(0 == num){
                     tv_pay.setBackgroundResource(R.drawable.btn_gradient_grey_round);
                     tv_pay.setEnabled(false);
-                    ll_xuyao.setBackgroundResource(R.drawable.btn_stroke5dp_grey);
+                    ll_xuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
                 }else{
                     tv_pay.setBackgroundResource(R.drawable.btn_gradient_yellow_round);
                     tv_pay.setEnabled(true);
                     ll_xuyao.setBackgroundResource(R.drawable.btn_stroke_bg_yellow);
-                    tv_buxuyao.setBackgroundResource(R.drawable.btn_stroke5dp_grey);
+                    tv_buxuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
                 }
 
             }
@@ -220,7 +219,7 @@ public class OrderingActivity extends BaseActivity {
                 tv_pay.setEnabled(true);
                 iv_goods_add.setNum(0);
 
-                ll_xuyao.setBackgroundResource(R.drawable.btn_stroke5dp_grey);
+                ll_xuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
                 tv_buxuyao.setBackgroundResource(R.drawable.btn_stroke_bg_yellow);
             }
         });

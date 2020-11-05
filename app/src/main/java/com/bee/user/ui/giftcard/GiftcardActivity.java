@@ -1,23 +1,20 @@
-package com.bee.user.ui.mine;
+package com.bee.user.ui.giftcard;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.bean.GiftcardBean;
-import com.bee.user.bean.MyCommentBean;
 import com.bee.user.entity.GiftcardEntity;
-import com.bee.user.entity.MyCommentEntity;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.order.OrderActivity;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 创建人：进京赶考
@@ -29,6 +26,19 @@ public class GiftcardActivity extends BaseActivity {
     @BindView(R.id.crecyclerview)
     CRecyclerView crecyclerview;
 
+    @OnClick({R.id.tv_right,R.id.tv_1,R.id.tv_2})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.tv_right:
+                startActivity(new Intent(this, GiftcardRecordActivity.class));
+                break;
+            case R.id.tv_1:
+                startActivity(new Intent(this, BuyGiftcardActivity.class));
+                break;
+            case R.id.tv_2:
+                break;
+        }
+    }
 
     @Override
     public int getLayoutId() {

@@ -6,7 +6,7 @@
     android:gravity="center"
     android:paddingTop="14sp"
     android:paddingBottom="14sp"
-    android:background="@drawable/btn_stroke5dp_grey"
+    android:background="@drawable/btn_stroke5dp_eee"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -15,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
+        android:textStyle="bold"
         android:textColor="@color/color_282626"
         android:text="50米粒"/>
 

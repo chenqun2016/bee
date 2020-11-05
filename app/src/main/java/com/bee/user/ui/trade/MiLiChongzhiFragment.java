@@ -58,12 +58,12 @@ public class MiLiChongzhiFragment extends BaseFragment {
         });
 
         ArrayList<MiLiChongzhiBean> miLiChongzhiBeans = new ArrayList<>();
-        miLiChongzhiBeans.add(new MiLiChongzhiBean("50米粒","送10米粒"));
-        miLiChongzhiBeans.add(new MiLiChongzhiBean("100米粒","送20米粒"));
-        miLiChongzhiBeans.add(new MiLiChongzhiBean("200米粒","送40米粒"));
-        miLiChongzhiBeans.add(new MiLiChongzhiBean("300米粒","送50米粒"));
-        miLiChongzhiBeans.add(new MiLiChongzhiBean("500米粒","送100米粒"));
-        miLiChongzhiBeans.add(new MiLiChongzhiBean("1000米粒","送300米粒"));
+        miLiChongzhiBeans.add(new MiLiChongzhiBean(50,"50米粒","送10米粒"));
+        miLiChongzhiBeans.add(new MiLiChongzhiBean(100,"100米粒","送20米粒"));
+        miLiChongzhiBeans.add(new MiLiChongzhiBean(200,"200米粒","送40米粒"));
+        miLiChongzhiBeans.add(new MiLiChongzhiBean(300,"300米粒","送50米粒"));
+        miLiChongzhiBeans.add(new MiLiChongzhiBean(500,"500米粒","送100米粒"));
+        miLiChongzhiBeans.add(new MiLiChongzhiBean(1000,"1000米粒","送300米粒"));
         miLiChongzhiAdapter   = new MiLiChongzhiAdapter(getContext(), miLiChongzhiBeans);
         gridview.setAdapter(miLiChongzhiAdapter);
 

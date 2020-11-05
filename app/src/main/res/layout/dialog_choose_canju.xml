@@ -35,7 +35,7 @@
         android:layout_height="50dp"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
-        android:background="@drawable/btn_stroke5dp_grey"
+        android:background="@drawable/btn_stroke5dp_ccc"
         android:layout_marginTop="60dp"
         android:orientation="horizontal">
 
@@ -67,7 +67,7 @@
         android:layout_below="@+id/ll_xuyao"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
-        android:background="@drawable/btn_stroke5dp_grey"
+        android:background="@drawable/btn_stroke5dp_ccc"
         android:layout_marginTop="15dp"
         android:gravity="center"
         android:textColor="@color/color_282525"
