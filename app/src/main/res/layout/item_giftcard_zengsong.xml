@@ -48,29 +48,25 @@
                 android:textColor="@color/color_7C7877"
                 android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/tv_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="赠给好友：海阔天空"
-                android:textColor="@color/color_7C7877"
-                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/tv_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/bg_stroke_tag"
-                android:paddingLeft="3dp"
-                android:paddingTop="1dp"
-                android:paddingRight="3dp"
-                android:paddingBottom="1dp"
-                android:text="取消赠送"
-                android:textColor="@color/FF6200"
-                android:textSize="10sp" />
         </LinearLayout>
 
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1px"
+            android:layout_weight="1" />
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="false"
+            android:background="@null"
+            android:layout_marginRight="20dp"
+            android:button="@null"
+            android:drawableLeft="@drawable/checkbutton_chart"
+            android:gravity="center"
+            android:padding="10dp" />
     </LinearLayout>
 </FrameLayout>

@@ -130,6 +130,9 @@
         <activity android:name=".ui.giftcard.GiftcardRecordActivity" />
         <activity android:name=".ui.giftcard.BuyGiftcardActivity" />
         <activity android:name=".ui.giftcard.GiftcardStatusActivity" />
+        <activity android:name=".ui.CommonWebActivity" />
+        <activity android:name=".ui.giftcard.ZengsongGiftcardActivity" />
+        <activity android:name=".ui.giftcard.GetGiftcardActivity" />
 
     </application>
 

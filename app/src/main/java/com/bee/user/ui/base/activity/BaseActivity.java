@@ -34,7 +34,7 @@ public abstract class BaseActivity extends BasePreActivity {
         initViews();
     }
 
-    private void initViewsPre() {
+    protected void initViewsPre() {
         View iv_back = findViewById(R.id.iv_back);
         if(null != iv_back){
             iv_back.setOnClickListener(new View.OnClickListener() {

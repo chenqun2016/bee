@@ -24,6 +24,7 @@ import com.bee.user.bean.UserBean;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.chart.ChartFragment;
 import com.bee.user.ui.home.HomeFragment;
@@ -443,7 +444,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //                隐私协议设置
                 .setPrivacyOffsetY(370)
                 .setPrivacyMargin(55)
-                .setAppPrivacyOne("《自定义隐私协议》", "https://www.baidu.com")
+                .setAppPrivacyOne("《用户服务协议》", HttpRequest.xieyi_regist)
+                .setAppPrivacyTwo("《隐私政策》", HttpRequest.xieyi_yinsi)
                 .setAppPrivacyColor(getResources().getColor(R.color.color_7C7877), getResources().getColor(R.color.color_3e7dfb))
                 .setPrivacyState(false)
                 .setCheckboxHidden(true)

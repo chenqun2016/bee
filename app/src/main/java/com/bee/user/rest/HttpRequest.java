@@ -15,4 +15,10 @@ public class HttpRequest {
 
     public static final  String login_code = "member/login/smscode";
     public static final  String resetPassword = "member/resetPassword";
+
+
+//    用户注册协议
+    public static final  String xieyi_regist = "http://www.quxianfeng.vip/yszcxy.html";
+//    隐私权政策
+    public static final  String xieyi_yinsi = "http://www.quxianfeng.vip/yhyszc.html";
 }

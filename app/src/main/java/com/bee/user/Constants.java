@@ -29,4 +29,10 @@ public class Constants {
     public static final int TYPE_PEISONG = 3;
     public static final int TYPE_TUIKUAN = 4;
     public static final int TYPE_CANCELED = 5;
+
+
+    public static final int Delay_Reflush_false = 400;
+    public static final int Delay_Reflush_true = 100;
+    public static final String PDF_Common = "common";
+
 }

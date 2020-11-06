@@ -36,6 +36,7 @@ public class GiftcardActivity extends BaseActivity {
                 startActivity(new Intent(this, BuyGiftcardActivity.class));
                 break;
             case R.id.tv_2:
+                startActivity(new Intent(this, ZengsongGiftcardActivity.class));
                 break;
         }
     }

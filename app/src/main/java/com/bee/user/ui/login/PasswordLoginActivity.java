@@ -11,6 +11,8 @@ import com.bee.user.bean.UserBean;
 import com.bee.user.event.LoginEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
+import com.bee.user.ui.CommonWebActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.LogUtil;
@@ -59,9 +61,19 @@ public class PasswordLoginActivity extends BaseActivity {
 
 
 
-    @OnClick({R.id.tv_mimalogin,R.id.tv_forgetmima,R.id.tv_agree})
+    @OnClick({R.id.tv_mimalogin,R.id.tv_forgetmima,R.id.tv_agree,R.id.tv_xieyi_regist,R.id.tv_xieyi_yinsi})
     public void onClick(View view){
         switch (view.getId()){
+            case R.id.tv_xieyi_regist:
+                Intent intent1 = new Intent(PasswordLoginActivity.this, CommonWebActivity.class);
+                intent1.putExtra("url", HttpRequest.xieyi_regist);
+                startActivity(intent1);
+                break;
+            case R.id.tv_xieyi_yinsi:
+                Intent intent2 = new Intent(PasswordLoginActivity.this, CommonWebActivity.class);
+                intent2.putExtra("url", HttpRequest.xieyi_yinsi);
+                startActivity(intent2);
+                break;
             case R.id.tv_mimalogin:
                 finish();
                 break;

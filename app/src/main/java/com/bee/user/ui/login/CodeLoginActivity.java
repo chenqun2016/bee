@@ -21,6 +21,8 @@ import com.bee.user.event.LoginEvent;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
+import com.bee.user.ui.CommonWebActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.LogUtil;
@@ -162,6 +164,9 @@ public class CodeLoginActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
 
+                    Intent intent = new Intent(CodeLoginActivity.this, CommonWebActivity.class);
+                    intent.putExtra("url", HttpRequest.xieyi_regist);
+                    startActivity(intent);
                 }
 
                 @Override
@@ -173,7 +178,9 @@ public class CodeLoginActivity extends BaseActivity {
             msp.setSpan(new ClickableSpan() {
                 @Override
                 public void onClick(View view) {
-
+                    Intent intent = new Intent(CodeLoginActivity.this, CommonWebActivity.class);
+                    intent.putExtra("url", HttpRequest.xieyi_yinsi);
+                    startActivity(intent);
                 }
 
                 @Override
