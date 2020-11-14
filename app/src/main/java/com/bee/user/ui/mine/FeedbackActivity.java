@@ -55,14 +55,22 @@ public class FeedbackActivity extends BaseActivity {
     @BindView(R.id.tv_error)
     TextView tv_error;
 
-    @OnClick(R.id.tv_agree)
-    public void onClick(){
-        Editable text = et_phone.getText();
-        if(!CommonUtil.isMobileNoAll(text)){
-            tv_error.setVisibility(View.VISIBLE);
-            return;
+    @OnClick({R.id.tv_agree,R.id.tv_paizhao})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.tv_agree:
+                Editable text = et_phone.getText();
+                if(!CommonUtil.isMobileNoAll(text)){
+                    tv_error.setVisibility(View.VISIBLE);
+                    return;
+                }
+                showCancelConfirmDialog();
+
+                break;
+            case R.id.tv_paizhao://上传凭证 最多6张
+                break;
         }
-        showCancelConfirmDialog();
+
     }
 
     @Override

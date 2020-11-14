@@ -21,6 +21,7 @@ import com.bee.user.event.MainEvent;
 import com.bee.user.ui.adapter.MineGridviewAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.giftcard.GiftcardActivity;
+import com.bee.user.ui.home.NewsActivity;
 import com.bee.user.ui.order.OrderActivity;
 import com.bee.user.ui.trade.MiLiActivity;
 import com.bee.user.utils.CommonUtil;
@@ -64,12 +65,15 @@ public class MineFragment extends BaseFragment {
     @BindView(R.id.gridview)
     MyGridView gridview;
 
-    @OnClick({R.id.tv_icon,R.id.tv_name,R.id.tv_des,
+    @OnClick({R.id.tv_icon,R.id.tv_name,R.id.tv_des,R.id.iv_msg,
             R.id.tv_order_list, R.id.tv_daizhifu, R.id.tv_daishouhuo, R.id.tv_daipingjia, R.id.tv_shouhou,
     R.id.tv_1,R.id.tv_2,R.id.tv_3,R.id.tv_4})
     public void onClick(View view){
 
         switch (view.getId()){
+            case R.id.iv_msg:
+                startActivity(new Intent(getContext(), NewsActivity.class));
+                break;
             case R.id.tv_icon:
             case R.id.tv_name:
             case R.id.tv_des:
