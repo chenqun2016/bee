@@ -8,10 +8,10 @@
         android:startColor="#FD8101"
         android:endColor="#FF6200"/>
 
-<!--    <size-->
-<!--        android:width="91dp"-->
-<!--        android:height="44dp" />-->
+    <!--    <size-->
+    <!--        android:width="91dp"-->
+    <!--        android:height="44dp" />-->
 
-    <corners android:radius="100dp" />
+    <corners android:radius="5dp" />
 
 </shape>

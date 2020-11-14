@@ -79,9 +79,6 @@ public class CouponFragment extends BaseFragment {
 
 
         crecyclerview.setView(CouponEntity.class);
-        crecyclerview.setView(MyCommentEntity.class);
-
-
 //        crecyclerview.start();
 
 

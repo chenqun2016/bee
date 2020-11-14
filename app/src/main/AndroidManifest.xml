@@ -133,6 +133,8 @@
         <activity android:name=".ui.CommonWebActivity" />
         <activity android:name=".ui.giftcard.ZengsongGiftcardActivity" />
         <activity android:name=".ui.giftcard.GetGiftcardActivity" />
+        <activity android:name=".ui.mine.MyPointsActivity" />
+        <activity android:name=".ui.mine.PointDetailListActivity" />
 
     </application>
 

@@ -16,6 +16,7 @@
 
     <com.bee.user.widget.MyListView
         android:id="@+id/list"
+        android:divider="@color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

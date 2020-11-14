@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/icon_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/icon_goumai"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_integral_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="14dp"
+        android:textStyle="bold"
+        android:layout_toRightOf="@+id/icon_type"
+        android:text="签到"
+        android:textColor="@color/color_282525"
+        android:textSize="15sp" />
+
+
+
+    <TextView
+        android:id="@+id/tv_integral_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_integral_title"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@+id/icon_type"
+        android:text="2020-07-01 10:30:02"
+        android:textColor="@color/color_7C7877"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_integral_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_centerVertical="true"
+        android:text="+20"
+        android:textStyle="bold"
+        android:textColor="@color/color_FF564A"
+        android:textSize="16sp" />
+
+
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/color_F5F5F5" />
+</RelativeLayout>
+

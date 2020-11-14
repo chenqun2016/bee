@@ -71,22 +71,24 @@
                 android:layout_marginTop="10dp" />
 
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_round10dp_grey"
+                android:orientation="vertical"
                 android:layout_marginTop="20dp">
 
                 <EditText
                     android:id="@+id/et_content"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:background="@drawable/bg_round10dp_grey"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:layout_marginBottom="10dp"
                     android:gravity="start"
                     android:hint="请描述您的详细问题，以便我们尽快为您处理(必填)"
                     android:textColorHint="@color/color_ccc"
                     android:inputType="textMultiLine"
-                    android:maxLength="50"
-                    android:maxLines="3"
+                    android:maxLength="500"
                     android:padding="10dp"
                     android:textColor="@color/color_282525"
                     android:textSize="15sp" />
@@ -107,7 +109,7 @@
                     android:textColor="@color/color_CBCBCB"
                     android:textSize="11sp" />
 
-            </FrameLayout>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -146,7 +148,7 @@
                 android:background="@color/transparent"
                 android:gravity="center_vertical"
                 android:hint="请输入联系人电话"
-                android:inputType="text"
+                android:inputType="number"
                 android:textColor="@color/color_3B3838"
                 android:textColorHint="@color/color_ccc"
                 android:textSize="16sp" />
