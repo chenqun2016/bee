@@ -2,6 +2,7 @@ package com.bee.user.ui.xiadan;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import com.bee.user.ui.adapter.ChooseTimeAdapter;
 import com.bee.user.ui.adapter.OrderingAdapter;
 import com.bee.user.ui.base.BaseDialog;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.order.OrderActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.widget.AddRemoveView;
 import com.bee.user.widget.RadioGroupPlus;
@@ -59,14 +61,24 @@ public class OrderingActivity extends BaseActivity {
     @BindView(R.id.toolbar_title)
     TextView toolbar_title;
 
+    TextView  tv_tigongcanju;
+
     private TextView tv_dizhi;
     private TextView tv_dizhi2;
+
+
+    public String canju = "";
 
     @OnClick({R.id.tv_confirm})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_confirm:
-                showChooseCanjuDialog();
+                if(TextUtils.isEmpty(canju)){
+                    showChooseCanjuDialog();
+                }else{
+                    startActivity(new Intent(OrderingActivity.this,PayActivity.class));
+                }
+
                 break;
 
         }
@@ -84,9 +96,9 @@ public class OrderingActivity extends BaseActivity {
         if(requestCode == 1 && resultCode == 1){
 
             AddressBean address = (AddressBean) data.getSerializableExtra("address");
-            tv_dizhi.setText("1");
+            tv_dizhi.setText("新天地大厦C座1808室");
             tv_dizhi2.setVisibility(View.VISIBLE);
-            tv_dizhi2.setText("2");
+            tv_dizhi2.setText("夏雨天(女士)13708263728");
         }
     }
 
@@ -153,22 +165,41 @@ public class OrderingActivity extends BaseActivity {
             }
         });
 
-        ImageView imageview = foot.findViewById(R.id.imageview);
-        Picasso.with(this).
-                load(R.drawable.banner).
-                fit().
-                transform(new PicassoRoundTransform(DisplayUtil.dip2px(this,10),0, PicassoRoundTransform.CornerType.ALL)).
-                into(imageview);
+//        ImageView imageview = foot.findViewById(R.id.imageview);
+//        Picasso.with(this).
+//                load(R.drawable.banner).
+//                fit().
+//                transform(new PicassoRoundTransform(DisplayUtil.dip2px(this,10),0, PicassoRoundTransform.CornerType.ALL)).
+//                into(imageview);
 
-        foot.findViewById(R.id.ll_beizhu).setOnClickListener(new View.OnClickListener() {
+        foot.findViewById(R.id.tv_beizhu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 startActivity(new Intent(OrderingActivity.this,BeizhuActivity.class));
             }
         });
+        tv_tigongcanju =   foot.findViewById(R.id.tv_tigongcanju);
+        tv_tigongcanju.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                showChooseCanjuDialog();
+            }
+        });
+
+        TextView tv_youhuiquan_value = foot.findViewById(R.id.tv_youhuiquan_value);
+        tv_youhuiquan_value.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(OrderingActivity.this, YouhuiquanActivity.class);
+                OrderingActivity.this.startActivity(intent);
+
+            }
+        });
     }
+
 
 //    选择餐具
     private void showChooseCanjuDialog(){
@@ -203,11 +234,17 @@ public class OrderingActivity extends BaseActivity {
                     tv_pay.setBackgroundResource(R.drawable.btn_gradient_grey_round);
                     tv_pay.setEnabled(false);
                     ll_xuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
+
+                    canju = "";
+                    tv_tigongcanju.setText(canju);
                 }else{
                     tv_pay.setBackgroundResource(R.drawable.btn_gradient_yellow_round);
                     tv_pay.setEnabled(true);
                     ll_xuyao.setBackgroundResource(R.drawable.btn_stroke_bg_yellow);
                     tv_buxuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
+
+                    canju = num + "双";
+                    tv_tigongcanju.setText(canju);
                 }
 
             }
@@ -221,6 +258,9 @@ public class OrderingActivity extends BaseActivity {
 
                 ll_xuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
                 tv_buxuyao.setBackgroundResource(R.drawable.btn_stroke_bg_yellow);
+
+                canju = "无需餐具";
+                tv_tigongcanju.setText(canju);
             }
         });
 

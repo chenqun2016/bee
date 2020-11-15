@@ -89,7 +89,8 @@ public class StoreFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        linkage.setPrimaryWidget(DisplayUtil.dp2px(linkage.getContext(),40));
+        linkage.setPrimaryWidget(80);
+
 //        List<ElemeGroupedItem> items = new ArrayList<>();
         Gson gson = new Gson();
         List<ElemeGroupedItem> items = gson.fromJson(getString(R.string.eleme_json),
@@ -117,18 +118,33 @@ public class StoreFragment extends BaseFragment {
 
         @Override
         public int getLayoutId() {
-            return com.kunminx.linkage.R.layout.default_adapter_linkage_primary;
+            return R.layout.item_store_list_first;
         }
 
         @Override
         public int getGroupTitleViewId() {
-            return com.kunminx.linkage.R.id.tv_group;
+            return R.id.tv_group;
         }
 
         @Override
         public int getRootViewId() {
-            return com.kunminx.linkage.R.id.layout_group;
+            return R.id.layout_group;
         }
+//
+//        @Override
+//        public int getLayoutId() {
+//            return com.kunminx.linkage.R.layout.default_adapter_linkage_primary;
+//        }
+//
+//        @Override
+//        public int getGroupTitleViewId() {
+//            return com.kunminx.linkage.R.id.tv_group;
+//        }
+//
+//        @Override
+//        public int getRootViewId() {
+//            return com.kunminx.linkage.R.id.layout_group;
+//        }
 
         @Override
         public void onBindViewHolder(LinkagePrimaryViewHolder holder, boolean selected, String title) {
@@ -138,7 +154,7 @@ public class StoreFragment extends BaseFragment {
             tvTitle.setBackgroundColor(mContext.getResources().getColor(
                     selected ? R.color.white : R.color.color_F5F5F5));
             tvTitle.setTextColor(ContextCompat.getColor(mContext,
-                    selected ?  R.color.color_272525 : R.color.color_7B7777));
+                    selected ?  R.color.color_282525 : R.color.color_7C7877));
             tvTitle.setEllipsize(selected ? TextUtils.TruncateAt.MARQUEE : TextUtils.TruncateAt.END);
             tvTitle.setFocusable(selected);
             tvTitle.setTypeface(selected? Typeface.DEFAULT_BOLD:Typeface.DEFAULT);
@@ -172,7 +188,7 @@ public class StoreFragment extends BaseFragment {
 
         @Override
         public int getHeaderLayoutId() {
-            return com.kunminx.linkage.R.layout.default_adapter_linkage_secondary_header;
+            return R.layout.item_store_list_secondary_header;
         }
 
         @Override

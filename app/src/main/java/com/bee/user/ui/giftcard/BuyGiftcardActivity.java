@@ -56,9 +56,16 @@ public class BuyGiftcardActivity extends BaseActivity {
 
     MiLiChongzhiBean mCurrentBean;
 
-    @OnClick(R.id.tv_confirm)
-    public void onClick(){
-        startActivity(new Intent(this,GiftcardStatusActivity.class));
+    @OnClick({R.id.tv_confirm,R.id.tv_right})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.tv_right:
+                startActivity(new Intent(this, GiftcardRecordActivity.class));
+                break;
+            case R.id.tv_confirm:
+                startActivity(new Intent(this,GiftcardStatusActivity.class));
+                break;
+        }
     }
 
     @Override

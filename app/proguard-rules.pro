@@ -64,3 +64,8 @@
  # --- uc crash end ---
  -keepattributes Signature
  -keepattributes *Annotation*
+
+
+
+#二级联动列表控件
+ -keep class com.kunminx.linkage.bean.** {*;}
