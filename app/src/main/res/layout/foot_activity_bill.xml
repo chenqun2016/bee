@@ -20,7 +20,7 @@
             android:layout_gravity="center"
             android:textSize="14sp"
             android:textColor="@color/color_7C7877"
-            android:drawableRight="@drawable/icon_jiantou_xia"
+            android:drawableRight="@drawable/icon_chaoxia"
             android:drawablePadding="10dp"
             android:text="2020年以前"/>
     </FrameLayout>

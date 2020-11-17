@@ -19,6 +19,27 @@
     </style>
 
 
+
+    <style name="SplashActivity" parent="android:Theme.Light.NoTitleBar.Fullscreen">
+        <item name="android:windowBackground">@drawable/splash_layers</item>
+        <!--这种模式Activity下不要setContentView()-->
+        <item name="android:windowAnimationStyle">@style/Animation_Activity</item>
+
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:screenOrientation">portrait</item>
+
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <!--<item name="android:windowDisablePreview">true</item>-->
+        <!--<item name="android:windowAnimationStyle">@style/Animation_Activity_Translucent</item>-->
+    </style>
+
+
+
+
+
+
     <style name="AppThemeTranslucent" parent="AppTheme">
                 <item name="android:windowBackground">@android:color/transparent</item>
                 <item name="android:windowIsTranslucent">true</item>
@@ -93,4 +114,6 @@
         <item name="android:textStyle">bold</item>
         <item name="android:background">@drawable/bg_pay_text_stroke</item>
     </style>
+
+
 </resources>

@@ -19,6 +19,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.bee.user.R;
 import com.bee.user.bean.UserBean;
 import com.bee.user.event.MainEvent;
@@ -119,6 +123,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
 
         initLogins();
+
     }
 
 

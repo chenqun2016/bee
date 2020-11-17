@@ -3,16 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bee.user">
 
-    <uses-permission
-        android:name="android.permission.INTERNET" />
-    <uses-permission
-        android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission
-        android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <uses-permission
         android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission
-        android:name="android.permission.READ_PHONE_STATE" />
+
+<!--    高德地图-->
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!--获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!--这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <!--用于访问网络，网络定位需要上网-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--用于读取手机当前的状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!--写入扩展存储，向扩展卡写入数据，用于写入缓存定位数据-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <!--用于申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <!--用于申请获取蓝牙信息进行室内定位-->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+
+
 
     <application
         android:name=".BeeApplication"
@@ -23,6 +41,14 @@
         android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
+
+
+<!--        高德地图-->
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="b23c65c825f4f3a61316a7a8b8a86cfe">
+        </meta-data>
+        <service android:name="com.amap.api.location.APSService"></service>
+
+
 
         <!-- 适配小米全面屏 -->
         <meta-data
@@ -38,14 +64,30 @@
             android:name="notch.config"
             android:value="portrait" />
 
-        <activity android:name=".ui.MainActivity"
-            android:theme="@style/MainTheme"
-            android:launchMode="singleTask">
+
+        <activity
+            android:name=".ui.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="mtjmybkOzNEv3TlCbu2bFsyXeafPRsRSTyP" />
+            </intent-filter>
+        </activity>
+
+
+        <activity android:name=".ui.MainActivity"
+            android:theme="@style/MainTheme"
+            android:launchMode="singleTask">
+
         </activity>
 
         <activity android:name=".ui.login.CodeLoginActivity"
@@ -135,6 +177,7 @@
         <activity android:name=".ui.giftcard.GetGiftcardActivity" />
         <activity android:name=".ui.mine.MyPointsActivity" />
         <activity android:name=".ui.mine.PointDetailListActivity" />
+
 
     </application>
 

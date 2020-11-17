@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.HomeBean;
@@ -75,6 +80,29 @@ public class HomeFragment extends BaseFragment {
     TextView tv_dingwei;
 
 
+    //声明定位回调监听器
+    //异步获取定位结果
+    private AMapLocationListener mAMapLocationListener   = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+                    //可在其中解析amapLocation获取相应内容。
+                    LogUtil.d("location=="+amapLocation.getCity()+"//code=="+amapLocation.getCityCode());
+                    tv_dingwei.setText(amapLocation.getCity()+amapLocation.getDistrict()+amapLocation.getStreet()+amapLocation.getStreetNum());
+                    CityPicker.from(HomeFragment.this).locateComplete(new LocatedCity(amapLocation.getCity(), amapLocation.getProvince(), amapLocation.getAdCode()), LocateState.SUCCESS);
+                }else {
+                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError","location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
+    private AMapLocationClient   mLocationClient;
+
+
     private List<BannerBean> adsList = new ArrayList<>();//banner数据
     private Dialog dingweiDialog;
 
@@ -88,8 +116,11 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void getDatas() {
+        initLocations();
 
     }
+
+
 
     @OnClick({R.id.ll_tongzhi,R.id.iv_msg,R.id.ll_search,R.id.tv_dingwei})
     public void onClick(View view) {
@@ -353,16 +384,42 @@ public class HomeFragment extends BaseFragment {
 
                     @Override
                     public void onLocate() {
-                        //开始定位，这里模拟一下定位
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                CityPicker.from(HomeFragment.this).locateComplete(new LocatedCity("深圳", "广东", "101280601"), LocateState.SUCCESS);
-                            }
-                        }, 3000);
+                        LogUtil.d("onLocate");
+                        mLocationClient.stopLocation();
+//                        启动定位
+                        mLocationClient.startLocation();
+
+
                     }
                 })
                 .show();
+    }
+
+    private void initLocations() {
+
+        //初始化定位
+        mLocationClient  = new AMapLocationClient(getActivity().getApplicationContext());
+//设置定位回调监听
+        mLocationClient.setLocationListener(mAMapLocationListener);
+
+        AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+
+        //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
+//        mLocationOption.setInterval(1000);
+
+        //获取一次定位结果：
+//该方法默认为false。
+        mLocationOption.setOnceLocation(true);
+        //获取最近3s内精度最高的一次定位结果：
+//设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        mLocationOption.setOnceLocationLatest(true);
+
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+
     }
 
 }

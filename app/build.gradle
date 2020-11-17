@@ -84,6 +84,7 @@ dependencies {
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
 //注解
     implementation 'com.jakewharton:butterknife:10.2.3'
+
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
 
     //图片
@@ -113,4 +114,6 @@ dependencies {
     implementation project(':base')
     implementation project(':crecyclerview')
     implementation project(':citypicker')
+
+
 }
