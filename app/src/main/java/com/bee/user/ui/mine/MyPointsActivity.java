@@ -7,6 +7,7 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -99,9 +100,9 @@ public class MyPointsActivity extends BaseActivity {
         recyclerview_renwu.setAdapter(renWuAdapter);
 
         ArrayList<RenWuBean> renwuBeans = new ArrayList<>();
-        renwuBeans.add(new RenWuBean());
-        renwuBeans.add(new RenWuBean());
-        renwuBeans.add(new RenWuBean());
+        renwuBeans.add(new RenWuBean(R.drawable.icon_qiandao_jifen,"累计签到3天","连续签到3天额外获得10积分"));
+        renwuBeans.add(new RenWuBean(R.drawable.icon_qiandao_jifen,"累计签到7天","连续签到7天额外获得30积分"));
+        renwuBeans.add(new RenWuBean(R.drawable.icon_wanchengdingdan,"完成2单外卖订单","在线点单外卖配送2单"));
         renWuAdapter.setNewInstance(renwuBeans);
     }
 
@@ -118,6 +119,7 @@ public class MyPointsActivity extends BaseActivity {
 
         @Override
         protected void convert(@NotNull BaseViewHolder baseViewHolder, PointDayBean bean) {
+            ImageView tv_image = baseViewHolder.getView(R.id.tv_image);
 
             TextView tv_day = baseViewHolder.getView(R.id.tv_day);
             TextView tv_point = baseViewHolder.getView(R.id.tv_point);
@@ -126,10 +128,13 @@ public class MyPointsActivity extends BaseActivity {
 
             View content = baseViewHolder.findView(R.id.content);
             if(bean.current){
+                tv_image.setImageResource(R.drawable.icon_wutouying);
                 tv_day.setTextColor(tv_day.getResources().getColor(R.color.white));
                 tv_point.setTextColor(tv_point.getResources().getColor(R.color.white));
                 content.setBackgroundResource(R.drawable.btn_gradient_yellow_round5dp);
             }else{
+                tv_image.setImageResource(R.drawable.icon_youtouying);
+
                 tv_day.setTextColor(tv_day.getResources().getColor(R.color.color_7C7877));
                 tv_point.setTextColor(tv_point.getResources().getColor(R.color.color_7C7877));
                 content.setBackgroundResource(R.drawable.bg_round10dp_grey);
@@ -147,10 +152,17 @@ public class MyPointsActivity extends BaseActivity {
 
         @Override
         protected void convert(@NotNull BaseViewHolder baseViewHolder, RenWuBean bean) {
-
+            ImageView icon_type = baseViewHolder.getView(R.id.icon_type);
             TextView tv_integral_title = baseViewHolder.getView(R.id.tv_integral_title);
             TextView tv_integral_date = baseViewHolder.getView(R.id.tv_integral_date);
             TextView tv_integral_count = baseViewHolder.getView(R.id.tv_integral_count);
+
+            icon_type.setImageResource(bean.resID);
+            tv_integral_title.setText(bean.title);
+            tv_integral_date.setText(bean.des);
+
+
+
 
             View view_line = baseViewHolder.getView(R.id.view_line);
 

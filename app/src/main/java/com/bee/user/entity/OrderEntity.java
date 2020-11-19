@@ -41,9 +41,15 @@ public class OrderEntity extends BaseCEntity<OrderBean> {
     @Override
     public void onClick(Context context, BaseQuickAdapter<OrderBean, BaseViewHolder> mAdapter, int position) {
         super.onClick(context, mAdapter, position);
+        try{
+
+
         Intent intent = new Intent(context, OrderDetailActivity.class);
         intent.putExtra("type",mAdapter.getData().get(position).type);
         context.startActivity(intent);
+        }catch ( Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

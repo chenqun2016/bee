@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 
+import com.amap.api.location.AMapLocation;
 import com.bee.user.BeeApplication;
 import com.bee.user.Constants;
 import com.bee.user.bean.UserBean;
@@ -26,6 +27,7 @@ public class SPUtils {
     private static volatile SPUtils sharedPreferencesUtils;
 
     private SharedPreferences share;
+    private AMapLocation mLocation;
 
 
     public SPUtils(Context context) {
@@ -154,6 +156,28 @@ public class SPUtils {
             return mUser;
         }
     }
+
+    public void setLocation(AMapLocation value) {
+        mLocation = value;
+        if (null != value) {
+            share.edit().putString(Constants.USER_LOCATION, new Gson().toJson(value)).apply();
+        } else {
+            share.edit().putString(Constants.USER_LOCATION, "").apply();
+        }
+    }
+
+    public AMapLocation getLocation() {
+        if (null == mLocation) {
+            String json = share.getString(Constants.USER_LOCATION, "");
+            if (!TextUtils.isEmpty(json)) {
+                return new Gson().fromJson(json, AMapLocation.class);
+            }
+            return null;
+        } else {
+            return mLocation;
+        }
+    }
+
 
     public void setLoginCache(UserBean userBean) {
         setUserBean(userBean);

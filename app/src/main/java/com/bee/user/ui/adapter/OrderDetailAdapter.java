@@ -43,10 +43,5 @@ public class OrderDetailAdapter extends BaseQuickAdapter<StoreBean, BaseViewHold
 
 
 
-        TextView tv_youhuiquan_value = baseViewHolder.findView(R.id.tv_youhuiquan_value);
-        tv_youhuiquan_value.setTextColor(tv_youhuiquan_value.getResources().getColor(R.color.color_282525));
-        tv_youhuiquan_value.setCompoundDrawables(null,null,null,null);
-        tv_youhuiquan_value.setText("¥1");
-        tv_youhuiquan_value.setTypeface(Typeface.DEFAULT_BOLD);
     }
 }

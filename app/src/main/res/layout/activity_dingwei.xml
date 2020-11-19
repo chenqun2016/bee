@@ -19,11 +19,15 @@
             android:minHeight="94dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
+            <com.amap.api.maps.TextureMapView
+                android:id="@+id/map"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="94dp"
-                android:background="@color/color_282626" />
+                android:layout_width="match_parent"
+                android:layout_height="250dp">
+            </com.amap.api.maps.TextureMapView>
+
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/ll_toolbar"

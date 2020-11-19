@@ -14,6 +14,7 @@ public class Constants {
 
     public static final Charset UTF8 = Charset.forName("UTF-8");
     public static final String USER_INFO = "userinfo";
+    public static final String USER_LOCATION = "location";
 
     //RSA
     public static String getRSA(){

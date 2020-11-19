@@ -2,6 +2,7 @@ package com.bee.user.ui.order;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -285,6 +286,13 @@ public class OrderDetailActivity extends BaseActivity {
 
 
     private void initFootView(View foot) {
+
+        TextView tv_youhuiquan_value = foot.findViewById(R.id.tv_youhuiquan_value);
+        tv_youhuiquan_value.setTextColor(tv_youhuiquan_value.getResources().getColor(R.color.color_282525));
+        tv_youhuiquan_value.setCompoundDrawables(null,null,null,null);
+        tv_youhuiquan_value.setText("¥1");
+        tv_youhuiquan_value.setTypeface(Typeface.DEFAULT_BOLD);
+
         line4 = foot.findViewById(R.id.line4);
         tv_people = foot.findViewById(R.id.tv_people);
         tv_people_des = foot.findViewById(R.id.tv_people_des);

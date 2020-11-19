@@ -37,6 +37,7 @@ import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.nearby.FoodActivity;
 import com.bee.user.ui.search.SearchActivity;
 import com.bee.user.utils.LogUtil;
+import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.MyGridView;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
@@ -91,6 +92,7 @@ public class HomeFragment extends BaseFragment {
                     LogUtil.d("location=="+amapLocation.getCity()+"//code=="+amapLocation.getCityCode());
                     tv_dingwei.setText(amapLocation.getCity()+amapLocation.getDistrict()+amapLocation.getStreet()+amapLocation.getStreetNum());
                     CityPicker.from(HomeFragment.this).locateComplete(new LocatedCity(amapLocation.getCity(), amapLocation.getProvince(), amapLocation.getAdCode()), LocateState.SUCCESS);
+                    SPUtils.geTinstance().setLocation(amapLocation);
                 }else {
                     //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                     Log.e("AmapError","location Error, ErrCode:"
