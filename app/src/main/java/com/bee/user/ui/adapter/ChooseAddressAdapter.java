@@ -30,7 +30,7 @@ public class ChooseAddressAdapter extends BaseMultiItemQuickAdapter<AddressBean,
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, AddressBean addressBean) {
         switch (baseViewHolder.getItemViewType()) {
-            case YouhuiquanBean.type1:
+            case AddressBean.type1:
                 TextView tv_address = baseViewHolder.findView(R.id.tv_address);
                 TextView tv_tag = baseViewHolder.findView(R.id.tv_tag);
                 TextView tv_address2 = baseViewHolder.findView(R.id.tv_address2);
@@ -53,7 +53,7 @@ public class ChooseAddressAdapter extends BaseMultiItemQuickAdapter<AddressBean,
 
 
                 break;
-            case YouhuiquanBean.type2:
+            case AddressBean.type2:
                 break;
             default:
                 break;

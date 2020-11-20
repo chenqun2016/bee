@@ -67,10 +67,15 @@ public class MineFragment extends BaseFragment {
 
     @OnClick({R.id.tv_icon,R.id.tv_name,R.id.tv_des,R.id.iv_msg,
             R.id.tv_order_list, R.id.tv_daizhifu, R.id.tv_daishouhuo, R.id.tv_daipingjia, R.id.tv_shouhou,
-    R.id.tv_1,R.id.tv_2,R.id.tv_3,R.id.tv_4})
+    R.id.tv_1,R.id.tv_2,R.id.tv_3,R.id.tv_4
+            ,R.id.buy_card})
     public void onClick(View view){
 
         switch (view.getId()){
+            case R.id.buy_card://购买配送卡省钱事
+                startActivity(new Intent(getContext(), BuyCardActivity.class));
+                break;
+
             case R.id.iv_msg:
                 startActivity(new Intent(getContext(), NewsActivity.class));
                 break;

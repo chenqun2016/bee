@@ -177,6 +177,8 @@
         <activity android:name=".ui.giftcard.GetGiftcardActivity" />
         <activity android:name=".ui.mine.MyPointsActivity" />
         <activity android:name=".ui.mine.PointDetailListActivity" />
+        <activity android:name=".ui.order.OrderDetailMapActivity" />
+        <activity android:name=".ui.mine.BuyCardActivity" />
 
 
     </application>

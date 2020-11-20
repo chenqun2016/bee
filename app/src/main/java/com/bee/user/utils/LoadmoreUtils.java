@@ -129,7 +129,7 @@ public class LoadmoreUtils {
         @Override
         public void run() {
             try {
-                Thread.sleep(800);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
             }
 
@@ -166,7 +166,7 @@ public class LoadmoreUtils {
         }
     }
 
-    private  List getSampleData(int lenth) {
+    protected   List getSampleData(int lenth) {
 
         List list = new ArrayList<>();
         for (int i = 0; i < lenth; i++) {

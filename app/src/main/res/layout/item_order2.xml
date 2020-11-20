@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -39,17 +40,29 @@
             android:textSize="12sp"
             android:textColor="@color/FF6200"
             android:text="等待支付"/>
-
         <View
-            android:id="@+id/line"
+            android:id="@+id/view10dp"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name"/>
+        <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginTop="14dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/type"
+            app:layout_constraintTop_toBottomOf="@+id/view10dp"
             android:background="@color/color_eee"/>
 
 
+        <com.amap.api.maps.TextureMapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="center"
+            tools:text="item"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view10dp">
+        </com.amap.api.maps.TextureMapView>
         <TextView
             android:id="@+id/tv_money"
             android:layout_width="wrap_content"
@@ -59,7 +72,7 @@
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line"
+            app:layout_constraintTop_toBottomOf="@+id/map"
             android:text="22.9"/>
 
         <TextView
@@ -77,9 +90,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line"
+            app:layout_constraintTop_toBottomOf="@+id/map"
             app:layout_constraintRight_toLeftOf="@+id/tv_money"
-            android:scrollbars="none"
             android:layout_marginRight="10dp"
             android:layout_marginTop="15dp"
             android:layout_width="0dp"
