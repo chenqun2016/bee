@@ -22,6 +22,7 @@ import com.bee.user.ui.adapter.CouponFootListAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.nearby.NearbyFragment;
 import com.bee.user.ui.order.OrderActivity;
+import com.bee.user.utils.CommonUtil;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 
 import java.util.ArrayList;
@@ -69,6 +70,7 @@ public class CouponFragment extends BaseFragment {
 
         //空白页
         View empty = View.inflate(getContext(), R.layout.empty_trade_list, null);
+        CommonUtil.initBuyCardView(empty);
         TextView tv_guangguang  = empty.findViewById(R.id.tv_guangguang);
         tv_guangguang.setOnClickListener(new View.OnClickListener() {
             @Override

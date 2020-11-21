@@ -3,6 +3,10 @@ package com.bee.user.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +29,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.bee.user.Constants;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
@@ -34,7 +39,6 @@ import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.YouhuiquanBean;
 import com.bee.user.ui.order.OrderCommentActivity;
 import com.bee.user.ui.order.OrderDetailMapActivity;
-import com.bee.user.ui.order.OrderingMapActivity;
 import com.bee.user.ui.order.TuiKuanActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.ui.xiadan.PayActivity;
@@ -99,7 +103,48 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
 
         switch (bean.type) {
 
-            case 1:
+            case Constants.TYPE_READY://商家正在备货
+                tv_zailaiyidan.setText("联系商家");
+                tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        CommonUtil.callPhone(type.getContext(),"10010");
+                    }
+                });
+
+                type.setTextColor(type.getResources().getColor(R.color.color_282525));
+                String str = "12：00";
+                SpannableString msp = new SpannableString("预计"+str+"送达");
+                msp.setSpan(new ForegroundColorSpan(type.getResources().getColor(R.color.color_FF6200)), 2, 2+str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                type.setText(msp);
+
+
+
+                tv_pinglun.setVisibility(View.GONE);
+
+                break;
+            case Constants.TYPE_PEISONG://商品配送中
+                tv_zailaiyidan.setText("联系骑手");
+                tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        CommonUtil.callPhone(type.getContext(),"10080");
+                    }
+                });
+
+                type.setTextColor(type.getResources().getColor(R.color.color_282525));
+                String str1 = "12：00";
+                SpannableString msp1 = new SpannableString("预计"+str1+"送达");
+                msp1.setSpan(new ForegroundColorSpan(type.getResources().getColor(R.color.color_FF6200)), 2, 2+str1.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                type.setText(msp1);
+
+                tv_pinglun.setVisibility(View.GONE);
+
+                break;
+
+
+
+            case Constants.TYPE_PAY_WAITE://等待支付
                 tv_zailaiyidan.setText("去支付");
                 tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -111,8 +156,8 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 type.setTextColor(type.getResources().getColor(R.color.FF6200));
                 tv_pinglun.setVisibility(View.GONE);
                 break;
-            case 0:
-            case 2:
+            case Constants.TYPE_CANCELED://订单已取消
+            case Constants.TYPE_COMPLETE://订单已送达,已收货
                 tv_zailaiyidan.setText("再来一单");
                 tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -133,7 +178,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                     }
                 });
                 break;
-            case 3:
+            case Constants.TYPE_TO_BE_COMMENTED://待评价
                 tv_zailaiyidan.setText("再来一单");
                 tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -155,7 +200,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                     }
                 });
                 break;
-            case 4:
+            case Constants.TYPE_TUIKUAN://退款
                 tv_zailaiyidan.setText("退款进度");
                 tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -197,25 +242,20 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 aMap.setOnMapClickListener(new AMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
-                        Intent intent = new Intent(mContext, OrderDetailMapActivity.class);
-                        intent.putExtra("type", bean.type);
-                        mContext.startActivity(intent);
+                        CommonUtil.showOrderDetailActivity(mContext,bean.type);
+
                     }
                 });
                 aMap.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        Intent intent = new Intent(mContext, OrderDetailMapActivity.class);
-                        intent.putExtra("type", bean.type);
-                        mContext.startActivity(intent);
+                        CommonUtil.showOrderDetailActivity(mContext,bean.type);
                     }
                 });
                 aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        Intent intent = new Intent(mContext, OrderDetailMapActivity.class);
-                        intent.putExtra("type", bean.type);
-                        mContext.startActivity(intent);
+                        CommonUtil.showOrderDetailActivity(mContext,bean.type);
                         return true;
                     }
                 });

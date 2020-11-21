@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.HomeBean;
@@ -23,6 +24,7 @@ import com.bee.user.ui.adapter.OrderFragmentAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.nearby.FoodActivity;
 import com.bee.user.ui.nearby.NearbyFragment;
+import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.LoadmoreUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -98,9 +100,9 @@ public class OrderFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                Intent intent = new Intent(recyclerview.getContext(), OrderDetailActivity.class);
-                intent.putExtra("type",mAdapter.getData().get(position).type);
-                recyclerview.getContext().startActivity(intent);
+
+                CommonUtil.showOrderDetailActivity(recyclerview.getContext(),mAdapter.getData().get(position).type);
+
             }
         });
         recyclerview.setAdapter(mAdapter);
@@ -124,12 +126,24 @@ public class OrderFragment extends BaseFragment {
             @Override
             protected List getSampleData(int lenth) {
                 ArrayList<OrderBean> beans = new ArrayList<OrderBean>();
-                int t = type == OrderBean.type2?OrderBean.type2 :OrderBean.type1;
+//                int t = type == OrderBean.type2?OrderBean.type2 :OrderBean.type1;
 
-                beans.add(new OrderBean(t));
-                beans.add(new OrderBean(t));
-                beans.add(new OrderBean(t));
-                beans.add(new OrderBean(t));
+                if(type == 0){
+                    beans.add(new OrderBean(Constants.TYPE_READY));
+                    beans.add(new OrderBean(Constants.TYPE_PEISONG));
+                    beans.add(new OrderBean(Constants.TYPE_CANCELED));
+
+                    beans.add(new OrderBean(Constants.TYPE_PAY_WAITE));
+                    beans.add(new OrderBean(Constants.TYPE_TUIKUAN));
+                    beans.add(new OrderBean(Constants.TYPE_TO_BE_COMMENTED));
+
+                }else{
+                    beans.add(new OrderBean(type));
+                    beans.add(new OrderBean(type));
+                    beans.add(new OrderBean(type));
+                    beans.add(new OrderBean(type));
+                }
+
                 return beans;
             }
         };

@@ -234,7 +234,7 @@
             </RelativeLayout>
 
             <include layout="@layout/item_orderdetail_head_card"
-                android:id="@+id/view_3"
+                android:id="@+id/buy_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -257,7 +257,7 @@
                 android:paddingTop="18dp"
                 android:paddingBottom="28dp"
                 android:background="@drawable/bg_round10dp_white"
-                app:layout_constraintTop_toBottomOf="@+id/view_3">
+                app:layout_constraintTop_toBottomOf="@+id/buy_card">
 
 
                 <TextView

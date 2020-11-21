@@ -207,7 +207,7 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
                 initHeadView(head);
                 break;
         }
-
+        CommonUtil.initBuyCardView(head);
 
         ArrayList<StoreBean> beans = new ArrayList<>();
         beans.add(new StoreBean());

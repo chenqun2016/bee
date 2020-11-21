@@ -168,7 +168,7 @@ public class OrderDetailActivity extends BaseActivity {
                 tv_people_des.setVisibility(View.GONE);
                 ll_bottom.setVisibility(View.VISIBLE);
                 break;
-            case Constants.TYPE_TUIKUAN://退款中
+            case Constants.TYPE_TUIKUAN://退款
                 head = View.inflate(this, R.layout.head_orderdetail_tuikuan, null);
                 initHeadViewtuikuan(head);
                 tv_title.setText("订单已送达");
@@ -179,6 +179,7 @@ public class OrderDetailActivity extends BaseActivity {
                 break;
         }
 
+        CommonUtil.initBuyCardView(head);
 
         ArrayList<StoreBean> beans = new ArrayList<>();
         beans.add(new StoreBean());

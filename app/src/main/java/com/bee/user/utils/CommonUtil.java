@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.FoodBean;
@@ -26,9 +27,11 @@ import com.bee.user.ui.adapter.OrderFoodAdapter;
 import com.bee.user.ui.adapter.OrderGridviewItemAdapter;
 import com.bee.user.ui.adapter.OrderTraceAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.mine.BuyCardActivity;
 import com.bee.user.ui.nearby.ImagesActivity;
 import com.bee.user.ui.order.OrderCommentActivity;
 import com.bee.user.ui.order.OrderDetailActivity;
+import com.bee.user.ui.order.OrderDetailMapActivity;
 import com.bee.user.ui.order.ShouHouActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.ui.xiadan.PayActivity;
@@ -172,7 +175,7 @@ public class CommonUtil {
         }
     }
 
-    private static void callPhone(Context c,String s) {
+    public static void callPhone(Context c,String s) {
         c.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + s)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
@@ -249,5 +252,33 @@ public class CommonUtil {
 
         dialog.setContentView(inflate);
         dialog.show();
+    }
+    //购买配送卡省钱事
+    public static void initBuyCardView(View view) {
+        View buy_card = view.findViewById(R.id.buy_card);
+        if(null != buy_card){
+            buy_card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.getContext().startActivity(new Intent(view.getContext(), BuyCardActivity.class));
+                }
+            });
+        }
+    }
+
+    //订单详情页有两种，
+    public static void showOrderDetailActivity(Context mContext, int type) {
+        if(type == Constants.TYPE_PAY_WAITE ||
+                type == Constants.TYPE_READY ||
+                type == Constants.TYPE_PEISONG ){
+            Intent intent = new Intent(mContext, OrderDetailMapActivity.class);
+            intent.putExtra("type",type);
+            mContext.startActivity(intent);
+        }else{
+            Intent intent = new Intent(mContext, OrderDetailActivity.class);
+            intent.putExtra("type",type);
+            mContext.startActivity(intent);
+        }
+
     }
 }

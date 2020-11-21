@@ -14,6 +14,7 @@ import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.nearby.CommentActivity;
 import com.bee.user.ui.order.OrderActivity;
 import com.bee.user.ui.order.OrderCommentActivity;
+import com.bee.user.utils.CommonUtil;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class MyCommentActivity extends BaseActivity {
     @Override
     public void initViews() {
         View empty = View.inflate(this, R.layout.empty_trade_list, null);
+        CommonUtil.initBuyCardView(empty);
+
         TextView tv_empty  = empty.findViewById(R.id.tv_empty);
         tv_empty.setText("您还未对商品有过评价");
 

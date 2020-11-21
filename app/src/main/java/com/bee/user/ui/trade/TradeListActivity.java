@@ -18,6 +18,7 @@ import com.bee.user.R;
 import com.bee.user.bean.TradeRecordBean;
 import com.bee.user.entity.TradeListEntity;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.utils.CommonUtil;
 import com.bee.user.widget.PinnedSectionDecoration;
 import com.bee.user.widget.RadioGroupPlus;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
@@ -114,6 +115,8 @@ public class TradeListActivity extends BaseActivity {
     public void initViews() {
 
         View empty = View.inflate(this, R.layout.empty_trade_list, null);
+        CommonUtil.initBuyCardView(empty);
+
         TextView tv_guangguang  = empty.findViewById(R.id.tv_guangguang);
         tv_guangguang.setOnClickListener(new View.OnClickListener() {
             @Override

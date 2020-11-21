@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="155dp"
+        android:layout_height="230dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/bg_nian"/>
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="155dp"
+        android:layout_height="230dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:layout_marginTop="24dp"
+            android:text="连续年度卡"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-7dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:text="¥"/>
+
+            <TextView
+                android:id="@+id/tv_text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_marginLeft="4dp"
+                android:textSize="50sp"
+                android:textStyle="bold"
+                android:text="89"/>
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_text3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_marginTop="-5dp"
+            android:text="15.50元/月"/>
+
+        <TextView
+            android:id="@+id/tv_text4"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:gravity="center"
+            android:textColor="@color/color_F26F30"
+            android:background="@drawable/bg_round100dp_white"
+            android:textStyle="bold"
+            android:textSize="36sp"
+            android:layout_marginTop="25dp"
+            android:text="年"/>
+
+
+    </LinearLayout>
+</FrameLayout>

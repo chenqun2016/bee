@@ -1,5 +1,6 @@
 package com.bee.user.bean;
 
+import com.bee.user.Constants;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.io.Serializable;
@@ -14,7 +15,7 @@ public class OrderBean implements MultiItemEntity, Serializable {
     public  static final int type1 = 0;
     public  static final int type2 = 1;
 
-    public int type = type1;
+    public int type = 0;
 
     public OrderBean(int type) {
         this.type = type;
@@ -22,7 +23,12 @@ public class OrderBean implements MultiItemEntity, Serializable {
 
     @Override
     public int getItemType() {
-        return type;
+        if(type == Constants.TYPE_PAY_WAITE ||
+                type == Constants.TYPE_READY ||
+                type == Constants.TYPE_PEISONG ){
+            return type2;
+        }
+        return type1;
     }
 
     public static class OrderItemBean implements  Serializable{

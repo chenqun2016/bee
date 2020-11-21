@@ -25,6 +25,7 @@ import com.bee.user.ui.adapter.OrderingAdapter;
 import com.bee.user.ui.base.BaseDialog;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.order.OrderActivity;
+import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.widget.AddRemoveView;
 import com.bee.user.widget.RadioGroupPlus;
@@ -147,6 +148,9 @@ public class OrderingActivity extends BaseActivity {
     }
 
     private void initHeadFootView(View head, View foot) {
+        CommonUtil.initBuyCardView(foot);
+
+
         tv_dizhi    = head.findViewById(R.id.tv_dizhi);
         tv_dizhi2   = head.findViewById(R.id.tv_dizhi2);
         tv_dizhi2.setVisibility(View.GONE);
