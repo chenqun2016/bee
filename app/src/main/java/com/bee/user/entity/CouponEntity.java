@@ -46,8 +46,8 @@ public class CouponEntity extends BaseCEntity<YouhuiquanBean> {
         TextView tv_des3 = helper.findView(R.id.tv_des3);
 
         if(item.type == 0){
-            tv_money.setTextColor(tv_money.getResources().getColor(R.color.color_282525));
-            tv_money_value.setTextColor(tv_money.getResources().getColor(R.color.color_282525));
+            tv_money.setTextColor(tv_money.getResources().getColor(R.color.color_FF6200));
+            tv_money_value.setTextColor(tv_money.getResources().getColor(R.color.color_FF6200));
             tv_limit.setTextColor(tv_money.getResources().getColor(R.color.color_7C7877));
             tv_des1.setTextColor(tv_money.getResources().getColor(R.color.color_282525));
             tv_des2.setTextColor(tv_money.getResources().getColor(R.color.color_7C7877));

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bee.user.R;
@@ -47,6 +48,8 @@ public class CouponFootListAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_coupon_foot, null);
             viewHolder = new ShouyiPlanViewHolder();
+            viewHolder.tl_content = convertView.findViewById(R.id.tl_content);
+
             viewHolder.textView1 = convertView.findViewById(R.id.tv_1);
             viewHolder.textView2 = convertView.findViewById(R.id.tv_2);
             viewHolder.textView3 = convertView.findViewById(R.id.tv_3);
@@ -57,14 +60,17 @@ public class CouponFootListAdapter extends BaseAdapter {
         CardBean cardBean = mList.get(position);
         switch (cardBean.type){
             case 0:
+                viewHolder.tl_content.setBackgroundResource(R.drawable.kapian_yue);
                 viewHolder.textView3.setText("月");
                 viewHolder.textView3.setTextColor(convertView.getResources().getColor(R.color.color_1C95D7));
                 break;
             case 1:
+                viewHolder.tl_content.setBackgroundResource(R.drawable.kapian_ji);
                 viewHolder.textView3.setText("季");
                 viewHolder.textView3.setTextColor(convertView.getResources().getColor(R.color.color_694FF0));
                 break;
             case 2:
+                viewHolder.tl_content.setBackgroundResource(R.drawable.kapian_nian);
                 viewHolder.textView3.setText("年");
                 viewHolder.textView3.setTextColor(convertView.getResources().getColor(R.color.color_F26F30));
                 break;
@@ -75,6 +81,7 @@ public class CouponFootListAdapter extends BaseAdapter {
     }
 
     static class ShouyiPlanViewHolder {
+        RelativeLayout tl_content;
         TextView textView1;
         TextView textView2;
         TextView textView3;

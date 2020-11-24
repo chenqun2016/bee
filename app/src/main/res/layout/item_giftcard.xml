@@ -4,9 +4,10 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/rl_content"
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:background="@color/color_3D7DFB"
+        android:background="@drawable/quan_100"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"

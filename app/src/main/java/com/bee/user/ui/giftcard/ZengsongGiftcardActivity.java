@@ -32,22 +32,22 @@ public class ZengsongGiftcardActivity extends BaseActivity {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_2:
-                List<GiftcardRecordBean> datas = crecyclerview.getBaseAdapter().getData();
-                List<GiftcardRecordBean> data = new ArrayList<>();
-
-                for(GiftcardRecordBean bean : datas){
-
-                    if(bean.isSelected){
-                        data.add(bean);
-                    }
-                }
-                if(0 == data.size()){
-                    ToastUtil.ToastShort(ZengsongGiftcardActivity.this,"请选择礼品卡");
-                    return;
-                }
-
-                ToastUtil.ToastShort(ZengsongGiftcardActivity.this,"已经赠送");
-                startActivity(new Intent(ZengsongGiftcardActivity.this,GetGiftcardActivity.class));
+//                List<GiftcardRecordBean> datas = crecyclerview.getBaseAdapter().getData();
+//                List<GiftcardRecordBean> data = new ArrayList<>();
+//
+//                for(GiftcardRecordBean bean : datas){
+//
+//                    if(bean.isSelected){
+//                        data.add(bean);
+//                    }
+//                }
+//                if(0 == data.size()){
+//                    ToastUtil.ToastShort(ZengsongGiftcardActivity.this,"请选择礼品卡");
+//                    return;
+//                }
+//
+//                ToastUtil.ToastShort(ZengsongGiftcardActivity.this,"已经赠送");
+//                startActivity(new Intent(ZengsongGiftcardActivity.this,GetGiftcardActivity.class));
                 break;
         }
     }

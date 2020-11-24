@@ -6,7 +6,6 @@
     android:background="@drawable/bg_round10dp_white"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    android:paddingTop="10dp"
     android:paddingBottom="15dp"
     android:layout_marginTop="10dp"
     android:layout_marginLeft="10dp"
@@ -17,7 +16,18 @@
         android:id="@+id/imageview"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:background="@color/FF6200"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/icon_xitongtongzhi"
+        />
+
+    <ImageView
+        android:id="@+id/imageview_point"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginRight="-3dp"
+        android:layout_marginTop="7dp"
+        android:src="@drawable/hongdian"
+        android:layout_alignRight="@+id/imageview"
         />
 
     <TextView
@@ -50,7 +60,6 @@
         android:layout_below="@+id/tv_time"
         android:layout_marginTop="15dp"
         android:layout_alignRight="@+id/tv_time"
-        android:background="@color/FF6200"
         />
 
     <TextView

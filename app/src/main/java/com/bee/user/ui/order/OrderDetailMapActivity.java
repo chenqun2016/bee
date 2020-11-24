@@ -18,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,6 +53,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -64,6 +66,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * 描述：
  */
 public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLoadedListener, AMap.OnInfoWindowClickListener {
+    @BindView(R.id.coordinator)
+    CoordinatorLayout coordinator;
+
     @BindView(R.id.appbar)
     AppBarLayout appbar;
 
@@ -84,6 +89,8 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
 
+    @BindView(R.id.tv_text_title)
+    TextView tv_text_title;
 
 
     View line4;
@@ -99,6 +106,11 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
         ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
     }
 
+    @OnClick({R.id.tv_text_title})
+    public void onClick(View view){
+        showTraceDialog();
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_order_detail_map;
@@ -109,36 +121,36 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
         Intent intent = getIntent();
          type = intent.getIntExtra("type", 0);
 
-
         int statusBarHeight = ImmersionBar.getStatusBarHeight(this);
         CollapsingToolbarLayout.LayoutParams layoutParams = (CollapsingToolbarLayout.LayoutParams) toolbar.getLayoutParams();
-        layoutParams.topMargin = statusBarHeight;
+        layoutParams.height += statusBarHeight;
         toolbar.setLayoutParams(layoutParams);
-//
 
         appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-
 
                 int scrollRangle = appBarLayout.getTotalScrollRange();
 
                 LogUtil.d("verticalOffset==" + verticalOffset + "--scrollRangle==" + scrollRangle);
 
                 if (verticalOffset == 0) {//展开
-                    background.setVisibility(View.GONE);
+                    background.setAlpha(0);
 
-                    tv_title.setTitleEnabled(false);
+
+
+                    tv_text_title.setAlpha(0f);
                 } else if (Math.abs(verticalOffset) >= scrollRangle) {
 
-                    tv_title.setTitleEnabled(true);
+                    background.setAlpha(1);
+                    tv_text_title.setAlpha(1f);
                 }else {
-                    tv_title.setTitleEnabled(true);
                     //保留一位小数
                     float alpha = (Math.abs(verticalOffset)) * 1.0f / scrollRangle;
 
-                    background.setVisibility(View.VISIBLE);
                     background.setAlpha(alpha);
+
+                    tv_text_title.setAlpha(alpha);
                 }
 
 
@@ -162,33 +174,33 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
 
         switch (type) {
             case Constants.TYPE_COMPLETE://订单已送达
-                tv_title.setTitle("订单已送达");
+                tv_text_title.setText("订单已送达");
                 head = View.inflate(this, R.layout.head_orderdetail_complete, null);
                 initHeadView(head);
                 break;
 
             case Constants.TYPE_PAY_WAITE://等待支付
-                tv_title.setTitle("等待支付，剩余10");
+                tv_text_title.setText("等待支付，剩余10");
                 head = View.inflate(this, R.layout.head_orderdetail_waite, null);
                 initHeadViewWaite(head);
 
                 countDown();
                 break;
             case Constants.TYPE_READY://商家正在备货
-                tv_title.setTitle("商家正在备货");
+                tv_text_title.setText("商家正在备货");
                 head = View.inflate(this, R.layout.head_orderdetail_beihuo, null);
                 initHeadViewbeihuo(head);
 
                 break;
             case Constants.TYPE_PEISONG://商品配送中
-                tv_title.setTitle("商品配送中");
+                tv_text_title.setText("商品配送中");
                 head = View.inflate(this, R.layout.head_orderdetail_beihuo, null);
                 initHeadViewbeihuo(head);
 
                 break;
 
             case Constants.TYPE_CANCELED://订单已取消
-                tv_title.setTitle("订单已取消");
+                tv_text_title.setText("订单已取消");
                 head = View.inflate(this, R.layout.head_orderdetail_quxiao, null);
                 initHeadViewQuxiao(head);
 
@@ -200,7 +212,7 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
             case Constants.TYPE_TUIKUAN://退款中
                 head = View.inflate(this, R.layout.head_orderdetail_tuikuan, null);
                 initHeadViewtuikuan(head);
-                tv_title.setTitle("订单已送达");
+                tv_text_title.setText("订单已送达");
                 break;
             default:
                 head = View.inflate(this, R.layout.head_orderdetail_complete, null);
@@ -344,7 +356,7 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
                 SpannableString msp = new SpannableString(str + (time - aLong));
                 msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), str.length(), msp.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
 
-                tv_title.setTitle(msp);
+                tv_text_title.setText(msp);
             }
 
         });

@@ -1,6 +1,7 @@
 package com.bee.user.entity;
 
 import android.content.Context;
+import android.view.View;
 
 import com.bee.user.R;
 import com.bee.user.bean.GiftcardRecordBean;
@@ -35,5 +36,20 @@ public class GiftcardRecordEntity extends BaseCEntity<GiftcardRecordBean> {
     @Override
     public void convert(BaseQuickAdapter adapter, BaseViewHolder helper, GiftcardRecordBean item, int position) {
         super.convert(adapter, helper, item, position);
+        View iv_image = helper.getView(R.id.iv_image);
+        if(0 == position){
+            iv_image.setBackgroundResource(R.drawable.quan_xiao_100);
+        }else if(1 == position){
+            iv_image.setBackgroundResource(R.drawable.quan_xiao_300);
+        }
+        else if(2 == position){
+            iv_image.setBackgroundResource(R.drawable.quan_xiao_500);
+        }
+        else if(3 == position){
+            iv_image.setBackgroundResource(R.drawable.quan_xiao_1000);
+        }else{
+            iv_image.setBackgroundResource(R.drawable.quan_xiao_100);
+        }
+
     }
 }

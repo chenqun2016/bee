@@ -115,7 +115,7 @@
                     android:textSize="13sp"
                     android:lineSpacingExtra="10dp"
                     android:textColor="@color/color_3B3838"
-                    android:text="0\n卡券包"/>
+                    android:text="0\n卡包券"/>
                 <TextView
                     android:id="@+id/tv_3"
                     android:layout_width="0dp"

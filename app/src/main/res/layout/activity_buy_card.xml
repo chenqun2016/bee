@@ -31,7 +31,7 @@
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
-        android:text="发票申请"
+        android:text="购买配送卡"
         android:textColor="@color/color_282626"
         android:textSize="18sp"
         android:textStyle="bold"

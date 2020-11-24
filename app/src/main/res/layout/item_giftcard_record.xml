@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:scaleType="centerInside"
-            android:src="@color/color_FF6300" />
+            android:src="@drawable/quan_xiao_100" />
 
 
         <LinearLayout

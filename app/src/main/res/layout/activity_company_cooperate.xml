@@ -54,7 +54,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
-            android:background="@color/color_282525" />
+            android:src="@drawable/icon_qiye_dingcan"/>
 
         <TextView
             android:id="@+id/tv_name"
@@ -113,8 +113,8 @@
                 android:id="@+id/icon1"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_centerVertical="true"
-                android:background="@color/color_282525" />
+                android:src="@drawable/icon_qiye_shangwuhezuo"
+                android:layout_centerVertical="true" />
 
             <TextView
                 android:id="@+id/tv_name1"
@@ -155,7 +155,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_centerVertical="true"
-                android:background="@color/color_282525" />
+                android:src="@drawable/icon_qiye_qiyedingcan"/>
 
             <TextView
                 android:id="@+id/tv_name2"
@@ -196,7 +196,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_centerVertical="true"
-                android:background="@color/color_282525" />
+                android:src="@drawable/icon_qiye_shangwuhezuo"/>
 
             <TextView
                 android:id="@+id/tv_name3"

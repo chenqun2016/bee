@@ -18,7 +18,7 @@
             android:layout_marginLeft="55dp"
             android:textStyle="bold"
             android:textSize="15sp"
-            android:textColor="@color/color_282525"
+            android:textColor="@color/color_FF6200"
             android:text="¥"/>
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_marginLeft="6dp"
             android:textSize="36sp"
             android:textStyle="bold"
-            android:textColor="@color/color_282525"
+            android:textColor="@color/color_FF6200"
             android:text="10"/>
 
         <TextView
@@ -40,7 +40,6 @@
             android:layout_below="@+id/tv_money_value"
             android:layout_marginLeft="50dp"
             android:textSize="12sp"
-            android:textStyle="bold"
             android:textColor="@color/color_7C7877"
             android:text="满59元可用"/>
 
@@ -65,7 +64,6 @@
             android:layout_below="@+id/tv_des1"
             android:layout_marginTop="4dp"
             android:textSize="12sp"
-            android:textStyle="bold"
             android:textColor="@color/color_7C7877"
             android:text="有效期2020-10-01"/>
 
@@ -77,7 +75,6 @@
             android:layout_below="@+id/tv_des2"
             android:layout_marginTop="4dp"
             android:textSize="12sp"
-            android:textStyle="bold"
             android:textColor="@color/color_7C7877"
             android:text="全品类通用"/>
 

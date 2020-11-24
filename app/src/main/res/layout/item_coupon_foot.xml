@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/tl_content"
         android:layout_width="match_parent"
-        android:background="#1E9EE0"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="25dp"
-        android:layout_height="90dp">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tv_1"
@@ -19,7 +19,7 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="18dp"
             android:text="连续包月卡"/>
 
         <TextView
@@ -30,7 +30,7 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="55dp"
+            android:layout_marginTop="52dp"
             android:text="有效期至2020-7-1至2020-9-30"/>
 
         
@@ -43,7 +43,7 @@
             android:textStyle="bold"
             android:textSize="36sp"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="11dp"
             android:layout_marginRight="15dp"
             android:gravity="center"
             android:textColor="#1C95D7"/>

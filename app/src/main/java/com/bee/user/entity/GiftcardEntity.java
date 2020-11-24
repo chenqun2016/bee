@@ -42,5 +42,20 @@ public class GiftcardEntity extends BaseCEntity<GiftcardBean> {
     public void convert(BaseQuickAdapter adapter, BaseViewHolder helper, GiftcardBean item, int position) {
         super.convert(adapter, helper, item, position);
 
+        View rl_content = helper.getView(R.id.rl_content);
+        if(0 == position){
+            rl_content.setBackgroundResource(R.drawable.quan_100);
+        }else if(1 == position){
+            rl_content.setBackgroundResource(R.drawable.quan_300);
+        }
+        else if(2 == position){
+            rl_content.setBackgroundResource(R.drawable.quan_500);
+        }
+        else if(3 == position){
+            rl_content.setBackgroundResource(R.drawable.quan_1000);
+        }else{
+            rl_content.setBackgroundResource(R.drawable.quan_100);
+        }
+
     }
 }

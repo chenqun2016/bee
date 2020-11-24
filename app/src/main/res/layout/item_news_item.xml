@@ -49,8 +49,7 @@
             android:layout_height="43dp"
             android:layout_below="@+id/tv_title"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="15dp"
-            android:background="@color/FF6200" />
+            android:layout_marginTop="15dp" />
 
         <TextView
             android:id="@+id/tv_des"

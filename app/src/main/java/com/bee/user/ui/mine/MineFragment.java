@@ -166,7 +166,7 @@ public class MineFragment extends BaseFragment {
         tv_1.setText(msp);
 
         str = "0";
-        msp = new SpannableString(str + "\n卡券包");
+        msp = new SpannableString(str + "\n卡包券");
         msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         msp.setSpan(new AbsoluteSizeSpan(16, true), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv_2.setText(msp);
