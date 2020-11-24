@@ -14,9 +14,16 @@ buildscript {
 
 allprojects {
     repositories {
+        // 支付宝支付sdk添加下面的内容
+        flatDir {
+            dirs 'libs'
+        }
+
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
+
+
 
 //        rxandroid
         maven { url "https://oss.jfrog.org/libs-snapshot" }

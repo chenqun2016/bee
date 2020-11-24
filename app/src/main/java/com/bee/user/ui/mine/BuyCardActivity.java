@@ -1,5 +1,9 @@
 package com.bee.user.ui.mine;
 
+import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,15 +12,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alipay.sdk.app.PayTask;
 import com.bee.user.R;
+import com.bee.user.bean.OrderInfo;
 import com.bee.user.bean.PeiSongCardBean;
 import com.bee.user.bean.PointDayBean;
 import com.bee.user.ui.adapter.BuyCardAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -78,9 +86,48 @@ public class BuyCardActivity extends BaseActivity {
         return R.layout.activity_buy_card;
     }
 
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @SuppressWarnings("unused")
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1: {
+
+                    break;
+                }
+
+                default:
+                    break;
+            }
+        };
+    };
+
     @Override
     public void initViews() {
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 String orderInfo = new Gson().toJson( new OrderInfo());   // 订单信息
 
+                Runnable payRunnable = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        PayTask alipay = new PayTask(BuyCardActivity.this);
+                        Map<String,String> result = alipay.payV2(orderInfo,true);
+
+                        Message msg = new Message();
+                        msg.what = 1;
+                        msg.obj = result;
+                        mHandler.sendMessage(msg);
+                    }
+                };
+                // 必须异步调用
+                Thread payThread = new Thread(payRunnable);
+                payThread.start();
+            }
+        });
         recyclerview.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
         adapter = new BuyCardAdapter();
         adapter.setOnItemClickListener(new OnItemClickListener() {
