@@ -27,6 +27,28 @@ public interface ApiService {
 
 
     /**
+     * 支付宝预下单参数对象
+     * bizId	integer($int64)
+     * 支付业务ID[米粒配置ID]
+     *
+     * bizType	string
+     * 支付业务类型[1.米粒面值2.配送卡]
+     *
+     * cardType	string
+     * 配送卡类型[a.月度 b.季度 c.年度]
+     *
+     * deviceType	string
+     * 设备类型[安卓、IOS]
+     *
+     * payChannel	string
+     * 支付渠道[ALIPAY.支付宝 WECHATPAY.微信支付]
+     *
+     *
+     */
+    @POST(HttpRequest.zhifubao_pay)
+    Observable<BaseResult<String>> zhifubao_pay(@Body RequestBody info);
+
+    /**
      * 密码登陆
      * @Query("phone") String phone,@Query("password") String password
      */

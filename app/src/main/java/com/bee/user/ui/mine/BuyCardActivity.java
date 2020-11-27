@@ -17,17 +17,24 @@ import com.bee.user.R;
 import com.bee.user.bean.OrderInfo;
 import com.bee.user.bean.PeiSongCardBean;
 import com.bee.user.bean.PointDayBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.BuyCardAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.utils.sputils.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -108,24 +115,44 @@ public class BuyCardActivity extends BaseActivity {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 String orderInfo = new Gson().toJson( new OrderInfo());   // 订单信息
+                Map<String, String> map = new HashMap<>();
+                map.put("bizId", "1");
+                map.put("bizType", "2");
+                map.put("cardType", "a");
+                map.put("deviceType", "安卓");
 
-                Runnable payRunnable = new Runnable() {
+                String payChannel = payType==0?"ALIPAY":"WECHATPAY";
+                map.put("payChannel", payChannel);
 
-                    @Override
-                    public void run() {
-                        PayTask alipay = new PayTask(BuyCardActivity.this);
-                        Map<String,String> result = alipay.payV2(orderInfo,true);
+                Api.getClient(HttpRequest.baseUrl_pay).zhifubao_pay(Api.getRequestBody(map))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<String>() {
+                            @Override
+                            public void onSuccess(String r) {
+                                String orderInfo = new Gson().toJson( new OrderInfo());   // 订单信息
 
-                        Message msg = new Message();
-                        msg.what = 1;
-                        msg.obj = result;
-                        mHandler.sendMessage(msg);
-                    }
-                };
-                // 必须异步调用
-                Thread payThread = new Thread(payRunnable);
-                payThread.start();
+                                Runnable payRunnable = new Runnable() {
+
+                                    @Override
+                                    public void run() {
+                                        PayTask alipay = new PayTask(BuyCardActivity.this);
+                                        Map<String,String> result = alipay.payV2(orderInfo,true);
+
+                                        Message msg = new Message();
+                                        msg.what = 1;
+                                        msg.obj = result;
+                                        mHandler.sendMessage(msg);
+                                    }
+                                };
+                                // 必须异步调用
+                                Thread payThread = new Thread(payRunnable);
+                                payThread.start();
+                            }
+                        });
+
+
+
             }
         });
         recyclerview.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));

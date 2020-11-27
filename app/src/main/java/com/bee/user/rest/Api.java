@@ -42,6 +42,9 @@ public class Api {
 
 
     public static ApiService getClient() {
+       return getClient(HttpRequest.baseUrl);
+    }
+    public static ApiService getClient(String baseurl) {
 
         //log 设置请求log拦截器
         okhttp3.logging.HttpLoggingInterceptor interceptor = new okhttp3.logging.HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
@@ -69,7 +72,7 @@ public class Api {
 //.newBuilder().sslSocketFactory(SSLContextUtil.getSslSocketFactory(DemoApp.getInstance().getAssets().open("server.crt"))).build()
 
         Retrofit client = new Retrofit.Builder()
-                .baseUrl(HttpRequest.baseUrl)
+                .baseUrl(baseurl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(okClient)
@@ -77,6 +80,8 @@ public class Api {
 
         return client.create(ApiService.class);
     }
+
+
     //没有实体公共参数
     public static ApiService getClientNo() {
         //log 设置请求log拦截器

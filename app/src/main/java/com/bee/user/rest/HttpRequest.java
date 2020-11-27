@@ -9,12 +9,16 @@ public class HttpRequest {
 
     public static final  String baseUrl = "http://dev-bee-uhs-uaa.quxianfeng.vip/";
 
+    public static final  String baseUrl_pay = "http://dev-beeweb.quxianfeng.vip/bee-member-zuul-gateway/api-pay/";
+
 
     public static final  String login = "member/login/oneLogin";
     public static final  String login_password = "member/login/password";
 
     public static final  String login_code = "member/login/smscode";
     public static final  String resetPassword = "member/resetPassword";
+
+    public static final  String zhifubao_pay = "t-pay-order/prePaySign";
 
 
 //    用户注册协议
