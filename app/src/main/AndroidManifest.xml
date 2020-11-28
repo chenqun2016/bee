@@ -179,6 +179,9 @@
         <activity android:name=".ui.mine.PointDetailListActivity" />
         <activity android:name=".ui.order.OrderDetailMapActivity" />
         <activity android:name=".ui.mine.BuyCardActivity" />
+        <activity android:name=".ui.mine.HelpCenterActivity" />
+        <activity android:name=".ui.mine.HelpCenterItemActivity" />
+        <activity android:name=".ui.mine.HelpCenterItemItemActivity" />
 
 
     </application>

@@ -67,6 +67,7 @@ public class SplashActivity extends BaseActivity {
 
     private void initData() {
         startActivity(new Intent(this,MainActivity.class));
+        finish();
     }
 
     private int  isForbiddeShow=0;
