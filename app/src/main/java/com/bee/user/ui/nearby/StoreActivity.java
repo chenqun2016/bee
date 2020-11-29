@@ -27,6 +27,7 @@ import com.bee.user.event.StoreEvent;
 import com.bee.user.ui.adapter.FoodChooseTypeAdapter;
 import com.bee.user.ui.adapter.SelectedFoodAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.search.SearchFoodActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
@@ -86,7 +87,6 @@ public class StoreActivity extends BaseActivity {
     ConstraintLayout cl_qujiesuan;
     @BindView(R.id.view_selected)
     DragDialogLayout view_selected;
-
     @BindView(R.id.view_background)
     View view_background;
 
@@ -98,7 +98,8 @@ public class StoreActivity extends BaseActivity {
 
     ViewGroup.LayoutParams params;
 
-    @OnClick({R.id.tv_confirm,R.id.cl_qujiesuan, R.id.tv_dingwei,R.id.view_background})
+    @OnClick({R.id.tv_confirm,R.id.cl_qujiesuan, R.id.tv_dingwei,R.id.view_background,
+    R.id.tv_search_1,R.id.iv_search})
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -108,13 +109,19 @@ public class StoreActivity extends BaseActivity {
             case R.id.cl_qujiesuan:
                 showSelectedDialog();
                 break;
+            case R.id.view_background:
+
+                close();
+                break;
+
             case R.id.tv_dingwei:
 
                 startActivity(new Intent(this, DingWeiActivity.class));
                 break;
-            case R.id.view_background:
 
-                close();
+            case R.id.iv_search:
+            case R.id.tv_search_1:
+                startActivity(new Intent(this, SearchFoodActivity.class));
                 break;
         }
 

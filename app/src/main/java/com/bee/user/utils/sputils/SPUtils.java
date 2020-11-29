@@ -167,15 +167,20 @@ public class SPUtils {
     }
 
     public AMapLocation getLocation() {
-        if (null == mLocation) {
-            String json = share.getString(Constants.USER_LOCATION, "");
-            if (!TextUtils.isEmpty(json)) {
-                return new Gson().fromJson(json, AMapLocation.class);
+        try {
+            if (null == mLocation) {
+                String json = share.getString(Constants.USER_LOCATION, "");
+                if (!TextUtils.isEmpty(json)) {
+                    return new Gson().fromJson(json, AMapLocation.class);
+                }
+                return null;
+            } else {
+                return mLocation;
             }
+        }catch (Exception e){
             return null;
-        } else {
-            return mLocation;
         }
+
     }
 
 
