@@ -33,6 +33,9 @@ public class ChooseAddressActivity extends BaseActivity {
     @BindView(R.id.tv_right)
     TextView tv_right;
 
+    @BindView(R.id.toolbar_title)
+    TextView toolbar_title;
+
     ArrayList<AddressBean> addressBeans;
     @Override
     public int getLayoutId() {
@@ -59,6 +62,8 @@ public class ChooseAddressActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        toolbar_title.setText("收货地址");
+
         tv_right.setText("新增地址");
         tv_right.setVisibility(View.VISIBLE);
 

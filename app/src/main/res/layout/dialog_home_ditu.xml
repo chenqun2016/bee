@@ -11,14 +11,19 @@
     <com.amap.api.maps.TextureMapView
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="160dp"/>
+        android:layout_height="185dp"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:background="@color/white"
+        android:layout_marginTop="-25dp"/>
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="-5dp"
         android:layout_marginBottom="20dp"
         android:text="当前您定位区域超出配送范围，请重新定位。"
         android:textColor="@color/color_282525"

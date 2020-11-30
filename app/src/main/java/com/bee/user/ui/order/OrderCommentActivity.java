@@ -2,19 +2,30 @@ package com.bee.user.ui.order;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bee.user.PicassoEngine;
 import com.bee.user.R;
 import com.bee.user.ui.adapter.OrderCommentFoodAdapter;
 import com.bee.user.ui.adapter.TagsAdapter;
 import com.bee.user.ui.adapter.TagsOrderCommentAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.widget.FlowTagLayout;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.listener.OnResultCallbackListener;
+import com.luck.picture.lib.style.PictureParameterStyle;
+import com.luck.picture.lib.style.PictureSelectorUIStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +50,39 @@ public class OrderCommentActivity extends BaseActivity {
     @BindView(R.id.tv_tijiao)
     TextView tv_tijiao;
 
-    @OnClick({R.id.tv_tijiao})
-    public void onClick(){
-        startActivity(new Intent(this,OrderCommentStatusActivity.class));
+
+    @BindView(R.id.et_content)
+    EditText et_content;
+
+    @BindView(R.id.tv_num)
+    TextView tv_num;
+
+    @OnClick({R.id.tv_tijiao,R.id.tv_paizhao})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.tv_tijiao:
+                startActivity(new Intent(this,OrderCommentStatusActivity.class));
+                break;
+            case R.id.tv_paizhao:
+                PictureSelector.create(this)
+                        .openGallery(PictureMimeType.ofImage())
+                        .imageEngine(PicassoEngine.createPicassoEngine())
+                        .setPictureStyle(PictureParameterStyle.ofSelectTotalStyle())
+                        .maxSelectNum(6)
+                        .forResult(new OnResultCallbackListener<LocalMedia>() {
+                            @Override
+                            public void onResult(List<LocalMedia> result) {
+                                // 结果回调
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                // 取消
+                            }
+                        });
+                break;
+        }
+
     }
 
     @Override
@@ -54,7 +95,6 @@ public class OrderCommentActivity extends BaseActivity {
         setmAdjustView(true);
         super.onCreate(savedInstanceState);
     }
-
     @Override
     public void initViews() {
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
@@ -97,5 +137,14 @@ public class OrderCommentActivity extends BaseActivity {
         dataSource.add("配送慢");
         dataSource.add("写评价");
         tagsAdapter.onlyAddAll(dataSource);
+
+
+
+        et_content.setSelection(et_content.getText().length());
+
+        String strs = "评论文字/图片 ";
+        SpannableString msp1 = new SpannableString(strs+"12积分");
+        msp1.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), strs.length(), msp1.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        tv_num.setText(msp1);
     }
 }

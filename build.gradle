@@ -37,7 +37,8 @@ ext {
     versionCode = 1
     versionName = '1.0.0'
 
-    minSdkVersion = 15
+    //图片选择器最低19
+    minSdkVersion = 19
     targetSdkVersion = 30
     compileSdkVersion = 30
     supportLibraryVersion = '30.0.0'

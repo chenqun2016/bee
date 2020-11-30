@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.bee.user.PicassoEngine;
 import com.bee.user.R;
 import com.bee.user.bean.OrderGridviewItemBean;
 import com.bee.user.ui.adapter.FoodChooseTypeTagsAdapter;
@@ -21,6 +22,12 @@ import com.bee.user.utils.CommonUtil;
 import com.bee.user.widget.FlowTagLayout;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
+import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.listener.OnResultCallbackListener;
+import com.luck.picture.lib.style.PictureParameterStyle;
+import com.luck.picture.lib.style.PictureSelectorUIStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +75,24 @@ public class FeedbackActivity extends BaseActivity {
 
                 break;
             case R.id.tv_paizhao://上传凭证 最多6张
+                PictureSelector.create(this)
+                        .openGallery(PictureMimeType.ofImage())
+                        .imageEngine(PicassoEngine.createPicassoEngine())
+                        .setPictureStyle(PictureParameterStyle.ofSelectTotalStyle())
+                        .maxSelectNum(6)
+                        .forResult(new OnResultCallbackListener<LocalMedia>() {
+                            @Override
+                            public void onResult(List<LocalMedia> result) {
+                                // 结果回调
+                            }
+
+                            @Override
+                            public void onCancel() {
+                                // 取消
+                            }
+                        });
                 break;
+
         }
 
     }

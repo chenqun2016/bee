@@ -35,6 +35,8 @@ import com.bee.user.ui.adapter.TagsAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.nearby.FoodActivity;
 import com.bee.user.ui.nearby.StoreActivity;
+import com.bee.user.ui.xiadan.OrderingActivity;
+import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.widget.ClearEditText;
 import com.bee.user.widget.DragDialogLayout;
@@ -86,7 +88,10 @@ public class SearchFoodActivity extends BaseActivity {
     private HomeAdapter homeAdapter;
     private SearchFoodAdapter adapter;
 
-    @OnClick({R.id.iv_clear,R.id.tv_search})
+    LoadmoreUtils loadmoreUtils;
+
+    @OnClick({R.id.iv_clear,R.id.tv_search,
+            R.id.cl_qujiesuan,R.id.view_background,R.id.tv_confirm})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.iv_clear:
@@ -105,6 +110,9 @@ public class SearchFoodActivity extends BaseActivity {
             case R.id.view_background:
 
                 close();
+                break;
+            case R.id.tv_confirm:
+                startActivity(new Intent(this, OrderingActivity.class));
                 break;
         }
 
@@ -126,6 +134,7 @@ public class SearchFoodActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+
         cet_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -183,14 +192,30 @@ public class SearchFoodActivity extends BaseActivity {
         });
 
 
-        dataSource.add("不放辣");
-        dataSource.add("多一点米饭");
-        dataSource.add("请电话给我");
-        dataSource.add("不要冰");
-        dataSource.add("不要葱");
-        dataSource.add("放到前台");
-        dataSource.add("放门口");
+        dataSource.add("肉");
+        dataSource.add("鱼肉");
+        dataSource.add("牛肉");
+        dataSource.add("鸡肉");
+        dataSource.add("羊肉");
+        dataSource.add("蟹肉");
         tagsAdapter.onlyAddAll(dataSource);
+
+
+
+
+        adapter   = new SearchFoodAdapter();
+
+        recyclerview_data.setLayoutManager(new LinearLayoutManager(this));
+        recyclerview_data.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                startActivity(new Intent(SearchFoodActivity.this, FoodActivity.class));
+            }
+        });
+        loadmoreUtils = new LoadmoreUtils(FoodBean.class);
+        loadmoreUtils.initLoadmore(adapter);
 
         initSelectedFoodDialog();
     }
@@ -207,20 +232,7 @@ public class SearchFoodActivity extends BaseActivity {
     }
 
     private void initDatas() {
-        adapter   = new SearchFoodAdapter();
 
-        recyclerview_data.setLayoutManager(new LinearLayoutManager(this));
-        recyclerview_data.setAdapter(adapter);
-
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                startActivity(new Intent(SearchFoodActivity.this, StoreActivity.class));
-            }
-        });
-
-        LoadmoreUtils loadmoreUtils = new LoadmoreUtils(FoodBean.class);
-        loadmoreUtils.initLoadmore(adapter);
         loadmoreUtils.refresh(adapter);
 
     }
@@ -438,6 +450,8 @@ private int heightSelected;
 
 
     private void initSelectedFoodDialog() {
+        windowHeight = DisplayUtil.getWindowHeight(this);
+
         findViewById(R.id.clean).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

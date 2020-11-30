@@ -212,54 +212,63 @@
                     app:layout_constraintTop_toTopOf="@+id/ratin3" />
 
 
-                <EditText
-                    android:id="@+id/et_content"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/bg_round10dp_grey"
-                    android:gravity="start"
-                    android:hint="请输入"
-                    android:inputType="textMultiLine"
-                    android:maxLength="50"
-                    android:maxLines="3"
-                    android:padding="10dp"
-                    android:text="菜品味道好，包装大气美观，明天接着点"
-                    android:textColor="@color/color_272525"
-                    android:textSize="15sp"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ratin3" />
-
-                <TextView
-                    android:id="@+id/tv_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="11dp"
-                    android:text="评论文字/图片 12积分"
-                    android:textColor="@color/color_7C7877"
-                    android:textSize="11sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/et_content"
-                    app:layout_constraintRight_toRightOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/ratin3">
 
 
-                <TextView
-                    android:id="@+id/tv_paizhao"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginBottom="11dp"
-                    android:paddingTop="15dp"
-                    android:background="@drawable/xuxian_xiao"
-                    android:drawableTop="@drawable/icon_xiangji"
-                    android:gravity="center"
-                    android:text="上传凭证"
-                    android:textColor="@color/color_CBCBCB"
-                    android:textSize="11sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/et_content"
-                    app:layout_constraintLeft_toLeftOf="parent" />
+                    <EditText
+                        android:id="@+id/et_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:hint="请输入"
+                        android:background="@color/transparent"
+                        android:layout_marginBottom="10dp"
+                        android:inputType="textMultiLine"
+                        android:maxLength="500"
+                        android:padding="10dp"
+                        android:text="菜品味道好，包装大气美观，明天接着点"
+                        android:textColor="@color/color_272525"
+                        android:textSize="15sp" />
+
+
+
+                    <TextView
+                        android:id="@+id/tv_paizhao"
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:paddingTop="15dp"
+                        android:background="@drawable/xuxian_xiao"
+                        android:drawableTop="@drawable/icon_xiangji"
+                        android:gravity="center"
+                        android:text="上传凭证"
+                        android:textColor="@color/color_CBCBCB"
+                        android:textSize="11sp"
+                        android:layout_below="@+id/et_content"/>
+
+
+                    <TextView
+                        android:id="@+id/tv_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="评论文字/图片 12积分"
+                        android:textColor="@color/color_7C7877"
+                        android:textSize="11sp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignBottom="@+id/tv_paizhao"/>
+
+                </RelativeLayout>
+
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

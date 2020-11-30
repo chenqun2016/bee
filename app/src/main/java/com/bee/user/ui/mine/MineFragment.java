@@ -24,6 +24,7 @@ import com.bee.user.ui.giftcard.GiftcardActivity;
 import com.bee.user.ui.home.NewsActivity;
 import com.bee.user.ui.order.OrderActivity;
 import com.bee.user.ui.trade.MiLiActivity;
+import com.bee.user.ui.xiadan.ChooseAddressActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.MyGridView;
@@ -197,6 +198,8 @@ public class MineFragment extends BaseFragment {
                         startActivity(intent);
                         break;
                     case 1:
+                        intent = new Intent(getContext(), ChooseAddressActivity.class);
+                        startActivity(intent);
                         break;
                     case 2:
                         intent = new Intent(getContext(),BillActivity.class);

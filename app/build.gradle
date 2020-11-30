@@ -113,6 +113,10 @@ dependencies {
 
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
 
+
+//    图片选择器，
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
+
     implementation project(':bottomindicator')
     implementation project(':base')
     implementation project(':crecyclerview')
