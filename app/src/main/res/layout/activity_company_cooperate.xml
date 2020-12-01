@@ -196,7 +196,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/icon_qiye_shangwuhezuo"/>
+                android:src="@drawable/icon_qiye_gongyingshang"/>
 
             <TextView
                 android:id="@+id/tv_name3"
