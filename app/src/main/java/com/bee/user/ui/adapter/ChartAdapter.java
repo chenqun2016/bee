@@ -1,6 +1,10 @@
 package com.bee.user.ui.adapter;
 
+import android.content.Intent;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -8,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.R;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.StoreBean;
+import com.bee.user.ui.nearby.StoreActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
@@ -29,9 +34,9 @@ public class ChartAdapter extends BaseQuickAdapter<StoreBean, BaseViewHolder> {
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder baseViewHolder, StoreBean storeBean) {
+    protected void convert(@NotNull BaseViewHolder holder, StoreBean storeBean) {
 
-        RecyclerView recyclerview = baseViewHolder.findView(R.id.recyclerview);
+        RecyclerView recyclerview = holder.findView(R.id.recyclerview);
 
         recyclerview.setLayoutManager(new LinearLayoutManager(recyclerview.getContext()));
 
@@ -39,6 +44,23 @@ public class ChartAdapter extends BaseQuickAdapter<StoreBean, BaseViewHolder> {
         foodBeans.add(new FoodBean());
         foodBeans.add(new FoodBean());
 
-        recyclerview.setAdapter(new ChartFoodItemAdapter(foodBeans));
+        ChartFoodItemAdapter chartFoodItemAdapter = new ChartFoodItemAdapter(foodBeans);
+        recyclerview.setAdapter(chartFoodItemAdapter);
+
+
+        CheckBox cb_1 = holder.findView(R.id.cb_1);
+        cb_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                for (FoodBean bean : foodBeans){
+                    bean.isSelected = b;
+                }
+                chartFoodItemAdapter.notifyDataSetChanged();
+
+            }
+        });
+
+
+
     }
 }

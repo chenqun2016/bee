@@ -1,8 +1,15 @@
 package com.bee.user.utils;
+
 import android.os.Handler;
 import android.os.Looper;
+import android.view.ViewParent;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +19,7 @@ import java.util.List;
  * 描述：Recyclerview 加载更多封装类。
  */
 public class LoadmoreUtils {
-    public  Class aClass;//用于创建测试数据。接入接口后可以删除。
+    public Class aClass;//用于创建测试数据。接入接口后可以删除。
 
     public LoadmoreUtils(Class c) {
         aClass = c;
@@ -25,7 +32,7 @@ public class LoadmoreUtils {
     PageInfo pageInfo = new PageInfo();
 
 
-    static  class PageInfo {
+    static class PageInfo {
         int page = 0;
 
         void nextPage() {
@@ -41,7 +48,7 @@ public class LoadmoreUtils {
         }
     }
 
-    public  void initLoadmore(BaseQuickAdapter adapter){
+    public void initLoadmore(BaseQuickAdapter adapter) {
         adapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -49,6 +56,21 @@ public class LoadmoreUtils {
             }
         });
         adapter.getLoadMoreModule().setAutoLoadMore(true);
+
+        RecyclerView recyclerView = adapter.getRecyclerView();
+        ViewParent parent = recyclerView.getParent();
+        if (parent instanceof SwipeRefreshLayout) {
+            SwipeRefreshLayout p = (SwipeRefreshLayout) parent;
+
+            p.setColorSchemeResources(com.huaxiafinance.www.crecyclerview.R.color.colorPrimary,
+                    com.huaxiafinance.www.crecyclerview.R.color.colorPrimaryDark);
+            p.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    refresh(adapter);
+                }
+            });
+        }
     }
 
 
@@ -65,11 +87,21 @@ public class LoadmoreUtils {
     private void loadMore(BaseQuickAdapter mAdapter) {
         request(mAdapter);
     }
+
     /**
      * 请求数据
      */
-    private  void request(BaseQuickAdapter mAdapter) {
 
+    private void request(BaseQuickAdapter mAdapter) {
+
+        ViewParent parent = mAdapter.getRecyclerView().getParent();
+
+        final  SwipeRefreshLayout swipeRefreshLayout ;
+        if (parent instanceof SwipeRefreshLayout) {
+            swipeRefreshLayout = (SwipeRefreshLayout) parent;
+        }else {
+            swipeRefreshLayout = null;
+        }
 
         new Request(pageInfo.page, new RequestCallBack() {
             @Override
@@ -93,12 +125,20 @@ public class LoadmoreUtils {
 
                 // page加一
                 pageInfo.nextPage();
+
+                if(null != swipeRefreshLayout){
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
 
             @Override
             public void fail(Exception e) {
                 mAdapter.getLoadMoreModule().setEnableLoadMore(true);
                 mAdapter.getLoadMoreModule().loadMoreFail();
+
+                if(null != swipeRefreshLayout){
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
         }).start();
     }
@@ -108,16 +148,16 @@ public class LoadmoreUtils {
      * 以下用于创建测试数据。接入接口后可以删除。
      */
 
-    public   boolean mFirstPageNoMore;
-    public  boolean mFirstError = true;
+    public boolean mFirstPageNoMore;
+    public boolean mFirstError = true;
+
     /**
      * 模拟加载数据的类，不用特别关注
      */
-     class Request extends Thread {
-        private int             mPage;
+    class Request extends Thread {
+        private int mPage;
         private RequestCallBack mCallBack;
         private Handler mHandler;
-
 
 
         public Request(int page, RequestCallBack callBack) {
@@ -166,13 +206,13 @@ public class LoadmoreUtils {
         }
     }
 
-    protected   List getSampleData(int lenth) {
+    protected List getSampleData(int lenth) {
 
         List list = new ArrayList<>();
         for (int i = 0; i < lenth; i++) {
 
             try {
-                list.add( aClass.newInstance());
+                list.add(aClass.newInstance());
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InstantiationException e) {
@@ -181,6 +221,7 @@ public class LoadmoreUtils {
         }
         return list;
     }
+
     interface RequestCallBack {
         /**
          * 模拟加载成功

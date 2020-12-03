@@ -8,4 +8,5 @@ import java.io.Serializable;
  * 描述：
  */
 public class FoodBean implements Serializable {
+    public  boolean isSelected = false;
 }

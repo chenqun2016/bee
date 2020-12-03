@@ -70,7 +70,7 @@ public class OrderFragment extends BaseFragment {
 //        crecyclerview = view.findViewById(R.id.crecyclerview);
 
 
-        View view = inflater.inflate(R.layout.item_order_fragment, container, false);
+        View view = inflater.inflate(R.layout.crecyclerview_base, container, false);
         recyclerview = view.findViewById(R.id.recyclerview);
         Bundle arguments = getArguments();
         type = arguments.getInt("type", 0);

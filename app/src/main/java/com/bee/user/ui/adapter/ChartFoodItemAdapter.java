@@ -2,6 +2,7 @@ package com.bee.user.ui.adapter;
 
 import android.graphics.Paint;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.bee.user.R;
@@ -33,6 +34,10 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<FoodBean, BaseViewHol
 
         TextView iv_goods_name = baseViewHolder.findView(R.id.iv_goods_name);
         iv_goods_name.setText("精品海鲜捞面");
+
+        CheckBox cb_1 = baseViewHolder.findView(R.id.cb_1);
+
+        cb_1.setChecked(foodBean.isSelected);
 
     }
 }

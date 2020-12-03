@@ -19,15 +19,20 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.StoreBean;
+import com.bee.user.event.MainEvent;
 import com.bee.user.ui.adapter.ChartAdapter;
 import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.nearby.FoodActivity;
+import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.ui.order.OrderActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -56,10 +61,31 @@ public class ChartFragment extends BaseFragment {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
-    @OnClick({R.id.tv_confirm})
+
+    private  ChartAdapter adapter;
+
+    @OnClick({R.id.tv_confirm,R.id.tv_clear})
     public void onClick(View view){
-        Intent intent = new Intent(getContext(), OrderingActivity.class);
-        startActivity(intent);
+        switch (view.getId()){
+            case R.id.tv_confirm:
+                Intent intent = new Intent(getContext(), OrderingActivity.class);
+                startActivity(intent);
+
+                break;
+
+            case R.id.tv_clear:
+                adapter.setNewInstance(new ArrayList<>());
+
+
+                ll_nonet.setVisibility(View.GONE);
+                ll_nodata.setVisibility(View.VISIBLE);
+                ll_havedata.setVisibility(View.GONE);
+
+//                initNoNet();
+                initNoDatas();
+//                initDatas();
+                break;
+        }
 
     }
 
@@ -104,9 +130,28 @@ public class ChartFragment extends BaseFragment {
     }
 
     private void initDatas() {
-        ChartAdapter adapter = new ChartAdapter();
+        adapter     = new ChartAdapter();
+
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerview.setAdapter(adapter);
+
+        adapter.addChildClickViewIds(R.id.tv_clear, R.id.tv_store);
+        adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                StoreBean item = (StoreBean) adapter.getItem(position);
+
+                switch (view.getId()){
+                    case R.id.tv_store:
+                        startActivity(new Intent(getContext(), StoreActivity.class));
+                        break;
+                    case R.id.tv_clear:
+                        adapter.removeAt(position);
+                        break;
+                }
+            }
+        });
+
 
         View foot = View.inflate(getContext(), R.layout.foot_chart, null);
         ImageView imageview = foot.findViewById(R.id.imageview);
@@ -143,6 +188,15 @@ public class ChartFragment extends BaseFragment {
         recyclerview_tuijian.setAdapter(homeAdapter);
 
         View head = View.inflate(getContext(), R.layout.head_fragment_chart_nodata, null);
+        View tv_guangguang = head.findViewById(R.id.tv_guangguang);
+        tv_guangguang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainEvent mainEvent = new MainEvent(MainEvent.TYPE_set_index);
+                mainEvent.index = 1;
+                EventBus.getDefault().post(mainEvent);
+            }
+        });
         homeAdapter.addHeaderView(head);
 
         homeAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
