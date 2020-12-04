@@ -102,7 +102,8 @@
         <activity android:name=".ui.home.MiaoshaActivity" />
         <activity android:name=".ui.nearby.StoreActivity" />
         <activity android:name=".ui.nearby.DingWeiActivity" />
-        <activity android:name=".ui.nearby.FoodActivity" />
+        <activity android:name=".ui.nearby.FoodActivity"
+            android:theme="@style/FoodActivityTheme"/>
         <activity android:name=".ui.nearby.CommentActivity" />
         <activity android:name=".ui.home.FoodByTypeActivity" />
         <activity android:name=".ui.nearby.ImagesActivity"

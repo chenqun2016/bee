@@ -60,7 +60,6 @@ public class ChartAdapter extends BaseQuickAdapter<StoreBean, BaseViewHolder> {
             }
         });
 
-
-
+        cb_1.setChecked(storeBean.selectedAll);
     }
 }

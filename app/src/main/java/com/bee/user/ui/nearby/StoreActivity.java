@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.FoodTypeBean;
@@ -29,6 +31,7 @@ import com.bee.user.ui.adapter.SelectedFoodAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.search.SearchFoodActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
+import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.DragDialogLayout;
@@ -39,6 +42,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.gyf.immersionbar.ImmersionBar;
+import com.squareup.picasso.Picasso;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -64,6 +68,15 @@ public class StoreActivity extends BaseActivity {
     View status_bar1;
     @BindView(R.id.background)
     View background;
+
+
+
+    @BindView(R.id.iv_icon)
+    ImageView iv_icon;
+    @BindView(R.id.ll_mark)
+    LinearLayout ll_mark;
+
+
 
     @BindView(R.id.iv_back)
     ImageView iv_back;
@@ -227,6 +240,14 @@ public class StoreActivity extends BaseActivity {
 
             }
         });
+
+        Picasso.with(this)
+                .load(R.drawable.food2)
+                .fit()
+                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this,5),0, PicassoRoundTransform.CornerType.ALL))
+                .into(iv_icon);
+        CommonUtil.initTAGViews(ll_mark);
+
 
         initSelectedFoodDialog();
 

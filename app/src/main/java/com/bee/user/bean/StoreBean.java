@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public class StoreBean implements Serializable {
 
+    public boolean selectedAll = false;
+
     public static class StoreTag implements Serializable {
         public String tag;
         public int type;

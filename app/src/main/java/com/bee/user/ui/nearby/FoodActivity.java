@@ -3,18 +3,23 @@ package com.bee.user.ui.nearby;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.CommentBean;
 import com.bee.user.ui.adapter.CommentAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.home.BannerImageHolder;
+import com.bee.user.utils.CommonUtil;
+import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
@@ -24,6 +29,7 @@ import com.bigkoo.convenientbanner.listener.OnPageChangeListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.gyf.immersionbar.ImmersionBar;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +58,7 @@ public class FoodActivity extends BaseActivity {
 
     @BindView(R.id.banner2)
     ConvenientBanner banner2;
+
 
 
     @OnClick({R.id.tv_choosetype})
@@ -112,6 +119,20 @@ public class FoodActivity extends BaseActivity {
 
 
         View head = View.inflate(this, R.layout.head_activity_food_comment, null);
+
+        ImageView iv_icon = head.findViewById(R.id.iv_icon);
+        LinearLayout ll_mark = head.findViewById(R.id.ll_mark);
+
+        Picasso.with(this)
+                .load(R.drawable.food2)
+                .fit()
+                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this,5),0, PicassoRoundTransform.CornerType.ALL))
+                .into(iv_icon);
+        CommonUtil.initTAGViews(ll_mark);
+
+
+
+
         TextView tv_food_comment = head.findViewById(R.id.tv_food_comment);
         tv_food_comment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +152,11 @@ public class FoodActivity extends BaseActivity {
         }
 
         mAdapter.setList(sampleData);
+
+
+
+
+
 
         initBanner();
     }

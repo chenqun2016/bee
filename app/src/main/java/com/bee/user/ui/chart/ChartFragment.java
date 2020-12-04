@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -17,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
+import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.event.MainEvent;
@@ -61,6 +64,9 @@ public class ChartFragment extends BaseFragment {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
+
+    @BindView(R.id.checkbox)
+    CheckBox checkbox;
 
     private  ChartAdapter adapter;
 
@@ -176,6 +182,17 @@ public class ChartFragment extends BaseFragment {
         beans.add(new StoreBean());
         beans.add(new StoreBean());
         adapter.setNewInstance(beans);
+
+
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                for (StoreBean bean : beans){
+                    bean.selectedAll = b;
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void initNoNet() {
