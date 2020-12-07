@@ -38,43 +38,15 @@
         app:layout_constraintLeft_toLeftOf="@+id/tv_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_name"/>
 
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="营业时间：09:00-12:00"
-        android:textSize="12sp"
-        android:textColor="@color/color_7C7877"
-        android:layout_marginTop="6dp"
-        app:layout_constraintLeft_toLeftOf="@+id/tv_dizhi"
-        app:layout_constraintTop_toBottomOf="@+id/tv_dizhi"/>
-
-    <LinearLayout
-        android:id="@+id/ll_tag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="@+id/tv_time"
-        app:layout_constraintTop_toBottomOf="@+id/tv_time"/>
 
 
 
-    <TextView
-        android:id="@+id/tv_des"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3公里    大约15分钟"
-        android:textSize="12sp"
-        android:textColor="@color/color_7C7877"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/color_F5F5F5"
         android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/ll_tag"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dizhi"
         app:layout_constraintLeft_toLeftOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -185,6 +185,7 @@
         <activity android:name=".ui.mine.HelpCenterItemActivity" />
         <activity android:name=".ui.mine.HelpCenterItemItemActivity" />
         <activity android:name=".ui.search.SearchFoodActivity" />
+        <activity android:name=".ui.location.SelectLocationActivity" />
 
 
     </application>
