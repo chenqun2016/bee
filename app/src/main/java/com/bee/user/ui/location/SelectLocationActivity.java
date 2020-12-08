@@ -68,11 +68,8 @@ public class SelectLocationActivity extends BaseActivity {
                 startActivity(new Intent(this, ChooseAddressActivity.class));
                 break;
 
-
-
-
             case R.id.tv_location://地址
-//                showCityPicker();
+                showCityPicker();
                 break;
             case R.id.tv_reLocation://重新定位
                 EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_reLocation));

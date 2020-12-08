@@ -86,7 +86,7 @@
 
 
         <activity android:name=".ui.MainActivity"
-            android:theme="@style/MainTheme"
+
             android:launchMode="singleTask">
 
         </activity>
@@ -185,8 +185,10 @@
         <activity android:name=".ui.mine.HelpCenterItemActivity" />
         <activity android:name=".ui.mine.HelpCenterItemItemActivity" />
         <activity android:name=".ui.search.SearchFoodActivity" />
-        <activity android:name=".ui.location.SelectLocationActivity" />
-        <activity android:name=".ui.search.SearchLocationActivity" />
+        <activity android:name=".ui.location.SelectLocationActivity"
+            android:theme="@style/CityPickerTheme"/>
+        <activity android:name=".ui.search.SearchLocationActivity"
+            android:theme="@style/CityPickerTheme"/>
 
 
     </application>
