@@ -23,8 +23,10 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.amap.api.maps.MapView;
 import com.bee.user.R;
 import com.bee.user.bean.UserBean;
+import com.bee.user.event.LocationChangedEvent;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -55,6 +57,9 @@ import com.mobile.auth.gatewayauth.PreLoginResultListener;
 import com.mobile.auth.gatewayauth.TokenResultListener;
 import com.mobile.auth.gatewayauth.model.TokenRet;
 import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
+import com.zaaach.citypicker.CityPicker;
+import com.zaaach.citypicker.model.LocateState;
+import com.zaaach.citypicker.model.LocatedCity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -123,7 +128,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
 
         initLogins();
-
+        initLocations();
     }
 
 
@@ -486,6 +491,77 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
 
+
+
+
+
+
+
+
+
+
+
+    private AMapLocationClient mLocationClient;
+    //声明定位回调监听器
+    //异步获取定位结果
+    private AMapLocationListener mAMapLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+                    //可在其中解析amapLocation获取相应内容。
+                    LogUtil.d("location==" + amapLocation.getCity() + "//code==" + amapLocation.getCityCode());
+                    SPUtils.geTinstance().setLocation(amapLocation);
+                } else {
+                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+
+
+
+            EventBus.getDefault().post(new LocationChangedEvent());
+            HomeFragment fragment = (HomeFragment) fragments.get(0);
+            fragment.onLocationChanged();
+
+
+            closeLoadingDialog();
+        }
+    };
+
+
+    private void initLocations() {
+
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+//设置定位回调监听
+        mLocationClient.setLocationListener(mAMapLocationListener);
+
+        AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+
+        //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
+//        mLocationOption.setInterval(1000);
+
+        //获取一次定位结果：
+//该方法默认为false。
+        mLocationOption.setOnceLocation(true);
+        //获取最近3s内精度最高的一次定位结果：
+//设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        mLocationOption.setOnceLocationLatest(true);
+
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+//        mLocationClient.startLocation();
+
+    }
+
+
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainEvent(MainEvent event) {
 
@@ -500,6 +576,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }else if(MainEvent.TYPE_set_index == event.TYPE){
             onPageSelected(event.index);
             mIndicator.setCurrentItem(event.index);
+
+        }else if(MainEvent.TYPE_reLocation == event.TYPE){
+
+            showLoadingDialog();
+            mLocationClient.stopLocation();
+//                        启动定位
+            mLocationClient.startLocation();
         }
 
     }

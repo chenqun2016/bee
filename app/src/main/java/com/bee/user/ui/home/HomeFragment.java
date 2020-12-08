@@ -35,6 +35,7 @@ import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.HomeGridview2Bean;
 import com.bee.user.entity.LunchEntity;
 import com.bee.user.entity.NearbyEntity;
+import com.bee.user.event.MainEvent;
 import com.bee.user.ui.CRecyclerViewActivity;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.adapter.HomeAdapter;
@@ -42,6 +43,7 @@ import com.bee.user.ui.adapter.HomeGridview2Adapter;
 import com.bee.user.ui.adapter.HomeGridviewAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.base.fragment.BaseFragment;
+import com.bee.user.ui.location.SelectLocationActivity;
 import com.bee.user.ui.nearby.FoodActivity;
 import com.bee.user.ui.search.SearchActivity;
 import com.bee.user.utils.LogUtil;
@@ -60,6 +62,8 @@ import com.zaaach.citypicker.model.City;
 import com.zaaach.citypicker.model.HotCity;
 import com.zaaach.citypicker.model.LocateState;
 import com.zaaach.citypicker.model.LocatedCity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,41 +94,10 @@ public class HomeFragment extends BaseFragment {
 
 
 
-    private AMapLocationClient mLocationClient;
-
 
     private List<BannerBean> adsList = new ArrayList<>();//banner数据
     private DingweiDialog dingweiDialog;
 
-    //声明定位回调监听器
-    //异步获取定位结果
-    private AMapLocationListener mAMapLocationListener = new AMapLocationListener() {
-        @Override
-        public void onLocationChanged(AMapLocation amapLocation) {
-
-            BaseActivity activity = (BaseActivity) getActivity();
-            activity.closeLoadingDialog();
-            if(null != dingweiDialog ){
-                dingweiDialog.onMapLoaded();
-            }
-
-
-            if (amapLocation != null) {
-                if (amapLocation.getErrorCode() == 0) {
-                    //可在其中解析amapLocation获取相应内容。
-                    LogUtil.d("location==" + amapLocation.getCity() + "//code==" + amapLocation.getCityCode());
-                    tv_dingwei.setText(amapLocation.getCity() + amapLocation.getDistrict() + amapLocation.getStreet() + amapLocation.getStreetNum());
-                    CityPicker.from(HomeFragment.this).locateComplete(new LocatedCity(amapLocation.getCity(), amapLocation.getProvince(), amapLocation.getAdCode()), LocateState.SUCCESS);
-                    SPUtils.geTinstance().setLocation(amapLocation);
-                } else {
-                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
-                    Log.e("AmapError", "location Error, ErrCode:"
-                            + amapLocation.getErrorCode() + ", errInfo:"
-                            + amapLocation.getErrorInfo());
-                }
-            }
-        }
-    };
 
 
     public static HomeFragment newInstance(int arg) {
@@ -137,7 +110,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void getDatas() {
-        initLocations();
+        EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_reLocation));
 
     }
 
@@ -146,7 +119,9 @@ public class HomeFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_dingwei:
-                showCityPicker();
+
+                startActivity(new Intent(getContext(), SelectLocationActivity.class));
+
                 break;
             case R.id.ll_search:
                 startActivity(new Intent(getContext(), SearchActivity.class));
@@ -160,12 +135,8 @@ public class HomeFragment extends BaseFragment {
                         dingweiDialog = new DingweiDialog(getActivity(), new DingweiDialog.OnDingWei() {
                             @Override
                             public void onDingWei() {
-                                BaseActivity activity = (BaseActivity) getActivity();
-                                activity.showLoadingDialog();
 
-                                mLocationClient.stopLocation();
-//                        启动定位
-                                mLocationClient.startLocation();
+                                EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_reLocation));
                             }
                         });
                     }
@@ -175,6 +146,17 @@ public class HomeFragment extends BaseFragment {
 
 
                 break;
+        }
+    }
+
+    public void  onLocationChanged(){
+
+        if(null != dingweiDialog ){
+            dingweiDialog.onMapLoaded();
+        }
+        AMapLocation amapLocation = SPUtils.geTinstance().getLocation();
+        if(null != amapLocation){
+            tv_dingwei.setText(amapLocation.getCity() + amapLocation.getDistrict() + amapLocation.getStreet() + amapLocation.getStreetNum());
         }
     }
 
@@ -365,81 +347,6 @@ public class HomeFragment extends BaseFragment {
             }
         });
         mBanner.setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
-
-    }
-
-    public void showCityPicker() {
-        MainActivity activity = (MainActivity) getActivity();
-        List<HotCity> hotCities = new ArrayList<>();
-        hotCities.add(new HotCity("北京", "北京", "101010100"));
-        hotCities.add(new HotCity("上海", "上海", "101020100"));
-        hotCities.add(new HotCity("广州", "广东", "101280101"));
-        hotCities.add(new HotCity("深圳", "广东", "101280601"));
-        hotCities.add(new HotCity("杭州", "浙江", "101210101"));
-
-
-        activity.setStatusBar(1);
-        CityPicker.from(this)
-                .enableAnimation(true)
-                .setAnimationStyle(R.style.DefaultCityPickerAnimation)
-                .setLocatedCity(null)
-                .setHotCities(hotCities)
-                .setOnPickListener(new OnPickListener() {
-                    @Override
-                    public void onPick(int position, City data) {
-                        tv_dingwei.setText(data.getName());
-                        Toast.makeText(
-                                getContext(),
-                                String.format("点击的数据：%s，%s", data.getName(), data.getCode()),
-                                Toast.LENGTH_SHORT)
-                                .show();
-
-                        activity.setStatusBar(0);
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        activity.setStatusBar(0);
-                        Toast.makeText(getContext(), "取消选择", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onLocate() {
-                        LogUtil.d("onLocate");
-                        mLocationClient.stopLocation();
-//                        启动定位
-                        mLocationClient.startLocation();
-
-
-                    }
-                })
-                .show();
-    }
-
-    private void initLocations() {
-
-        //初始化定位
-        mLocationClient = new AMapLocationClient(getActivity().getApplicationContext());
-//设置定位回调监听
-        mLocationClient.setLocationListener(mAMapLocationListener);
-
-        AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
-        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
-        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
-
-        //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
-//        mLocationOption.setInterval(1000);
-
-        //获取一次定位结果：
-//该方法默认为false。
-        mLocationOption.setOnceLocation(true);
-        //获取最近3s内精度最高的一次定位结果：
-//设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
-        mLocationOption.setOnceLocationLatest(true);
-
-        mLocationClient.setLocationOption(mLocationOption);
-        //启动定位
-        mLocationClient.startLocation();
 
     }
 

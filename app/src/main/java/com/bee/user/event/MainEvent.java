@@ -8,6 +8,7 @@ package com.bee.user.event;
 public class MainEvent {
     public static final int TYPE_login = 0;
     public static final int TYPE_set_index = 1;
+    public static final int TYPE_reLocation = 2;
 
     public int index = 0;
     public int TYPE = 0;

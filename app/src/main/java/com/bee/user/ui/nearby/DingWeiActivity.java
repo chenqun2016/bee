@@ -51,7 +51,7 @@ public class DingWeiActivity extends BaseActivity implements AMap.OnMapLoadedLis
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_location_area:
-                startActivity(new Intent(this, SelectLocationActivity.class));
+
                 break;
 
             case R.id.tv_location:
