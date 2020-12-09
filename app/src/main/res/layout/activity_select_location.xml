@@ -133,8 +133,12 @@
 
                 <TextView
                     android:id="@+id/tv_location_area"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:ellipsize="end"
+                    android:lines="1"
                     android:textSize="17sp"
                     android:textColor="@color/color_282525"
                     android:textStyle="bold"
@@ -143,10 +147,7 @@
                     android:drawableLeft="@mipmap/icon_dingwei_chengse_xiao"
                     android:text="信建大厦"/>
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1px"
-                    android:layout_weight="1"/>
+
 
                 <TextView
                     android:id="@+id/tv_reLocation"

@@ -108,7 +108,7 @@ public class PasswordLoginActivity extends BaseActivity {
                 map.put("password", pass);
                 map.put("username", phone);
 
-                Api.getClient().login_password(Api.getRequestBody(map))
+                Api.getClient(HttpRequest.baseUrl_user).login_password(Api.getRequestBody(map))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new BaseSubscriber<String>() {

@@ -205,7 +205,8 @@ public class SelectLocationActivity extends BaseActivity {
         AMapLocation amapLocation = SPUtils.geTinstance().getLocation();
         if (null != amapLocation) {
             if (amapLocation.getErrorCode() == 0) {
-                tv_location_area.setText( amapLocation.getStreet() + amapLocation.getStreetNum());
+//                tv_location_area.setText( amapLocation.getStreet() + amapLocation.getStreetNum());
+                tv_location_area.setText( amapLocation.getAddress() );
                 CityPicker.from(SelectLocationActivity.this).locateComplete(new LocatedCity(amapLocation.getCity(), amapLocation.getProvince(), amapLocation.getAdCode()), LocateState.SUCCESS);
             }
         }

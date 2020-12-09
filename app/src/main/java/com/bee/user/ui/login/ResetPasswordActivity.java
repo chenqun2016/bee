@@ -12,6 +12,7 @@ import com.bee.user.R;
 import com.bee.user.bean.UserBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.sputils.SPUtils;
@@ -72,7 +73,7 @@ public class ResetPasswordActivity extends BaseActivity {
                 map.put("password", pass);
                 map.put("smsCode", code);
 
-                Api.getClient().resetPassword(Api.getRequestBody(map))
+                Api.getClient(HttpRequest.baseUrl_user).resetPassword(Api.getRequestBody(map))
                         .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new BaseSubscriber<String>() {

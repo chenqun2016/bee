@@ -13,21 +13,27 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amap.api.location.AMapLocation;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.StoreBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.NearbyStoreFoodAdapter;
 import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.ToastUtil;
+import com.bee.user.utils.sputils.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseCEntity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.rxjava3.core.Observable;
 
@@ -39,7 +45,18 @@ import io.reactivex.rxjava3.core.Observable;
 public class NearbyEntity extends BaseCEntity<StoreBean> {
     @Override
     public Observable getPageAt(int page, int row) {
-        return null;
+        AMapLocation location = SPUtils.geTinstance().getLocation();
+        Map<String, String> map = new HashMap<>();
+        if(null != location){
+            map.put("longitude", location.getLongitude()+"");
+            map.put("latitude", location.getLatitude()+"");
+            map.put("address", location.getAddress());
+        }
+        map.put("maxDistance", 1000+"");
+        map.put("productCategoryId", 1+"");
+        map.put("productCategoryName", 1+"");
+
+        return Api.getClient(HttpRequest.baseUrl_shop).shop_nearby(page,row,Api.getRequestBody(map));
     }
 
     @Override

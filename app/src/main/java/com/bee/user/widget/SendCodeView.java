@@ -20,6 +20,7 @@ import com.bee.user.R;
 import com.bee.user.bean.UserBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.utils.sputils.SPUtils;
 
 import java.util.HashMap;
@@ -73,7 +74,7 @@ public class SendCodeView extends FrameLayout implements View.OnClickListener {
 
 
     private void sendCode() {
-        Api.getClient().smsCode(mListener.onGetPhone())
+        Api.getClient(HttpRequest.baseUrl_user).smsCode(mListener.onGetPhone())
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<String>() {

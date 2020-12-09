@@ -156,7 +156,7 @@ public class HomeFragment extends BaseFragment {
         }
         AMapLocation amapLocation = SPUtils.geTinstance().getLocation();
         if(null != amapLocation){
-            tv_dingwei.setText(amapLocation.getCity() + amapLocation.getDistrict() + amapLocation.getStreet() + amapLocation.getStreetNum());
+            tv_dingwei.setText(amapLocation.getPoiName() );
         }
     }
 

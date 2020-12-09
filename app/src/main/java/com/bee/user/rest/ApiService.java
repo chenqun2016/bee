@@ -72,9 +72,33 @@ public interface ApiService {
 
 
     /**
-     * 重置密码
+     * 发送验证码
      * @Path("mobile") String mobile
      */
     @GET("validata/smsCode/{mobile}")
     Observable<BaseResult<String>> smsCode(@Path("mobile") String mobile);
+
+
+
+
+    /**
+     * 搜索附近【店铺商家】
+     */
+    @POST(HttpRequest.shop_nearby)
+    Observable<BaseResult<String>> shop_nearby(@Query("pageNum") int pageNum,
+                                          @Query("pageSize") int pageSize,
+                                          @Body RequestBody info);
+
+
+    /**
+     * 获取APP【店铺商家】详情
+     */
+    @GET(HttpRequest.shop_getDetail)
+    Observable<BaseResult<String>> shop_getDetail(@Path("id") String id);
+
+    /**
+     * APP获取店铺【商品】列表
+     */
+    @GET(HttpRequest.shop_queryProductList)
+    Observable<BaseResult<String>> shop_queryProductList(@Path("id") String id);
 }

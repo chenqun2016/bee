@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.bee.user.R;
+import com.bee.user.ui.base.fragment.BaseViewPagerAdapter;
 import com.huaxiafinance.lc.bottomindicator.IconPagerAdapter;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * Created by chenqun on 2017/5/11.
  */
 
-public class MainAdapter extends FragmentStatePagerAdapter implements IconPagerAdapter {
+public class MainAdapter extends BaseViewPagerAdapter implements IconPagerAdapter {
     private static String[] strs = {"首页", "附近",  "购物车","我的"};
     private static int[] ints = {R.drawable.tab_home_selector, R.drawable.tab_nearby_selector,  R.drawable.tab_shopping_selector,  R.drawable.tab_mine_selector};
     private List<Fragment> mFragments;

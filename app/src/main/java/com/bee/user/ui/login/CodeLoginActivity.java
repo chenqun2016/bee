@@ -90,7 +90,7 @@ public class CodeLoginActivity extends BaseActivity {
                 map.put("phone", phone);
                 map.put("smsCode", code);
 
-                Api.getClient().login_code(Api.getRequestBody(map)).
+                Api.getClient(HttpRequest.baseUrl_user).login_code(Api.getRequestBody(map)).
                         subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new BaseSubscriber<String>() {
