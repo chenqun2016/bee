@@ -34,7 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Api {
     public static Gson gson = new Gson();
 
-    public static RequestBody getRequestBody(Map<String, String> map){
+    public static RequestBody getRequestBody(Object map){
 
         return RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),gson.toJson(map));
     }

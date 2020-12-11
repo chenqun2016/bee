@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/ll_head2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ditu"/>
+
+        <ImageView
+            android:id="@+id/iv_miaosha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginLeft="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/xianshimiaosha"/>
+
+        <TextView
+            android:id="@+id/tv_money_pre2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="75dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_marginTop="26dp"
+            android:text="¥"/>
+        <TextView
+            android:id="@+id/tv_money2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@+id/tv_money_pre2"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="23sp"
+            android:layout_marginTop="16dp"
+            android:text="10"/>
+
+        <TextView
+            android:id="@+id/tv_money_past2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="75dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_money_pre2"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:text="¥10"/>
+
+
+        <TextView
+            android:id="@+id/tv_shengyu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="距结束还剩"
+            android:textSize="13sp"
+            android:textColor="@color/color_282525"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="35dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_shengyu"
+            app:layout_constraintTop_toBottomOf="@+id/tv_shengyu">
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/bg_round2dp_red"
+                android:text="00"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="13sp"
+                android:textColor="@color/color_FF5050"/>
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/bg_round2dp_red"
+                android:text="00"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                android:textSize="13sp"
+                android:textColor="@color/color_FF5050"/>
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/bg_round2dp_red"
+                android:text="00"
+                android:textColor="@color/white"
+                android:textSize="13sp"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="15dp"
+        android:layout_height="wrap_content">
+
+        <!--            <TextView-->
+        <!--                android:id="@+id/tv_money_pre"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--                app:layout_constraintTop_toTopOf="parent"-->
+        <!--                android:textColor="@color/color_FF5050"-->
+        <!--                android:textSize="12sp"-->
+        <!--                android:layout_marginTop="6dp"-->
+        <!--                android:text="¥"/>-->
+        <!--            <TextView-->
+        <!--                android:id="@+id/tv_money"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                app:layout_constraintLeft_toRightOf="@+id/tv_money_pre"-->
+        <!--                app:layout_constraintTop_toTopOf="parent"-->
+        <!--                android:textColor="@color/color_FF5050"-->
+        <!--                android:textStyle="bold"-->
+        <!--                android:textSize="18sp"-->
+        <!--                android:text="10"/>-->
+
+        <!--            <TextView-->
+        <!--                android:id="@+id/tv_money_past"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                app:layout_constraintBottom_toBottomOf="@+id/tv_money_pre"-->
+        <!--                app:layout_constraintLeft_toRightOf="@+id/tv_money"-->
+        <!--                android:layout_marginLeft="8dp"-->
+        <!--                android:textColor="@color/color_ccc"-->
+        <!--                android:textSize="11sp"-->
+        <!--                android:text="¥10"/>-->
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/color_282626"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:text="人气至尊豪华鳗鱼组合套餐"/>
+        <TextView
+            android:id="@+id/tv_selled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/color_7C7877"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:text="已售10,000"/>
+
+        <TextView
+            android:id="@+id/tv_choosetype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="6dp"
+            android:visibility="gone"
+            android:background="@drawable/btn_gradient_yellow_round"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:textSize="17sp"
+            android:text="选规格"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/color_F5F5F5"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <include
+            layout="@layout/item_store"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </FrameLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/color_F5F5F5"/>
+
+    <TextView
+        android:id="@+id/tv_food_comment"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="17sp"
+        android:textColor="@color/color_282626"
+        android:textStyle="bold"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:drawableRight="@drawable/icon_link"
+        android:paddingRight="10dp"
+        android:text="商品评价"/>
+</LinearLayout>

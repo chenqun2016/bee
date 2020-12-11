@@ -49,6 +49,7 @@
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorGravity="bottom"
         app:tabMode="fixed"
+        app:tabTextAppearance="@style/TabTextSize"
         app:tabSelectedTextColor="@color/color_272525"
         app:tabTextColor="@color/color_7B7777" />
 

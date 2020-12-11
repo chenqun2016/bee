@@ -55,7 +55,6 @@ public class NearbyEntity extends BaseCEntity<StoreBean> {
         map.put("maxDistance", 1000+"");
         map.put("productCategoryId", 1+"");
         map.put("productCategoryName", 1+"");
-
         return Api.getClient(HttpRequest.baseUrl_shop).shop_nearby(page,row,Api.getRequestBody(map));
     }
 

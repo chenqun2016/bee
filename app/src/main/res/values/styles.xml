@@ -129,7 +129,9 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-
+    <style name="TabTextSize" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">13sp</item>
+    </style>
 
 
 </resources>
