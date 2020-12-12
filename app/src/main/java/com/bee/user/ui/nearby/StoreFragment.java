@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,9 +18,15 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.BeeApplication;
+import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.ElemeGroupedItem;
+import com.bee.user.bean.StoreDetailBean;
+import com.bee.user.bean.StoreFoodItemBean;
 import com.bee.user.event.StoreEvent;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.home.HomeFragment;
 import com.bee.user.utils.DisplayUtil;
@@ -34,14 +41,18 @@ import com.kunminx.linkage.adapter.viewholder.LinkageSecondaryViewHolder;
 import com.kunminx.linkage.bean.BaseGroupedItem;
 import com.kunminx.linkage.contract.ILinkagePrimaryAdapterConfig;
 import com.kunminx.linkage.contract.ILinkageSecondaryAdapterConfig;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -68,8 +79,39 @@ public class StoreFragment extends BaseFragment {
     }
     @Override
     protected void getDatas() {
+        Api.getClient(HttpRequest.baseUrl_shop).shop_queryProductList(9+"") .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<StoreFoodItemBean>>() {
+                    @Override
+                    public void onSuccess(List<StoreFoodItemBean> storeFoodItemBeans) {
+                        setViews(storeFoodItemBeans);
+                    }
 
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
+
+    private void setViews(List<StoreFoodItemBean> beans) {
+        List<ElemeGroupedItem> mDatas = new ArrayList();
+        for(int i=0;i<beans.size();i++){
+            StoreFoodItemBean bean = beans.get(i);
+            if( i == 0 || ! beans.get(i-1).getProductCategoryName() .equals(bean.getProductCategoryName()) ){
+                ElemeGroupedItem elemeGroupedItem = new ElemeGroupedItem(true,bean.getProductCategoryName());
+                mDatas.add(elemeGroupedItem);
+            }
+
+            ElemeGroupedItem.ItemInfo itemInfo = new ElemeGroupedItem.ItemInfo(bean.getProductName(),bean.getProductCategoryName(),bean);
+            mDatas.add( new ElemeGroupedItem(itemInfo));
+        }
+
+        ElemeSecondaryAdapterConfig elemeSecondaryAdapterConfig = new ElemeSecondaryAdapterConfig();
+        elemeSecondaryAdapterConfig.setContext(BeeApplication.getInstance());
+        linkage.init(mDatas,new StoreFragment.ElemePrimaryAdapterConfig(),elemeSecondaryAdapterConfig );
+    }
+
     @Override
     public void onDestroy() {
         unbinder.unbind();
@@ -91,18 +133,18 @@ public class StoreFragment extends BaseFragment {
 
         linkage.setPrimaryWidget(80);
 
-//        List<ElemeGroupedItem> items = new ArrayList<>();
-        Gson gson = new Gson();
-        List<ElemeGroupedItem> items = gson.fromJson(getString(R.string.eleme_json),
-                new TypeToken<List<ElemeGroupedItem>>() {
-                }.getType());
-
-
-        int anInt = getArguments().getInt("height");
-//        linkage.setLayoutHeight(DisplayUtil.px2dip(linkage.getContext(),anInt));
-        ElemeSecondaryAdapterConfig elemeSecondaryAdapterConfig = new ElemeSecondaryAdapterConfig();
-        elemeSecondaryAdapterConfig.setContext(BeeApplication.getInstance());
-        linkage.init(items,new StoreFragment.ElemePrimaryAdapterConfig(),elemeSecondaryAdapterConfig );
+////        List<ElemeGroupedItem> items = new ArrayList<>();
+//        Gson gson = new Gson();
+//        List<ElemeGroupedItem> items = gson.fromJson(getString(R.string.eleme_json),
+//                new TypeToken<List<ElemeGroupedItem>>() {
+//                }.getType());
+//
+//
+//        int anInt = getArguments().getInt("height");
+////        linkage.setLayoutHeight(DisplayUtil.px2dip(linkage.getContext(),anInt));
+//        ElemeSecondaryAdapterConfig elemeSecondaryAdapterConfig = new ElemeSecondaryAdapterConfig();
+//        elemeSecondaryAdapterConfig.setContext(BeeApplication.getInstance());
+//        linkage.init(items,new StoreFragment.ElemePrimaryAdapterConfig(),elemeSecondaryAdapterConfig );
     }
 
 
@@ -193,7 +235,7 @@ public class StoreFragment extends BaseFragment {
 
         @Override
         public int getFooterLayoutId() {
-            return 0;
+            return R.layout.item_store_list_secondary_foot;
         }
 
         @Override
@@ -232,6 +274,27 @@ public class StoreFragment extends BaseFragment {
                 iv_goods_add.setVisibility(View.VISIBLE);
                 tv_choosetype.setVisibility(View.GONE);
             }
+
+            StoreFoodItemBean bean = item.info.getBean();
+
+            TextView iv_goods_detail = holder.getView(R.id.iv_goods_detail) ;
+            iv_goods_detail.setText("");
+            TextView iv_goods_comment = holder.getView(R.id.iv_goods_comment) ;
+            iv_goods_comment.setText("剩余100份  月售"+bean.getMonthSalesCount());
+
+            TextView iv_goods_price = holder.getView(R.id.iv_goods_price) ;
+            iv_goods_price.setText("¥"+bean.getPrice());
+            TextView iv_goods_price_past = holder.getView(R.id.iv_goods_price_past) ;
+            iv_goods_price_past.setText("¥"+bean.getPrice());
+
+
+            ImageView iv_goods_img = holder.getView(R.id.iv_goods_img) ;
+
+            Picasso.with(iv_goods_img.getContext())
+                    .load(bean.getProductPicUrl())
+                    .fit()
+                    .transform(new PicassoRoundTransform(DisplayUtil.dip2px(iv_goods_img.getContext(),5),0, PicassoRoundTransform.CornerType.ALL))
+                    .into(iv_goods_img);
         }
 
         @Override

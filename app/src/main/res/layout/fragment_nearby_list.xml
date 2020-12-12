@@ -22,11 +22,27 @@
         android:textColor="@color/color_282525"
         android:textSize="22sp"/>
 
-    <com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView
-        android:id="@+id/crecyclerview"
+<!--    <com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView-->
+<!--        android:id="@+id/crecyclerview"-->
+<!--        android:paddingLeft="5dp"-->
+<!--        android:paddingRight="5dp"-->
+<!--        android:layout_below="@+id/tv_title"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:layout_below="@+id/tv_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

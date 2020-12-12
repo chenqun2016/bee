@@ -25,8 +25,7 @@ public class LoadmoreUtils {
         aClass = c;
     }
 
-    //TODO
-    private static final int PAGE_SIZE = 3;
+    public static final int PAGE_SIZE = 3;
 
 
     PageInfo pageInfo = new PageInfo();
@@ -93,55 +92,88 @@ public class LoadmoreUtils {
      */
 
     private void request(BaseQuickAdapter mAdapter) {
+        if(getDatas(pageInfo.page)){
 
+            //真实数据
+        }else{
+            //测试数据
+            new Request(pageInfo.page, new RequestCallBack() {
+                @Override
+                public void success(List data) {
+
+                    onSuccess(mAdapter,data);
+
+                }
+
+                @Override
+                public void fail(Exception e) {
+                    onFail(mAdapter,e.getMessage());
+
+                }
+            }).start();
+        }
+
+
+
+    }
+
+    protected boolean getDatas(int page) {
+        return false;
+    }
+
+    public void onFail(BaseQuickAdapter mAdapter,String e) {
+
+        mAdapter.getLoadMoreModule().setEnableLoadMore(true);
+        mAdapter.getLoadMoreModule().loadMoreFail();
+
+
+        closeSwipeRefreshLayout(mAdapter);
+
+    }
+
+
+
+    public void onSuccess(BaseQuickAdapter mAdapter,List data) {
+        mAdapter.getLoadMoreModule().setEnableLoadMore(true);
+
+        if (pageInfo.isFirstPage()) {
+            //如果是加载的第一页数据，用 setData()
+            mAdapter.setList(data);
+        } else {
+            //不是第一页，则用add
+            mAdapter.addData(data);
+        }
+
+        if (data.size() < PAGE_SIZE) {
+            //如果不够一页,显示没有更多数据布局
+            mAdapter.getLoadMoreModule().loadMoreEnd();
+        } else {
+            mAdapter.getLoadMoreModule().loadMoreComplete();
+        }
+
+        // page加一
+        pageInfo.nextPage();
+
+        closeSwipeRefreshLayout(mAdapter);
+    }
+
+    /**
+     * 关闭SwipeRefreshLayout
+     * @param mAdapter
+     */
+    private void closeSwipeRefreshLayout(BaseQuickAdapter mAdapter) {
         ViewParent parent = mAdapter.getRecyclerView().getParent();
-
         final  SwipeRefreshLayout swipeRefreshLayout ;
         if (parent instanceof SwipeRefreshLayout) {
             swipeRefreshLayout = (SwipeRefreshLayout) parent;
         }else {
             swipeRefreshLayout = null;
         }
-
-        new Request(pageInfo.page, new RequestCallBack() {
-            @Override
-            public void success(List data) {
-                mAdapter.getLoadMoreModule().setEnableLoadMore(true);
-
-                if (pageInfo.isFirstPage()) {
-                    //如果是加载的第一页数据，用 setData()
-                    mAdapter.setList(data);
-                } else {
-                    //不是第一页，则用add
-                    mAdapter.addData(data);
-                }
-
-                if (data.size() < PAGE_SIZE) {
-                    //如果不够一页,显示没有更多数据布局
-                    mAdapter.getLoadMoreModule().loadMoreEnd();
-                } else {
-                    mAdapter.getLoadMoreModule().loadMoreComplete();
-                }
-
-                // page加一
-                pageInfo.nextPage();
-
-                if(null != swipeRefreshLayout){
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-            }
-
-            @Override
-            public void fail(Exception e) {
-                mAdapter.getLoadMoreModule().setEnableLoadMore(true);
-                mAdapter.getLoadMoreModule().loadMoreFail();
-
-                if(null != swipeRefreshLayout){
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-            }
-        }).start();
+        if(null != swipeRefreshLayout){
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
+
 
 
     /**

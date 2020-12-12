@@ -51,6 +51,7 @@ public class NearbyEntity extends BaseCEntity<StoreBean> {
             map.put("longitude", location.getLongitude()+"");
             map.put("latitude", location.getLatitude()+"");
             map.put("address", location.getAddress());
+            map.put("address", "上海浦东川杨新苑二期一幢二号");
         }
         map.put("maxDistance", 1000+"");
         map.put("productCategoryId", 1+"");

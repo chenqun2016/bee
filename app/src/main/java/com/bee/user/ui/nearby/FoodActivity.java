@@ -234,6 +234,9 @@ public class FoodActivity extends BaseActivity {
 
 
         initScroll();
+
+        initBanner2();
+        initBanner();
     }
 
 
@@ -324,7 +327,7 @@ public class FoodActivity extends BaseActivity {
     }
 
 
-    private void initBanner2(View head2) {
+    private void initBanner2() {
 //        ImageView iv_icon = head2.findViewById(R.id.iv_icon);
 //        LinearLayout ll_mark = head2.findViewById(R.id.ll_mark);
 
@@ -346,7 +349,7 @@ public class FoodActivity extends BaseActivity {
     }
 
 
-    private void initBanner(View head) {
+    private void initBanner() {
 //        ConvenientBanner banner2 = head.findViewById(R.id.banner2);
 //        TextView tv_index = head.findViewById(R.id.tv_index);
 

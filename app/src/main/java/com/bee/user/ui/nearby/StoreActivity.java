@@ -23,9 +23,15 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.FoodTypeBean;
+import com.bee.user.bean.StoreBean;
+import com.bee.user.bean.StoreDetailBean;
+import com.bee.user.bean.StoreListBean;
 import com.bee.user.event.CloseEvent;
 import com.bee.user.event.MainEvent;
 import com.bee.user.event.StoreEvent;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.FoodChooseTypeAdapter;
 import com.bee.user.ui.adapter.SelectedFoodAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
@@ -33,6 +39,7 @@ import com.bee.user.ui.search.SearchFoodActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.DragDialogLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -42,6 +49,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.gyf.immersionbar.ImmersionBar;
+import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 import com.squareup.picasso.Picasso;
 
 
@@ -54,6 +62,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -76,6 +87,15 @@ public class StoreActivity extends BaseActivity {
     @BindView(R.id.ll_mark)
     LinearLayout ll_mark;
 
+
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+    @BindView(R.id.tv_distance)
+    TextView tv_distance;
+    @BindView(R.id.tv_time)
+    TextView tv_time;
+    @BindView(R.id.tv_sells)
+    TextView tv_sells;
 
 
     @BindView(R.id.iv_back)
@@ -110,6 +130,8 @@ public class StoreActivity extends BaseActivity {
     private int heightSelected;
 
     ViewGroup.LayoutParams params;
+
+    StoreDetailBean storeDetailBean;
 
     @OnClick({R.id.tv_confirm,R.id.cl_qujiesuan, R.id.tv_dingwei,R.id.view_background,
     R.id.tv_search_1,R.id.iv_search})
@@ -241,18 +263,41 @@ public class StoreActivity extends BaseActivity {
             }
         });
 
+        initSelectedFoodDialog();
+        getDatas();
+    }
+
+    private void getDatas() {
+
+        Api.getClient(HttpRequest.baseUrl_shop).shop_getDetail(9+"") .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<StoreDetailBean>() {
+                    @Override
+                    public void onSuccess(StoreDetailBean storeDetailBean) {
+                        StoreActivity.this.storeDetailBean = storeDetailBean;
+                        setViews(storeDetailBean);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
+    }
+
+    private void setViews(StoreDetailBean storeDetailBean) {
+
         Picasso.with(this)
-                .load(R.drawable.food2)
+                .load(storeDetailBean.getLogoUrl())
                 .fit()
                 .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this,5),0, PicassoRoundTransform.CornerType.ALL))
                 .into(iv_icon);
         CommonUtil.initTAGViews(ll_mark);
 
-
-        initSelectedFoodDialog();
-
-
-
+        tv_title.setText(storeDetailBean.getName());
+        tv_distance.setText(storeDetailBean.getDistance()+"公里");
+        tv_time.setText("大约"+storeDetailBean.getDuration()+"分钟");
+        tv_sells.setText("月销"+storeDetailBean.getMonthSalesCount());
     }
 
     private void initSelectedFoodDialog() {

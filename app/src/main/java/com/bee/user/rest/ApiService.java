@@ -1,8 +1,13 @@
 package com.bee.user.rest;
 
+import com.bee.user.bean.StoreBean;
+import com.bee.user.bean.StoreDetailBean;
+import com.bee.user.bean.StoreFoodItemBean;
+import com.bee.user.bean.StoreListBean;
 import com.bee.user.bean.UserBean;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -85,20 +90,20 @@ public interface ApiService {
      * 搜索附近【店铺商家】
      */
     @POST(HttpRequest.shop_nearby)
-    Observable<BaseResult<String>> shop_nearby(@Query("pageNum") int pageNum,
-                                          @Query("pageSize") int pageSize,
-                                          @Body RequestBody info);
+    Observable<BaseResult<StoreListBean>> shop_nearby(@Query("pageNum") int pageNum,
+                                                      @Query("pageSize") int pageSize,
+                                                      @Body RequestBody info);
 
 
     /**
      * 获取APP【店铺商家】详情
      */
     @GET(HttpRequest.shop_getDetail)
-    Observable<BaseResult<String>> shop_getDetail(@Path("id") String id);
+    Observable<BaseResult<StoreDetailBean>> shop_getDetail(@Path("id") String id);
 
     /**
      * APP获取店铺【商品】列表
      */
     @GET(HttpRequest.shop_queryProductList)
-    Observable<BaseResult<String>> shop_queryProductList(@Path("id") String id);
+    Observable<BaseResult<List<StoreFoodItemBean>>> shop_queryProductList(@Path("id") String id);
 }

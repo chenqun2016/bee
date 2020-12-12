@@ -59,4 +59,6 @@ public class BaseResult<T> implements Serializable{
     public void setRows(int rows) {
         this.rows = rows;
     }
+
+
 }
