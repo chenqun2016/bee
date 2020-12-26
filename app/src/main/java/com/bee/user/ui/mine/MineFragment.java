@@ -28,6 +28,7 @@ import com.bee.user.ui.xiadan.ChooseAddressActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.MyGridView;
+import com.gyf.immersionbar.ImmersionBar;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -44,6 +45,9 @@ import butterknife.Unbinder;
 public class MineFragment extends BaseFragment {
 
     Unbinder bind;
+
+    @BindView(R.id.status_bar1)
+    View status_bar1;
 
     @BindView(R.id.tv_icon)
     ImageView tv_icon;
@@ -152,6 +156,10 @@ public class MineFragment extends BaseFragment {
     }
 
     private void initViews() {
+
+        ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
+        layoutParams.height = ImmersionBar.getStatusBarHeight(this);
+
         if(SPUtils.geTinstance().isLogin()){
             tv_name.setText("1111");
             tv_des.setText("胡蜂会员");

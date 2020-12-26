@@ -2,6 +2,7 @@ package com.bee.user.ui.home;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,6 +57,7 @@ import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.gyf.immersionbar.ImmersionBar;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
 import com.zaaach.citypicker.model.City;
@@ -83,6 +85,9 @@ public class HomeFragment extends BaseFragment {
 
     @BindView(R.id.appbar)
     public AppBarLayout appbar;
+
+    @BindView(R.id.status_bar1)
+    View status_bar1;
 
     @BindView(R.id.collapsing)
     public CollapsingToolbarLayout collapsing;
@@ -182,6 +187,11 @@ public class HomeFragment extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
+        layoutParams.height = ImmersionBar.getStatusBarHeight(this);
+        collapsing.setMinimumHeight(ImmersionBar.getStatusBarHeight(this));
+
+        Drawable background = appbar.getBackground();
         appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -193,13 +203,17 @@ public class HomeFragment extends BaseFragment {
 
                 if (verticalOffset == 0) {
                     collapsing.setAlpha(1);
+                    background.setAlpha(255);
                 } else if (verticalOffset >= scrollRangle) {
                     collapsing.setAlpha(0);
-
+                    background.setAlpha(0);
                 } else {
                     //保留一位小数
                     float alpha = (scrollRangle - Math.abs(verticalOffset)) * 1.0f / scrollRangle;
                     collapsing.setAlpha(alpha);
+
+                    background.setAlpha((int)(alpha*255));
+                    appbar.setBackground(background);
                 }
 
             }

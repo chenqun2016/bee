@@ -143,6 +143,16 @@ public class FoodActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        View iv_back2 = findViewById(R.id.iv_back2);
+        if(null != iv_back2){
+            iv_back2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
+        }
+
         ViewGroup.LayoutParams layoutParams = ll_toolbar.getLayoutParams();
         layoutParams.height += ImmersionBar.getStatusBarHeight(this);
         ll_toolbar.invalidate();

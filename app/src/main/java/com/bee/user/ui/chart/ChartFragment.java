@@ -33,6 +33,7 @@ import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,6 +51,11 @@ import butterknife.Unbinder;
  * 描述：
  */
 public class ChartFragment extends BaseFragment {
+
+
+    @BindView(R.id.status_bar1)
+    View status_bar1;
+
     Unbinder bind;
     @BindView(R.id.ll_nonet)
     LinearLayout ll_nonet;
@@ -124,7 +130,8 @@ public class ChartFragment extends BaseFragment {
     }
 
     private void initViews() {
-
+        ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
+        layoutParams.height = ImmersionBar.getStatusBarHeight(this);
 
         ll_nonet.setVisibility(View.GONE);
         ll_nodata.setVisibility(View.GONE);

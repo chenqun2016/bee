@@ -88,6 +88,12 @@ public class BasePreActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    /**
+     * 默认非沉浸式状态栏。
+     *
+     *  沉浸式状态栏代码示例：ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
+     *
+     */
     protected void initImmersionBar() {
         //在BaseActivity里初始化
         ImmersionBar  mImmersionBar = ImmersionBar.with(this);

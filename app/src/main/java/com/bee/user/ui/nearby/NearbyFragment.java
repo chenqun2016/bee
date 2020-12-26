@@ -35,6 +35,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.gyf.immersionbar.ImmersionBar;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 import com.squareup.picasso.Picasso;
@@ -59,6 +60,8 @@ public class NearbyFragment extends BaseFragment {
 
 //    private CRecyclerView<StoreBean> crecyclerview;
 
+    private View status_bar1;
+
     private RecyclerView recyclerview;
     NearbyAdapter   mAdapter;
     LoadmoreUtils loadmoreUtils;
@@ -79,12 +82,17 @@ public class NearbyFragment extends BaseFragment {
 //        crecyclerview.setView(NearbyEntity.class);
 
         recyclerview =  view.findViewById(R.id.recyclerview);
+         status_bar1 = view.findViewById(R.id.status_bar1);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
+        layoutParams.height = ImmersionBar.getStatusBarHeight(this);
 
         recyclerview.setLayoutManager(new LinearLayoutManager(recyclerview.getContext()));
         mAdapter = new NearbyAdapter();

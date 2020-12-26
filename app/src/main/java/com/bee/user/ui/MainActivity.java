@@ -44,6 +44,7 @@ import com.bee.user.utils.LogUtil;
 import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.google.gson.Gson;
+import com.gyf.immersionbar.ImmersionBar;
 import com.huaxiafinance.lc.bottomindicator.IOnTab3Click;
 import com.huaxiafinance.lc.bottomindicator.IconTabPageIndicator;
 import com.huaxiafinance.lc.bottomindicator.viewpager.CustomViewPager;
@@ -93,10 +94,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private ArrayList<Fragment> fragments;
     private boolean mCanOneKeyLogin = true;
 
-//    @Override
-//    protected void initImmersionBar() {
-//         ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
-//    }
+    @Override
+    protected void initImmersionBar() {
+         ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
+    }
 
 
     @Override
@@ -164,24 +165,18 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageSelected(int position) {
         switch (position) {
             case 0:
-                status_bar.setBackgroundResource(R.drawable.btn_gradient_yellow);
+//                status_bar.setBackgroundResource(R.drawable.btn_gradient_yellow);
                 break;
             case 1:
             case 2:
-                status_bar.setBackgroundResource(R.color.white);
+//                status_bar.setBackgroundResource(R.color.white);
                 break;
             case 3:
-                status_bar.setBackgroundResource(R.drawable.btn_gradient_yellow);
+//                status_bar.setBackgroundResource(R.drawable.btn_gradient_yellow);
                 break;
         }
     }
-    public void setStatusBar(int a){
-        if(a == 0){
-            status_bar.setBackgroundResource(R.drawable.btn_gradient_yellow);
-        }else{
-            status_bar.setBackgroundResource(R.color.white);
-        }
-    }
+
 
     @Override
     public void onPageScrollStateChanged(int state) {
