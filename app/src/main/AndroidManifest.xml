@@ -189,6 +189,7 @@
             android:theme="@style/CityPickerTheme"/>
         <activity android:name=".ui.search.SearchLocationActivity"
             android:theme="@style/CityPickerTheme"/>
+        <activity android:name=".ui.mine.MemberCenterActivity" />
 
 
     </application>
