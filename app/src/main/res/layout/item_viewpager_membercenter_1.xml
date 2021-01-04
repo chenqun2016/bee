@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:background="@drawable/bg_lvfeng">
+
+    <ImageView
+        android:id="@+id/tv_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/icon_touxiang"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/color_B4785B"
+        app:layout_constraintLeft_toRightOf="@+id/tv_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:text="18188c8c"/>
+
+    <TextView
+        android:id="@+id/huiyuan"
+        app:layout_constraintLeft_toRightOf="@+id/tv_icon"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="6dp"
+        android:paddingRight="6dp"
+        android:gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="土蜂会员"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:background="@drawable/huiyuan_lvfeng"/>
+
+
+
+    <com.bee.user.widget.MyLinerProgressbar
+        android:id="@+id/progressbar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/huiyuan"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+
+    <TextView
+        android:id="@+id/tv_chae"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="距离绿蜂会员升级还差200米粒"
+        android:textSize="11sp"
+        android:textColor="@color/color_B77A5C"
+        android:layout_marginTop="9dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressbar"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

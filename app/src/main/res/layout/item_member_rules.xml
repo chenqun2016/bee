@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:id="@+id/background"
+    android:layout_height="35dp">
+
+    <View
+        android:id="@+id/line1"
+        android:background="@color/color_eee"
+        android:layout_width="1px"
+        android:layout_height="35dp"/>
+    
+    
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_toRightOf="@+id/line1"
+        android:text="会员名称"/>
+
+    <View
+        android:id="@+id/line2"
+        android:background="@color/color_eee"
+        android:layout_alignParentRight="true"
+        android:layout_width="1px"
+        android:layout_height="35dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_2"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_toLeftOf="@+id/line2"
+        android:text="有效期"/>
+
+
+    <View
+        android:id="@+id/line3"
+        android:background="@color/color_eee"
+        android:layout_toRightOf="@+id/tv_1"
+        android:layout_width="1px"
+        android:layout_height="35dp"/>
+    <View
+        android:id="@+id/line4"
+        android:background="@color/color_eee"
+        android:layout_toLeftOf="@+id/tv_2"
+        android:layout_width="1px"
+        android:layout_height="35dp"/>
+
+    <TextView
+        android:id="@+id/tv_3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/line3"
+        android:layout_toLeftOf="@+id/line4"
+        android:gravity="center"
+        android:text="米粒"/>
+
+
+    <View
+        android:id="@+id/line5"
+        android:background="@color/color_eee"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="1px"/>
+</RelativeLayout>

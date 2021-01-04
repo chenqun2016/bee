@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_lvfeng">
+
+
+
+    <TextView
+        android:id="@+id/tv_huiyuan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="绿蜂会员"
+        android:textSize="15sp"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/color_883F17"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <TextView
+        android:id="@+id/tv_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="米粒值达500可升级，可享受更多权益"
+        android:textSize="11sp"
+        android:layout_marginTop="14dp"
+        android:textColor="@color/color_883F17"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_huiyuan"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
