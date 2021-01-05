@@ -1,19 +1,11 @@
-package com.bee.user.ui.mine;
+package com.bee.user.ui.mine.membercenter;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +17,7 @@ import com.bee.user.R;
 import com.bee.user.bean.MemberRulesBean;
 import com.bee.user.ui.adapter.MemberRulesAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.mine.membercenter.TeQuanActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.widget.MyLinerProgressbar;
 import com.gyf.immersionbar.ImmersionBar;
@@ -63,7 +56,7 @@ public class MemberCenterActivity extends BaseActivity {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_more :
-                startActivity(new Intent(this,TeQuanActivity.class));
+                startActivity(new Intent(this, TeQuanActivity.class));
                 break;
         }
     }

@@ -1,4 +1,4 @@
-package com.bee.user.ui.mine;
+package com.bee.user.ui.mine.membercenter;
 
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;

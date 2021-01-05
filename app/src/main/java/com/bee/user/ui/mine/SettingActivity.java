@@ -15,11 +15,14 @@ import butterknife.OnClick;
  */
 public class SettingActivity extends BaseActivity {
 
-    @OnClick({R.id.tv_safe})
+    @OnClick({R.id.tv_safe,R.id.tv_about})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_safe:
                 startActivity(new Intent(this,AcountSafeActivity.class));
+                break;
+            case R.id.tv_about:
+                startActivity(new Intent(this,AboutActivity.class));
                 break;
         }
     }

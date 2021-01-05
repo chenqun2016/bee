@@ -118,7 +118,7 @@ public class SPUtils {
 
     public boolean isLogin() {
 
-        return !TextUtils.isEmpty(getUid());
+        return TextUtils.isEmpty(getUid());
     }
 
     public String getUid() {

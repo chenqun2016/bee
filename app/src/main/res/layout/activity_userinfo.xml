@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
 
@@ -24,9 +24,9 @@
         android:id="@+id/toolbar_title"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/title_bar_height"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:layout_centerHorizontal="true"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
@@ -36,380 +36,391 @@
         android:textStyle="bold" />
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_1"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:background="@drawable/bg_round10dp_white"
         android:layout_below="@+id/toolbar_title">
 
-        <TextView
-            android:id="@+id/text_base"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_7C7877"
-            android:textSize="14sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="基础信息"/>
-
-
-        <TextView
-            android:id="@+id/icon"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/icon_link"
-            android:textColor="@color/color_282626"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_base"
-            android:text="头像"/>
+            android:orientation="vertical">
 
 
-        <ImageView
-            android:id="@+id/tv_icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/icon"
-            app:layout_constraintBottom_toBottomOf="@+id/icon"
-            android:src="@drawable/icon_touxiang"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_round10dp_white"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    android:id="@+id/text_base"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="基础信息"
+                    android:textColor="@color/color_7C7877"
+                    android:textSize="14sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-        <View
-            android:id="@+id/line1"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_icon"
-            android:layout_marginTop="4dp"
-            android:background="@color/color_F5F5F5"/>
-
-        <TextView
-            android:id="@+id/tv_mingcheng"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_282626"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line1"
-            android:text="名称"/>
+                <TextView
+                    android:id="@+id/icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:drawableRight="@drawable/icon_link"
+                    android:text="头像"
+                    android:textColor="@color/color_282626"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_base" />
 
 
-        <TextView
-            android:id="@+id/tv_mingcheng_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_3C3838"
-            android:drawableRight="@drawable/icon_link"
-            android:drawablePadding="10dp"
-            android:textSize="14sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_mingcheng"
-            android:text="*"/>
+                <ImageView
+                    android:id="@+id/tv_icon"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/icon_touxiang"
+                    app:layout_constraintBottom_toBottomOf="@+id/icon"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/icon" />
 
 
-        <View
-            android:id="@+id/line2"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_mingcheng"
-            android:layout_marginTop="14dp"
-            android:background="@color/color_F5F5F5"/>
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/color_F5F5F5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_icon" />
 
-        <TextView
-            android:id="@+id/tv_xingbie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_282626"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line2"
-            android:text="性别"/>
-
-
-        <TextView
-            android:id="@+id/tv_xingbie_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_3C3838"
-            android:drawableRight="@drawable/icon_link"
-            android:drawablePadding="10dp"
-            android:textSize="14sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_xingbie"
-            android:text="*"/>
+                <TextView
+                    android:id="@+id/tv_mingcheng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="名称"
+                    android:textColor="@color/color_282626"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line1" />
 
 
-
-        <View
-            android:id="@+id/line3"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_xingbie"
-            android:layout_marginTop="14dp"
-            android:background="@color/color_F5F5F5"/>
-
-        <TextView
-            android:id="@+id/tv_shengri"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_282626"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line3"
-            android:text="生日"/>
+                <TextView
+                    android:id="@+id/tv_mingcheng_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/icon_link"
+                    android:drawablePadding="10dp"
+                    android:text="*"
+                    android:textColor="@color/color_3C3838"
+                    android:textSize="14sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_mingcheng" />
 
 
-        <TextView
-            android:id="@+id/tv_shengri_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_3C3838"
-            android:drawableRight="@drawable/icon_link"
-            android:drawablePadding="10dp"
-            android:textSize="14sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_shengri"
-            android:text="1992-08-28"/>
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/color_F5F5F5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_mingcheng" />
+
+                <TextView
+                    android:id="@+id/tv_xingbie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="性别"
+                    android:textColor="@color/color_282626"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line2" />
 
 
-        <View
-            android:id="@+id/line4"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_shengri"
-            android:layout_marginTop="14dp"
-            android:background="@color/color_F5F5F5"/>
-
-        <TextView
-            android:id="@+id/tv_zhiye"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_282626"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line4"
-            android:text="职业"/>
+                <TextView
+                    android:id="@+id/tv_xingbie_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/icon_link"
+                    android:drawablePadding="10dp"
+                    android:text="*"
+                    android:textColor="@color/color_3C3838"
+                    android:textSize="14sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_xingbie" />
 
 
-        <TextView
-            android:id="@+id/tv_zhiye_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_3C3838"
-            android:drawableRight="@drawable/icon_link"
-            android:drawablePadding="10dp"
-            android:textSize="14sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_zhiye"
-            android:text="*"/>
+                <View
+                    android:id="@+id/line3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/color_F5F5F5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_xingbie" />
+
+                <TextView
+                    android:id="@+id/tv_shengri"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="生日"
+                    android:textColor="@color/color_282626"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line3" />
 
 
-        <View
-            android:id="@+id/line5"
-
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_zhiye"
-            android:layout_marginTop="14dp"
-            android:background="@color/color_F5F5F5"/>
-
-        <TextView
-            android:id="@+id/tv_qianming"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_282626"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line5"
-            android:text="个性签名"/>
+                <TextView
+                    android:id="@+id/tv_shengri_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/icon_link"
+                    android:drawablePadding="10dp"
+                    android:text="1992-08-28"
+                    android:textColor="@color/color_3C3838"
+                    android:textSize="14sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_shengri" />
 
 
-        <TextView
-            android:id="@+id/tv_qianming_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_3C3838"
-            android:drawableRight="@drawable/icon_link"
-            android:drawablePadding="10dp"
-            android:textSize="14sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_qianming"
-            android:text="*"/>
+                <View
+                    android:id="@+id/line4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/color_F5F5F5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_shengri" />
 
-        <View
-            android:id="@+id/line6"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_qianming"
-            android:layout_marginTop="14dp"
-            android:background="@color/color_F5F5F5"/>
-
-        <TextView
-            android:id="@+id/tv_dizhi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_282626"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line6"
-            android:text="收货地址"/>
+                <TextView
+                    android:id="@+id/tv_zhiye"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="职业"
+                    android:textColor="@color/color_282626"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line4" />
 
 
-        <TextView
-            android:id="@+id/tv_dizhi_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_3C3838"
-            android:drawableRight="@drawable/icon_link"
-            android:drawablePadding="10dp"
-            android:textSize="14sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_dizhi"
-            android:text="*"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:background="@drawable/bg_round10dp_white"
-        android:layout_below="@+id/cl_1">
-
-        <TextView
-            android:id="@+id/text_base2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_7C7877"
-            android:textSize="14sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="绑定信息"/>
+                <TextView
+                    android:id="@+id/tv_zhiye_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/icon_link"
+                    android:drawablePadding="10dp"
+                    android:text="*"
+                    android:textColor="@color/color_3C3838"
+                    android:textSize="14sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_zhiye" />
 
 
+                <View
+                    android:id="@+id/line5"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/color_F5F5F5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_zhiye" />
+
+                <TextView
+                    android:id="@+id/tv_qianming"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="个性签名"
+                    android:textColor="@color/color_282626"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line5" />
 
 
-        <TextView
-            android:id="@+id/tv_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_282626"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_base2"
-            android:text="手机号"/>
+                <TextView
+                    android:id="@+id/tv_qianming_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/icon_link"
+                    android:drawablePadding="10dp"
+                    android:text="*"
+                    android:textColor="@color/color_3C3838"
+                    android:textSize="14sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_qianming" />
+
+                <View
+                    android:id="@+id/line6"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/color_F5F5F5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_qianming" />
+
+                <TextView
+                    android:id="@+id/tv_dizhi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="收货地址"
+                    android:textColor="@color/color_282626"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line6" />
 
 
-        <TextView
-            android:id="@+id/tv_phone_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_3C3838"
-            android:drawableRight="@drawable/icon_link"
-            android:drawablePadding="10dp"
-            android:textSize="14sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_phone"
-            android:text="*"/>
+                <TextView
+                    android:id="@+id/tv_dizhi_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/icon_link"
+                    android:drawablePadding="10dp"
+                    android:text="*"
+                    android:textColor="@color/color_3C3838"
+                    android:textSize="14sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_dizhi" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/bg_round10dp_white"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    android:id="@+id/text_base2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="绑定信息"
+                    android:textColor="@color/color_7C7877"
+                    android:textSize="14sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-        <View
-            android:id="@+id/line11"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_phone"
-            android:layout_marginTop="14dp"
-            android:background="@color/color_F5F5F5"/>
-
-        <TextView
-            android:id="@+id/tv_weiixn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_282626"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line11"
-            android:text="微信号"/>
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="手机号"
+                    android:textColor="@color/color_282626"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_base2" />
 
 
-        <TextView
-            android:id="@+id/tv_weiixn_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_3C3838"
-            android:drawableRight="@drawable/icon_link"
-            android:drawablePadding="10dp"
-            android:textSize="14sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_weiixn"
-            android:text="已绑定"/>
+                <TextView
+                    android:id="@+id/tv_phone_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/icon_link"
+                    android:drawablePadding="10dp"
+                    android:text="*"
+                    android:textColor="@color/color_3C3838"
+                    android:textSize="14sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_phone" />
 
 
+                <View
+                    android:id="@+id/line11"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/color_F5F5F5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_phone" />
 
-        <View
-            android:id="@+id/line22"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_weiixn"
-            android:layout_marginTop="14dp"
-            android:background="@color/color_F5F5F5"/>
-
-        <TextView
-            android:id="@+id/tv_weibo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_282626"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line22"
-            android:text="微博号"/>
-
-
-        <TextView
-            android:id="@+id/tv_weibo_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_3e7dfb"
-            android:drawableRight="@drawable/icon_link"
-            android:drawablePadding="10dp"
-            android:textSize="14sp"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_weibo"
-            android:text="去绑定"/>
+                <TextView
+                    android:id="@+id/tv_weiixn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="微信号"
+                    android:textColor="@color/color_282626"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line11" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tv_weiixn_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/icon_link"
+                    android:drawablePadding="10dp"
+                    android:text="已绑定"
+                    android:textColor="@color/color_3C3838"
+                    android:textSize="14sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_weiixn" />
+
+
+                <View
+                    android:id="@+id/line22"
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="14dp"
+                    android:background="@color/color_F5F5F5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_weiixn" />
+
+                <TextView
+                    android:id="@+id/tv_weibo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="微博号"
+                    android:textColor="@color/color_282626"
+                    android:textSize="15sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/line22" />
+
+
+                <TextView
+                    android:id="@+id/tv_weibo_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/icon_link"
+                    android:drawablePadding="10dp"
+                    android:text="去绑定"
+                    android:textColor="@color/color_3e7dfb"
+                    android:textSize="14sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_weibo" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
 </RelativeLayout>
