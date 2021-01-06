@@ -117,8 +117,12 @@
 
                 <TextView
                     android:id="@+id/tv_mingcheng_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_mingcheng"
+                    android:layout_marginLeft="10dp"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:drawableRight="@drawable/icon_link"
                     android:drawablePadding="10dp"
                     android:text="*"
@@ -151,8 +155,9 @@
 
                 <TextView
                     android:id="@+id/tv_xingbie_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:drawableRight="@drawable/icon_link"
                     android:drawablePadding="10dp"
                     android:text="*"
@@ -185,8 +190,9 @@
 
                 <TextView
                     android:id="@+id/tv_shengri_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:drawableRight="@drawable/icon_link"
                     android:drawablePadding="10dp"
                     android:text="1992-08-28"
@@ -219,8 +225,12 @@
 
                 <TextView
                     android:id="@+id/tv_zhiye_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_zhiye"
+                    android:layout_marginLeft="10dp"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:drawableRight="@drawable/icon_link"
                     android:drawablePadding="10dp"
                     android:text="*"
@@ -254,8 +264,12 @@
 
                 <TextView
                     android:id="@+id/tv_qianming_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_qianming"
+                    android:layout_marginLeft="10dp"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:drawableRight="@drawable/icon_link"
                     android:drawablePadding="10dp"
                     android:text="*"
@@ -287,8 +301,12 @@
 
                 <TextView
                     android:id="@+id/tv_dizhi_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_dizhi"
+                    android:layout_marginLeft="10dp"
+                    android:singleLine="true"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:drawableRight="@drawable/icon_link"
                     android:drawablePadding="10dp"
                     android:text="*"
@@ -338,8 +356,9 @@
 
                 <TextView
                     android:id="@+id/tv_phone_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:drawableRight="@drawable/icon_link"
                     android:drawablePadding="10dp"
                     android:text="*"
@@ -372,8 +391,9 @@
 
                 <TextView
                     android:id="@+id/tv_weiixn_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:drawableRight="@drawable/icon_link"
                     android:drawablePadding="10dp"
                     android:text="已绑定"
@@ -406,8 +426,9 @@
 
                 <TextView
                     android:id="@+id/tv_weibo_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:drawableRight="@drawable/icon_link"
                     android:drawablePadding="10dp"
                     android:text="去绑定"

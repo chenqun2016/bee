@@ -8,13 +8,13 @@ package com.bee.user.rest;
 public class HttpRequest {
 //    http://dev-beeweb.quxianfeng.vip/bee-member-zuul-gateway/api-shop/app-sys-shop-store/getDetail/6
 
-//    public static final  String baseUrl = "http://dev-bee-uhs-uaa.quxianfeng.vip/";
-
-
 
     public static final  String baseUrl = "http://dev-beeweb.quxianfeng.vip/bee-member-zuul-gateway/";
-    public static final  String baseUrl_user = baseUrl + "api-user/";
-    public static final  String baseUrl_pay = baseUrl + "api-pay/";
+//    public static final  String baseUrl_user = baseUrl + "api-user/";
+//    public static final  String baseUrl_pay = baseUrl + "api-pay/";
+
+    public static final  String baseUrl_user = "http://dev-bee-uhs-uaa.quxianfeng.vip/";
+    public static final  String baseUrl_pay = "http://dev-bee-biz-pay-center.quxianfeng.vip/";
     public static final  String baseUrl_shop = baseUrl + "api-shop/";
 
 
@@ -23,7 +23,7 @@ public class HttpRequest {
     public static final  String login_code = "member/login/smscode";
     public static final  String resetPassword = "member/resetPassword";
 
-    public static final  String zhifubao_pay = "t-pay-order/prePaySign";
+    public static final  String zhifubao_pay = "app-t-pay-order/prePaySign";
 
 
     //附件 店铺

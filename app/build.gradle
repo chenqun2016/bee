@@ -117,6 +117,9 @@ dependencies {
 //    图片选择器，
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.6.0'
 
+    //时间选择器和选项选择器
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
+
     implementation project(':bottomindicator')
     implementation project(':base')
     implementation project(':crecyclerview')

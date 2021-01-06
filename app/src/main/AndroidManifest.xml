@@ -192,6 +192,7 @@
         <activity android:name=".ui.mine.membercenter.MemberCenterActivity" />
         <activity android:name=".ui.mine.membercenter.TeQuanActivity" />
         <activity android:name=".ui.mine.AboutActivity" />
+        <activity android:name=".ui.mine.UserInfoItemActivity" />
 
 
     </application>
