@@ -18,7 +18,9 @@ import com.bee.user.bean.MemberRulesBean;
 import com.bee.user.ui.adapter.MemberRulesAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.mine.membercenter.TeQuanActivity;
+import com.bee.user.ui.trade.MiLiActivity;
 import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.MyLinerProgressbar;
 import com.gyf.immersionbar.ImmersionBar;
 
@@ -52,11 +54,14 @@ public class MemberCenterActivity extends BaseActivity {
     @BindView(R.id.nestedScrollView)
     NestedScrollView nestedScrollView;
 
-    @OnClick({R.id.tv_more})
+    @OnClick({R.id.tv_more,R.id.tv_buy_mili})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_more :
                 startActivity(new Intent(this, TeQuanActivity.class));
+                break;
+            case R.id.tv_buy_mili :
+                startActivity(new Intent(this, MiLiActivity.class));
                 break;
         }
     }
@@ -98,12 +103,14 @@ public class MemberCenterActivity extends BaseActivity {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int totalScrollY, int oldScrollX, int oldScrollY) {
 
+                LogUtil.d("totalScrollY=="+totalScrollY+"/height=="+height);
+
                 if(totalScrollY  <= 0){
-                    statusheight.setAlpha(0);
-                    background_title.setAlpha(0);
+                    statusheight.setAlpha(0f);
+                    background_title.setAlpha(0f);
                 }else if(totalScrollY > height){
-                    statusheight.setAlpha(1);
-                    background_title.setAlpha(1);
+                    statusheight.setAlpha(1f);
+                    background_title.setAlpha(1f);
                 }else{
                     float a = (totalScrollY / (float)height);
                     statusheight.setAlpha(a);
@@ -127,6 +134,9 @@ public class MemberCenterActivity extends BaseActivity {
                 }else{
                     iv_back.setImageResource(R.drawable.icon_back_anse);
                     toolbar_title.setTextColor(getResources().getColor(R.color.color_282626));
+
+                    iv_back.setAlpha(1f);
+                    toolbar_title.setAlpha(1f);
                 }
 
 

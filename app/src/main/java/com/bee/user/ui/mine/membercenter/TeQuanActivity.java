@@ -1,6 +1,7 @@
 package com.bee.user.ui.mine.membercenter;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -40,6 +41,9 @@ public class TeQuanActivity extends BaseActivity {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
+
+    private int windowWidth;
+
     @Override
     protected void initImmersionBar() {
         ImmersionBar mImmersionBar = ImmersionBar.with(this);
@@ -54,11 +58,14 @@ public class TeQuanActivity extends BaseActivity {
         return R.layout.activity_tequan;
     }
 
+
     @Override
     public void initViews() {
+        windowWidth = DisplayUtil.getWindowWidth(this);
+
         recyclerview.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
 
-        TeQuanAdapter  adapter = new TeQuanAdapter();
+        TeQuanAdapter  adapter = new TeQuanAdapter(windowWidth);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> a, @NonNull View view, int position) {
@@ -90,14 +97,20 @@ public class TeQuanActivity extends BaseActivity {
     public class TeQuanAdapter extends BaseQuickAdapter<TeQuanBean, BaseViewHolder> {
 
         public int current  = -1;
+        int windowWidth;
 
-        public TeQuanAdapter() {
+        public TeQuanAdapter(int windowWidth) {
             super(R.layout.item_tequan);
+
+            this.windowWidth = windowWidth;
         }
 
         @Override
         protected void convert(@NotNull BaseViewHolder baseViewHolder, TeQuanBean bean) {
             LinearLayout ll_content = baseViewHolder.getView(R.id.ll_content);
+            ViewGroup.LayoutParams layoutParams = ll_content.getLayoutParams();
+            layoutParams.width = windowWidth/4;
+
 
             ImageView iv_image = baseViewHolder.getView(R.id.iv_image);
             TextView tv_text = baseViewHolder.getView(R.id.tv_text);

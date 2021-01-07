@@ -85,7 +85,7 @@ public class MineFragment extends BaseFragment {
             case R.id.tv_name:
             case R.id.tv_des:
                 if(SPUtils.geTinstance().isLogin()){
-                   startActivity(new Intent(getContext(),UserInfoActivity.class));
+                   startActivity(new Intent(getContext(),MemberCenterActivity.class));
                 }else{
                     EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_login));
                 }
@@ -237,8 +237,7 @@ public class MineFragment extends BaseFragment {
                         startActivity(intent);
                         break;
                     case 10:
-                        intent = new Intent(getContext(), MemberCenterActivity.class);
-                        startActivity(intent);
+
 
                         break;
                     case 11:

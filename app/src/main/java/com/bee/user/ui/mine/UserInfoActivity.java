@@ -98,11 +98,11 @@ public class UserInfoActivity extends BaseActivity {
                 showTakePhoneDialog();
                 break;
             case R.id.tv_mingcheng_text://名称
-                intent  = new Intent(UserInfoActivity.this, UserInfoItemActivity.class);
-                intent.putExtra("type",UserInfoItemEvent.TYPE_Name);
-                intent.putExtra("str1","修改名称");
-                intent.putExtra("str2","昵称为2～32位字符，支持中文、英文、数字");
-                intent.putExtra("str3","ss");
+                intent = new Intent(UserInfoActivity.this, UserInfoItemActivity.class);
+                intent.putExtra("type", UserInfoItemEvent.TYPE_Name);
+                intent.putExtra("str1", "修改名称");
+                intent.putExtra("str2", "昵称为2～32位字符，支持中文、英文、数字");
+                intent.putExtra("str3", "ss");
                 startActivity(intent);
                 break;
 
@@ -114,26 +114,26 @@ public class UserInfoActivity extends BaseActivity {
                 break;
             case R.id.tv_zhiye_text://职业
                 intent = new Intent(UserInfoActivity.this, UserInfoItemActivity.class);
-                intent.putExtra("type",UserInfoItemEvent.TYPE_Profession);
-                intent.putExtra("str1","职业");
-                intent.putExtra("str2","职业为2～32位字符，支持中文、英文、数字");
-                intent.putExtra("str3","工程师");
+                intent.putExtra("type", UserInfoItemEvent.TYPE_Profession);
+                intent.putExtra("str1", "职业");
+                intent.putExtra("str2", "职业为2～32位字符，支持中文、英文、数字");
+                intent.putExtra("str3", "工程师");
                 startActivity(intent);
                 break;
             case R.id.tv_qianming_text://个性签名
                 intent = new Intent(UserInfoActivity.this, UserInfoItemActivity.class);
-                intent.putExtra("type",UserInfoItemEvent.TYPE_Sign);
-                intent.putExtra("str1","个性签名");
-                intent.putExtra("str2","签名为2～160位字符，支持中文、英文、数字");
-                intent.putExtra("str3","天下没有难做的生意");
+                intent.putExtra("type", UserInfoItemEvent.TYPE_Sign);
+                intent.putExtra("str1", "个性签名");
+                intent.putExtra("str2", "签名为2～160位字符，支持中文、英文、数字");
+                intent.putExtra("str3", "天下没有难做的生意");
                 startActivity(intent);
                 break;
             case R.id.tv_dizhi_text://收货地址
                 intent = new Intent(UserInfoActivity.this, UserInfoItemActivity.class);
-                intent.putExtra("type",UserInfoItemEvent.TYPE_Location);
-                intent.putExtra("str1","收货地址");
-                intent.putExtra("str2","收货地址为2～160位字符，支持中文、英文、数字");
-                intent.putExtra("str3","上海");
+                intent.putExtra("type", UserInfoItemEvent.TYPE_Location);
+                intent.putExtra("str1", "收货地址");
+                intent.putExtra("str2", "收货地址为2～160位字符，支持中文、英文、数字");
+                intent.putExtra("str3", "上海");
                 startActivity(intent);
                 break;
             case R.id.tv_phone_text://手机号
@@ -203,63 +203,68 @@ public class UserInfoActivity extends BaseActivity {
         };
         bottomSheetDialog.show();
     }
+
     private TimePickerView pvTime;
+
     //    //时间选择器
     private void showBirthdayDialog() {
-        Calendar instance = Calendar.getInstance();
-        instance.add(Calendar.YEAR,-100);
+
         //时间选择器
-         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {//选中事件回调
-                if (date.getTime() > new Date().getTime()) {
-                    date = new Date();
-                }
-
-                tv_shengri_text.setText(getDateLong(date.getTime()));
-            }
-        })
-                .setType(new boolean[]{true, true, true, false, false, false})//分别对应 年月日时分秒，默认全部显示
-                .setLabel("年", "月", "日", "时", "分", "秒")
-
-                .setCancelText("取消")//取消按钮文字
-                .setSubmitText("确定")//确认按钮文字
-                .setContentTextSize(15)//滚轮文字大小
-                .setTitleSize(17)//标题文字大小
-                .setTitleText("选择日期")//标题文字
-                .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
-                .isCyclic(false)//是否循环滚动
-                .setTitleColor(getResources().getColor(R.color.color_282525))//标题文字颜色
-                .setSubmitColor(getResources().getColor(R.color.color_3e7dfb))//确定按钮文字颜色
-                .setCancelColor(getResources().getColor(R.color.color_7C7877))//取消按钮文字颜色
-                .setTitleBgColor(Color.WHITE)//标题背景颜色 Night mode
-                .setBgColor(Color.WHITE)//滚轮背景颜色 Night mode
-                .setRangDate(instance, Calendar.getInstance())//默认是1900-2100年
-                .setLineSpacingMultiplier(3.0f)
-
-                .setLayoutRes(R.layout.pickerview_custom_time, new CustomListener() {
-
-                    @Override
-                    public void customLayout(View v) {
-                        final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
-                        TextView tv_cancel = (TextView) v.findViewById(R.id.tv_cancel);
-                        tvSubmit.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                pvTime.returnData();
-                                pvTime.dismiss();
-                            }
-                        });
-                        tv_cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                pvTime.dismiss();
-                            }
-                        });
+        if (null == pvTime) {
+            Calendar instance = Calendar.getInstance();
+            instance.add(Calendar.YEAR, -100);
+            pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
+                @Override
+                public void onTimeSelect(Date date, View v) {//选中事件回调
+                    if (date.getTime() > new Date().getTime()) {
+                        date = new Date();
                     }
-                })
-                .build();
 
+                    tv_shengri_text.setText(getDateLong(date.getTime()));
+                }
+            })
+                    .setType(new boolean[]{true, true, true, false, false, false})//分别对应 年月日时分秒，默认全部显示
+                    .setLabel("年", "月", "日", "时", "分", "秒")
+
+                    .setCancelText("取消")//取消按钮文字
+                    .setSubmitText("确定")//确认按钮文字
+                    .setContentTextSize(15)//滚轮文字大小
+                    .setTitleSize(17)//标题文字大小
+                    .setTitleText("选择日期")//标题文字
+                    .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
+                    .isCyclic(false)//是否循环滚动
+                    .setTitleColor(getResources().getColor(R.color.color_282525))//标题文字颜色
+                    .setSubmitColor(getResources().getColor(R.color.color_3e7dfb))//确定按钮文字颜色
+                    .setCancelColor(getResources().getColor(R.color.color_7C7877))//取消按钮文字颜色
+                    .setTitleBgColor(Color.WHITE)//标题背景颜色 Night mode
+                    .setBgColor(Color.WHITE)//滚轮背景颜色 Night mode
+                    .setRangDate(instance, Calendar.getInstance())//默认是1900-2100年
+                    .setLineSpacingMultiplier(3.0f)
+
+                    .setLayoutRes(R.layout.pickerview_custom_time, new CustomListener() {
+
+                        @Override
+                        public void customLayout(View v) {
+                            final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
+                            TextView tv_cancel = (TextView) v.findViewById(R.id.tv_cancel);
+                            tvSubmit.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    pvTime.returnData();
+                                    pvTime.dismiss();
+                                }
+                            });
+                            tv_cancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    pvTime.dismiss();
+                                }
+                            });
+                        }
+                    })
+                    .build();
+
+        }
 
         pvTime.setDate(Calendar.getInstance());//注：根据需求来决定是否使用该方法（一般是精确到秒的情况），此项可以在弹出选择器的时候重新设置当前时间，避免在初始化之后由于时间已经设定，导致选中时间与当前时间不匹配的问题。
         pvTime.show();
@@ -401,10 +406,9 @@ public class UserInfoActivity extends BaseActivity {
     }
 
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserInfoItemEvent(UserInfoItemEvent event) {
-        switch (event.getType()){
+        switch (event.getType()) {
             case UserInfoItemEvent.TYPE_Name:
                 tv_mingcheng_text.setText(event.getText());
                 break;

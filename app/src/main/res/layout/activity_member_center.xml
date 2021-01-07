@@ -26,9 +26,9 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
                     android:scaleType="fitXY"
-                    android:src="@drawable/bg_chang" />
+                    android:src="@drawable/bg_huiyuan" />
 
 
                 <androidx.viewpager.widget.ViewPager
@@ -169,6 +169,7 @@
 
 
             <TextView
+                android:id="@+id/tv_buy_mili"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginLeft="40dp"
