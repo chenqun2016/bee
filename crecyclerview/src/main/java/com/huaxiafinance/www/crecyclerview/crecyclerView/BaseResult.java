@@ -8,12 +8,9 @@ import java.io.Serializable;
 public class BaseResult<T> implements Serializable{
 
     public boolean success = false;
-    protected String code;
+    protected int code;
     protected String msg;
     protected T data;
-    protected int rows;
-    protected int page;
-    protected int total;
 
     public void setData(T data) {
         this.data = data;
@@ -28,10 +25,10 @@ public class BaseResult<T> implements Serializable{
     public void setSuccess(boolean success) {
         this.success = success;
     }
-    public String getErrorCode() {
+    public int getErrorCode() {
         return code;
     }
-    public void setErrorCode(String errorCode) {
+    public void setErrorCode(int errorCode) {
         this.code = errorCode;
     }
     public String getErrorMsg() {
@@ -40,25 +37,5 @@ public class BaseResult<T> implements Serializable{
     public void setErrorMsg(String errorMsg) {
         this.msg = errorMsg;
     }
-    public int getTotal() {
-        return total;
-    }
-    public void setTotal(int total) {
-        this.total = total;
-    }
-    public int getPage() {
-        return page;
-    }
-    public void setPage(int page) {
-        this.page = page;
-    }
-    public int getRows() {
-        return rows;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
 
 }

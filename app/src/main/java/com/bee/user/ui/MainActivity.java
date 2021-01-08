@@ -27,6 +27,7 @@ import com.amap.api.maps.MapView;
 import com.bee.user.R;
 import com.bee.user.bean.UserBean;
 import com.bee.user.event.LocationChangedEvent;
+import com.bee.user.event.LoginEvent;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -84,7 +85,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     private int mOldScreenOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
 
-
+    private MineFragment mineFragment;
 
     @BindView(R.id.tab_indicator)
     IconTabPageIndicator mIndicator;
@@ -115,7 +116,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         fragments.add(HomeFragment.newInstance(0));
         fragments.add(NearbyFragment.newInstance());
         fragments.add(new ChartFragment());
-        fragments.add(new MineFragment());
+        mineFragment  = new MineFragment();
+        fragments.add(mineFragment);
 
         MainAdapter myAdapter = new MainAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setCanScroll(false);
@@ -236,6 +238,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                                             @Override
                                             public void onSuccess(String userBean) {
                                                 SPUtils.geTinstance().setLoginCache(null);
+
+                                                onLogin();
                                             }
                                         });
 
@@ -580,6 +584,17 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             mLocationClient.startLocation();
         }
 
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginEvent(LoginEvent event) {
+        onLogin();
+
+    }
+
+    private void onLogin() {
+        mineFragment.onLogin();
     }
 
 }

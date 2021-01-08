@@ -77,16 +77,16 @@ public abstract class BaseSubscriber<T> implements BaseObserver<T>, Observer<Bas
             ToastUtil.ToastShortFromNet(baseBean.getErrorMsg()+"");
             onSuccess(baseBean.getData());
         } else {
-            if (!TextUtils.isEmpty(baseBean.getErrorCode()) && baseBean.getErrorCode().contains(EventBusUtils.ErrorCode_login_out)) {//异地登录
-                ToastUtil.ToastShortFromNet(BeeApplication.getInstance().getResources().getString(R.string.text_kickout));
-                //清除本地数据
-                EventBusUtils.getInstance().kickOff(KICKOUTEvent.From_BACK);
-            } else {
+//            if (!TextUtils.isEmpty(baseBean.getErrorCode()) && baseBean.getErrorCode().contains(EventBusUtils.ErrorCode_login_out)) {//异地登录
+//                ToastUtil.ToastShortFromNet(BeeApplication.getInstance().getResources().getString(R.string.text_kickout));
+//                //清除本地数据
+//                EventBusUtils.getInstance().kickOff(KICKOUTEvent.From_BACK);
+//            } else {
                 if (!TextUtils.isEmpty(baseBean.getErrorMsg()) && showErrorToash) {
                     ToastUtil.ToastShortFromNet(TextUtils.isEmpty(mErrorText)?baseBean.getErrorMsg():mErrorText);
 //                    ToastUtil.getInstance().ToastShortFromNet("请求异常");
                 }
-            }
+//            }
             onFail(baseBean.getErrorMsg());
         }
     }

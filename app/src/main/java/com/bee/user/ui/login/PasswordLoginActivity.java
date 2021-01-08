@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.bean.UserBean;
+import com.bee.user.event.CodeLoginFinishEvent;
 import com.bee.user.event.LoginEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -116,8 +117,9 @@ public class PasswordLoginActivity extends BaseActivity {
                             public void onSuccess(String userBean) {
                                 closeLoadingDialog();
                                 tv_agree.setEnabled(true);
-//                                SPUtils.geTinstance().setLoginCache(userBean);
+                                SPUtils.geTinstance().setLoginCache(null);
 
+                                EventBus.getDefault().post(new CodeLoginFinishEvent());
                                 EventBus.getDefault().post(new LoginEvent());
                                 finish();
                             }

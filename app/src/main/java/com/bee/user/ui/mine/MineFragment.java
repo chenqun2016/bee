@@ -83,6 +83,12 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.tv_icon:
             case R.id.tv_name:
+                if(SPUtils.geTinstance().isLogin()){
+                    startActivity(new Intent(getContext(),UserInfoActivity.class));
+                }else{
+                    EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_login));
+                }
+                break;
             case R.id.tv_des:
                 if(SPUtils.geTinstance().isLogin()){
                    startActivity(new Intent(getContext(),MemberCenterActivity.class));
@@ -247,5 +253,16 @@ public class MineFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+    public void onLogin() {
+        if(SPUtils.geTinstance().isLogin()){
+            tv_name.setText("1111");
+            tv_des.setText("胡蜂会员");
+        }else{
+            tv_name.setText("立即登陆");
+            tv_des.setText("省多少你说了算");
+        }
+
     }
 }

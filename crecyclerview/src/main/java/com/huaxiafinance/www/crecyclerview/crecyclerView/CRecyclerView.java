@@ -539,9 +539,9 @@ public class CRecyclerView<T > extends FrameLayout implements SwipeRefreshLayout
     }
 
     private void kickout(BaseResult<List<T>> subjects) {
-        if (!TextUtils.isEmpty(subjects.getErrorCode()) && subjects.getErrorCode().equals(EventBusUtils.ErrorCode_login_out)) {//异地登录
-            EventBusUtils.getInstance().kickOff(KICKOUTEvent.From_BACK);
-        }
+//        if (!TextUtils.isEmpty(subjects.getErrorCode()) && subjects.getErrorCode().equals(EventBusUtils.ErrorCode_login_out)) {//异地登录
+//            EventBusUtils.getInstance().kickOff(KICKOUTEvent.From_BACK);
+//        }
     }
 
 

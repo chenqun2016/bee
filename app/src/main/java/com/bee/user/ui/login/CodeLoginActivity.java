@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.bean.UserBean;
+import com.bee.user.event.CodeLoginFinishEvent;
 import com.bee.user.event.LoginEvent;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
@@ -97,7 +98,9 @@ public class CodeLoginActivity extends BaseActivity {
                             @Override
                             public void onSuccess(String userBean) {
                                 closeLoadingDialog();
-//                                SPUtils.geTinstance().setLoginCache(userBean);
+                                SPUtils.geTinstance().setLoginCache(null);
+
+                                EventBus.getDefault().post(new LoginEvent());
                                 finish();
                             }
 
@@ -280,10 +283,10 @@ public class CodeLoginActivity extends BaseActivity {
     }
 
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginEvent(LoginEvent event) {
+    public void onCodeLoginFinishEvent(CodeLoginFinishEvent event) {
 
         finish();
     }
-
 }
