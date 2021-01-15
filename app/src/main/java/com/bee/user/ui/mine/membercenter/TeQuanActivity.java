@@ -61,6 +61,9 @@ public class TeQuanActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+
+
+
         windowWidth = DisplayUtil.getWindowWidth(this);
 
         recyclerview.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
@@ -81,10 +84,10 @@ public class TeQuanActivity extends BaseActivity {
 
 
         ArrayList<TeQuanBean> objects = new ArrayList<>();
-        objects.add(new TeQuanBean(R.drawable.icon_chongzhi_lvfeng,"充值赠送"));
-        objects.add(new TeQuanBean(R.drawable.icon_shengri_lvfeng,"生日礼包"));
-        objects.add(new TeQuanBean(R.drawable.con_tuikuan_lvfeng,"极速退款"));
-        objects.add(new TeQuanBean(R.drawable.icon_youhui_lvfeng,"领取优惠"));
+        objects.add(new TeQuanBean(R.drawable.tequan_1,"充值赠送"));
+        objects.add(new TeQuanBean(R.drawable.tequan_2,"生日礼包"));
+        objects.add(new TeQuanBean(R.drawable.tequan_3,"极速退款"));
+        objects.add(new TeQuanBean(R.drawable.tequan_4,"领取优惠"));
         adapter.setNewInstance(objects);
 
         adapter.current = 0;

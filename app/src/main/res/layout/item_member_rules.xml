@@ -16,6 +16,7 @@
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:textSize="12sp"
         android:layout_toRightOf="@+id/line1"
         android:text="会员名称"/>
 
@@ -32,6 +33,7 @@
         android:layout_width="100dp"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:textSize="12sp"
         android:layout_toLeftOf="@+id/line2"
         android:text="有效期"/>
 
@@ -55,6 +57,7 @@
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/line3"
         android:layout_toLeftOf="@+id/line4"
+        android:textSize="12sp"
         android:gravity="center"
         android:text="米粒"/>
 

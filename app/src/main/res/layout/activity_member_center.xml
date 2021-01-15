@@ -35,7 +35,7 @@
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:layout_marginTop="80dp" />
+                    android:layout_marginTop="90dp" />
             </FrameLayout>
 
             <LinearLayout
@@ -52,6 +52,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textStyle="bold"
                     android:text="会员权益"
                     android:textColor="@color/color_282525"
                     android:textSize="14sp" />
@@ -83,6 +84,7 @@
                     android:drawableTop="@drawable/icon_chongzhi_lvfeng"
                     android:gravity="center_horizontal"
                     android:text="充值赠送"
+                    android:textStyle="bold"
                     android:textColor="@color/color_3B3838"
                     android:textSize="12sp" />
 
@@ -97,6 +99,7 @@
                     android:drawableTop="@drawable/icon_shengri_lvfeng"
                     android:gravity="center_horizontal"
                     android:text="生日礼包"
+                    android:textStyle="bold"
                     android:textColor="@color/color_3B3838"
                     android:textSize="12sp" />
 
@@ -111,6 +114,7 @@
                     android:drawableTop="@drawable/con_tuikuan_lvfeng"
                     android:gravity="center_horizontal"
                     android:text="极速退款"
+                    android:textStyle="bold"
                     android:textColor="@color/color_3B3838"
                     android:textSize="12sp" />
 
@@ -125,6 +129,7 @@
                     android:drawableTop="@drawable/icon_youhui_lvfeng"
                     android:gravity="center_horizontal"
                     android:text="领取优惠"
+                    android:textStyle="bold"
                     android:textColor="@color/color_3B3838"
                     android:textSize="12sp" />
 
@@ -136,6 +141,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="25dp"
                 android:text="会员规则说明"
+                android:textStyle="bold"
                 android:textColor="@color/color_282525"
                 android:textSize="14sp" />
 
@@ -163,7 +169,7 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="15dp"
                 android:lineSpacingExtra="10dp"
-                android:text="1、会员当前米粒到达升级门槛时，新等级将自动生效，可取升级礼包及等级相关特权。\n 2、当会员米粒消耗时，会员等级将自动降级，相关特权也将进行变动。"
+                android:text="1、会员当前米粒到达升级门槛时，新等级将自动生效，可取升级礼包及等级相关特权。\n2、当会员米粒消耗时，会员等级将自动降级，相关特权也将进行变动。"
                 android:textColor="@color/color_7C7877"
                 android:textSize="12sp" />
 

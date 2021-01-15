@@ -5,6 +5,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.core.widget.NestedScrollView;
@@ -82,6 +83,10 @@ public class MemberCenterActivity extends BaseActivity {
         ViewGroup.LayoutParams layoutParams = statusheight.getLayoutParams();
         layoutParams.height = ImmersionBar.getStatusBarHeight(this);
         statusheight.setLayoutParams(layoutParams);
+
+        FrameLayout.LayoutParams layoutParams1 = (FrameLayout.LayoutParams) viewpager.getLayoutParams();
+        layoutParams1.topMargin = ImmersionBar.getStatusBarHeight(this) + DisplayUtil.dip2px(this,65);
+
 
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<MemberRulesBean> beans = new ArrayList<>();

@@ -1,5 +1,6 @@
 package com.bee.user.ui.adapter;
 
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,18 +28,29 @@ public class MemberRulesAdapter  extends BaseQuickAdapter<MemberRulesBean, BaseV
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, MemberRulesBean bean) {
-        RelativeLayout background = baseViewHolder.getView(R.id.background);
-        if(0 == baseViewHolder.getLayoutPosition()){
-            background.setBackgroundColor(background.getResources().getColor(R.color.color_FF6200_10));
-        }else{
-            background.setBackgroundColor(background.getResources().getColor(R.color.white));
-        }
-
         TextView tv_1 = baseViewHolder.getView(R.id.tv_1);
         tv_1.setText(bean.str1);
         TextView tv_2 = baseViewHolder.getView(R.id.tv_2);
         tv_2.setText(bean.str3);
         TextView tv_3 = baseViewHolder.getView(R.id.tv_3);
         tv_3.setText(bean.str2);
+
+
+        RelativeLayout background = baseViewHolder.getView(R.id.background);
+        if(0 == baseViewHolder.getLayoutPosition()){
+            background.setBackgroundColor(background.getResources().getColor(R.color.color_FF6200_10));
+
+            tv_1.setTypeface(Typeface.DEFAULT_BOLD);
+            tv_2.setTypeface(Typeface.DEFAULT_BOLD);
+            tv_3.setTypeface(Typeface.DEFAULT_BOLD);
+        }else{
+            background.setBackgroundColor(background.getResources().getColor(R.color.white));
+
+            tv_1.setTypeface(Typeface.DEFAULT);
+            tv_2.setTypeface(Typeface.DEFAULT);
+            tv_3.setTypeface(Typeface.DEFAULT);
+        }
+
+
     }
 }
