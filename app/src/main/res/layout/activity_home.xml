@@ -36,12 +36,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="25dp" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="12dp"
-                    android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp">
@@ -53,29 +52,29 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/icon_dingwe_bai"
                         android:drawablePadding="8dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="30dp"
                         android:text="上海市"
+                        android:drawableRight="@drawable/icon_xiangxiaxuanze"
+                        android:singleLine="true"
+                        android:ellipsize="end"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:src="@drawable/icon_xiangxiaxuanze" />
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="1dp"
-                        android:layout_weight="1" />
+
+
 
                     <RelativeLayout
                         android:id="@+id/rl_unread"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/iv_msg"
-                            android:layout_width="wrap_content"
+                            android:layout_width="20dp"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:scaleType="centerInside"
@@ -90,7 +89,7 @@
                             android:background="@drawable/cycle"
                             android:gravity="center" />
                     </RelativeLayout>
-                </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_tongzhi"

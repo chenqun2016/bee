@@ -154,42 +154,51 @@ public class CRecyclerView<T > extends FrameLayout implements SwipeRefreshLayout
         return this;
     }
     public void setEmptyText(String text) {
-        if (null != notDataView) {
+        if (null != notDataView && null != notDataView.findViewById(R.id.tv_empty)) {
             ((TextView) notDataView.findViewById(R.id.tv_empty)).setText(text);
         }
     }
 
     public CRecyclerView<T> setEmptyView(View view) {
         notDataView = view;
-        notDataView.findViewById(R.id.tv_empty).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRefresh();
-            }
-        });
+        if(null != notDataView.findViewById(R.id.tv_empty)){
+            notDataView.findViewById(R.id.tv_empty).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onRefresh();
+                }
+            });
+        }
+
         return this;
     }
 
     public CRecyclerView<T> setFailView(View view){
         failView=view;
-        failView.findViewById(R.id.tv_error).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRefresh();
-            }
-        });
+        if(null != failView.findViewById(R.id.tv_error)){
+            failView.findViewById(R.id.tv_error).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onRefresh();
+                }
+            });
+        }
+
         return this;
 
     }
 
     public CRecyclerView<T> setErrorView(View view){
         errorView=view;
-        errorView.findViewById(R.id.tv_error).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRefresh();
-            }
-        });
+        if(null != errorView.findViewById(R.id.tv_error)){
+            errorView.findViewById(R.id.tv_error).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onRefresh();
+                }
+            });
+        }
+
         return this;
 
     }

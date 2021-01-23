@@ -97,7 +97,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Override
     protected void initImmersionBar() {
-         ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
+        ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
     }
 
 
@@ -116,7 +116,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         fragments.add(HomeFragment.newInstance(0));
         fragments.add(NearbyFragment.newInstance());
         fragments.add(new ChartFragment());
-        mineFragment  = new MineFragment();
+        mineFragment = new MineFragment();
         fragments.add(mineFragment);
 
         MainAdapter myAdapter = new MainAdapter(getSupportFragmentManager(), fragments);
@@ -142,16 +142,19 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             setRequestedOrientation(mOldScreenOrientation);
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
     @Override
     public void onStart() {
         super.onStart();
 
     }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -195,6 +198,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private String token;
     private PhoneNumberAuthHelper mAlicomAuthHelper;
     private TokenResultListener mTokenListener;
+
     private void initLogins() {
         /*
          *   1.init get token callback Listener
@@ -215,13 +219,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        if(null != tokenRet){
+                        if (null != tokenRet) {
                             String code = tokenRet.getCode();
                             if (("600024").equals(code)) {
                                 LogUtil.e("终端自检成功:\n" + ret);
-                            }else if (("600001").equals(code)) {
+                            } else if (("600001").equals(code)) {
                                 LogUtil.e("唤起授权页成功:\n" + ret);
-                            }else if (("600000").equals(code)) {
+                            } else if (("600000").equals(code)) {
                                 token = tokenRet.getToken();
                                 mAlicomAuthHelper.quitLoginPage();
                                 LogUtil.e("获取token成功:\n" + ret);
@@ -242,7 +246,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                                                 onLogin();
                                             }
                                         });
-
 
 
                             }
@@ -273,7 +276,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     e.printStackTrace();
                 }
 
-                if(null != tokenRet) {
+                if (null != tokenRet) {
                     String code = tokenRet.getCode();
                     if ("600008".equals(code) ||
                             "600002".equals(code) ||
@@ -281,10 +284,32 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                             "600007".equals(code) ||
                             "600011".equals(code) ||
                             "600015".equals(code) ||
-                            "600021".equals(code)){
+                            "600021".equals(code)) {
 //                                其他登录方式
                         mCanOneKeyLogin = false;
 
+                    }
+
+                    try {
+                        if ("600008".equals(code)) {
+                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "开启移动网络后重试");
+                        } else if ("600002".equals(code)) {
+                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "唤起授权页失败,切换到其他登录方式");
+                        } else if ("600005".equals(code)) {
+                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "手机终端不安全,切换到其他登录方式");
+                        } else if ("600007".equals(code)) {
+                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "未检测到sim卡,切换到其他登录方式");
+                        } else if ("600011".equals(code)) {
+                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "获取token失败,切换到其他登录方式");
+                        } else if ("600015".equals(code)) {
+                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "接口超时,切换到其他登录方式");
+                        } else if ("600021".equals(code)) {
+                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "点击登录时检测到运营商已切换,切换到其他登录方式");
+                        } else if (code.startsWith("6")) {
+                            ToastUtil.ToastShort(MainActivity.this, "code==" + code);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 
@@ -309,7 +334,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         mAlicomAuthHelper.checkEnvAvailable(SERVICE_TYPE_LOGIN);
 
 
-
         /**
          * 控件点击事件回调
          */
@@ -318,10 +342,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             public void onClick(String code, Context context, JSONObject jsonObj) {
                 Log.e("authSDK", "OnUIControlClick:code=" + code + ", jsonObj=" + (jsonObj == null ? "" : jsonObj.toJSONString()));
 //                一键登录
-                if("700002".equals(code)){
+                if ("700002".equals(code)) {
 
 
-                }else if("700001".equals(code)){
+                } else if ("700001".equals(code)) {
 //                其它手机号登录
 
 
@@ -331,7 +355,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         });
 
 //        预取号
-        if(!SPUtils.geTinstance().isLogin()) {
+        if (!SPUtils.geTinstance().isLogin()) {
             mAlicomAuthHelper.accelerateLoginPage(5000, new PreLoginResultListener() {
                 @Override
                 public void onTokenSuccess(final String vendor) {
@@ -473,11 +497,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
 
     private TextView otherLogin;
-//    初始化一键登录自定义页面
+
+    //    初始化一键登录自定义页面
     private void initDynamicView() {
 
         otherLogin = new TextView(getApplicationContext());
-        RelativeLayout.LayoutParams mLayoutParams2 = new RelativeLayout.LayoutParams((int)DisplayUtil.dp2px(this, 290), (int) DisplayUtil.dp2px(this, 40));
+        RelativeLayout.LayoutParams mLayoutParams2 = new RelativeLayout.LayoutParams((int) DisplayUtil.dp2px(this, 290), (int) DisplayUtil.dp2px(this, 40));
         mLayoutParams2.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
         mLayoutParams2.setMargins((int) DisplayUtil.dp2px(this, 42), (int) DisplayUtil.dp2px(this, 315), (int) DisplayUtil.dp2px(this, 42), 0);
         otherLogin.setText("使用其他手机号登录");
@@ -488,16 +513,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         otherLogin.setBackgroundResource(R.drawable.btn_stroke_yellow);
 
     }
-
-
-
-
-
-
-
-
-
-
 
 
     private AMapLocationClient mLocationClient;
@@ -519,7 +534,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                             + amapLocation.getErrorInfo());
                 }
             }
-
 
 
             EventBus.getDefault().post(new LocationChangedEvent());
@@ -560,23 +574,22 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMainEvent(MainEvent event) {
 
-        if(MainEvent.TYPE_login == event.TYPE){
-            if(mCanOneKeyLogin){
+        if (MainEvent.TYPE_login == event.TYPE) {
+            if (mCanOneKeyLogin) {
                 configLoginTokenPort();
 
                 mAlicomAuthHelper.getLoginToken(MainActivity.this, 5000);
-            }else{
+            } else {
                 startActivity(new Intent(MainActivity.this, CodeLoginActivity.class));
             }
-        }else if(MainEvent.TYPE_set_index == event.TYPE){
+        } else if (MainEvent.TYPE_set_index == event.TYPE) {
             onPageSelected(event.index);
             mIndicator.setCurrentItem(event.index);
 
-        }else if(MainEvent.TYPE_reLocation == event.TYPE){
+        } else if (MainEvent.TYPE_reLocation == event.TYPE) {
 
             showLoadingDialog();
             mLocationClient.stopLocation();

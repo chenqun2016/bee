@@ -37,6 +37,19 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/tv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="失效券"
+        android:textColor="@color/color_282626"
+        android:textSize="13sp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp" />
+
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"

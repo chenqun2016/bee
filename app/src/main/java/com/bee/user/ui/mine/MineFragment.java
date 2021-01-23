@@ -22,6 +22,7 @@ import com.bee.user.ui.adapter.MineGridviewAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.giftcard.GiftcardActivity;
 import com.bee.user.ui.home.NewsActivity;
+import com.bee.user.ui.mine.coupon.CouponActivity;
 import com.bee.user.ui.mine.membercenter.MemberCenterActivity;
 import com.bee.user.ui.order.OrderActivity;
 import com.bee.user.ui.trade.MiLiActivity;

@@ -1,4 +1,7 @@
-package com.bee.user.ui.mine;
+package com.bee.user.ui.mine.coupon;
+
+import android.content.Intent;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -8,10 +11,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.giftcard.GiftcardRecordActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * 创建人：进京赶考
@@ -28,8 +33,17 @@ public class CouponActivity extends BaseActivity {
     ViewPager2 vp;
 
 
-    String[] titles = new String[]{"优惠券(3)", "失效券"};
+    String[] titles = new String[]{"优惠券(3)", "配送卡(3)"};
 
+    @OnClick({R.id.tv_right})
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.tv_right:
+                startActivity(new Intent(this, UnuseCouponActivity.class));
+                break;
+
+        }
+    }
 
     @Override
     public int getLayoutId() {
