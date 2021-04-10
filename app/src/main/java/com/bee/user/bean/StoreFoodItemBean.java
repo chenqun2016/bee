@@ -1,5 +1,7 @@
 package com.bee.user.bean;
 
+import java.math.BigDecimal;
+
 /**
  * 创建人：进京赶考
  * 创建时间：2020/12/12  19：41
@@ -27,7 +29,7 @@ public class StoreFoodItemBean {
     private int productCategoryId;
     private String productCategoryName;
     private String productPicUrl;
-    private int price;
+    private BigDecimal price;
     private int monthSalesCount;
     private double praiseRate;
 
@@ -87,11 +89,11 @@ public class StoreFoodItemBean {
         this.productPicUrl = productPicUrl;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

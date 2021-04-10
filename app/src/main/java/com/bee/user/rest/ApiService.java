@@ -1,5 +1,7 @@
 package com.bee.user.rest;
 
+import com.bee.user.bean.AddCartBean;
+import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItemBean;
@@ -106,4 +108,53 @@ public interface ApiService {
      */
     @GET(HttpRequest.shop_queryProductList)
     Observable<BaseResult<List<StoreFoodItemBean>>> shop_queryProductList(@Path("id") String id);
+
+
+
+    /**
+     * 获取用户信息
+     * @Path("mobile") String mobile
+     */
+    @GET(HttpRequest.user_getInfo)
+    Observable<BaseResult<UserBean>> getUserInfo();
+
+
+    /**
+     * 添加至购物车
+     */
+    @POST(HttpRequest.addToCart)
+    Observable<BaseResult<AddCartBean>> addToCart(@Body RequestBody info);
+
+    /**
+     * 确认单信息
+     */
+    @POST(HttpRequest.submitPreview)
+    Observable<BaseResult<String>> submitPreview(@Body RequestBody info);
+
+
+    /**
+     * 清空购物车的数据
+     */
+    @GET(HttpRequest.clearCartInfo)
+    Observable<BaseResult<String>> clearCartInfo(@Query("memberId") String memberId,@Query("storeIds") List<Integer> storeIds);
+    /**
+     * 删除购物项
+     */
+    @GET(HttpRequest.deleteCartItem)
+    Observable<BaseResult<String>> deleteCartItem(@Query("cartItemIds") List<Integer> cartItemIds);
+    /**
+     * 获取购物车信息
+     */
+    @GET(HttpRequest.getCart)
+    Observable<BaseResult<List<ChartBean>>> getCart(@Query("memberId") String memberId, @Query("storeIds") List<Integer> storeIds);
+    /**
+     * 获取购物车某个购物项
+     */
+    @GET(HttpRequest.getCartItem)
+    Observable<BaseResult<String>> getCartItem(@Query("memberId") String memberId,@Query("skuId") String skuId,@Query("storeId") String storeId);
+    /**
+     * 修改商品数量
+     */
+    @GET(HttpRequest.updateQuantity)
+    Observable<BaseResult<String>> updateQuantity(@Query("cartItemId") String cartItemId,@Query("quantity") String quantity);
 }

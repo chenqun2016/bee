@@ -20,9 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.BeeApplication;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
+import com.bee.user.bean.AddChartBean;
 import com.bee.user.bean.ElemeGroupedItem;
 import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItemBean;
+import com.bee.user.event.AddChartEvent;
 import com.bee.user.event.StoreEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -30,6 +32,7 @@ import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.home.HomeFragment;
 import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.AddRemoveView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -261,13 +264,27 @@ public class StoreFragment extends BaseFragment {
             });
 
             AddRemoveView iv_goods_add = holder.getView(R.id.iv_goods_add) ;
+            iv_goods_add.setOnNumChangedListener(new AddRemoveView.OnNumChangedListener() {
+                @Override
+                public void onNumChangedListener(int num) {
+                    StoreFoodItemBean bean = item.info.getBean();
+                    int id = 0;
+                    if(null != SPUtils.geTinstance().getUserInfo()){
+                        id = SPUtils.geTinstance().getUserInfo().getId();
+                    }
+
+                    AddChartBean addChartBean = new AddChartBean( num, bean.getId(), bean.getStoreId(),bean.getPrice());
+                    AddChartEvent addChartEvent = new AddChartEvent(addChartBean);
+                    EventBus.getDefault().post(addChartEvent);
+                }
+            });
             TextView tv_choosetype = holder.getView(R.id.tv_choosetype) ;
             tv_choosetype.setOnClickListener(v -> {
 
                 EventBus.getDefault().post(new StoreEvent());
             });
 
-            if((holder.getAbsoluteAdapterPosition() % 2) == 0){
+            if((holder.getLayoutPosition() % 2) == 0){
                 iv_goods_add.setVisibility(View.GONE);
                 tv_choosetype.setVisibility(View.VISIBLE);
             }else{

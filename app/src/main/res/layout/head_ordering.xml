@@ -24,6 +24,7 @@
             android:drawablePadding="10dp"
             android:gravity="center_vertical"
             android:text="请选择收货地址"
+            android:textStyle="bold"
             android:textColor="@color/color_282525"
             android:textSize="18sp" />
 
@@ -45,6 +46,7 @@
             android:layout_below="@+id/tv_dizhi2"
             android:layout_marginTop="20dp"
             android:text="送达时间"
+            android:textStyle="bold"
             android:textColor="@color/color_282525"
             android:textSize="13sp" />
 
@@ -55,6 +57,7 @@
             android:layout_below="@+id/tv_dizhi2"
             android:layout_alignParentRight="true"
             android:layout_marginTop="20dp"
+            android:textStyle="bold"
             android:drawableRight="@drawable/icon_link"
             android:drawablePadding="10dp"
             android:text="大约12:30送到"
@@ -68,15 +71,16 @@
             android:layout_below="@+id/tv_time"
             android:layout_marginTop="20dp"
             android:text="支付方式"
+            android:textStyle="bold"
             android:textColor="@color/color_282525"
             android:textSize="13sp" />
 
         <TextView
-            android:id="@+id/tv_youhuiquan_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_time"
             android:layout_alignParentRight="true"
+            android:textStyle="bold"
             android:layout_marginTop="20dp"
             android:gravity="center_vertical"
             android:text="可用米粒 1000"

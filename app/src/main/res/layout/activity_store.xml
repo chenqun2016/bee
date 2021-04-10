@@ -202,26 +202,11 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <FrameLayout
+    <com.bee.user.widget.ChartBottomDialogView
+        android:id="@+id/chart_bottom_dialog_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-
-        <View
-            android:id="@+id/view_background"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            android:background="#66000000"
-            android:visibility="gone" />
-
-        <include
-            android:id="@+id/view_selected"
-            layout="@layout/dialog_store_bottom_selected"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:visibility="invisible" />
-    </FrameLayout>
+        android:layout_gravity="bottom"/>
 
 
     <include layout="@layout/item_store_bottom" />

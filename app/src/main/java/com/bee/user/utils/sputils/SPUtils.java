@@ -186,6 +186,25 @@ public class SPUtils {
 
     public void setLoginCache(UserBean userBean) {
         setUserBean(userBean);
-        setUid("1");
+        if(null != userBean){
+            setUid(userBean.getId()+"");
+        }
+    }
+
+
+    private String mToken;//用户uid
+
+    public String getToken() {
+        if (TextUtils.isEmpty(mToken)) {
+            return get(Constants.TOKEN, "");
+        } else {
+            return mToken;
+        }
+
+    }
+
+    public void setToken(String token) {
+        mToken = token;
+        put(Constants.TOKEN, token);
     }
 }

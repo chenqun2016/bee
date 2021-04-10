@@ -114,13 +114,13 @@ public class PasswordLoginActivity extends BaseActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new BaseSubscriber<String>() {
                             @Override
-                            public void onSuccess(String userBean) {
+                            public void onSuccess(String token) {
                                 closeLoadingDialog();
                                 tv_agree.setEnabled(true);
-                                SPUtils.geTinstance().setLoginCache(null);
+
 
                                 EventBus.getDefault().post(new CodeLoginFinishEvent());
-                                EventBus.getDefault().post(new LoginEvent());
+                                EventBus.getDefault().post(new LoginEvent(token));
                                 finish();
                             }
 

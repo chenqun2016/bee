@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="285dp"
+    android:layout_height="334dp"
     android:background="@drawable/bg_topround20dp_white">
 
     <ImageView
@@ -29,14 +29,46 @@
         android:layout_centerHorizontal="true"/>
 
 
+
+    <TextView
+        android:id="@+id/tv_buxuyao"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/tv_pay_title"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/btn_stroke5dp_ccc"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:textColor="@color/color_282525"
+        android:textSize="17sp"
+        android:text="无需餐具，助力环保"/>
+
+
+
+    <TextView
+        android:id="@+id/tv_aoto"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/tv_buxuyao"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/btn_stroke5dp_ccc"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:textColor="@color/color_282525"
+        android:textSize="17sp"
+        android:text="依据餐量提供"/>
+
     <LinearLayout
         android:id="@+id/ll_xuyao"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginRight="15dp"
         android:layout_marginLeft="15dp"
+        android:layout_below="@+id/tv_aoto"
         android:background="@drawable/btn_stroke5dp_ccc"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <TextView
@@ -61,28 +93,14 @@
 
 
     <TextView
-        android:id="@+id/tv_buxuyao"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/ll_xuyao"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
-        android:background="@drawable/btn_stroke5dp_ccc"
-        android:layout_marginTop="15dp"
-        android:gravity="center"
-        android:textColor="@color/color_282525"
-        android:textSize="17sp"
-        android:text="无需餐具，助力环保"/>
-
-    <TextView
         android:id="@+id/tv_pay"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@drawable/btn_gradient_grey_round"
         android:layout_marginLeft="42dp"
         android:layout_marginRight="42dp"
-        android:layout_marginTop="40dp"
-        android:layout_below="@+id/tv_buxuyao"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/ll_xuyao"
         android:text="确认支付"
         android:gravity="center"
         android:textSize="17sp"

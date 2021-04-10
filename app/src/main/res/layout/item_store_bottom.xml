@@ -27,6 +27,7 @@
         android:layout_height="15dp"
         android:background="@drawable/cycle"
         android:gravity="center"
+        android:visibility="gone"
         android:text="2"
         android:textColor="@color/white"
         android:textSize="11sp" />
@@ -40,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="4dp"
-        android:text="合计"
+        android:text="未选购商品"
         android:textColor="@color/color_282626"
         android:textSize="12sp" />
 
@@ -52,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
         android:text="¥"
+        android:visibility="gone"
         android:textColor="@color/color_FF564A"
         android:textSize="12sp"
         android:textStyle="bold"/>
@@ -64,6 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         android:text="10"
+        android:visibility="gone"
         android:textColor="@color/color_FF564A"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -88,7 +91,7 @@
         android:layout_width="100dp"
         android:layout_height="33dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/btn_gradient_yellow_round"
+        android:background="@drawable/btn_gradient_grey_round"
         android:gravity="center"
         android:text="去结算"
         android:textColor="@color/white"

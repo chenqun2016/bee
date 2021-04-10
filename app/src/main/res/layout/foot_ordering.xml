@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/item_order_feiyong"/>
+
 
 
     <include layout="@layout/item_orderdetail_head_card"

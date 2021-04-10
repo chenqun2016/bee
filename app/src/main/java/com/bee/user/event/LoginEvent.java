@@ -6,4 +6,9 @@ package com.bee.user.event;
  * 描述：
  */
 public class LoginEvent {
+
+    public String token;
+    public LoginEvent(String token) {
+        this.token = token;
+    }
 }

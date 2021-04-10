@@ -19,10 +19,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
+import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.StoreBean;
+import com.bee.user.bean.UserBean;
 import com.bee.user.event.MainEvent;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.ChartAdapter;
 import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
@@ -31,6 +36,7 @@ import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.ui.order.OrderActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.sputils.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.gyf.immersionbar.ImmersionBar;
@@ -39,11 +45,14 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -104,6 +113,20 @@ public class ChartFragment extends BaseFragment {
     @Override
     protected void getDatas() {
 
+//        Api.getClient(HttpRequest.baseUrl_chart).getCart(SPUtils.geTinstance().getUid()+"37",null)
+//                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new BaseSubscriber<List<ChartBean>>() {
+//                    @Override
+//                    public void onSuccess(List<ChartBean> beans) {
+//                        adapter.setNewInstance(beans);
+//                    }
+//
+//                    @Override
+//                    public void onFail(String fail) {
+//                        super.onFail(fail);
+//                    }
+//                });
     }
 
     @Override public void onDestroyView() {
@@ -182,24 +205,25 @@ public class ChartFragment extends BaseFragment {
                 RecyclerView.RecycledViewPool();
         recyclerview.setRecycledViewPool(recycledViewPool);
 
-        ArrayList<StoreBean> beans = new ArrayList<>();
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
+        ArrayList<ChartBean> beans = new ArrayList<>();
+        beans.add(new ChartBean());
+        beans.add(new ChartBean());
+        beans.add(new ChartBean());
+        beans.add(new ChartBean());
+        beans.add(new ChartBean());
         adapter.setNewInstance(beans);
 
 
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                for (StoreBean bean : beans){
+                for (ChartBean bean : adapter.getData()){
                     bean.selectedAll = b;
                 }
                 adapter.notifyDataSetChanged();
             }
         });
+
     }
 
     private void initNoNet() {

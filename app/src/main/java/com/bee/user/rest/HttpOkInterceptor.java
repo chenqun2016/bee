@@ -9,6 +9,7 @@ import com.bee.user.utils.DeviceUtils;
 import com.bee.user.utils.EncryptUtils;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.utils.NetWorkUtil;
+import com.bee.user.utils.sputils.SPUtils;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -50,6 +51,7 @@ public class HttpOkInterceptor implements Interceptor {
                 .addHeader("Content-Type", "application/json;charset=utf-8")
 //                .addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
                 .addHeader("uid", "")//用户id（已登录用户传）
+                .addHeader("Authorization", SPUtils.geTinstance().getToken())//用户token（已登录用户传）
                 .addHeader("channel", DeviceUtils.getAppMetaData()+"" ) // app下载渠道
                 .addHeader("osType", "android")//系统 （ios、android...）
                 .addHeader("osVersion", android.os.Build.VERSION.SDK_INT+"") // 系统版本号

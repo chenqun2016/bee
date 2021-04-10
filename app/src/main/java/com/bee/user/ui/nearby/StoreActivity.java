@@ -21,12 +21,16 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
+import com.bee.user.bean.AddCartBean;
+import com.bee.user.bean.AddChartBean;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.FoodTypeBean;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreListBean;
+import com.bee.user.event.AddChartEvent;
 import com.bee.user.event.CloseEvent;
+import com.bee.user.event.LoginEvent;
 import com.bee.user.event.MainEvent;
 import com.bee.user.event.StoreEvent;
 import com.bee.user.rest.Api;
@@ -41,6 +45,7 @@ import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.utils.LogUtil;
+import com.bee.user.widget.ChartBottomDialogView;
 import com.bee.user.widget.DragDialogLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -57,8 +62,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -82,22 +92,7 @@ public class StoreActivity extends BaseActivity {
 
 
 
-    @BindView(R.id.iv_icon)
-    ImageView iv_icon;
-    @BindView(R.id.ll_mark)
-    LinearLayout ll_mark;
-
-
-    @BindView(R.id.tv_title)
-    TextView tv_title;
-    @BindView(R.id.tv_distance)
-    TextView tv_distance;
-    @BindView(R.id.tv_time)
-    TextView tv_time;
-    @BindView(R.id.tv_sells)
-    TextView tv_sells;
-
-
+    //titlebar
     @BindView(R.id.iv_back)
     ImageView iv_back;
     @BindView(R.id.tv_search_1)
@@ -111,29 +106,63 @@ public class StoreActivity extends BaseActivity {
     @BindView(R.id.tv_dingwei)
     ImageView tv_dingwei;
 
+
+
+    //商家信息
+    @BindView(R.id.iv_icon)
+    ImageView iv_icon;
+    @BindView(R.id.ll_mark)
+    LinearLayout ll_mark;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+    @BindView(R.id.tv_distance)
+    TextView tv_distance;
+    @BindView(R.id.tv_time)
+    TextView tv_time;
+    @BindView(R.id.tv_sells)
+    TextView tv_sells;
+
+
+
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager2 vp;
 
+
+
+    //底部dialog
+    @BindView(R.id.chart_bottom_dialog_view)
+    ChartBottomDialogView chart_bottom_dialog_view;
+
+
+
+    //去结算
     @BindView(R.id.cl_qujiesuan)
     ConstraintLayout cl_qujiesuan;
-    @BindView(R.id.view_selected)
-    DragDialogLayout view_selected;
-    @BindView(R.id.view_background)
-    View view_background;
+    @BindView(R.id.tv_xuangou_tag)
+    TextView tv_xuangou_tag;
+    @BindView(R.id.tv_heji)
+    TextView tv_heji;
+    @BindView(R.id.tv_heji_money_pre)
+    TextView tv_heji_money_pre;
+    @BindView(R.id.tv_heji_money)
+    TextView tv_heji_money;
+    @BindView(R.id.tv_des)
+    TextView tv_des;
+    @BindView(R.id.tv_confirm)
+    TextView tv_confirm;
+
 
     private Fragment[] mFragments;
     String[] titles = new String[]{"菜单", "评价", "商家"};
 
-    private int windowHeight;
-    private int heightSelected;
 
-    ViewGroup.LayoutParams params;
-
+    //购物车
+    private HashMap<String,AddChartBean> hashMap = new LinkedHashMap<>();
     StoreDetailBean storeDetailBean;
 
-    @OnClick({R.id.tv_confirm,R.id.cl_qujiesuan, R.id.tv_dingwei,R.id.view_background,
+    @OnClick({R.id.tv_confirm,R.id.cl_qujiesuan, R.id.tv_dingwei,
     R.id.tv_search_1,R.id.iv_search})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -142,11 +171,7 @@ public class StoreActivity extends BaseActivity {
                 startActivity(new Intent(this, OrderingActivity.class));
                 break;
             case R.id.cl_qujiesuan:
-                showSelectedDialog();
-                break;
-            case R.id.view_background:
-
-                close();
+                chart_bottom_dialog_view.showSelectedDialog();
                 break;
 
             case R.id.tv_dingwei:
@@ -184,7 +209,8 @@ public class StoreActivity extends BaseActivity {
     public void initViews() {
         EventBus.getDefault().register(this);
         mFragments = new Fragment[titles.length];
-        windowHeight = DisplayUtil.getWindowHeight(this);
+
+        chart_bottom_dialog_view.initDatas(DisplayUtil.getWindowHeight(this));
 
 
         ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
@@ -207,12 +233,13 @@ public class StoreActivity extends BaseActivity {
                 switch (selectedTabPosition) {
                     case 0:
                         cl_qujiesuan.setVisibility(View.VISIBLE);
-                        view_selected.setVisibility(View.VISIBLE);
+                        chart_bottom_dialog_view.showSelectedView(View.VISIBLE);
+
                         break;
                     case 1:
                     case 2:
                         cl_qujiesuan.setVisibility(View.GONE);
-                        view_selected.setVisibility(View.GONE);
+                        chart_bottom_dialog_view.showSelectedView(View.GONE);
                         break;
                 }
             }
@@ -263,7 +290,6 @@ public class StoreActivity extends BaseActivity {
             }
         });
 
-        initSelectedFoodDialog();
         getDatas();
     }
 
@@ -300,61 +326,7 @@ public class StoreActivity extends BaseActivity {
         tv_sells.setText("月销"+storeDetailBean.getMonthSalesCount());
     }
 
-    private void initSelectedFoodDialog() {
-        findViewById(R.id.clean).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                close();
-            }
-        });
 
-
-        view_selected.setNextPageListener(new DragDialogLayout.ShowNextPageNotifier() {
-            @Override
-            public void onDragNext() {
-                closeOhter();
-
-                params.height = 0;
-                view_selected.setLayoutParams(params);
-
-                isShow = !isShow;
-            }
-        });
-
-        RecyclerView recyclerview = findViewById(R.id.recyclerview);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
-
-        List<FoodBean> foodBeans = new ArrayList<>();
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
-
-        SelectedFoodAdapter selectedFoodAdapter = new SelectedFoodAdapter(foodBeans);
-        recyclerview.setAdapter(selectedFoodAdapter);
-        selectedFoodAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-
-            }
-        });
-
-        view_background.setAlpha(0);
-        view_selected.post(new Runnable() {
-            @Override
-            public void run() {
-                heightSelected = view_selected.getMeasuredHeight();
-
-                if (heightSelected > windowHeight / 2f) {
-                    heightSelected = windowHeight / 2;
-                }
-                params = view_selected.getLayoutParams();
-                params.height = 0;
-                view_selected.setLayoutParams(params);
-                view_selected.setVisibility(View.VISIBLE);
-            }
-        });
-    }
 
 
     private void showChooseTypeDialog() {
@@ -447,169 +419,6 @@ public class StoreActivity extends BaseActivity {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-//已选商品相关代码
-
-    boolean isShow = false;
-
-    private void showSelectedDialog() {
-        if (!isShow) {
-            show();
-
-        } else {
-            close();
-        }
-
-
-    }
-
-    private ValueAnimator showAnimation;
-    private ValueAnimator closeAnimation;
-    private ValueAnimator alphaAnimation1;
-    private ValueAnimator alphaAnimation2;
-
-
-    public void show() {
-        if (null != alphaAnimation2 && alphaAnimation2.isRunning()) {
-            alphaAnimation2.end();
-        }
-
-        view_background.setVisibility(View.VISIBLE);
-        ViewGroup.LayoutParams layoutParams = view_background.getLayoutParams();
-        layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
-        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        view_background.setLayoutParams(layoutParams);
-
-        if (null == alphaAnimation1) {
-            alphaAnimation1 = ValueAnimator.ofFloat(0, 1);
-            alphaAnimation1.setDuration(300);
-            alphaAnimation1.setInterpolator(new LinearInterpolator());
-            alphaAnimation1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    view_background.setAlpha((Float) valueAnimator.getAnimatedValue());
-                }
-            });
-        }
-        alphaAnimation1.start();
-
-
-
-
-        if (null != closeAnimation && closeAnimation.isRunning()) {
-            closeAnimation.end();
-        }
-
-        if (null == showAnimation) {
-            showAnimation = ValueAnimator.ofInt(0, heightSelected);
-            showAnimation.setDuration(300);
-            showAnimation.setInterpolator(new LinearInterpolator());
-            showAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    params.height = (int) valueAnimator.getAnimatedValue();
-                    view_selected.setLayoutParams(params);
-                }
-            });
-        }
-        showAnimation.start();
-
-        isShow = !isShow;
-    }
-
-    public void close() {
-        closeOhter();
-
-
-        if (null == closeAnimation) {
-            closeAnimation = ValueAnimator.ofInt(heightSelected, 0);
-            closeAnimation.setDuration(300);
-            closeAnimation.setInterpolator(new LinearInterpolator());
-            closeAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    params.height = (int) valueAnimator.getAnimatedValue();
-                    view_selected.setLayoutParams(params);
-                }
-            });
-        }
-
-        closeAnimation.start();
-
-        isShow = !isShow;
-    }
-
-    private void closeOhter() {
-        if (null != alphaAnimation1 && alphaAnimation1.isRunning()) {
-            alphaAnimation1.end();
-        }
-
-        if (null == alphaAnimation2) {
-            alphaAnimation2 = ValueAnimator.ofFloat(1, 0);
-            alphaAnimation2.setDuration(300);
-            alphaAnimation2.setInterpolator(new LinearInterpolator());
-            alphaAnimation2.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator) {
-                    view_background.setVisibility(View.GONE);
-                    ViewGroup.LayoutParams layoutParams = view_background.getLayoutParams();
-                    layoutParams.height = 1;
-                    layoutParams.width = 1;
-                    view_background.setLayoutParams(layoutParams);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animator) {
-                    view_background.setVisibility(View.GONE);
-                    ViewGroup.LayoutParams layoutParams = view_background.getLayoutParams();
-                    layoutParams.height = 1;
-                    layoutParams.width = 1;
-                    view_background.setLayoutParams(layoutParams);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-                }
-            });
-            alphaAnimation2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    view_background.setAlpha((Float) valueAnimator.getAnimatedValue());
-                }
-            });
-        }
-        alphaAnimation2.start();
-
-
-
-        if (null != showAnimation && showAnimation.isRunning()) {
-            showAnimation.end();
-        }
-    }
-
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onStoreEvent(StoreEvent event) {
         showChooseTypeDialog();
@@ -619,5 +428,77 @@ public class StoreActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCloseEvent(CloseEvent event) {
         finish();
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onAddChartEvent(AddChartEvent event) {
+
+        AddChartBean addChartBean = event.addChartBean;
+        Map<String, String> map = new HashMap<>();
+        map.put("num", addChartBean.num+"");
+//        map.put("skuId", addChartBean.skuId+"");
+//        map.put("storeId", addChartBean.storeId+"");
+        map.put("skuId", "1032");
+        map.put("storeId", "16");
+        Api.getClient(HttpRequest.baseUrl_chart).addToCart(Api.getRequestBody(map)).
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<AddCartBean>() {
+                    @Override
+                    public void onSuccess(AddCartBean userBean) {
+
+                        if(addChartBean.num > 0){
+                            hashMap.put(addChartBean.skuId+"",addChartBean);
+                        }else{
+                            hashMap.remove(addChartBean.skuId+"");
+                        }
+
+
+                        resetView();
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
+
+
+
+
+    }
+
+    private void resetView() {
+        Set<Map.Entry<String, AddChartBean>> entries = hashMap.entrySet();
+
+        int total = 0;
+        float totalMoney =  0;
+        for (Map.Entry<String, AddChartBean> entry : entries){
+            total += entry.getValue().num;
+            totalMoney += entry.getValue().money.multiply(new BigDecimal(entry.getValue().num)).floatValue();
+        }
+
+        if(total > 0){
+            tv_xuangou_tag.setText(total+"");
+            tv_heji.setText("合计");
+            tv_heji_money_pre.setVisibility(View.VISIBLE);
+            tv_heji_money.setVisibility(View.VISIBLE);
+            tv_heji_money.setText(totalMoney+"");
+//            tv_des.setText("");
+            tv_confirm.setBackgroundResource(R.drawable.btn_gradient_yellow_round);
+            tv_confirm.setEnabled(true);
+            cl_qujiesuan.setEnabled(true);
+        }else{
+            tv_xuangou_tag.setText(total+"");
+            tv_heji.setText("未选购商品");
+            tv_heji_money_pre.setVisibility(View.INVISIBLE);
+            tv_heji_money.setVisibility(View.INVISIBLE);
+            tv_heji_money.setText("");
+//            tv_des.setText("");
+            tv_confirm.setBackgroundResource(R.drawable.btn_gradient_grey_round);
+            tv_confirm.setEnabled(false);
+            cl_qujiesuan.setEnabled(false);
+        }
     }
 }

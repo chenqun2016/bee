@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
+import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.ui.nearby.StoreActivity;
@@ -27,14 +28,14 @@ import java.util.List;
  * 创建时间：2020/09/04  16：08
  * 描述：
  */
-public class ChartAdapter extends BaseQuickAdapter<StoreBean, BaseViewHolder> {
+public class ChartAdapter extends BaseQuickAdapter<ChartBean, BaseViewHolder> {
 
     public ChartAdapter() {
         super(R.layout.fragment_chart_data);
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder holder, StoreBean storeBean) {
+    protected void convert(@NotNull BaseViewHolder holder, ChartBean storeBean) {
 
         RecyclerView recyclerview = holder.findView(R.id.recyclerview);
 

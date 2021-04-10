@@ -10,6 +10,7 @@ import java.nio.charset.Charset;
 public class Constants {
     public static final float RATE_HOME = 280f / 650f;              //首页banner
     public static final String UID = "uid";
+    public static final String TOKEN = "token";
 
 
     public static final Charset UTF8 = Charset.forName("UTF-8");

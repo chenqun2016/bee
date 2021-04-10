@@ -240,10 +240,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(new BaseSubscriber<String>() {
                                             @Override
-                                            public void onSuccess(String userBean) {
+                                            public void onSuccess(String token) {
                                                 SPUtils.geTinstance().setLoginCache(null);
 
-                                                onLogin();
+                                                onLogin(token);//TODO
                                             }
                                         });
 
@@ -602,12 +602,28 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginEvent(LoginEvent event) {
-        onLogin();
+        onLogin(event.token);
 
     }
 
-    private void onLogin() {
-        mineFragment.onLogin();
+    private void onLogin(String token) {
+        SPUtils.geTinstance().setToken(token);
+
+        Api.getClient(HttpRequest.baseUrl_userInfo).getUserInfo()
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<UserBean>() {
+                    @Override
+                    public void onSuccess(UserBean str) {
+                        SPUtils.geTinstance().setLoginCache(str);
+                        mineFragment.onLogin();
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 
 }

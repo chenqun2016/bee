@@ -16,10 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
+import com.bee.user.bean.AddCartBean;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.ChooseTimeBean;
+import com.bee.user.bean.OrderingParams;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.event.CloseEvent;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.ChooseTimeAdapter;
 import com.bee.user.ui.adapter.OrderingAdapter;
 import com.bee.user.ui.base.BaseDialog;
@@ -41,10 +46,14 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -192,16 +201,7 @@ public class OrderingActivity extends BaseActivity {
             }
         });
 
-        TextView tv_youhuiquan_value = foot.findViewById(R.id.tv_youhuiquan_value);
-        tv_youhuiquan_value.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Intent intent = new Intent(OrderingActivity.this, YouhuiquanActivity.class);
-                OrderingActivity.this.startActivity(intent);
-
-            }
-        });
     }
 
 
@@ -223,13 +223,40 @@ public class OrderingActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(OrderingActivity.this,PayActivity.class));
+                OrderingParams orderingParams = new OrderingParams();
+                orderingParams.addressId = 1;
+                ArrayList<Integer> ints = new ArrayList<Integer>();
+                ints.add(16);
+                orderingParams.cartIds = ints;
+                orderingParams.memberId = 1032;
+                orderingParams.offline = 1;
+                orderingParams.orderType = 1;
+                orderingParams.source = 5;
+
+                Api.getClient(HttpRequest.baseUrl_order).submitPreview(Api.getRequestBody(orderingParams)).
+                        subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<String>() {
+                            @Override
+                            public void onSuccess(String userBean) {
+                                startActivity(new Intent(OrderingActivity.this,PayActivity.class));
+                            }
+
+                            @Override
+                            public void onFail(String fail) {
+                                super.onFail(fail);
+                            }
+                        });
+
+
             }
         });
 
         LinearLayout ll_xuyao = bottomSheetDialog.findViewById(R.id.ll_xuyao);
         AddRemoveView iv_goods_add = bottomSheetDialog.findViewById(R.id.iv_goods_add);
         TextView tv_buxuyao = bottomSheetDialog.findViewById(R.id.tv_buxuyao);
+
+        TextView tv_aoto = bottomSheetDialog.findViewById(R.id.tv_aoto);
 
         iv_goods_add.setOnNumChangedListener(new AddRemoveView.OnNumChangedListener() {
             @Override
@@ -246,6 +273,7 @@ public class OrderingActivity extends BaseActivity {
                     tv_pay.setEnabled(true);
                     ll_xuyao.setBackgroundResource(R.drawable.btn_stroke_bg_yellow);
                     tv_buxuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
+                    tv_aoto.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
 
                     canju = num + "双";
                     tv_tigongcanju.setText(canju);
@@ -262,13 +290,28 @@ public class OrderingActivity extends BaseActivity {
 
                 ll_xuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
                 tv_buxuyao.setBackgroundResource(R.drawable.btn_stroke_bg_yellow);
+                tv_aoto.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
 
                 canju = "无需餐具";
                 tv_tigongcanju.setText(canju);
             }
         });
 
+        tv_aoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tv_pay.setBackgroundResource(R.drawable.btn_gradient_yellow_round);
+                tv_pay.setEnabled(true);
+                iv_goods_add.setNum(0);
 
+                ll_xuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
+                tv_buxuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
+                tv_aoto.setBackgroundResource(R.drawable.btn_stroke_bg_yellow);
+
+                canju = "依据餐量提供";
+                tv_tigongcanju.setText(canju);
+            }
+        });
 
 
         bottomSheetDialog.setCanceledOnTouchOutside(false);
