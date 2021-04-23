@@ -59,10 +59,9 @@
     <color name="color_666">#666666</color>
 
     <color name="color_883F17">#883F17</color>
-
-
-
-
+    <color name="grey_default">#f2f2fc</color>
+    <color name="text_000">#000000</color>
+    <color name="line_d">#dddddd</color>
 
 
 </resources>

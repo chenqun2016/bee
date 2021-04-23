@@ -439,7 +439,7 @@ public class StoreActivity extends BaseActivity {
         map.put("num", addChartBean.num+"");
 //        map.put("skuId", addChartBean.skuId+"");
 //        map.put("storeId", addChartBean.storeId+"");
-        map.put("skuId", "1032");
+        map.put("skuId", "1030");//"16     1030,1032"  "1077 1078  1079    9"
         map.put("storeId", "16");
         Api.getClient(HttpRequest.baseUrl_chart).addToCart(Api.getRequestBody(map)).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程

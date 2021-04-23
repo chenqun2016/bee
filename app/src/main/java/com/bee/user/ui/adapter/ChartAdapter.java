@@ -15,6 +15,7 @@ import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.ui.nearby.StoreActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +29,7 @@ import java.util.List;
  * 创建时间：2020/09/04  16：08
  * 描述：
  */
-public class ChartAdapter extends BaseQuickAdapter<ChartBean, BaseViewHolder> {
+public class ChartAdapter extends BaseQuickAdapter<ChartBean, BaseViewHolder> implements LoadMoreModule {
 
     public ChartAdapter() {
         super(R.layout.fragment_chart_data);
@@ -36,6 +37,9 @@ public class ChartAdapter extends BaseQuickAdapter<ChartBean, BaseViewHolder> {
 
     @Override
     protected void convert(@NotNull BaseViewHolder holder, ChartBean storeBean) {
+        TextView tv_store = holder.findView(R.id.tv_store);
+        tv_store.setText(storeBean.getBuildingAreaName()+"");
+
 
         RecyclerView recyclerview = holder.findView(R.id.recyclerview);
 
@@ -43,7 +47,7 @@ public class ChartAdapter extends BaseQuickAdapter<ChartBean, BaseViewHolder> {
 
         ArrayList<FoodBean> foodBeans = new ArrayList<>();
         foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
+//        foodBeans.add(new FoodBean());
 
         ChartFoodItemAdapter chartFoodItemAdapter = new ChartFoodItemAdapter(foodBeans);
         recyclerview.setAdapter(chartFoodItemAdapter);

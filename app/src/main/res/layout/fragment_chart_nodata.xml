@@ -217,12 +217,11 @@
 
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_below="@+id/tv_title"
-            android:layout_above="@+id/cl_qujiesuan"
+        <include layout="@layout/crecyclerview_base"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_title"
+            android:layout_above="@+id/cl_qujiesuan"/>
 
     </RelativeLayout>
 </RelativeLayout>

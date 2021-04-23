@@ -20,9 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.ChartBean;
+import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.StoreBean;
+import com.bee.user.bean.StoreListBean;
 import com.bee.user.bean.UserBean;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
@@ -36,6 +38,7 @@ import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.ui.order.OrderActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.utils.sputils.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -85,6 +88,8 @@ public class ChartFragment extends BaseFragment {
 
     private  ChartAdapter adapter;
 
+    LoadmoreUtils loadmoreUtils;
+
     @OnClick({R.id.tv_confirm,R.id.tv_clear})
     public void onClick(View view){
         switch (view.getId()){
@@ -113,20 +118,7 @@ public class ChartFragment extends BaseFragment {
     @Override
     protected void getDatas() {
 
-//        Api.getClient(HttpRequest.baseUrl_chart).getCart(SPUtils.geTinstance().getUid()+"37",null)
-//                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new BaseSubscriber<List<ChartBean>>() {
-//                    @Override
-//                    public void onSuccess(List<ChartBean> beans) {
-//                        adapter.setNewInstance(beans);
-//                    }
-//
-//                    @Override
-//                    public void onFail(String fail) {
-//                        super.onFail(fail);
-//                    }
-//                });
+        loadmoreUtils.refresh(adapter);
     }
 
     @Override public void onDestroyView() {
@@ -175,7 +167,7 @@ public class ChartFragment extends BaseFragment {
         adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                StoreBean item = (StoreBean) adapter.getItem(position);
+                ChartBean item = (ChartBean) adapter.getItem(position);
 
                 switch (view.getId()){
                     case R.id.tv_store:
@@ -205,13 +197,13 @@ public class ChartFragment extends BaseFragment {
                 RecyclerView.RecycledViewPool();
         recyclerview.setRecycledViewPool(recycledViewPool);
 
-        ArrayList<ChartBean> beans = new ArrayList<>();
-        beans.add(new ChartBean());
-        beans.add(new ChartBean());
-        beans.add(new ChartBean());
-        beans.add(new ChartBean());
-        beans.add(new ChartBean());
-        adapter.setNewInstance(beans);
+//        ArrayList<ChartBean> beans = new ArrayList<>();
+//        beans.add(new ChartBean());
+//        beans.add(new ChartBean());
+//        beans.add(new ChartBean());
+//        beans.add(new ChartBean());
+//        beans.add(new ChartBean());
+//        adapter.setNewInstance(beans);
 
 
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -224,6 +216,33 @@ public class ChartFragment extends BaseFragment {
             }
         });
 
+
+        loadmoreUtils = new LoadmoreUtils(ChartBean.class){
+            @Override
+            protected boolean getDatas(int page) {
+//                List<Integer> integers = new ArrayList<>();
+//                integers.add(16);
+                Api.getClient(HttpRequest.baseUrl_member).getCart(null)
+                        .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<List<ChartBean>>() {
+                            @Override
+                            public void onSuccess(List<ChartBean> beans) {
+                                adapter.setNewInstance(beans);
+                                loadmoreUtils.onSuccess(adapter,beans);
+                            }
+
+                            @Override
+                            public void onFail(String fail) {
+                                super.onFail(fail);
+                                loadmoreUtils.onFail(adapter,fail);
+                            }
+                        });
+
+                return true;
+            }
+        };
+        loadmoreUtils.initLoadmore(adapter);
     }
 
     private void initNoNet() {

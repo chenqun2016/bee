@@ -207,4 +207,15 @@ public class SPUtils {
         mToken = token;
         put(Constants.TOKEN, token);
     }
+
+    public void setExitlogin(){
+        mToken = "";
+        mUser = null;
+        mUid = "";
+
+        setUserBean(null);
+        setToken("");
+        setUid("");
+    }
+
 }

@@ -136,7 +136,7 @@ public interface ApiService {
      * 清空购物车的数据
      */
     @GET(HttpRequest.clearCartInfo)
-    Observable<BaseResult<String>> clearCartInfo(@Query("memberId") String memberId,@Query("storeIds") List<Integer> storeIds);
+    Observable<BaseResult<String>> clearCartInfo(@Query("storeIds") List<Integer> storeIds);
     /**
      * 删除购物项
      */
@@ -146,15 +146,23 @@ public interface ApiService {
      * 获取购物车信息
      */
     @GET(HttpRequest.getCart)
-    Observable<BaseResult<List<ChartBean>>> getCart(@Query("memberId") String memberId, @Query("storeIds") List<Integer> storeIds);
+    Observable<BaseResult<List<ChartBean>>> getCart( @Query("storeIds") List<Integer> storeIds);
     /**
      * 获取购物车某个购物项
      */
     @GET(HttpRequest.getCartItem)
-    Observable<BaseResult<String>> getCartItem(@Query("memberId") String memberId,@Query("skuId") String skuId,@Query("storeId") String storeId);
+    Observable<BaseResult<String>> getCartItem(@Query("skuId") String skuId,@Query("storeId") String storeId);
     /**
      * 修改商品数量
      */
     @GET(HttpRequest.updateQuantity)
     Observable<BaseResult<String>> updateQuantity(@Query("cartItemId") String cartItemId,@Query("quantity") String quantity);
+
+
+
+    /**
+     * 修改收货地址
+     */
+    @POST(HttpRequest.saveAddress)
+    Observable<BaseResult<String>> saveAddress(@Body RequestBody info);
 }

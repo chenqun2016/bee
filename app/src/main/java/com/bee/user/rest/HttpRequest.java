@@ -21,7 +21,7 @@ public class HttpRequest {
     public static final  String baseUrl_shop = baseUrl + "api-shop/";
 
 
-//    public static final  String baseUrl_userInfo = "http://dev-bee-biz-member-center.quxianfeng.vip/";
+
 public static final  String baseUrl_userInfo = baseUrl + "api-member/";
 
 
@@ -31,7 +31,7 @@ public static final  String baseUrl_userInfo = baseUrl + "api-member/";
     public static final  String baseUrl_order = "http://dev-bee-biz-order-center.quxianfeng.vip/";
 
 
-
+    public static final  String baseUrl_member = "http://dev-bee-biz-member-center.quxianfeng.vip/";
 
 
 
@@ -54,15 +54,15 @@ public static final  String baseUrl_userInfo = baseUrl + "api-member/";
     //添加至购物车
     public static final  String addToCart = "cart/addToCart";
     //清空购物车的数据
-    public static final  String clearCartInfo = "cart/cartItem/clearCartInfo";
+    public static final  String clearCartInfo = "cart/clearCartInfo";
     //删除购物项
-    public static final  String deleteCartItem = "cart/cartItem/deleteCartItem";
+    public static final  String deleteCartItem = "cart/deleteCartItem";
     //获取购物车信息
-    public static final  String getCart = "cart/cartItem/getCart";
+    public static final  String getCart = "cart/getCart";
     //获取购物车某个购物项
-    public static final  String getCartItem = "cart/cartItem/getCartItem";
+    public static final  String getCartItem = "cart/getCartItem";
     //修改商品数量
-    public static final  String updateQuantity = "cart/cartItem/updateQuantity";
+    public static final  String updateQuantity = "cart/updateQuantity";
 
 
     public static final  String user_getInfo = "ums/AppUmsMember/getMemberInfo";
@@ -70,4 +70,8 @@ public static final  String baseUrl_userInfo = baseUrl + "api-member/";
     public static final  String xieyi_regist = "http://www.quxianfeng.vip/yszcxy.html";
 //    隐私权政策
     public static final  String xieyi_yinsi = "http://www.quxianfeng.vip/yhyszc.html";
+
+
+//    修改收货地址
+    public static final  String saveAddress =  "auth/saveAddress";
 }

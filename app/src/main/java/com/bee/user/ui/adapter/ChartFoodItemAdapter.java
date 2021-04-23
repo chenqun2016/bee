@@ -27,17 +27,17 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<FoodBean, BaseViewHol
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder baseViewHolder, FoodBean foodBean) {
-        TextView pricepast = baseViewHolder.findView(R.id.iv_goods_price_past);
-
+    protected void convert(@NotNull BaseViewHolder holder, FoodBean foodBean) {
+        TextView pricepast = holder.findView(R.id.iv_goods_price_past);
         DisplayUtil.setXiexian(pricepast);
 
-        TextView iv_goods_name = baseViewHolder.findView(R.id.iv_goods_name);
+        TextView iv_goods_name = holder.findView(R.id.iv_goods_name);
         iv_goods_name.setText("精品海鲜捞面");
 
-        CheckBox cb_1 = baseViewHolder.findView(R.id.cb_1);
-
+        CheckBox cb_1 = holder.findView(R.id.cb_1);
         cb_1.setChecked(foodBean.isSelected);
 
+
+        holder.findView(R.id.iv_goods_comment).setVisibility(View.INVISIBLE);
     }
 }

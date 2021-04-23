@@ -1,11 +1,19 @@
 package com.bee.user.ui.mine;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.view.View;
+import android.widget.TextView;
 
 import com.bee.user.R;
+import com.bee.user.event.ExitloginEvent;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.utils.sputils.SPUtils;
+import com.huaxiafinance.www.crecyclerview.crecyclerView.EventBusUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -15,7 +23,10 @@ import butterknife.OnClick;
  */
 public class SettingActivity extends BaseActivity {
 
-    @OnClick({R.id.tv_safe,R.id.tv_about})
+    @BindView(R.id.tv_quit)
+    TextView tv_quit;
+
+    @OnClick({R.id.tv_safe,R.id.tv_quit,R.id.tv_about})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_safe:
@@ -23,6 +34,9 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.tv_about:
                 startActivity(new Intent(this,AboutActivity.class));
+                break;
+            case R.id.tv_quit:
+                showExitDialog();
                 break;
         }
     }
@@ -35,5 +49,42 @@ public class SettingActivity extends BaseActivity {
     @Override
     public void initViews() {
 
+    }
+
+    private Dialog systemDialog;
+    private void showExitDialog() {
+        if (null == systemDialog) {
+            systemDialog = new Dialog(this, R.style.loadingDialogTheme);
+            View inflate = View.inflate(SettingActivity.this, R.layout.dialog_hint3, null);
+            TextView tv_des = (TextView) inflate.findViewById(R.id.tv_des);
+            tv_des.setText("确定退出登录?");
+            TextView tv_quxiao = (TextView) inflate.findViewById(R.id.btn_cancel);
+            TextView tv_queding = (TextView) inflate.findViewById(R.id.btn_sure);
+
+            tv_quxiao.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (null != systemDialog) {
+                        systemDialog.dismiss();
+                    }
+
+                }
+            });
+            tv_queding.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    SPUtils.geTinstance().setExitlogin();
+                    EventBus.getDefault().post(new ExitloginEvent());
+                    if (null != systemDialog) {
+                        systemDialog.dismiss();
+                    }
+                    SettingActivity.this.finish();
+                }
+            });
+            systemDialog.setContentView(inflate);
+        }
+        systemDialog.show();
     }
 }

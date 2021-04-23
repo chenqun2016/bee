@@ -37,6 +37,9 @@ import com.bee.user.bean.HomeGridview2Bean;
 import com.bee.user.entity.LunchEntity;
 import com.bee.user.entity.NearbyEntity;
 import com.bee.user.event.MainEvent;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.CRecyclerViewActivity;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.adapter.HomeAdapter;
@@ -68,12 +71,16 @@ import com.zaaach.citypicker.model.LocatedCity;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -163,6 +170,29 @@ public class HomeFragment extends BaseFragment {
         if(null != amapLocation){
             tv_dingwei.setText(amapLocation.getPoiName() );
         }
+
+        Map<String, String> map = new HashMap<>();
+        map.put("city", amapLocation.getCity());
+        map.put("defaultStatus", "0");
+        map.put("detailAddress", amapLocation.getAddress());
+        map.put("district", amapLocation.getDistrict());
+        map.put("id", "");
+        map.put("latitude", amapLocation.getLatitude()+"");
+        map.put("longitude", amapLocation.getLongitude()+"");
+//        map.put("memberId", );
+//        map.put("name", );
+//        map.put("phoneNumber", amapLocation);
+        map.put("postCode", amapLocation.getCityCode());
+        map.put("province", amapLocation.getProvince());
+
+        Api.getClient(HttpRequest.baseUrl_member).saveAddress(Api.getRequestBody(map))
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onSuccess(String token) {
+                    }
+                });
     }
 
 

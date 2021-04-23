@@ -26,6 +26,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.MapView;
 import com.bee.user.R;
 import com.bee.user.bean.UserBean;
+import com.bee.user.event.ExitloginEvent;
 import com.bee.user.event.LocationChangedEvent;
 import com.bee.user.event.LoginEvent;
 import com.bee.user.event.MainEvent;
@@ -624,6 +625,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                         super.onFail(fail);
                     }
                 });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onExitloginEvent(ExitloginEvent event) {
+        mineFragment.onLogin();
+
     }
 
 }
