@@ -2,7 +2,6 @@ package com.bee.user.rest;
 
 import com.bee.user.bean.AddCartBean;
 import com.bee.user.bean.ChartBean;
-import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItemBean;
 import com.bee.user.bean.StoreListBean;
@@ -10,15 +9,11 @@ import com.bee.user.bean.UserBean;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.rxjava3.core.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -135,8 +130,8 @@ public interface ApiService {
     /**
      * 清空购物车的数据
      */
-    @GET(HttpRequest.clearCartInfo)
-    Observable<BaseResult<String>> clearCartInfo(@Query("storeIds") List<Integer> storeIds);
+    @POST(HttpRequest.clearCartInfo)
+    Observable<BaseResult<String>> clearCartInfo(@Query("storeIds") List<String> storeIds);
     /**
      * 删除购物项
      */
@@ -155,7 +150,7 @@ public interface ApiService {
     /**
      * 修改商品数量
      */
-    @GET(HttpRequest.updateQuantity)
+    @POST(HttpRequest.updateQuantity)
     Observable<BaseResult<String>> updateQuantity(@Query("cartItemId") String cartItemId,@Query("quantity") String quantity);
 
 
@@ -163,6 +158,9 @@ public interface ApiService {
     /**
      * 修改收货地址
      */
+//    @POST(HttpRequest.saveAddress)
+//    Observable<BaseResult<String>> saveAddress(@Body RequestBody info);
     @POST(HttpRequest.saveAddress)
     Observable<BaseResult<String>> saveAddress(@Body RequestBody info);
+
 }

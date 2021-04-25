@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
-import com.bee.user.bean.FoodBean;
+import com.bee.user.bean.ChartBean;
 import com.bee.user.ui.adapter.SelectedFoodAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -60,7 +60,7 @@ public class ChartBottomDialogView extends FrameLayout {
         initSelectedFoodDialog();
     }
 
-
+    SelectedFoodAdapter selectedFoodAdapter;
     private void initSelectedFoodDialog() {
         view_background.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,13 +92,11 @@ public class ChartBottomDialogView extends FrameLayout {
         RecyclerView recyclerview = findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        List<FoodBean> foodBeans = new ArrayList<>();
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
+        List<ChartBean> foodBeans = new ArrayList<>();
+        foodBeans.add(new ChartBean());
+        foodBeans.add(new ChartBean());
 
-        SelectedFoodAdapter selectedFoodAdapter = new SelectedFoodAdapter(foodBeans);
+        selectedFoodAdapter  = new SelectedFoodAdapter(foodBeans);
         recyclerview.setAdapter(selectedFoodAdapter);
         selectedFoodAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -111,6 +109,9 @@ public class ChartBottomDialogView extends FrameLayout {
 
     }
 
+    public void reflushAdapter(List<ChartBean> beans){
+        selectedFoodAdapter.setNewInstance(beans);
+    }
 
     //初始化view的高度
     public void initDatas(int windowHeight) {

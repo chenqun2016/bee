@@ -23,7 +23,6 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.maps.MapView;
 import com.bee.user.R;
 import com.bee.user.bean.UserBean;
 import com.bee.user.event.ExitloginEvent;
@@ -36,16 +35,13 @@ import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.chart.ChartFragment;
 import com.bee.user.ui.home.HomeFragment;
-import com.bee.user.ui.home.MiaoshaFragment;
 import com.bee.user.ui.login.CodeLoginActivity;
-import com.bee.user.ui.login.LoginActivity;
 import com.bee.user.ui.mine.MineFragment;
 import com.bee.user.ui.nearby.NearbyFragment;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
-import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.huaxiafinance.lc.bottomindicator.IOnTab3Click;
 import com.huaxiafinance.lc.bottomindicator.IconTabPageIndicator;
@@ -60,9 +56,6 @@ import com.mobile.auth.gatewayauth.PreLoginResultListener;
 import com.mobile.auth.gatewayauth.TokenResultListener;
 import com.mobile.auth.gatewayauth.model.TokenRet;
 import com.mobile.auth.gatewayauth.ui.AbstractPnsViewDelegate;
-import com.zaaach.citypicker.CityPicker;
-import com.zaaach.citypicker.model.LocateState;
-import com.zaaach.citypicker.model.LocatedCity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -75,7 +68,6 @@ import java.util.Map;
 import butterknife.BindView;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import okhttp3.RequestBody;
 
 /**
  * 创建时间：2020/8/19
@@ -592,7 +584,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         } else if (MainEvent.TYPE_reLocation == event.TYPE) {
 
-            showLoadingDialog();
+//            showLoadingDialog();
             mLocationClient.stopLocation();
 //                        启动定位
             mLocationClient.startLocation();
@@ -610,7 +602,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     private void onLogin(String token) {
         SPUtils.geTinstance().setToken(token);
 
-        Api.getClient(HttpRequest.baseUrl_userInfo).getUserInfo()
+        Api.getClient(HttpRequest.baseUrl_member).getUserInfo()
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<UserBean>() {

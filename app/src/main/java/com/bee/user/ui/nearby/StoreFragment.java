@@ -14,15 +14,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.BeeApplication;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.AddChartBean;
 import com.bee.user.bean.ElemeGroupedItem;
-import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItemBean;
 import com.bee.user.event.AddChartEvent;
 import com.bee.user.event.StoreEvent;
@@ -30,12 +27,9 @@ import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.fragment.BaseFragment;
-import com.bee.user.ui.home.HomeFragment;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.AddRemoveView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.kunminx.linkage.LinkageRecyclerView;
 import com.kunminx.linkage.adapter.viewholder.LinkagePrimaryViewHolder;
 import com.kunminx.linkage.adapter.viewholder.LinkageSecondaryFooterViewHolder;
@@ -80,6 +74,7 @@ public class StoreFragment extends BaseFragment {
         fragment.setArguments(arguments);
         return fragment;
     }
+    List<StoreFoodItemBean>   mDatas;
     @Override
     protected void getDatas() {
         Api.getClient(HttpRequest.baseUrl_shop).shop_queryProductList(9+"") .subscribeOn(Schedulers.io())
@@ -87,6 +82,7 @@ public class StoreFragment extends BaseFragment {
                 .subscribe(new BaseSubscriber<List<StoreFoodItemBean>>() {
                     @Override
                     public void onSuccess(List<StoreFoodItemBean> storeFoodItemBeans) {
+                        mDatas   = storeFoodItemBeans;
                         setViews(storeFoodItemBeans);
                     }
 
@@ -95,6 +91,9 @@ public class StoreFragment extends BaseFragment {
                         super.onFail(fail);
                     }
                 });
+
+
+
     }
 
     private void setViews(List<StoreFoodItemBean> beans) {

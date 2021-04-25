@@ -22,6 +22,8 @@ public class StoreFoodItemBean {
      * praiseRate : 90.6
      */
 
+    public int quantity;
+
     private int id;
     private int storeId;
     private int productId;

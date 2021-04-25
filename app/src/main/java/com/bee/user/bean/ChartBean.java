@@ -6,22 +6,24 @@ package com.bee.user.bean;
  * 描述：
  */
 public class ChartBean {
+    public  boolean isSelected = false;
+
     public boolean selectedAll = false;
 
 
-    private Integer id;
+    private int id;
     private Integer productId;
     private Integer productSkuId;
     private Integer memberId;
     private String memberNickname;
-    private Integer quantity;
+    private int quantity;
     private Integer price;
     private Double packingFee;
     private Integer buildingAreaId;
     private String buildingAreaName;
     private String sp1;
     private String sp2;
-    private Object sp3;
+    private String sp3;
     private Object productAttr;
     private String productPic;
     private String productName;
@@ -36,11 +38,11 @@ public class ChartBean {
     private String modifyDate;
     private Integer deleteStatus;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -76,11 +78,11 @@ public class ChartBean {
         this.memberNickname = memberNickname;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
@@ -132,11 +134,11 @@ public class ChartBean {
         this.sp2 = sp2;
     }
 
-    public Object getSp3() {
+    public String getSp3() {
         return sp3;
     }
 
-    public void setSp3(Object sp3) {
+    public void setSp3(String sp3) {
         this.sp3 = sp3;
     }
 

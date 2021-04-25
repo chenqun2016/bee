@@ -1,11 +1,8 @@
 package com.bee.user.ui.nearby;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,40 +20,30 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.AddCartBean;
 import com.bee.user.bean.AddChartBean;
-import com.bee.user.bean.FoodBean;
+import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.FoodTypeBean;
-import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.StoreDetailBean;
-import com.bee.user.bean.StoreListBean;
 import com.bee.user.event.AddChartEvent;
 import com.bee.user.event.CloseEvent;
-import com.bee.user.event.LoginEvent;
-import com.bee.user.event.MainEvent;
+import com.bee.user.event.ReflushStoreChartEvent;
 import com.bee.user.event.StoreEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.FoodChooseTypeAdapter;
-import com.bee.user.ui.adapter.SelectedFoodAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.search.SearchFoodActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
-import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.ChartBottomDialogView;
-import com.bee.user.widget.DragDialogLayout;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.gyf.immersionbar.ImmersionBar;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 import com.squareup.picasso.Picasso;
-
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -73,7 +60,6 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
@@ -309,6 +295,25 @@ public class StoreActivity extends BaseActivity {
                         super.onFail(fail);
                     }
                 });
+
+
+        //TODO
+        List<Integer> integers = new ArrayList<>();
+        integers.add(16);
+        Api.getClient(HttpRequest.baseUrl_member).getCart(integers)
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<ChartBean>>() {
+                    @Override
+                    public void onSuccess(List<ChartBean> beans) {
+                        chart_bottom_dialog_view.reflushAdapter(beans);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 
     private void setViews(StoreDetailBean storeDetailBean) {
@@ -430,7 +435,10 @@ public class StoreActivity extends BaseActivity {
         finish();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReflushStoreChartEvent(ReflushStoreChartEvent event) {
 
+    }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAddChartEvent(AddChartEvent event) {
 
@@ -439,9 +447,9 @@ public class StoreActivity extends BaseActivity {
         map.put("num", addChartBean.num+"");
 //        map.put("skuId", addChartBean.skuId+"");
 //        map.put("storeId", addChartBean.storeId+"");
-        map.put("skuId", "1030");//"16     1030,1032"  "1077 1078  1079    9"
+        map.put("skuId", "1032");//"16     1030,1032"  "1077 1078  1079    9"
         map.put("storeId", "16");
-        Api.getClient(HttpRequest.baseUrl_chart).addToCart(Api.getRequestBody(map)).
+        Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<AddCartBean>() {

@@ -1,6 +1,5 @@
 package com.bee.user.ui.adapter;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -11,45 +10,49 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.ChartBean;
-import com.bee.user.bean.FoodBean;
-import com.bee.user.bean.StoreBean;
-import com.bee.user.ui.nearby.StoreActivity;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
  * 创建时间：2020/09/04  16：08
  * 描述：
  */
-public class ChartAdapter extends BaseQuickAdapter<ChartBean, BaseViewHolder> implements LoadMoreModule {
+public class ChartAdapter extends BaseQuickAdapter<List<ChartBean>, BaseViewHolder> implements LoadMoreModule {
 
     public ChartAdapter() {
         super(R.layout.fragment_chart_data);
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder holder, ChartBean storeBean) {
+    protected void convert(@NotNull BaseViewHolder holder, List<ChartBean> storeBean) {
+        if(null == storeBean){
+            return;
+        }
+        ChartBean chartBean = storeBean.get(0);
+
         TextView tv_store = holder.findView(R.id.tv_store);
-        tv_store.setText(storeBean.getBuildingAreaName()+"");
+        tv_store.setText(chartBean.getBuildingAreaName()+"");
 
 
         RecyclerView recyclerview = holder.findView(R.id.recyclerview);
 
         recyclerview.setLayoutManager(new LinearLayoutManager(recyclerview.getContext()));
 
-        ArrayList<FoodBean> foodBeans = new ArrayList<>();
-        foodBeans.add(new FoodBean());
-//        foodBeans.add(new FoodBean());
 
-        ChartFoodItemAdapter chartFoodItemAdapter = new ChartFoodItemAdapter(foodBeans);
+        ChartFoodItemAdapter chartFoodItemAdapter = new ChartFoodItemAdapter(storeBean);
         recyclerview.setAdapter(chartFoodItemAdapter);
 
 
@@ -57,7 +60,7 @@ public class ChartAdapter extends BaseQuickAdapter<ChartBean, BaseViewHolder> im
         cb_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                for (FoodBean bean : foodBeans){
+                for (ChartBean bean : storeBean){
                     bean.isSelected = b;
                 }
                 chartFoodItemAdapter.notifyDataSetChanged();
@@ -65,6 +68,31 @@ public class ChartAdapter extends BaseQuickAdapter<ChartBean, BaseViewHolder> im
             }
         });
 
-        cb_1.setChecked(storeBean.selectedAll);
+        cb_1.setChecked(chartBean.selectedAll);
+
+
+        holder.findView(R.id.tv_clear).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<String> ints = new ArrayList<String>();
+                ints.add(chartBean.getStoreId()+"");
+
+                Api.getClient(HttpRequest.baseUrl_member).clearCartInfo(ints).
+                        subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<String>() {
+                            @Override
+                            public void onSuccess(String s) {
+
+
+                            }
+
+                            @Override
+                            public void onFail(String fail) {
+                                super.onFail(fail);
+                            }
+                        });
+            }
+        });
     }
 }

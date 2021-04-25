@@ -22,16 +22,13 @@ public class HttpRequest {
 
 
 
-public static final  String baseUrl_userInfo = baseUrl + "api-member/";
 
 
-//    public static final  String baseUrl_chart = "http://dev-bee-biz-trolley-center.quxianfeng.vip/";
-        public static final  String baseUrl_chart = baseUrl + "api-member/";
+        public static final  String baseUrl_member = baseUrl + "api-member/";
 
     public static final  String baseUrl_order = "http://dev-bee-biz-order-center.quxianfeng.vip/";
 
 
-    public static final  String baseUrl_member = "http://dev-bee-biz-member-center.quxianfeng.vip/";
 
 
 

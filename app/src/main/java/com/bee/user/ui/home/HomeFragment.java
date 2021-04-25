@@ -1,39 +1,25 @@
 package com.bee.user.ui.home;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
-import com.amap.api.location.AMapLocationClientOption;
-import com.amap.api.location.AMapLocationListener;
-import com.amap.api.maps.AMap;
-import com.amap.api.maps.MapView;
-import com.amap.api.maps.TextureMapView;
-import com.amap.api.maps.UiSettings;
-import com.amap.api.maps.model.BitmapDescriptorFactory;
-import com.amap.api.maps.model.MyLocationStyle;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.HomeGridview2Bean;
+import com.bee.user.bean.UserBean;
 import com.bee.user.entity.LunchEntity;
 import com.bee.user.entity.NearbyEntity;
 import com.bee.user.event.MainEvent;
@@ -41,11 +27,9 @@ import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.CRecyclerViewActivity;
-import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.adapter.HomeGridview2Adapter;
 import com.bee.user.ui.adapter.HomeGridviewAdapter;
-import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.location.SelectLocationActivity;
 import com.bee.user.ui.nearby.FoodActivity;
@@ -61,12 +45,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.gyf.immersionbar.ImmersionBar;
-import com.zaaach.citypicker.CityPicker;
-import com.zaaach.citypicker.adapter.OnPickListener;
-import com.zaaach.citypicker.model.City;
-import com.zaaach.citypicker.model.HotCity;
-import com.zaaach.citypicker.model.LocateState;
-import com.zaaach.citypicker.model.LocatedCity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -171,17 +149,19 @@ public class HomeFragment extends BaseFragment {
             tv_dingwei.setText(amapLocation.getPoiName() );
         }
 
+        UserBean userInfo = SPUtils.geTinstance().getUserInfo();
+
         Map<String, String> map = new HashMap<>();
         map.put("city", amapLocation.getCity());
-        map.put("defaultStatus", "0");
+        map.put("defaultStatus", "1");
         map.put("detailAddress", amapLocation.getAddress());
         map.put("district", amapLocation.getDistrict());
-        map.put("id", "");
+        map.put("id", userInfo.getId()+"");
         map.put("latitude", amapLocation.getLatitude()+"");
         map.put("longitude", amapLocation.getLongitude()+"");
-//        map.put("memberId", );
-//        map.put("name", );
-//        map.put("phoneNumber", amapLocation);
+        map.put("memberId", userInfo.getId()+"");
+        map.put("name", userInfo.getUsername()+"");
+        map.put("phoneNumber", userInfo.getPhone()+"");
         map.put("postCode", amapLocation.getCityCode());
         map.put("province", amapLocation.getProvince());
 

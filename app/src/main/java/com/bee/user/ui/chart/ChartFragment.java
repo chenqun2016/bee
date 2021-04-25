@@ -20,12 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.ChartBean;
-import com.bee.user.bean.CommentBean;
-import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.HomeBean;
-import com.bee.user.bean.StoreBean;
-import com.bee.user.bean.StoreListBean;
-import com.bee.user.bean.UserBean;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -35,11 +30,9 @@ import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.nearby.FoodActivity;
 import com.bee.user.ui.nearby.StoreActivity;
-import com.bee.user.ui.order.OrderActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LoadmoreUtils;
-import com.bee.user.utils.sputils.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.gyf.immersionbar.ImmersionBar;
@@ -90,6 +83,8 @@ public class ChartFragment extends BaseFragment {
 
     LoadmoreUtils loadmoreUtils;
 
+    List<ChartBean> mBeans;
+
     @OnClick({R.id.tv_confirm,R.id.tv_clear})
     public void onClick(View view){
         switch (view.getId()){
@@ -110,6 +105,27 @@ public class ChartFragment extends BaseFragment {
 //                initNoNet();
                 initNoDatas();
 //                initDatas();
+
+                List<String> ints = new ArrayList<String>();
+                for(ChartBean bean:  mBeans){
+                    ints.add(bean.getStoreId()+"");
+                }
+
+                Api.getClient(HttpRequest.baseUrl_member).clearCartInfo(ints).
+                        subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<String>() {
+                            @Override
+                            public void onSuccess(String s) {
+
+
+                            }
+
+                            @Override
+                            public void onFail(String fail) {
+                                super.onFail(fail);
+                            }
+                        });
                 break;
         }
 
@@ -167,7 +183,7 @@ public class ChartFragment extends BaseFragment {
         adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
             @Override
             public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                ChartBean item = (ChartBean) adapter.getItem(position);
+//                ChartBean item = (ChartBean) adapter.getItem(position);
 
                 switch (view.getId()){
                     case R.id.tv_store:
@@ -209,8 +225,10 @@ public class ChartFragment extends BaseFragment {
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                for (ChartBean bean : adapter.getData()){
-                    bean.selectedAll = b;
+                for (List<ChartBean> beans : adapter.getData()){
+                    for(ChartBean bean :beans){
+                        bean.selectedAll = b;
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -220,16 +238,33 @@ public class ChartFragment extends BaseFragment {
         loadmoreUtils = new LoadmoreUtils(ChartBean.class){
             @Override
             protected boolean getDatas(int page) {
-//                List<Integer> integers = new ArrayList<>();
-//                integers.add(16);
-                Api.getClient(HttpRequest.baseUrl_member).getCart(null)
+                List<Integer> integers = new ArrayList<>();
+                integers.add(16);
+                Api.getClient(HttpRequest.baseUrl_member).getCart(integers)
                         .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new BaseSubscriber<List<ChartBean>>() {
                             @Override
                             public void onSuccess(List<ChartBean> beans) {
-                                adapter.setNewInstance(beans);
-                                loadmoreUtils.onSuccess(adapter,beans);
+                                mBeans  = beans;
+                                List<List<ChartBean>> lists = new ArrayList<>();
+
+                                List<ChartBean> chartBeans = null;
+                                for(ChartBean item : beans){
+                                    if(null == chartBeans  ){
+                                        chartBeans = new ArrayList<>();
+                                        chartBeans.add(item);
+                                        lists.add(chartBeans);
+                                    }else if(!item.getStoreId().equals(chartBeans.get(0).getStoreId())){
+                                        chartBeans = new ArrayList<>();
+                                        chartBeans.add(item);
+                                        lists.add(chartBeans);
+                                    }else{
+                                        chartBeans.add(item);
+                                    }
+                                }
+                                adapter.setNewInstance(lists);
+                                loadmoreUtils.onSuccess(adapter,lists);
                             }
 
                             @Override

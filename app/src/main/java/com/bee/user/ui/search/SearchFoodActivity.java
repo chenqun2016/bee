@@ -22,19 +22,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
+import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.HomeBean;
-import com.bee.user.bean.StoreBean;
 import com.bee.user.event.MainEvent;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.adapter.HomeAdapter;
-import com.bee.user.ui.adapter.NearbyAdapter;
 import com.bee.user.ui.adapter.SearchFoodAdapter;
 import com.bee.user.ui.adapter.SelectedFoodAdapter;
 import com.bee.user.ui.adapter.TagsAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.nearby.FoodActivity;
-import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LoadmoreUtils;
@@ -475,11 +473,10 @@ private int heightSelected;
         RecyclerView recyclerview = findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
-        List<FoodBean> foodBeans = new ArrayList<>();
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
+        List<ChartBean> foodBeans = new ArrayList<>();
+        foodBeans.add(new ChartBean());
+        foodBeans.add(new ChartBean());
+        foodBeans.add(new ChartBean());
 
         SelectedFoodAdapter selectedFoodAdapter = new SelectedFoodAdapter(foodBeans);
         recyclerview.setAdapter(selectedFoodAdapter);
