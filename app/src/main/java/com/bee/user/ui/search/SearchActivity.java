@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.R;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.StoreBean;
+import com.bee.user.bean.StoreListBean;
 import com.bee.user.event.MainEvent;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.adapter.HomeAdapter;
@@ -190,7 +191,7 @@ public class SearchActivity extends BaseActivity {
             }
         });
 
-        LoadmoreUtils loadmoreUtils = new LoadmoreUtils(StoreBean.class);
+        LoadmoreUtils loadmoreUtils = new LoadmoreUtils(StoreListBean.RecordsBean.class);
         loadmoreUtils.initLoadmore(nearbyAdapter);
         loadmoreUtils.refresh(nearbyAdapter);
 

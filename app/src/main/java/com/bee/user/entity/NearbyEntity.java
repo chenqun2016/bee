@@ -17,6 +17,7 @@ import com.amap.api.location.AMapLocation;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.StoreBean;
+import com.bee.user.bean.StoreListBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.NearbyStoreFoodAdapter;
@@ -42,7 +43,7 @@ import io.reactivex.rxjava3.core.Observable;
  * 创建时间：2020/08/25  22：46
  * 描述：
  */
-public class NearbyEntity extends BaseCEntity<StoreBean> {
+public class NearbyEntity extends BaseCEntity<StoreListBean.RecordsBean> {
     @Override
     public Observable getPageAt(int page, int row) {
         AMapLocation location = SPUtils.geTinstance().getLocation();
@@ -51,7 +52,6 @@ public class NearbyEntity extends BaseCEntity<StoreBean> {
             map.put("longitude", location.getLongitude()+"");
             map.put("latitude", location.getLatitude()+"");
             map.put("address", location.getAddress());
-            map.put("address", "上海浦东川杨新苑二期一幢二号");
         }
         map.put("maxDistance", 1000+"");
         map.put("productCategoryId", 1+"");
@@ -60,7 +60,7 @@ public class NearbyEntity extends BaseCEntity<StoreBean> {
     }
 
     @Override
-    public void onClick(Context context, StoreBean item,int position) {
+    public void onClick(Context context, StoreListBean.RecordsBean item,int position) {
         super.onClick(context, item,position);
 
         context.startActivity(new Intent(context, StoreActivity.class));
@@ -73,10 +73,23 @@ public class NearbyEntity extends BaseCEntity<StoreBean> {
     }
 
     @Override
-    public void convert(BaseQuickAdapter adapter, BaseViewHolder helper, StoreBean item, int position) {
-        super.convert(adapter, helper, item, position);
+    public void convert(BaseQuickAdapter adapter, BaseViewHolder helper, StoreListBean.RecordsBean bean, int position) {
+        super.convert(adapter, helper, bean , position);
+        TextView tv_title = helper.getView(R.id.tv_title);
+        tv_title.setText(bean.name);
+
+        TextView tv_point = helper.getView(R.id.tv_point);
+        tv_point.setText("");
+        TextView tv_distance = helper.getView(R.id.tv_distance);
+        tv_distance.setText(bean.distance+"");
+        TextView tv_time = helper.getView(R.id.tv_time);
+        tv_time.setText(bean.duration);
+        TextView tv_sells = helper.getView(R.id.tv_sells);
+        tv_sells.setText(bean.monthSalesCount);
 
         ImageView iv_icon = helper.getView(R.id.iv_icon);
+
+        Context mContext = iv_icon.getContext();
 
         Picasso.with(mContext)
                 .load(R.drawable.food2)
@@ -90,16 +103,9 @@ public class NearbyEntity extends BaseCEntity<StoreBean> {
         recyclerview.setLayoutManager(linearLayoutManager);
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL);
 //        recyclerview.addItemDecoration(dividerItemDecoration);
-        List<StoreBean.StoreFood> storeFoods = new ArrayList<>();
-        storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","10"));
-        storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","11"));
-        storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","12"));
-        storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","13"));
-        storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","14"));
-        storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","15"));
-        storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","16"));
 
-        NearbyStoreFoodAdapter homeFooterAdapter = new NearbyStoreFoodAdapter(storeFoods);
+
+        NearbyStoreFoodAdapter homeFooterAdapter = new NearbyStoreFoodAdapter(bean.products);
         homeFooterAdapter.setOnItemClickListener(new NearbyStoreFoodAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String id) {
@@ -115,7 +121,6 @@ public class NearbyEntity extends BaseCEntity<StoreBean> {
 
         LinearLayout ll_mark = helper.getView(R.id.ll_mark);
         CommonUtil.initTAGViews(ll_mark);
-
 
 
     }

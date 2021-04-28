@@ -141,7 +141,7 @@ public interface ApiService {
      * 获取购物车信息
      */
     @GET(HttpRequest.getCart)
-    Observable<BaseResult<List<ChartBean>>> getCart( @Query("storeIds") List<Integer> storeIds);
+    Observable<BaseResult<List<ChartBean>>> getCart( @Query("storeIds") List<String> storeIds);
     /**
      * 获取购物车某个购物项
      */

@@ -281,7 +281,10 @@ public class StoreActivity extends BaseActivity {
 
     private void getDatas() {
 
-        Api.getClient(HttpRequest.baseUrl_shop).shop_getDetail(9+"") .subscribeOn(Schedulers.io())
+        Intent intent = getIntent();
+        String id = intent.getStringExtra("id");
+
+        Api.getClient(HttpRequest.baseUrl_shop).shop_getDetail(id) .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<StoreDetailBean>() {
                     @Override
@@ -298,8 +301,8 @@ public class StoreActivity extends BaseActivity {
 
 
         //TODO
-        List<Integer> integers = new ArrayList<>();
-        integers.add(16);
+        List<String> integers = new ArrayList<>();
+        integers.add(id);
         Api.getClient(HttpRequest.baseUrl_member).getCart(integers)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())

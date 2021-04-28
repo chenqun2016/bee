@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -100,7 +101,13 @@ public class NearbyFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                startActivity(new Intent(getContext(), StoreActivity.class));
+                Intent intent = new Intent(getContext(), StoreActivity.class);
+                List<StoreListBean.RecordsBean> data = mAdapter.getData();
+                if(null != data && null != data.get(position)){
+                    intent.putExtra("id",data.get(position).id+"");
+                }
+
+                startActivity(intent);
             }
         });
 
@@ -112,7 +119,6 @@ public class NearbyFragment extends BaseFragment {
             map.put("longitude", location.getLongitude()+"");
             map.put("latitude", location.getLatitude()+"");
             map.put("address", location.getAddress());
-            map.put("address", "上海浦东川杨新苑二期一幢二号");
         }
         map.put("maxDistance", 1000+"");
         map.put("productCategoryId", 1+"");
@@ -127,7 +133,6 @@ public class NearbyFragment extends BaseFragment {
                             @Override
                             public void onSuccess(StoreListBean storeListBean) {
                                 List data = storeListBean.getRecords();
-                                data.add(new StoreBean());
                                 loadmoreUtils.onSuccess(mAdapter,data);
                             }
 
@@ -156,15 +161,26 @@ public class NearbyFragment extends BaseFragment {
     }
 
 
-    public static class NearbyAdapter extends BaseQuickAdapter<StoreBean, BaseViewHolder> implements LoadMoreModule {
+    public static class NearbyAdapter extends BaseQuickAdapter<StoreListBean.RecordsBean, BaseViewHolder> implements LoadMoreModule {
 
         public NearbyAdapter() {
             super(R.layout.item_nearby);
         }
 
         @Override
-        protected void convert(@NotNull BaseViewHolder helper, StoreBean bean) {
+        protected void convert(@NotNull BaseViewHolder helper, StoreListBean.RecordsBean bean) {
 
+            TextView tv_title = helper.getView(R.id.tv_title);
+            tv_title.setText(bean.name);
+
+            TextView tv_point = helper.getView(R.id.tv_point);
+            tv_point.setText("");
+            TextView tv_distance = helper.getView(R.id.tv_distance);
+            tv_distance.setText(bean.distance+"");
+            TextView tv_time = helper.getView(R.id.tv_time);
+            tv_time.setText(bean.duration);
+            TextView tv_sells = helper.getView(R.id.tv_sells);
+            tv_sells.setText(bean.monthSalesCount);
 
             ImageView iv_icon = helper.getView(R.id.iv_icon);
 
@@ -182,20 +198,15 @@ public class NearbyFragment extends BaseFragment {
             recyclerview.setLayoutManager(linearLayoutManager);
 //        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.HORIZONTAL);
 //        recyclerview.addItemDecoration(dividerItemDecoration);
-            List<StoreBean.StoreFood> storeFoods = new ArrayList<>();
-            storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","10"));
-            storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","11"));
-            storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","12"));
-            storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","13"));
-            storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","14"));
-            storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","15"));
-            storeFoods.add(new StoreBean.StoreFood("切角榴莲蛋糕","16"));
 
-            NearbyStoreFoodAdapter homeFooterAdapter = new NearbyStoreFoodAdapter(storeFoods);
+
+            NearbyStoreFoodAdapter homeFooterAdapter = new NearbyStoreFoodAdapter(bean.products);
             homeFooterAdapter.setOnItemClickListener(new NearbyStoreFoodAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(String id) {
-                    recyclerview.getContext().startActivity(new Intent(recyclerview.getContext(), StoreActivity.class));
+                    Intent intent = new Intent(recyclerview.getContext(), StoreActivity.class);
+                    intent.putExtra("id",bean.id);
+                    recyclerview.getContext().startActivity(intent);
                 }
             });
             recyclerview.setAdapter(homeFooterAdapter);

@@ -238,8 +238,8 @@ public class ChartFragment extends BaseFragment {
         loadmoreUtils = new LoadmoreUtils(ChartBean.class){
             @Override
             protected boolean getDatas(int page) {
-                List<Integer> integers = new ArrayList<>();
-                integers.add(16);
+                List<String> integers = new ArrayList<>();
+                integers.add(16+"");
                 Api.getClient(HttpRequest.baseUrl_member).getCart(integers)
                         .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                         .observeOn(AndroidSchedulers.mainThread())

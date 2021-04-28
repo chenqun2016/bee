@@ -9,80 +9,46 @@ import java.util.List;
  */
 public class StoreListBean {
 
-    /**
-     * records : []
-     * total : 0
-     * size : 10
-     * current : 1
-     * orders : []
-     * hitCount : false
-     * searchCount : true
-     * pages : 0
-     */
 
-    private int total;
-    private int size;
-    private int current;
-    private boolean hitCount;
-    private boolean searchCount;
-    private int pages;
-    private List<?> records;
+    private List<RecordsBean> records;
+    private Integer total;
+    private Integer size;
+    private Integer current;
     private List<?> orders;
+    private Boolean hitCount;
+    private Boolean searchCount;
+    private Integer pages;
 
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public int getCurrent() {
-        return current;
-    }
-
-    public void setCurrent(int current) {
-        this.current = current;
-    }
-
-    public boolean isHitCount() {
-        return hitCount;
-    }
-
-    public void setHitCount(boolean hitCount) {
-        this.hitCount = hitCount;
-    }
-
-    public boolean isSearchCount() {
-        return searchCount;
-    }
-
-    public void setSearchCount(boolean searchCount) {
-        this.searchCount = searchCount;
-    }
-
-    public int getPages() {
-        return pages;
-    }
-
-    public void setPages(int pages) {
-        this.pages = pages;
-    }
-
-    public List<?> getRecords() {
+    public List<RecordsBean> getRecords() {
         return records;
     }
 
-    public void setRecords(List<?> records) {
+    public void setRecords(List<RecordsBean> records) {
         this.records = records;
+    }
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    public Integer getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(Integer current) {
+        this.current = current;
     }
 
     public List<?> getOrders() {
@@ -91,5 +57,89 @@ public class StoreListBean {
 
     public void setOrders(List<?> orders) {
         this.orders = orders;
+    }
+
+    public Boolean getHitCount() {
+        return hitCount;
+    }
+
+    public void setHitCount(Boolean hitCount) {
+        this.hitCount = hitCount;
+    }
+
+    public Boolean getSearchCount() {
+        return searchCount;
+    }
+
+    public void setSearchCount(Boolean searchCount) {
+        this.searchCount = searchCount;
+    }
+
+    public Integer getPages() {
+        return pages;
+    }
+
+    public void setPages(Integer pages) {
+        this.pages = pages;
+    }
+
+    public static class RecordsBean {
+        public Integer id;
+        public String name;
+        public String logoUrl;
+        public String brandId;
+        public String brandName;
+        public String monthSalesCount;
+        public String distance;
+        public String duration;
+        public String status;
+        public Object permissionCategoryList;
+        public List<ProductsBean> products;
+
+
+        public static class ProductsBean {
+            public Integer brandId;
+            public String brandName;
+            public Object feightTemplateId;
+            public Integer productAttributeCategoryId;
+            public String name;
+            public String pic;
+            public String productSn;
+            public Integer deleteStatus;
+            public Integer publishStatus;
+            public Integer newStatus;
+            public Integer recommandStatus;
+            public Integer verifyStatus;
+            public Integer sort;
+            public Integer sale;
+            public Integer price;
+            public Integer originalPrice;
+            public Integer giftGrowth;
+            public Integer giftPoint;
+            public Integer usePointLimit;
+            public String subTitle;
+            public String description;
+            public Integer stock;
+            public Integer lowStock;
+            public String unit;
+            public Integer weight;
+            public Integer previewStatus;
+            public String serviceIds;
+            public String note;
+            public String detailTitle;
+            public String detailDesc;
+            public String keywords;
+            public Integer promotionType;
+            public String createTime;
+            public Integer type;
+            public Object expireTime;
+            public Integer id;
+            public Integer shopProductId;
+            public Integer shopProductCategoryId;
+            public String shopProductCategoryName;
+            public String showStatus;
+
+
+        }
     }
 }

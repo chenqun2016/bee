@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.StoreBean;
+import com.bee.user.bean.StoreListBean;
 import com.bee.user.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
@@ -27,9 +28,9 @@ public class NearbyStoreFoodAdapter extends RecyclerView.Adapter<NearbyStoreFood
 
 
     private OnItemClickListener mListener;
-    List<StoreBean.StoreFood> list ;
+    List<StoreListBean.RecordsBean.ProductsBean> list ;
 
-    public NearbyStoreFoodAdapter(List<StoreBean.StoreFood> list) {
+    public NearbyStoreFoodAdapter(List<StoreListBean.RecordsBean.ProductsBean> list) {
         this.list = list;
     }
 
@@ -43,13 +44,13 @@ public class NearbyStoreFoodAdapter extends RecyclerView.Adapter<NearbyStoreFood
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        StoreBean.StoreFood storeFood = list.get(position);
+        StoreListBean.RecordsBean.ProductsBean bean = list.get(position);
 
-        holder.tv_name.setText(storeFood.name);
-        holder.tv_money.setText(storeFood.money);
+        holder.tv_name.setText(bean.name);
+        holder.tv_money.setText(bean.price+"");
 
         Picasso.with(holder.iv_image.getContext())
-                .load(R.drawable.food2)
+                .load(bean.pic)
                 .fit()
                 .transform(new PicassoRoundTransform(DisplayUtil.dip2px(holder.iv_image.getContext(),10),0, PicassoRoundTransform.CornerType.ALL))
                 .into(holder.iv_image);
@@ -66,7 +67,7 @@ public class NearbyStoreFoodAdapter extends RecyclerView.Adapter<NearbyStoreFood
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list==null? 0: list.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -120,19 +120,19 @@ public class HomeFragment extends BaseFragment {
                 startActivity(new Intent(getContext(), NewsActivity.class));
                 break;
             case R.id.ll_tongzhi:
-                if(null != SPUtils.geTinstance().getLocation()){
-                    if (null == dingweiDialog) {
-                        dingweiDialog = new DingweiDialog(getActivity(), new DingweiDialog.OnDingWei() {
-                            @Override
-                            public void onDingWei() {
-
-                                EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_reLocation));
-                            }
-                        });
-                    }
-
-                    dingweiDialog.show();
-                }
+//                if(null != SPUtils.geTinstance().getLocation()){
+//                    if (null == dingweiDialog) {
+//                        dingweiDialog = new DingweiDialog(getActivity(), new DingweiDialog.OnDingWei() {
+//                            @Override
+//                            public void onDingWei() {
+//
+//                                EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_reLocation));
+//                            }
+//                        });
+//                    }
+//
+//                    dingweiDialog.show();
+//                }
 
 
                 break;
