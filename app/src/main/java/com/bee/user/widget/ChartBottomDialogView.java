@@ -137,6 +137,10 @@ public class ChartBottomDialogView extends FrameLayout {
     boolean isShow = false;
 
     public void showSelectedDialog() {
+        List<ChartBean> data = selectedFoodAdapter.getData();
+        if(null == data || data.size()==0){
+            return;
+        }
         if (!isShow) {
             show();
 

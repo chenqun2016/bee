@@ -67,9 +67,10 @@ public class StoreFragment extends BaseFragment {
     @BindView(R.id.linkage)
     LinkageRecyclerView linkage;
 
-    public static StoreFragment newInstance(int height) {
+    public static StoreFragment newInstance(int height,String id) {
         Bundle arguments = new Bundle();
         arguments.putInt("height", height);
+        arguments.putString("id", id);
         StoreFragment fragment = new StoreFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -77,7 +78,8 @@ public class StoreFragment extends BaseFragment {
     List<StoreFoodItemBean>   mDatas;
     @Override
     protected void getDatas() {
-        Api.getClient(HttpRequest.baseUrl_shop).shop_queryProductList(9+"") .subscribeOn(Schedulers.io())
+        String id = getArguments().getString("id");
+        Api.getClient(HttpRequest.baseUrl_shop).shop_queryProductList(id+"") .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<List<StoreFoodItemBean>>() {
                     @Override

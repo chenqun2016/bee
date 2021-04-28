@@ -143,7 +143,7 @@ public class StoreActivity extends BaseActivity {
     private Fragment[] mFragments;
     String[] titles = new String[]{"菜单", "评价", "商家"};
 
-
+    private  String id;
     //购物车
     private HashMap<String,AddChartBean> hashMap = new LinkedHashMap<>();
     StoreDetailBean storeDetailBean;
@@ -194,6 +194,10 @@ public class StoreActivity extends BaseActivity {
     @Override
     public void initViews() {
         EventBus.getDefault().register(this);
+
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+
         mFragments = new Fragment[titles.length];
 
         chart_bottom_dialog_view.initDatas(DisplayUtil.getWindowHeight(this));
@@ -281,8 +285,7 @@ public class StoreActivity extends BaseActivity {
 
     private void getDatas() {
 
-        Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
+
 
         Api.getClient(HttpRequest.baseUrl_shop).shop_getDetail(id) .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -413,7 +416,7 @@ public class StoreActivity extends BaseActivity {
         switch (index) {
             case 0:
 
-                fragment = StoreFragment.newInstance(DisplayUtil.getWindowHeight(this) - app_barbar.getMeasuredHeight());
+                fragment = StoreFragment.newInstance(DisplayUtil.getWindowHeight(this) - app_barbar.getMeasuredHeight(),id);
                 break;
             case 1:
                 fragment = new CommentFragment();
@@ -448,10 +451,10 @@ public class StoreActivity extends BaseActivity {
         AddChartBean addChartBean = event.addChartBean;
         Map<String, String> map = new HashMap<>();
         map.put("num", addChartBean.num+"");
-//        map.put("skuId", addChartBean.skuId+"");
-//        map.put("storeId", addChartBean.storeId+"");
-        map.put("skuId", "1032");//"16     1030,1032"  "1077 1078  1079    9"
-        map.put("storeId", "16");
+        map.put("skuId", addChartBean.skuId+"");
+        map.put("storeId", addChartBean.storeId+"");
+//        map.put("skuId", "1032");//"16     1030,1032"  "1077 1078  1079    9"
+//        map.put("storeId", "16");
         Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
