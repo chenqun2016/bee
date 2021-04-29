@@ -74,7 +74,7 @@ public abstract class BaseSubscriber<T> implements BaseObserver<T>, Observer<Bas
     @Override
     public void onNext(BaseResult<T> baseBean) {
         if (baseBean.getSuccess()) {
-            ToastUtil.ToastShortFromNet(baseBean.getErrorMsg()+"");
+//            ToastUtil.ToastShortFromNet(baseBean.getErrorMsg()+"");
             onSuccess(baseBean.getData());
         } else {
 //            if (!TextUtils.isEmpty(baseBean.getErrorCode()) && baseBean.getErrorCode().contains(EventBusUtils.ErrorCode_login_out)) {//异地登录

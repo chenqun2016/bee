@@ -205,7 +205,7 @@ public class NearbyFragment extends BaseFragment {
                 @Override
                 public void onItemClick(String id) {
                     Intent intent = new Intent(recyclerview.getContext(), StoreActivity.class);
-                    intent.putExtra("id",bean.id);
+                    intent.putExtra("id",bean.id+"");
                     recyclerview.getContext().startActivity(intent);
                 }
             });

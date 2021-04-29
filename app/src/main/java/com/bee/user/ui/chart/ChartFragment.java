@@ -239,7 +239,7 @@ public class ChartFragment extends BaseFragment {
             @Override
             protected boolean getDatas(int page) {
                 List<String> integers = new ArrayList<>();
-                integers.add(16+"");
+//                integers.add(16+"");
                 Api.getClient(HttpRequest.baseUrl_member).getCart(integers)
                         .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                         .observeOn(AndroidSchedulers.mainThread())

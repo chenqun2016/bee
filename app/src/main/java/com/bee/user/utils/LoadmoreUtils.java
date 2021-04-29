@@ -25,7 +25,7 @@ public class LoadmoreUtils {
         aClass = c;
     }
 
-    public static final int PAGE_SIZE = 3;
+    public static final int PAGE_SIZE = 8;
 
 
     PageInfo pageInfo = new PageInfo();
