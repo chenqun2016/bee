@@ -286,8 +286,15 @@ public class CommonUtil {
 
     }
 
-    //设置标签代码
     public static void initTAGViews(LinearLayout ll_mark) {
+        List<StoreBean.StoreTag> list = new ArrayList<>();
+        list.add(new StoreBean.StoreTag("自营品牌",0));
+        list.add(new StoreBean.StoreTag("休息中",1));
+        list.add(new StoreBean.StoreTag("预定明日",2));
+        initTAGViews(ll_mark,list);
+    }
+    //设置标签代码
+    public static void initTAGViews(LinearLayout ll_mark,List<StoreBean.StoreTag> list) {
         Context mContext =  ll_mark.getContext();
 
         ll_mark.setVisibility(View.GONE);
@@ -300,16 +307,16 @@ public class CommonUtil {
 //                List<StoreBean.StoreTag> list = new Gson().fromJson(strList, new TypeToken<List<StoreBean.StoreTag>>() {
 //                }.getType());
 
-            List<StoreBean.StoreTag> list = new ArrayList<>();
-            list.add(new StoreBean.StoreTag("自营品牌",0));
-            list.add(new StoreBean.StoreTag("休息中",1));
-            list.add(new StoreBean.StoreTag("预定明日",2));
+
 
             if ( list.size() > 0) {
                 ll_mark.setVisibility(View.VISIBLE);
                 TextView textView;
                 for (int a = 0; a < (list.size() > 3 ? 3 : list.size()); a++) {
                     StoreBean.StoreTag o = list.get(a);
+                    if(TextUtils.isEmpty(o.tag)){
+                        continue;
+                    }
                     textView = new TextView(mContext);
                     textView.setText(o.tag);
                     textView.setTextSize(10);

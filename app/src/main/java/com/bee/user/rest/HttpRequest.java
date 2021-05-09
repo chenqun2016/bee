@@ -12,10 +12,10 @@ public class HttpRequest {
     public static final String baseUrl = "http://dev-beeweb.quxianfeng.vip/bee-member-zuul-gateway/";
 
 
-    //        public static final  String baseUrl_user = baseUrl + "api-user/";
-    public static final String baseUrl_user = "http://dev-bee-uhs-uaa.quxianfeng.vip/";
+    public static final  String baseUrl_user = baseUrl + "api-uaa/";
     public static final String baseUrl_pay = baseUrl + "api-pay/";
     public static final String baseUrl_shop = baseUrl + "api-shop/";
+    public static final String baseUrl_goods = baseUrl + "api-goods/";
     public static final String baseUrl_member = baseUrl + "api-member/";
     public static final String baseUrl_order = "http://dev-bee-biz-order-center.quxianfeng.vip/";
 
@@ -31,7 +31,13 @@ public class HttpRequest {
     //附件 店铺
     public static final String shop_nearby = "app-sys-shop-store/search/nearby";
     public static final String shop_getDetail = "app-sys-shop-store/getDetail/{id}";
-    public static final String shop_queryProductList = "app-sys-permission-category/queryAppCategoryList/{id}";
+    //APP获取【店铺类目】列表
+    public static final String shop_queryProductList = "app-sys-industry-category-shop/queryAppIndustryList/{storeId}";
+    //查询指定店铺分类对应的商品列表
+    public static final String findShopProducts = "auth/shop/findShopProducts";
+    //查询指定店铺商品SKU详情
+    public static final String productDetail = "auth/shop/productDetail/{skuId}";
+
 
     //确认单信息
     public static final String submitPreview = "auth/submitPreview";

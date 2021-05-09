@@ -1,5 +1,6 @@
 package com.bee.user.bean;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -7,7 +8,7 @@ import java.math.BigDecimal;
  * 创建时间：2021/03/14  21：35
  * 描述：
  */
-public class AddChartBean {
+public class AddChartBean implements Serializable {
 
     public  int num;//购买数量
     public  int skuId;//商品skuId

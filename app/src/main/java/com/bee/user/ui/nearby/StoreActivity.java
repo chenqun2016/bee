@@ -23,6 +23,8 @@ import com.bee.user.bean.AddChartBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.FoodTypeBean;
 import com.bee.user.bean.StoreDetailBean;
+import com.bee.user.bean.StoreFoodItem1Bean;
+import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.event.AddChartEvent;
 import com.bee.user.event.CloseEvent;
 import com.bee.user.event.ReflushStoreChartEvent;
@@ -43,6 +45,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.gyf.immersionbar.ImmersionBar;
+import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
@@ -60,6 +63,8 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
@@ -313,6 +318,70 @@ public class StoreActivity extends BaseActivity {
                     @Override
                     public void onSuccess(List<ChartBean> beans) {
                         chart_bottom_dialog_view.reflushAdapter(beans);
+
+
+                        for(ChartBean bean :beans){
+                            if(bean.getQuantity() > 0){
+                                AddChartBean addCartBean = new AddChartBean(bean.getQuantity(),bean.getProductSkuId(),bean.getStoreId(),BigDecimal.valueOf(bean.getPrice()));
+                                hashMap.put(bean.getProductSkuId()+"",addCartBean);
+                            }else{
+                                hashMap.remove(bean.getProductSkuId()+"");
+                            }
+                        }
+
+                        resetView();
+
+                        getfragment1Datas();
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
+    }
+
+    private void getfragment1Datas(){
+        Api.getClient(HttpRequest.baseUrl_shop)
+                .shop_queryProductList(id + "")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<StoreFoodItem1Bean>>() {
+                    @Override
+                    public void onSuccess(List<StoreFoodItem1Bean> storeFoodItemBeans) {
+                        if (null != storeFoodItemBeans && storeFoodItemBeans.size() > 0) {
+
+                            List<StoreFoodItem2Bean> mDatas = new ArrayList();
+                            ArrayList<Observable<BaseResult<List<StoreFoodItem2Bean>>>> observables = new ArrayList<>();
+
+                            for (StoreFoodItem1Bean bean : storeFoodItemBeans) {
+                                Map<String, String> map = new HashMap<>();
+                                map.put("shopProductCategoryId", bean.getId() + "");
+                                map.put("storeId", bean.getStoreId() + "");
+
+                                observables.add(Api.getClient(HttpRequest.baseUrl_goods).findShopProducts(Api.getRequestBody(map)));
+
+                            }
+                            Observable.merge(observables)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new BaseSubscriber<List<StoreFoodItem2Bean>>() {
+
+                                        @Override
+                                        public void onComplete() {
+                                            super.onComplete();
+                                            StoreFragment fragment = (StoreFragment) mFragments[0];
+
+                                            fragment.setFoodDatas(mDatas,hashMap);
+                                        }
+
+                                        @Override
+                                        public void onSuccess(List<StoreFoodItem2Bean> storeFoodItem2Beans) {
+                                            mDatas.addAll(storeFoodItem2Beans);
+                                        }
+                                    });
+
+                        }
                     }
 
                     @Override
@@ -432,7 +501,13 @@ public class StoreActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onStoreEvent(StoreEvent event) {
-        showChooseTypeDialog();
+        if(event.type == StoreEvent.TYPE_START_ACTIVITY){
+            event.intent.putExtra("data",storeDetailBean);
+            startActivity(event.intent);
+        }else{
+            showChooseTypeDialog();
+        }
+
     }
 
 
@@ -450,7 +525,7 @@ public class StoreActivity extends BaseActivity {
 
         AddChartBean addChartBean = event.addChartBean;
         Map<String, String> map = new HashMap<>();
-        map.put("num", addChartBean.num+"");
+        map.put("num", "1");
         map.put("skuId", addChartBean.skuId+"");
         map.put("storeId", addChartBean.storeId+"");
 //        map.put("skuId", "1032");//"16     1030,1032"  "1077 1078  1079    9"

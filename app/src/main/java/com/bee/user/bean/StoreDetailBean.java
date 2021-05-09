@@ -1,5 +1,6 @@
 package com.bee.user.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * 创建时间：2020/12/12  19：16
  * 描述：
  */
-public class StoreDetailBean {
+public class StoreDetailBean implements Serializable {
 
     /**
      * id : 9
@@ -193,7 +194,7 @@ public class StoreDetailBean {
         this.categoryVOS = categoryVOS;
     }
 
-    public static class CategoryVOSBean {
+    public static class CategoryVOSBean implements Serializable{
         /**
          * id : 2
          * storeId : 9

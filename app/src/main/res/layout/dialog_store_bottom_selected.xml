@@ -2,6 +2,7 @@
 <com.bee.user.widget.DragDialogLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+
     android:id="@+id/draglayout">
 
     <RelativeLayout
@@ -34,7 +35,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@+id/yixuanshangping"
             android:layout_marginTop="4dp"
             android:paddingLeft="5dp"

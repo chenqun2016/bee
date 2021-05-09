@@ -20,6 +20,8 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.AddChartBean;
 import com.bee.user.bean.ElemeGroupedItem;
+import com.bee.user.bean.StoreFoodItem1Bean;
+import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.bean.StoreFoodItemBean;
 import com.bee.user.event.AddChartEvent;
 import com.bee.user.event.StoreEvent;
@@ -30,6 +32,7 @@ import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.AddRemoveView;
+import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 import com.kunminx.linkage.LinkageRecyclerView;
 import com.kunminx.linkage.adapter.viewholder.LinkagePrimaryViewHolder;
 import com.kunminx.linkage.adapter.viewholder.LinkageSecondaryFooterViewHolder;
@@ -42,13 +45,19 @@ import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableSource;
+import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
@@ -67,7 +76,7 @@ public class StoreFragment extends BaseFragment {
     @BindView(R.id.linkage)
     LinkageRecyclerView linkage;
 
-    public static StoreFragment newInstance(int height,String id) {
+    public static StoreFragment newInstance(int height, String id) {
         Bundle arguments = new Bundle();
         arguments.putInt("height", height);
         arguments.putString("id", id);
@@ -75,45 +84,47 @@ public class StoreFragment extends BaseFragment {
         fragment.setArguments(arguments);
         return fragment;
     }
-    List<StoreFoodItemBean>   mDatas;
+
+    private  List<StoreFoodItem2Bean> mDatas = new ArrayList();
+
+    private HashMap<String, AddChartBean> mHashMap ;
+    static String storeId = "";
+
     @Override
     protected void getDatas() {
-        String id = getArguments().getString("id");
-        Api.getClient(HttpRequest.baseUrl_shop).shop_queryProductList(id+"") .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<List<StoreFoodItemBean>>() {
-                    @Override
-                    public void onSuccess(List<StoreFoodItemBean> storeFoodItemBeans) {
-                        mDatas   = storeFoodItemBeans;
-                        setViews(storeFoodItemBeans);
-                    }
-
-                    @Override
-                    public void onFail(String fail) {
-                        super.onFail(fail);
-                    }
-                });
-
-
+        storeId = getArguments().getString("id");
 
     }
 
-    private void setViews(List<StoreFoodItemBean> beans) {
-        List<ElemeGroupedItem> mDatas = new ArrayList();
-        for(int i=0;i<beans.size();i++){
-            StoreFoodItemBean bean = beans.get(i);
-            if( i == 0 || ! beans.get(i-1).getProductCategoryName() .equals(bean.getProductCategoryName()) ){
-                ElemeGroupedItem elemeGroupedItem = new ElemeGroupedItem(true,bean.getProductCategoryName());
-                mDatas.add(elemeGroupedItem);
+    private void setViews() {
+        if (null == mDatas || mDatas.size()==0) {
+            return;
+        }
+        List<ElemeGroupedItem> mEDatas = new ArrayList();
+        for (int i = 0; i < mDatas.size(); i++) {
+            StoreFoodItem2Bean bean = mDatas.get(i);
+
+
+            if (i == 0 || !mDatas.get(i - 1).shopProductCategoryName.equals(bean.shopProductCategoryName)) {
+                ElemeGroupedItem elemeGroupedItem = new ElemeGroupedItem(true, bean.shopProductCategoryName);
+                mEDatas.add(elemeGroupedItem);
             }
 
-            ElemeGroupedItem.ItemInfo itemInfo = new ElemeGroupedItem.ItemInfo(bean.getProductName(),bean.getProductCategoryName(),bean);
-            mDatas.add( new ElemeGroupedItem(itemInfo));
+            ElemeGroupedItem.ItemInfo itemInfo = new ElemeGroupedItem.ItemInfo(bean.skuName, bean.shopProductCategoryName, bean);
+
+            if(null != mHashMap){
+                AddChartBean addChartBean = mHashMap.get(bean.skuId + "");
+                if(null != addChartBean){
+                    itemInfo.num = addChartBean.num;
+                }
+            }
+
+            mEDatas.add(new ElemeGroupedItem(itemInfo));
         }
 
         ElemeSecondaryAdapterConfig elemeSecondaryAdapterConfig = new ElemeSecondaryAdapterConfig();
         elemeSecondaryAdapterConfig.setContext(BeeApplication.getInstance());
-        linkage.init(mDatas,new StoreFragment.ElemePrimaryAdapterConfig(),elemeSecondaryAdapterConfig );
+        linkage.init(mEDatas, new StoreFragment.ElemePrimaryAdapterConfig(), elemeSecondaryAdapterConfig);
     }
 
     @Override
@@ -152,6 +163,13 @@ public class StoreFragment extends BaseFragment {
     }
 
 
+
+
+    public void setFoodDatas(List<StoreFoodItem2Bean> datas, HashMap<String, AddChartBean> hashMap) {
+        mDatas = datas;
+        mHashMap = hashMap;
+        setViews();
+    }
 
 
     private static class ElemePrimaryAdapterConfig implements ILinkagePrimaryAdapterConfig {
@@ -195,15 +213,15 @@ public class StoreFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(LinkagePrimaryViewHolder holder, boolean selected, String title) {
             TextView tvTitle = ((TextView) holder.mGroupTitle);
-            tvTitle.setText(title);
+            tvTitle.setText(title + "");
 
             tvTitle.setBackgroundColor(mContext.getResources().getColor(
                     selected ? R.color.white : R.color.color_F5F5F5));
             tvTitle.setTextColor(ContextCompat.getColor(mContext,
-                    selected ?  R.color.color_282525 : R.color.color_7C7877));
+                    selected ? R.color.color_282525 : R.color.color_7C7877));
             tvTitle.setEllipsize(selected ? TextUtils.TruncateAt.MARQUEE : TextUtils.TruncateAt.END);
             tvTitle.setFocusable(selected);
-            tvTitle.setTypeface(selected? Typeface.DEFAULT_BOLD:Typeface.DEFAULT);
+            tvTitle.setTypeface(selected ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
             tvTitle.setFocusableInTouchMode(selected);
             tvTitle.setMarqueeRepeatLimit(selected ? MARQUEE_REPEAT_LOOP_MODE : MARQUEE_REPEAT_NONE_MODE);
         }
@@ -256,70 +274,87 @@ public class StoreFragment extends BaseFragment {
         public void onBindViewHolder(LinkageSecondaryViewHolder holder,
                                      BaseGroupedItem<ElemeGroupedItem.ItemInfo> item) {
 
-            ((TextView) holder.getView(R.id.iv_goods_name)).setText(item.info.getTitle());
+            try {
+                StoreFoodItem2Bean bean = item.info.getBean();
+
+                ((TextView) holder.getView(R.id.iv_goods_name)).setText(item.info.getTitle() + "");
 //            Picasso.with(mContext).load(item.info.getImgUrl()).into((ImageView) holder.getView(R.id.iv_goods_img));
-            View view = holder.getView(R.id.iv_goods_item);
-            view .setOnClickListener(v -> {
+                View view = holder.getView(R.id.iv_goods_item);
+                view.setOnClickListener(v -> {
 
-                mContext.startActivity(new Intent(mContext,FoodActivity.class));
-            });
+                    Intent intent = new Intent(mContext, FoodActivity.class);
+                    intent.putExtra("skuId",bean.skuId);
 
-            AddRemoveView iv_goods_add = holder.getView(R.id.iv_goods_add) ;
-            iv_goods_add.setOnNumChangedListener(new AddRemoveView.OnNumChangedListener() {
-                @Override
-                public void onNumChangedListener(int num) {
-                    StoreFoodItemBean bean = item.info.getBean();
-                    int id = 0;
-                    if(null != SPUtils.geTinstance().getUserInfo()){
-                        id = SPUtils.geTinstance().getUserInfo().getId();
+                    StoreEvent storeEvent = new StoreEvent();
+                    storeEvent.type = StoreEvent.TYPE_START_ACTIVITY;
+                    storeEvent.intent = intent;
+                    EventBus.getDefault().post(storeEvent);
+
+                });
+
+                AddRemoveView iv_goods_add = holder.getView(R.id.iv_goods_add);
+                iv_goods_add.setNum(item.info.num);
+
+                iv_goods_add.setOnNumChangedListener(new AddRemoveView.OnNumChangedListener() {
+                    @Override
+                    public void onNumChangedListener(int num) {
+                        StoreFoodItem2Bean bean = item.info.getBean();
+                        int id = 0;
+                        if (null != SPUtils.geTinstance().getUserInfo()) {
+                            id = SPUtils.geTinstance().getUserInfo().getId();
+                        }
+
+                        AddChartBean addChartBean = new AddChartBean(num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price));
+                        AddChartEvent addChartEvent = new AddChartEvent(addChartBean);
+                        EventBus.getDefault().post(addChartEvent);
                     }
+                });
+                TextView tv_choosetype = holder.getView(R.id.tv_choosetype);
+                tv_choosetype.setOnClickListener(v -> {
 
-                    AddChartBean addChartBean = new AddChartBean( num, bean.getId(), bean.getStoreId(),bean.getPrice());
-                    AddChartEvent addChartEvent = new AddChartEvent(addChartBean);
-                    EventBus.getDefault().post(addChartEvent);
-                }
-            });
-            TextView tv_choosetype = holder.getView(R.id.tv_choosetype) ;
-            tv_choosetype.setOnClickListener(v -> {
+                    EventBus.getDefault().post(new StoreEvent());
+                });
 
-                EventBus.getDefault().post(new StoreEvent());
-            });
+//                if ((holder.getLayoutPosition() % 2) == 0) {
+//                    iv_goods_add.setVisibility(View.GONE);
+//                    tv_choosetype.setVisibility(View.VISIBLE);
+//                } else {
+                    iv_goods_add.setVisibility(View.VISIBLE);
+                    tv_choosetype.setVisibility(View.GONE);
+//                }
 
-            if((holder.getLayoutPosition() % 2) == 0){
-                iv_goods_add.setVisibility(View.GONE);
-                tv_choosetype.setVisibility(View.VISIBLE);
-            }else{
-                iv_goods_add.setVisibility(View.VISIBLE);
-                tv_choosetype.setVisibility(View.GONE);
+
+
+                TextView iv_goods_detail = holder.getView(R.id.iv_goods_detail);
+                iv_goods_detail.setText("");
+                TextView iv_goods_comment = holder.getView(R.id.iv_goods_comment);
+                iv_goods_comment.setText("剩余100份  月售" + bean.sale);
+
+                TextView iv_goods_price = holder.getView(R.id.iv_goods_price);
+                iv_goods_price.setText("¥" + bean.price);
+                TextView iv_goods_price_past = holder.getView(R.id.iv_goods_price_past);
+                iv_goods_price_past.setText("¥" + bean.price);
+
+
+                ImageView iv_goods_img = holder.getView(R.id.iv_goods_img);
+
+                Picasso.with(iv_goods_img.getContext())
+                        .load(bean.pic)
+                        .fit()
+                        .transform(new PicassoRoundTransform(DisplayUtil.dip2px(iv_goods_img.getContext(), 5), 0, PicassoRoundTransform.CornerType.ALL))
+                        .into(iv_goods_img);
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            StoreFoodItemBean bean = item.info.getBean();
-
-            TextView iv_goods_detail = holder.getView(R.id.iv_goods_detail) ;
-            iv_goods_detail.setText("");
-            TextView iv_goods_comment = holder.getView(R.id.iv_goods_comment) ;
-            iv_goods_comment.setText("剩余100份  月售"+bean.getMonthSalesCount());
-
-            TextView iv_goods_price = holder.getView(R.id.iv_goods_price) ;
-            iv_goods_price.setText("¥"+bean.getPrice());
-            TextView iv_goods_price_past = holder.getView(R.id.iv_goods_price_past) ;
-            iv_goods_price_past.setText("¥"+bean.getPrice());
-
-
-            ImageView iv_goods_img = holder.getView(R.id.iv_goods_img) ;
-
-            Picasso.with(iv_goods_img.getContext())
-                    .load(bean.getProductPicUrl())
-                    .fit()
-                    .transform(new PicassoRoundTransform(DisplayUtil.dip2px(iv_goods_img.getContext(),5),0, PicassoRoundTransform.CornerType.ALL))
-                    .into(iv_goods_img);
         }
 
         @Override
         public void onBindHeaderViewHolder(LinkageSecondaryHeaderViewHolder holder,
                                            BaseGroupedItem<ElemeGroupedItem.ItemInfo> item) {
 
-            ((TextView) holder.getView(R.id.secondary_header)).setText(item.header);
+            ((TextView) holder.getView(R.id.secondary_header)).setText(item.header + "");
         }
 
         @Override

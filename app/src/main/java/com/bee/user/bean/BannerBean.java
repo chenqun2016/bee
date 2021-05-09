@@ -6,5 +6,5 @@ package com.bee.user.bean;
  * 描述：
  */
 public class BannerBean {
-    public   int url;
+    public   String url;
 }

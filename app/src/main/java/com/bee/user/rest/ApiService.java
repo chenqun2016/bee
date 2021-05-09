@@ -2,7 +2,10 @@ package com.bee.user.rest;
 
 import com.bee.user.bean.AddCartBean;
 import com.bee.user.bean.ChartBean;
+import com.bee.user.bean.FoodDetailBean;
 import com.bee.user.bean.StoreDetailBean;
+import com.bee.user.bean.StoreFoodItem1Bean;
+import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.bean.StoreFoodItemBean;
 import com.bee.user.bean.StoreListBean;
 import com.bee.user.bean.UserBean;
@@ -102,8 +105,19 @@ public interface ApiService {
      * APP获取店铺【商品】列表
      */
     @GET(HttpRequest.shop_queryProductList)
-    Observable<BaseResult<List<StoreFoodItemBean>>> shop_queryProductList(@Path("id") String id);
+    Observable<BaseResult<List<StoreFoodItem1Bean>>> shop_queryProductList(@Path("storeId") String storeId);
 
+    /**
+     * 查询指定店铺分类对应的商品列表
+     */
+    @POST(HttpRequest.findShopProducts)
+    Observable<BaseResult<List<StoreFoodItem2Bean>>> findShopProducts(@Body RequestBody info);
+
+    /**
+     * 查询指定店铺分类对应的商品列表
+     */
+    @POST(HttpRequest.productDetail)
+    Observable<BaseResult<FoodDetailBean>> productDetail(@Path("skuId") Integer skuId);
 
 
     /**

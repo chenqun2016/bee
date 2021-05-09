@@ -21,7 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
+import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.CommentBean;
+import com.bee.user.bean.FoodDetailBean;
+import com.bee.user.bean.StoreBean;
+import com.bee.user.bean.StoreDetailBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.CommentAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.home.BannerImageHolder;
@@ -39,11 +46,16 @@ import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -74,10 +86,29 @@ public class FoodActivity extends BaseActivity {
 
     @BindView(R.id.ll_head2)
     LinearLayout ll_head2;
+
+    @BindView(R.id.tv_food_title)
+    TextView tv_food_title;
+    @BindView(R.id.tv_selled)
+    TextView tv_selled;
+
+
     @BindView(R.id.iv_icon)
     ImageView iv_icon;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+    @BindView(R.id.tv_point)
+    TextView tv_point;
+    @BindView(R.id.tv_distance)
+    TextView tv_distance;
+    @BindView(R.id.tv_time)
+    TextView tv_time;
+    @BindView(R.id.tv_sells)
+    TextView tv_sells;
     @BindView(R.id.ll_mark)
     LinearLayout ll_mark;
+
+
     @BindView(R.id.tv_food_comment)
     TextView tv_food_comment;
     @BindView(R.id.banner2)
@@ -245,8 +276,34 @@ public class FoodActivity extends BaseActivity {
 
         initScroll();
 
-        initBanner2();
-        initBanner();
+
+
+
+        getDatas();
+    }
+
+    FoodDetailBean mBeans ;
+
+    private void getDatas() {
+        Intent intent = getIntent();
+        int skuId = intent.getIntExtra("skuId",0);
+
+        Api.getClient(HttpRequest.baseUrl_goods).productDetail(skuId)
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<FoodDetailBean>() {
+                    @Override
+                    public void onSuccess(FoodDetailBean beans) {
+                        mBeans  = beans;
+                        initBanner2();
+                        initBanner();
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 
 
@@ -338,18 +395,32 @@ public class FoodActivity extends BaseActivity {
 
 
     private void initBanner2() {
-//        ImageView iv_icon = head2.findViewById(R.id.iv_icon);
-//        LinearLayout ll_mark = head2.findViewById(R.id.ll_mark);
+        tv_food_title.setText(mBeans.skuName);
+        tv_selled.setText("已售"+mBeans.sale);
+
+
+        StoreDetailBean data = (StoreDetailBean) getIntent().getSerializableExtra("data");
+        tv_title.setText(data.getName()+"");
+        tv_distance.setText(data.getDistance()+"公里");
+        tv_time.setText("大约"+data.getDuration()+"分钟");
+        tv_sells.setText("月销"+data.getMonthSalesCount());
 
         Picasso.with(this)
-                .load(R.drawable.food2)
+                .load(data.getLogoUrl())
                 .fit()
                 .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this, 5), 0, PicassoRoundTransform.CornerType.ALL))
                 .into(iv_icon);
-        CommonUtil.initTAGViews(ll_mark);
 
 
-//        TextView tv_food_comment = head2.findViewById(R.id.tv_food_comment);
+        List<StoreBean.StoreTag> list = new ArrayList<>();
+        list.add(new StoreBean.StoreTag(mBeans.sp1,0));
+        list.add(new StoreBean.StoreTag(mBeans.sp2,0));
+        list.add(new StoreBean.StoreTag(mBeans.sp3,2));
+        list.add(new StoreBean.StoreTag(mBeans.sp4,2));
+
+        CommonUtil.initTAGViews(ll_mark,list);
+
+
         tv_food_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -368,7 +439,7 @@ public class FoodActivity extends BaseActivity {
 //        params2.height = (int) ((params2.width - DisplayUtil.dip2px(getContext(), 30)) * Constants.RATE_HOME) + DisplayUtil.dip2px(getContext(), 35);
 //        mBanner.setLayoutParams(params2);
         BannerBean bannerBean = new BannerBean();
-        bannerBean.url = R.drawable.food;
+        bannerBean.url = mBeans.pic;
 
         List<BannerBean> adsList = new ArrayList<>();//banner数据
         adsList.add(bannerBean);

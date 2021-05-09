@@ -18,14 +18,15 @@ public class ElemeGroupedItem extends BaseGroupedItem<ElemeGroupedItem.ItemInfo>
     }
 
     public static class ItemInfo extends BaseGroupedItem.ItemInfo {
-        private StoreFoodItemBean bean;
+        private final StoreFoodItem2Bean bean;
+        public int num = 0;
 
-        public ItemInfo(String title, String group,StoreFoodItemBean bean) {
+        public ItemInfo(String title, String group,StoreFoodItem2Bean bean) {
             super(title, group);
             this.bean = bean;
         }
 
-        public StoreFoodItemBean getBean() {
+        public StoreFoodItem2Bean getBean() {
             return bean;
         }
     }

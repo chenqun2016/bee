@@ -346,7 +346,7 @@ public class HomeFragment extends BaseFragment {
 //        params2.height = (int) ((params2.width - DisplayUtil.dip2px(getContext(), 30)) * Constants.RATE_HOME) + DisplayUtil.dip2px(getContext(), 35);
 //        mBanner.setLayoutParams(params2);
         BannerBean bannerBean = new BannerBean();
-        bannerBean.url = R.drawable.banner;
+        bannerBean.url = "";
         adsList.add(bannerBean);
         adsList.add(bannerBean);
         adsList.add(bannerBean);
