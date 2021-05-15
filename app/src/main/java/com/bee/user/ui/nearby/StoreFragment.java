@@ -20,19 +20,13 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.AddChartBean;
 import com.bee.user.bean.ElemeGroupedItem;
-import com.bee.user.bean.StoreFoodItem1Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
-import com.bee.user.bean.StoreFoodItemBean;
 import com.bee.user.event.AddChartEvent;
 import com.bee.user.event.StoreEvent;
-import com.bee.user.rest.Api;
-import com.bee.user.rest.BaseSubscriber;
-import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.AddRemoveView;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 import com.kunminx.linkage.LinkageRecyclerView;
 import com.kunminx.linkage.adapter.viewholder.LinkagePrimaryViewHolder;
 import com.kunminx.linkage.adapter.viewholder.LinkageSecondaryFooterViewHolder;
@@ -47,18 +41,11 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableSource;
-import io.reactivex.rxjava3.functions.Function;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -87,7 +74,6 @@ public class StoreFragment extends BaseFragment {
 
     private  List<StoreFoodItem2Bean> mDatas = new ArrayList();
 
-    private HashMap<String, AddChartBean> mHashMap ;
     static String storeId = "";
 
     @Override
@@ -111,13 +97,10 @@ public class StoreFragment extends BaseFragment {
             }
 
             ElemeGroupedItem.ItemInfo itemInfo = new ElemeGroupedItem.ItemInfo(bean.skuName, bean.shopProductCategoryName, bean);
-
-            if(null != mHashMap){
-                AddChartBean addChartBean = mHashMap.get(bean.skuId + "");
-                if(null != addChartBean){
-                    itemInfo.num = addChartBean.num;
-                }
+            if(!TextUtils.isEmpty(bean.cartQuantity)){
+                itemInfo.num = Integer.parseInt(bean.cartQuantity);
             }
+
 
             mEDatas.add(new ElemeGroupedItem(itemInfo));
         }
@@ -165,9 +148,8 @@ public class StoreFragment extends BaseFragment {
 
 
 
-    public void setFoodDatas(List<StoreFoodItem2Bean> datas, HashMap<String, AddChartBean> hashMap) {
+    public void setFoodDatas(List<StoreFoodItem2Bean> datas) {
         mDatas = datas;
-        mHashMap = hashMap;
         setViews();
     }
 

@@ -1,12 +1,14 @@
 package com.bee.user.rest;
 
 import com.bee.user.bean.AddCartBean;
+import com.bee.user.bean.AddressBean2;
 import com.bee.user.bean.ChartBean;
+import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.FoodDetailBean;
+import com.bee.user.bean.OrderingConfirmBean;
 import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
-import com.bee.user.bean.StoreFoodItemBean;
 import com.bee.user.bean.StoreListBean;
 import com.bee.user.bean.UserBean;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
@@ -138,8 +140,12 @@ public interface ApiService {
      * 确认单信息
      */
     @POST(HttpRequest.submitPreview)
-    Observable<BaseResult<String>> submitPreview(@Body RequestBody info);
-
+    Observable<BaseResult<OrderingConfirmBean>> submitPreview(@Body RequestBody info);
+    /**
+     * 下单
+     */
+    @POST(HttpRequest.ordering)
+    Observable<BaseResult<String>> ordering(@Body RequestBody info);
 
     /**
      * 清空购物车的数据
@@ -176,5 +182,24 @@ public interface ApiService {
 //    Observable<BaseResult<String>> saveAddress(@Body RequestBody info);
     @POST(HttpRequest.saveAddress)
     Observable<BaseResult<String>> saveAddress(@Body RequestBody info);
+
+
+    /**
+     * 获取店铺可选配送时间列表
+     */
+    @POST(HttpRequest.caculateTime)
+    Observable<BaseResult<ChooseTimeBean>> caculateTime(@Path("shopId") String shopId);
+
+
+    /**
+     * 获取默认收货地址
+     */
+    @POST(HttpRequest.getDefaultArea)
+    Observable<BaseResult<AddressBean2>> getDefaultArea();
+    /**
+     * 获取默认收货地址
+     */
+    @POST(HttpRequest.listAddress)
+    Observable<BaseResult<List<AddressBean2>>> listAddress();
 
 }

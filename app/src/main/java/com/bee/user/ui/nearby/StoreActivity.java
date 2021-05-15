@@ -64,7 +64,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
@@ -372,7 +371,7 @@ public class StoreActivity extends BaseActivity {
                                             super.onComplete();
                                             StoreFragment fragment = (StoreFragment) mFragments[0];
 
-                                            fragment.setFoodDatas(mDatas,hashMap);
+                                            fragment.setFoodDatas(mDatas);
                                         }
 
                                         @Override

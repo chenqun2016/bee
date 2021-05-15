@@ -152,18 +152,31 @@ public class HomeFragment extends BaseFragment {
         UserBean userInfo = SPUtils.geTinstance().getUserInfo();
 
         Map<String, String> map = new HashMap<>();
-        map.put("city", amapLocation.getCity());
-        map.put("defaultStatus", "1");
-        map.put("detailAddress", amapLocation.getAddress());
-        map.put("district", amapLocation.getDistrict());
-        map.put("id", userInfo.getId()+"");
-        map.put("latitude", amapLocation.getLatitude()+"");
-        map.put("longitude", amapLocation.getLongitude()+"");
-        map.put("memberId", userInfo.getId()+"");
+
+        map.put("id", "");
+        map.put("memberId", "");
         map.put("name", userInfo.getUsername()+"");
         map.put("phoneNumber", userInfo.getPhone()+"");
+        map.put("defaultStatus", "1");
         map.put("postCode", amapLocation.getCityCode());
         map.put("province", amapLocation.getProvince());
+
+        map.put("city", amapLocation.getCity());
+        map.put("district", amapLocation.getDistrict());
+        map.put("detailAddress", amapLocation.getAddress());
+
+
+        map.put("houseNumber", "路上的风景啦");
+        map.put("gender", "1");
+        map.put("tag", "1");
+
+        map.put("latitude", amapLocation.getLatitude()+"");
+        map.put("longitude", amapLocation.getLongitude()+"");
+
+
+
+
+
 
         Api.getClient(HttpRequest.baseUrl_member).saveAddress(Api.getRequestBody(map))
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
@@ -171,6 +184,7 @@ public class HomeFragment extends BaseFragment {
                 .subscribe(new BaseSubscriber<String>() {
                     @Override
                     public void onSuccess(String token) {
+                        String s= token;
                     }
                 });
     }

@@ -44,7 +44,7 @@ public class ChartAdapter extends BaseQuickAdapter<List<ChartBean>, BaseViewHold
         ChartBean chartBean = storeBean.get(0);
 
         TextView tv_store = holder.findView(R.id.tv_store);
-        tv_store.setText(chartBean.getBuildingAreaName()+"");
+        tv_store.setText(chartBean.getStoreName()+"");
 
 
         RecyclerView recyclerview = holder.findView(R.id.recyclerview);

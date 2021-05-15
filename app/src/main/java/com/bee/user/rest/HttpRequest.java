@@ -17,7 +17,7 @@ public class HttpRequest {
     public static final String baseUrl_shop = baseUrl + "api-shop/";
     public static final String baseUrl_goods = baseUrl + "api-goods/";
     public static final String baseUrl_member = baseUrl + "api-member/";
-    public static final String baseUrl_order = "http://dev-bee-biz-order-center.quxianfeng.vip/";
+    public static final String baseUrl_order = baseUrl + "api-order/";
 
 
     public static final String login = "member/login/oneLogin";
@@ -37,10 +37,18 @@ public class HttpRequest {
     public static final String findShopProducts = "auth/shop/findShopProducts";
     //查询指定店铺商品SKU详情
     public static final String productDetail = "auth/shop/productDetail/{skuId}";
+    //获取店铺可选配送时间列表
+    public static final String caculateTime = "pms/appFeight/caculate/{shopId}";
+    //获取默认收货地址
+    public static final String getDefaultArea = "address/getDefaultItem";
+    public static final String listAddress = "address/listAddress";
+
 
 
     //确认单信息
     public static final String submitPreview = "auth/submitPreview";
+    //下单
+    public static final String ordering ="auth/generateOrder";
 
     //添加至购物车
     public static final String addToCart = "cart/addToCart";
@@ -64,5 +72,6 @@ public class HttpRequest {
 
 
     //    修改收货地址
-    public static final String saveAddress = "auth/saveAddress";
+    public static final String saveAddress = "address/saveAddress";
+
 }

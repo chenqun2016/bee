@@ -1,13 +1,11 @@
-package com.bee.user.bean;
-
-import java.util.List;
+package com.bee.user.params;
 
 /**
  * 创建人：进京赶考
  * 创建时间：2021/04/10  18：59
  * 描述：
  */
-public class OrderingParams {
+public class OrderPreParams {
 //    {
 //        addressId	integer($int64)
 //            收货地址id
@@ -30,8 +28,8 @@ public class OrderingParams {
 //
 //    }
 
-    public Integer addressId;
-    public List<Integer> cartIds;
+    public Integer addressId = 0;
+    public int[] cartIds;
     public Integer memberId;
     public Integer offline;
     public Integer orderType;

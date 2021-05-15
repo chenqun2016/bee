@@ -29,6 +29,20 @@
             android:textColor="@color/color_282525"
             android:textSize="17sp"/>
 
+        <TextView
+            android:id="@+id/tv_time_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/tv_store"
+            android:layout_alignBottom="@+id/tv_store"
+            android:textStyle="bold"
+            android:drawableRight="@drawable/icon_link"
+            android:drawablePadding="10dp"
+            android:text="大约12:30送到"
+            android:textColor="@color/FF6200"
+            android:textSize="13sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
