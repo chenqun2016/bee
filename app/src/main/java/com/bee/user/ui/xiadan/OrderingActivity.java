@@ -202,10 +202,12 @@ public class OrderingActivity extends BaseActivity {
                         if(null != addressBean2 && addressBean2.size()>0){
                             mAddress = addressBean2.get(0);
                             setAddressView();
-                            doSubmitPre();
+
                         }
                     }
                 });
+
+        doSubmitPre();
         //获取默认收货地址
 //        Api.getClient(HttpRequest.baseUrl_member).getDefaultArea().subscribeOn(Schedulers.io())
 //                .observeOn(AndroidSchedulers.mainThread())
@@ -403,12 +405,12 @@ public class OrderingActivity extends BaseActivity {
 
     private void doSubmitPre() {
 
-        if(null == mAddress){
-            return;
-        }
+//        if(null == mAddress){
+//            return;
+//        }
 
         OrderPreParams orderingParams = new OrderPreParams();
-        orderingParams.memberId = mAddress.getMemberId();
+//        orderingParams.memberId = mAddress.getMemberId();
         orderingParams.offline = 1;
         orderingParams.orderType = 1;
         orderingParams.source = 5;
