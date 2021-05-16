@@ -162,7 +162,7 @@ public class OrderingActivity extends BaseActivity {
         ids1 = getIntent().getIntArrayExtra("ids");
         storeIds   = getIntent().getIntegerArrayListExtra("storeIds");
 
-        isSingle = null == ids1 || ids1.length <= 1;
+        isSingle = null == storeIds || storeIds.size() <= 1;
 
 
 
