@@ -29,7 +29,7 @@ public class OrderPreParams {
 //    }
 
     public Integer addressId = 0;
-    public int[] cartIds;
+    public Integer[] cartIds;
     public Integer memberId;
     public Integer offline;
     public Integer orderType;

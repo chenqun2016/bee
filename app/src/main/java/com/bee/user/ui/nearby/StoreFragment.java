@@ -286,7 +286,7 @@ public class StoreFragment extends BaseFragment {
                             id = SPUtils.geTinstance().getUserInfo().getId();
                         }
 
-                        AddChartBean addChartBean = new AddChartBean(num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price));
+                        AddChartBean addChartBean = new AddChartBean(num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price),bean.cartItemId);
                         AddChartEvent addChartEvent = new AddChartEvent(addChartBean);
                         EventBus.getDefault().post(addChartEvent);
                     }

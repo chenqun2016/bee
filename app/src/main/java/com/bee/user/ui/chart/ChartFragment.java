@@ -43,7 +43,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -85,24 +84,24 @@ public class ChartFragment extends BaseFragment {
 
     LoadmoreUtils loadmoreUtils;
 
-    List<ChartBean> mBeans;
+    HashMap<Integer, List<ChartBean>> integerListHashMap = new HashMap<>();
+    private List<ChartBean> mBeans;
 
-    Set<Integer> storeIds;
 
     @OnClick({R.id.tv_confirm,R.id.tv_clear})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_confirm:
                 if(null != mBeans){
-                    int[] intss = new int[mBeans.size()];
+                    ArrayList<Integer> intss = new ArrayList<>();
                     for(int i=0;i<mBeans.size();i++){
-                        intss[i] = mBeans.get(i).getId();
+                        intss.add(mBeans.get(i).getId());
                     }
                     Intent intent = new Intent(getContext(), OrderingActivity.class);
+                    intent.putExtra("operationType",2);
                     intent.putExtra("ids",intss);
-                    intent.putIntegerArrayListExtra("storeIds",new ArrayList<>(storeIds));
+                    intent.putIntegerArrayListExtra("storeIds",new ArrayList<>(integerListHashMap.keySet()));
                     startActivity(intent);
-
                 }
 
                 break;
@@ -139,6 +138,8 @@ public class ChartFragment extends BaseFragment {
                                 super.onFail(fail);
                             }
                         });
+                break;
+            default:
                 break;
         }
 
@@ -260,9 +261,8 @@ public class ChartFragment extends BaseFragment {
                             @Override
                             public void onSuccess(List<ChartBean> beans) {
                                 mBeans  = beans;
-
+                                integerListHashMap.clear();
                                 List<ChartBean> chartBeans = null;
-                                HashMap<Integer, List<ChartBean>> integerListHashMap = new HashMap<>();
                                 for(ChartBean item : beans){
                                     if(null == integerListHashMap.get(item.getStoreId())  ){
                                         chartBeans = new ArrayList<>();
@@ -273,11 +273,7 @@ public class ChartFragment extends BaseFragment {
                                         beans1.add(item);
                                     }
                                 }
-
                                 ArrayList<List<ChartBean>> lists = new ArrayList<>(integerListHashMap.values());
-
-                                storeIds  = integerListHashMap.keySet();
-
                                 adapter.setNewInstance(lists);
                                 loadmoreUtils.onSuccess(adapter,lists);
                             }

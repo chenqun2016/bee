@@ -158,7 +158,21 @@ public class StoreActivity extends BaseActivity {
         switch (view.getId()) {
 
             case R.id.tv_confirm:
-                startActivity(new Intent(this, OrderingActivity.class));
+                ArrayList<Integer> intss = new ArrayList<>();
+                ArrayList<Integer> storeIds = new ArrayList<>();
+                if(null != hashMap){
+                    for(AddChartBean bean : hashMap.values()){
+                        intss.add(bean.cartItemId);
+                        if(!storeIds.contains(bean.storeId)){
+                            storeIds.add(bean.storeId);
+                        }
+                    }
+                }
+                Intent intent = new Intent(this, OrderingActivity.class);
+                intent.putExtra("operationType",2);
+                intent.putIntegerArrayListExtra("ids",intss);
+                intent.putIntegerArrayListExtra("storeIds",storeIds);
+                startActivity(intent);
                 break;
             case R.id.cl_qujiesuan:
                 chart_bottom_dialog_view.showSelectedDialog();
@@ -321,7 +335,7 @@ public class StoreActivity extends BaseActivity {
 
                         for(ChartBean bean :beans){
                             if(bean.getQuantity() > 0){
-                                AddChartBean addCartBean = new AddChartBean(bean.getQuantity(),bean.getProductSkuId(),bean.getStoreId(),BigDecimal.valueOf(bean.getPrice()));
+                                AddChartBean addCartBean = new AddChartBean(bean.getQuantity(),bean.getProductSkuId(),bean.getStoreId(),BigDecimal.valueOf(bean.getPrice()),bean.getId());
                                 hashMap.put(bean.getProductSkuId()+"",addCartBean);
                             }else{
                                 hashMap.remove(bean.getProductSkuId()+"");
@@ -535,7 +549,8 @@ public class StoreActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<AddCartBean>() {
                     @Override
                     public void onSuccess(AddCartBean userBean) {
-
+                        //添加购物车id
+                        addChartBean.cartItemId = userBean.getId();
                         if(addChartBean.num > 0){
                             hashMap.put(addChartBean.skuId+"",addChartBean);
                         }else{

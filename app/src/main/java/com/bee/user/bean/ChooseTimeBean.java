@@ -16,23 +16,16 @@ public class ChooseTimeBean {
 
     public  ChooseTimeBean.ChooseTimeItemBean mCurrentChooseTimeBean;
 
-    private List<ChooseTimeItemBean> today;
-    private List<ChooseTimeItemBean> tomorrow;
+    public List<ChooseTimeItemBean> today;
+    public List<ChooseTimeItemBean> tomorrow;
 
-    public List<ChooseTimeItemBean> getToday() {
-        return today;
-    }
-
-    public void setToday(List<ChooseTimeItemBean> today) {
-        this.today = today;
-    }
-
-    public List<ChooseTimeItemBean> getTomorrow() {
-        return tomorrow;
-    }
-
-    public void setTomorrow(List<ChooseTimeItemBean> tomorrow) {
-        this.tomorrow = tomorrow;
+    public int getCurrent(){
+        if(pre != -1){
+            return today.get(pre).feightTemplateDetailId;
+        }else if(pre2 != -1){
+            return today.get(pre2).feightTemplateDetailId;
+        }
+        return -1;
     }
 
     public static class ChooseTimeItemBean {
@@ -43,23 +36,9 @@ public class ChooseTimeBean {
          * deliverFee : 5.00
          */
 
-        private String arriveTime;
-        private String deliverFee;
+        public String arriveTime;
+        public String deliverFee;
+        public int feightTemplateDetailId;
 
-        public String getArriveTime() {
-            return arriveTime;
-        }
-
-        public void setArriveTime(String arriveTime) {
-            this.arriveTime = arriveTime;
-        }
-
-        public String getDeliverFee() {
-            return deliverFee;
-        }
-
-        public void setDeliverFee(String deliverFee) {
-            this.deliverFee = deliverFee;
-        }
     }
 }

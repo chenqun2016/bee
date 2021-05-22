@@ -1,11 +1,13 @@
 package com.bee.user.bean;
 
+import java.io.Serializable;
+
 /**
  * 创建人：进京赶考
  * 创建时间：2021/03/15  22：52
  * 描述：
  */
-public class ChartBean {
+public class ChartBean implements Serializable {
     public  boolean isSelected = false;
 
     public boolean selectedAll = false;

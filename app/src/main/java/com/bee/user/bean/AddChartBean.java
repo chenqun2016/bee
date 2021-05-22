@@ -13,13 +13,14 @@ public class AddChartBean implements Serializable {
     public  int num;//购买数量
     public  int skuId;//商品skuId
     public  int storeId;//店铺Id
-
+    public  int cartItemId;//购物车id
     public  BigDecimal money;
 
-    public AddChartBean( int num, int skuId, int storeId, BigDecimal money) {
+    public AddChartBean( int num, int skuId, int storeId, BigDecimal money,int cartItemId) {
         this.num = num;
         this.skuId = skuId;
         this.storeId = storeId;
         this.money = money;
+        this.cartItemId = cartItemId;
     }
 }

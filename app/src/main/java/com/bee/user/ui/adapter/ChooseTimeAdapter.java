@@ -34,6 +34,6 @@ public class ChooseTimeAdapter extends BaseQuickAdapter<ChooseTimeBean.ChooseTim
             tv_time.setTextColor(tv_time.getResources().getColor(R.color.color_7C7877));
             icon.setVisibility(View.INVISIBLE);
         }
-        tv_time.setText(chooseTimeBean.getArriveTime()+"（"+chooseTimeBean.getDeliverFee()+"元配送费）");
+        tv_time.setText(chooseTimeBean.arriveTime+"（"+chooseTimeBean.deliverFee+"元配送费）");
     }
 }

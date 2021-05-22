@@ -7,6 +7,7 @@ package com.bee.user.bean;
  */
 public class StoreFoodItem2Bean {
 
+    public int cartItemId;
     public String cartQuantity;
     public int skuId;
     public String skuName;

@@ -76,7 +76,7 @@ public class OrderingActivity extends BaseActivity {
     @BindView(R.id.tv_youhui_value)
     TextView tv_youhui_value;
 
-
+    private int operationType;
     TextView tv_tigongcanju;
 
     private boolean isSingle = true;
@@ -89,7 +89,7 @@ public class OrderingActivity extends BaseActivity {
     private TextView tv_paytype;
     private TextView tv_paytype_keyong;
 
-    private int[] ids1 ;
+    ArrayList<Integer> cartIds1 ;
 
     public String canju = "";
 
@@ -159,7 +159,8 @@ public class OrderingActivity extends BaseActivity {
     public void initViews() {
         EventBus.getDefault().register(this);
         toolbar_title.setText("确认订单");
-        ids1 = getIntent().getIntArrayExtra("ids");
+        operationType = getIntent().getIntExtra("operationType",1);
+        cartIds1 = getIntent().getIntegerArrayListExtra("ids");
         storeIds   = getIntent().getIntegerArrayListExtra("storeIds");
 
         isSingle = null == storeIds || storeIds.size() <= 1;
@@ -218,18 +219,21 @@ public class OrderingActivity extends BaseActivity {
 //                        doSubmitPre();
 //                    }
 //                });
+        if(null == storeIds){
+            return;
+        }
         for(Integer storeId : storeIds){
             Api.getClient(HttpRequest.baseUrl_goods).caculateTime(storeId+"").subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new BaseSubscriber<ChooseTimeBean>() {
                         @Override
                         public void onSuccess(ChooseTimeBean bean) {
-                            List<ChooseTimeBean.ChooseTimeItemBean> today = bean.getToday();
+                            List<ChooseTimeBean.ChooseTimeItemBean> today = bean.today;
                             if (today != null && today.size() > 0) {
                                 today.get(0).choosed = true;
                                 bean.pre = 0;
                             } else {
-                                List<ChooseTimeBean.ChooseTimeItemBean> tomorrow = bean.getTomorrow();
+                                List<ChooseTimeBean.ChooseTimeItemBean> tomorrow = bean.tomorrow;
                                 tomorrow.get(0).choosed = true;
                                 bean.pre2 = 0;
                             }
@@ -245,7 +249,7 @@ public class OrderingActivity extends BaseActivity {
 
 
     }
-
+    private TextView tv_beizhu;
 
     private void initHeadFootView(View head, View foot) {
         CommonUtil.initBuyCardView(foot);
@@ -287,7 +291,8 @@ public class OrderingActivity extends BaseActivity {
 //                transform(new PicassoRoundTransform(DisplayUtil.dip2px(this,10),0, PicassoRoundTransform.CornerType.ALL)).
 //                into(imageview);
 
-        foot.findViewById(R.id.tv_beizhu).setOnClickListener(new View.OnClickListener() {
+        tv_beizhu = foot.findViewById(R.id.tv_beizhu);
+        tv_beizhu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -416,7 +421,7 @@ public class OrderingActivity extends BaseActivity {
         orderingParams.source = 5;
 
 //        orderingParams.addressId = mAddress.getId();
-        orderingParams.cartIds = ids1;
+        orderingParams.cartIds = cartIds1.toArray(new Integer[]{});
 
         Api.getClient(HttpRequest.baseUrl_order).submitPreview(Api.getRequestBody(orderingParams)).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
@@ -436,9 +441,19 @@ public class OrderingActivity extends BaseActivity {
     }
 
 
+    //TODO 下单
     private void doSubmit() {
         OrderingParams orderingParams = new OrderingParams();
-
+        orderingParams.addressId = mAddress.getId();
+        orderingParams.feightTemplateDetailId = 0;
+        orderingParams.note = tv_beizhu.getText().toString();
+        orderingParams.operationType = operationType+"";
+        orderingParams.cartItemIds = cartIds1.toArray(new Integer[]{});
+        orderingParams.orderId = 0;
+        orderingParams.orderType = 1;
+        orderingParams.payType = 1;
+        orderingParams.pickupWay = 1;
+        orderingParams.sourceType = 5;
 
         Api.getClient(HttpRequest.baseUrl_order).ordering(Api.getRequestBody(orderingParams)).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
@@ -462,7 +477,7 @@ public class OrderingActivity extends BaseActivity {
     private  void showChooseTimeDialog(String storeId) {
         try {
             ChooseTimeBean chooseTimeBean = timeBeanHashMaps.get(storeId);
-            if (null == chooseTimeBean || (chooseTimeBean.getToday() == null && chooseTimeBean.getTomorrow() == null)) {
+            if (null == chooseTimeBean || (chooseTimeBean.today == null && chooseTimeBean.tomorrow == null)) {
                 return;
             }
             BaseDialog baseDialog = new BaseDialog(this) {
@@ -497,12 +512,12 @@ public class OrderingActivity extends BaseActivity {
                                     item.choosed = true;
 
                                     if (-1 != chooseTimeBean.pre) {
-                                        ChooseTimeBean.ChooseTimeItemBean preItem = chooseTimeBean.getToday().get(chooseTimeBean.pre);
+                                        ChooseTimeBean.ChooseTimeItemBean preItem = chooseTimeBean.today.get(chooseTimeBean.pre);
                                         preItem.choosed = false;
                                         chooseTimeAdapter.notifyItemChanged(chooseTimeBean.pre);
                                     }
                                     if (-1 != chooseTimeBean.pre2) {
-                                        ChooseTimeBean.ChooseTimeItemBean preItem = chooseTimeBean.getTomorrow().get(chooseTimeBean.pre2);
+                                        ChooseTimeBean.ChooseTimeItemBean preItem = chooseTimeBean.tomorrow.get(chooseTimeBean.pre2);
                                         preItem.choosed = false;
                                         chooseTimeBean.pre2 = -1;
                                     }
@@ -517,12 +532,12 @@ public class OrderingActivity extends BaseActivity {
                                     item.choosed = true;
 
                                     if (-1 != chooseTimeBean.pre2) {
-                                        ChooseTimeBean.ChooseTimeItemBean preItem = chooseTimeBean.getTomorrow().get(chooseTimeBean.pre2);
+                                        ChooseTimeBean.ChooseTimeItemBean preItem = chooseTimeBean.tomorrow.get(chooseTimeBean.pre2);
                                         preItem.choosed = false;
                                         chooseTimeAdapter.notifyItemChanged(chooseTimeBean.pre2);
                                     }
                                     if (-1 != chooseTimeBean.pre) {
-                                        ChooseTimeBean.ChooseTimeItemBean preItem = chooseTimeBean.getToday().get(chooseTimeBean.pre);
+                                        ChooseTimeBean.ChooseTimeItemBean preItem = chooseTimeBean.today.get(chooseTimeBean.pre);
                                         preItem.choosed = false;
                                         chooseTimeBean.pre = -1;
                                     }
@@ -542,17 +557,17 @@ public class OrderingActivity extends BaseActivity {
 
                             switch (checkedId) {
                                 case R.id.rb_1:
-                                    chooseTimeAdapter.setNewInstance(chooseTimeBean.getToday());
+                                    chooseTimeAdapter.setNewInstance(chooseTimeBean.today);
                                     break;
                                 case R.id.rb_2:
-                                    chooseTimeAdapter.setNewInstance(chooseTimeBean.getTomorrow());
+                                    chooseTimeAdapter.setNewInstance(chooseTimeBean.tomorrow);
                                     break;
                             }
                         }
                     });
 
                     RadioButton rb_1 = dialog.findViewById(R.id.rb_1);
-                    if (chooseTimeBean.getToday() == null || chooseTimeBean.getToday().size()==0) {
+                    if (chooseTimeBean.today == null || chooseTimeBean.today.size()==0) {
                         rb_1.setVisibility(View.GONE);
                         buttons.check(R.id.rb_2);
                     } else {
