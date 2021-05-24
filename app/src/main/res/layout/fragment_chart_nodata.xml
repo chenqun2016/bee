@@ -83,11 +83,19 @@
             android:textSize="22sp"
             android:textStyle="bold" />
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_tuijian"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiperefresh_tuijian"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_tuijian"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cacheColorHint="@null"
+                android:scrollbars="none" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 

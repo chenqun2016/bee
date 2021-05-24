@@ -62,12 +62,53 @@
             android:text="去随便逛逛"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_products"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/ll_empty"
+        android:background="@drawable/bg_round10dp_white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_xia"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:textColor="@color/color_282525"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:drawablePadding="6dp"
+            android:drawableRight="@drawable/icon_chaoxia"
+            android:text="超出配送范围商品"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_unavalable_data"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_shang"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:textColor="@color/color_282525"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:drawablePadding="6dp"
+            android:drawableRight="@drawable/icon_chaoshang"
+            android:text="收起"/>
+    </LinearLayout>
     <TextView
         android:id="@+id/tv_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_empty"
+        app:layout_constraintTop_toBottomOf="@+id/ll_products"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="20dp"
         android:text="为你推荐附近精选"

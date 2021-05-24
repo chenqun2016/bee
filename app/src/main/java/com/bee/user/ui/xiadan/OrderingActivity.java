@@ -445,7 +445,16 @@ public class OrderingActivity extends BaseActivity {
     private void doSubmit() {
         OrderingParams orderingParams = new OrderingParams();
         orderingParams.addressId = mAddress.getId();
-        orderingParams.feightTemplateDetailId = 0;
+
+        int feightTemplateDetailId =0 ;
+        try{
+            Integer storeId = storeIds.get(0);
+            ChooseTimeBean chooseTimeBean = timeBeanHashMaps.get(storeId);
+            feightTemplateDetailId = chooseTimeBean.getCurrent();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        orderingParams.feightTemplateDetailId = feightTemplateDetailId;
         orderingParams.note = tv_beizhu.getText().toString();
         orderingParams.operationType = operationType+"";
         orderingParams.cartItemIds = cartIds1.toArray(new Integer[]{});

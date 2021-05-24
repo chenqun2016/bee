@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
-import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.OrderingConfirmBean;
 import com.bee.user.event.OrderingEvent;
 import com.bee.user.ui.nearby.StoreActivity;
@@ -19,7 +18,6 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,12 +66,6 @@ public class OrderingAdapter extends BaseQuickAdapter<OrderingConfirmBean.StoreO
         RecyclerView recyclerView = baseViewHolder.findView(R.id.recyclerview);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(tv_store.getContext()));
-
-        List<FoodBean> foodBeans = new ArrayList<>();
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
-        foodBeans.add(new FoodBean());
-
 
         List<OrderingConfirmBean.StoreOrderConfirmItemsBean.ProductsBean> products = storeBean.getProducts();
         OrderPreFoodAdapter adapter = new OrderPreFoodAdapter(products);

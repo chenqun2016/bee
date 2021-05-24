@@ -13,6 +13,8 @@ public class ChartBean implements Serializable {
     public boolean selectedAll = false;
 
 
+    //1 可以配送，0 不可配送
+    public int distributionStatus;
     private int id;
     private Integer productId;
     private Integer productSkuId;
@@ -35,7 +37,7 @@ public class ChartBean implements Serializable {
     private String productBrand;
     private String productSn;
     private Integer storeId;
-    private Object storeName;
+    private String storeName;
     private String createDate;
     private String modifyDate;
     private Integer deleteStatus;
@@ -216,11 +218,11 @@ public class ChartBean implements Serializable {
         this.storeId = storeId;
     }
 
-    public Object getStoreName() {
+    public String getStoreName() {
         return storeName;
     }
 
-    public void setStoreName(Object storeName) {
+    public void setStoreName(String storeName) {
         this.storeName = storeName;
     }
 

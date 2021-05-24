@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/view_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/color_F5F5F5"/>
+
+    <LinearLayout
+        android:id="@+id/ll_title"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新天地大厦店"
+            android:drawableRight="@drawable/icon_link"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:textStyle="bold"
+            android:textColor="@color/color_282525"
+            android:textSize="17sp"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/tv_time_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:background="@drawable/btn_stroke2dp_yellow"
+            android:text="超出配送范围"
+            android:textColor="@color/FF6200"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <include layout="@layout/item_ordering_food"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

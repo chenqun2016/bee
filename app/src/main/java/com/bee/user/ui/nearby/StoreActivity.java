@@ -324,7 +324,8 @@ public class StoreActivity extends BaseActivity {
         //TODO
         List<String> integers = new ArrayList<>();
         integers.add(id);
-        Api.getClient(HttpRequest.baseUrl_member).getCart(integers)
+        //TODO
+        Api.getClient(HttpRequest.baseUrl_member).getCart(0,integers)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<List<ChartBean>>() {

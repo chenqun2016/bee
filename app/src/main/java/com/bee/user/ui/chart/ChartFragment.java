@@ -10,15 +10,18 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
+import com.bee.user.bean.AddressBean2;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.event.MainEvent;
@@ -26,6 +29,7 @@ import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.ChartAdapter;
+import com.bee.user.ui.adapter.ChartUnavalabeRecyclerviewAdapter;
 import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.nearby.FoodActivity;
@@ -33,6 +37,7 @@ import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LoadmoreUtils;
+import com.bee.user.utils.NetWorkUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.gyf.immersionbar.ImmersionBar;
@@ -70,7 +75,8 @@ public class ChartFragment extends BaseFragment {
     @BindView(R.id.ll_havedata)
     RelativeLayout ll_havedata;
 
-
+    @BindView(R.id.swiperefresh_tuijian)
+    SwipeRefreshLayout swiperefresh_tuijian;
     @BindView(R.id.recyclerview_tuijian)
     RecyclerView recyclerview_tuijian;
     @BindView(R.id.recyclerview)
@@ -85,17 +91,19 @@ public class ChartFragment extends BaseFragment {
     LoadmoreUtils loadmoreUtils;
 
     HashMap<Integer, List<ChartBean>> integerListHashMap = new HashMap<>();
-    private List<ChartBean> mBeans;
+    private List<ChartBean> mAvalableBeans;
+    private List<ChartBean> mUnAvalableBeans;
+    private AddressBean2 mAddress;
 
 
     @OnClick({R.id.tv_confirm,R.id.tv_clear})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_confirm:
-                if(null != mBeans){
+                if(null != mAvalableBeans){
                     ArrayList<Integer> intss = new ArrayList<>();
-                    for(int i=0;i<mBeans.size();i++){
-                        intss.add(mBeans.get(i).getId());
+                    for(int i = 0; i< mAvalableBeans.size(); i++){
+                        intss.add(mAvalableBeans.get(i).getId());
                     }
                     Intent intent = new Intent(getContext(), OrderingActivity.class);
                     intent.putExtra("operationType",2);
@@ -119,7 +127,7 @@ public class ChartFragment extends BaseFragment {
 //                initDatas();
 
                 List<String> ints = new ArrayList<String>();
-                for(ChartBean bean:  mBeans){
+                for(ChartBean bean: mAvalableBeans){
                     ints.add(bean.getStoreId()+"");
                 }
 
@@ -147,7 +155,6 @@ public class ChartFragment extends BaseFragment {
 
     @Override
     protected void getDatas() {
-
         loadmoreUtils.refresh(adapter);
     }
 
@@ -185,6 +192,39 @@ public class ChartFragment extends BaseFragment {
         initNoNet();
         initNoDatas();
         initDatas();
+
+        getInitDatas();
+
+
+    }
+
+    private void getInitDatas() {
+        if(NetWorkUtil.isNetConnected(getContext())){
+            ll_nonet.setVisibility(View.GONE);
+            ll_nodata.setVisibility(View.VISIBLE);
+            ll_havedata.setVisibility(View.GONE);
+            getAddress();
+        }else{
+            ll_nonet.setVisibility(View.VISIBLE);
+            ll_nodata.setVisibility(View.GONE);
+            ll_havedata.setVisibility(View.GONE);
+        }
+        swiperefresh_tuijian.setRefreshing(false);
+    }
+
+    private void getAddress() {
+        Api.getClient(HttpRequest.baseUrl_member).listAddress().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<AddressBean2>>() {
+                    @Override
+                    public void onSuccess(List<AddressBean2> addressBean2) {
+                        if(null != addressBean2 && addressBean2.size()>0){
+                            mAddress = addressBean2.get(0);
+
+                            getCartDatas();
+                        }
+                    }
+                });
     }
 
     private void initDatas() {
@@ -252,38 +292,7 @@ public class ChartFragment extends BaseFragment {
         loadmoreUtils = new LoadmoreUtils(ChartBean.class){
             @Override
             protected boolean getDatas(int page) {
-                List<String> integers = new ArrayList<>();
-//                integers.add(16+"");
-                Api.getClient(HttpRequest.baseUrl_member).getCart(integers)
-                        .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new BaseSubscriber<List<ChartBean>>() {
-                            @Override
-                            public void onSuccess(List<ChartBean> beans) {
-                                mBeans  = beans;
-                                integerListHashMap.clear();
-                                List<ChartBean> chartBeans = null;
-                                for(ChartBean item : beans){
-                                    if(null == integerListHashMap.get(item.getStoreId())  ){
-                                        chartBeans = new ArrayList<>();
-                                        chartBeans.add(item);
-                                        integerListHashMap.put(item.getStoreId(),chartBeans);
-                                    }else{
-                                        List<ChartBean> beans1 = integerListHashMap.get(item.getStoreId());
-                                        beans1.add(item);
-                                    }
-                                }
-                                ArrayList<List<ChartBean>> lists = new ArrayList<>(integerListHashMap.values());
-                                adapter.setNewInstance(lists);
-                                loadmoreUtils.onSuccess(adapter,lists);
-                            }
-
-                            @Override
-                            public void onFail(String fail) {
-                                super.onFail(fail);
-                                loadmoreUtils.onFail(adapter,fail);
-                            }
-                        });
+                getCartDatas();
 
                 return true;
             }
@@ -291,11 +300,99 @@ public class ChartFragment extends BaseFragment {
         loadmoreUtils.initLoadmore(adapter);
     }
 
+    private void getCartDatas() {
+        if(null == mAddress){
+            return ;
+        }
+        List<String> integers = new ArrayList<>();
+//                integers.add(16+"");
+        Api.getClient(HttpRequest.baseUrl_member).getCart(mAddress.getId(),integers)
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<ChartBean>>() {
+                    @Override
+                    public void onSuccess(List<ChartBean> beans) {
+                        if(null == beans || beans.get(0).distributionStatus == 0){
+                            ll_nonet.setVisibility(View.GONE);
+                            ll_nodata.setVisibility(View.VISIBLE);
+                            ll_havedata.setVisibility(View.GONE);
+
+                            setNoDataViews(beans);
+
+                        }else{
+                            ll_nonet.setVisibility(View.GONE);
+                            ll_nodata.setVisibility(View.GONE);
+                            ll_havedata.setVisibility(View.VISIBLE);
+
+                            caculate(beans);
+                        }
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                        loadmoreUtils.onFail(adapter,fail);
+                    }
+                });
+    }
+
+    private void setNoDataViews(List<ChartBean> beans) {
+        mUnAvalableBeans = beans;
+        chartUnavalabeRecyclerviewAdapter.setNewInstance(beans);
+
+        recyclerView_unavalable_data.setVisibility(View.VISIBLE);
+        tv_shang.setVisibility(View.VISIBLE);
+    }
+
+    private void caculate(List<ChartBean> beans) {
+        List<ChartBean> avalableBeans = new ArrayList<>();
+        List<ChartBean> unAvalableBeans = new ArrayList<>();
+        for(ChartBean bean : beans){
+            if(bean.distributionStatus == 1){
+                avalableBeans.add(bean);
+            }else{
+                unAvalableBeans.add(bean);
+            }
+        }
+        mAvalableBeans = avalableBeans;
+        mUnAvalableBeans = unAvalableBeans;
+
+
+        integerListHashMap.clear();
+        List<ChartBean> chartBeans = null;
+        for(ChartBean item : avalableBeans){
+            if(null == integerListHashMap.get(item.getStoreId())  ){
+                chartBeans = new ArrayList<>();
+                chartBeans.add(item);
+                integerListHashMap.put(item.getStoreId(),chartBeans);
+            }else{
+                List<ChartBean> beans1 = integerListHashMap.get(item.getStoreId());
+                beans1.add(item);
+            }
+        }
+        ArrayList<List<ChartBean>> lists = new ArrayList<>(integerListHashMap.values());
+        adapter.setNewInstance(lists);
+        loadmoreUtils.onSuccess(adapter,lists);
+    }
+
     private void initNoNet() {
 
     }
-
+    TextView tv_xia;
+    RecyclerView recyclerView_unavalable_data;
+    TextView tv_shang;
+    ChartUnavalabeRecyclerviewAdapter chartUnavalabeRecyclerviewAdapter;
     private void initNoDatas() {
+
+        swiperefresh_tuijian.setColorSchemeResources(com.huaxiafinance.www.crecyclerview.R.color.colorPrimary,
+                com.huaxiafinance.www.crecyclerview.R.color.colorPrimaryDark);
+        swiperefresh_tuijian.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getInitDatas();
+            }
+        });
+
         HomeAdapter homeAdapter = new HomeAdapter();
         recyclerview_tuijian.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerview_tuijian.setAdapter(homeAdapter);
@@ -310,6 +407,12 @@ public class ChartFragment extends BaseFragment {
                 EventBus.getDefault().post(mainEvent);
             }
         });
+        tv_xia = head.findViewById(R.id.tv_xia);
+        recyclerView_unavalable_data = head.findViewById(R.id.recyclerView_unavalable_data);
+        recyclerView_unavalable_data.setLayoutManager(new LinearLayoutManager(getActivity()));
+        chartUnavalabeRecyclerviewAdapter = new ChartUnavalabeRecyclerviewAdapter();
+        recyclerView_unavalable_data.setAdapter(chartUnavalabeRecyclerviewAdapter);
+        tv_shang = head.findViewById(R.id.tv_shang);
         homeAdapter.addHeaderView(head);
 
         homeAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
