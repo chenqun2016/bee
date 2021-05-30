@@ -78,7 +78,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
         OrderFragmentAdapter.OrderItemAdapter orderItemAdapter = new OrderFragmentAdapter.OrderItemAdapter();
         recyclerview.setAdapter(orderItemAdapter);
 
-        orderItemAdapter.setNewInstance(bean.orderItemList);
+        orderItemAdapter.setNewInstance(bean.productList);
 
 
         TextView name = helper.findView(R.id.name);

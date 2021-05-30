@@ -22,7 +22,15 @@ public class Constants {
         return "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC5zS5NObS9AQDwH5sSUNTA2jY6RyUEMGpu9UqmAWNCuDlFo0GovMQkbRuyNy/qXj3V6+0dElG7nCaFQyQ4quww0eZwPE6Sc7iFu3QdoTFPQ4prqpUcYZlcHRdWTntJaaodsI1fMB67eo/oaI4+97MW1za/6nqcGVECz/Z0rqhQswIDAQAB";
     }
 
-
+//    订单状态：
+//    订单提交成功
+//            订单待支付
+//    订单已支付
+//            商家待接单
+//    商家已接单
+//            配送员待接单配送员已接单配送员取货中
+//    配送员已到店配送员已取货配送员送货中商品已送达
+//    订单已完成\订单已取消（取消原因）
 
     //订单详情中 订单状态
     public static final int TYPE_ALL = 0;//全部

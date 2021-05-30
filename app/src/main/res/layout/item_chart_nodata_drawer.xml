@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginRight="10dp"
+    android:visibility="gone"
+    android:id="@+id/ll_drawer"
+    android:background="@drawable/bg_round10dp_white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_xia"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:drawableRight="@drawable/icon_chaoxia"
+        android:drawablePadding="6dp"
+        android:gravity="center"
+        android:text="超出配送范围商品"
+        android:textColor="@color/color_282525" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_unavalable_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_shang"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:drawableRight="@drawable/icon_chaoshang"
+        android:drawablePadding="6dp"
+        android:gravity="center"
+        android:text="收起"
+        android:textColor="@color/color_282525" />
+</LinearLayout>

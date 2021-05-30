@@ -10,7 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,7 +28,6 @@ import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.ChartAdapter;
-import com.bee.user.ui.adapter.ChartUnavalabeRecyclerviewAdapter;
 import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.nearby.FoodActivity;
@@ -38,6 +36,7 @@ import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.utils.NetWorkUtil;
+import com.bee.user.widget.ChartNoDataDrawerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.gyf.immersionbar.ImmersionBar;
@@ -228,6 +227,12 @@ public class ChartFragment extends BaseFragment {
                 });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ll_products.resetSize();
+    }
+
     private void initDatas() {
         adapter     = new ChartAdapter();
 
@@ -357,10 +362,7 @@ public class ChartFragment extends BaseFragment {
         }
 
         mUnAvalableBeans = chartBeans;
-        chartUnavalabeRecyclerviewAdapter.setNewInstance(chartBeans);
-
-        recyclerView_unavalable_data.setVisibility(View.VISIBLE);
-        tv_shang.setVisibility(View.VISIBLE);
+        ll_products.setDatas(chartBeans);
     }
 
     private void caculate(List<ChartBean> beans) {
@@ -397,10 +399,7 @@ public class ChartFragment extends BaseFragment {
     private void initNoNet() {
 
     }
-    TextView tv_xia;
-    RecyclerView recyclerView_unavalable_data;
-    TextView tv_shang;
-    ChartUnavalabeRecyclerviewAdapter chartUnavalabeRecyclerviewAdapter;
+    ChartNoDataDrawerView ll_products;
     private void initNoDatas() {
 
         swiperefresh_tuijian.setColorSchemeResources(com.huaxiafinance.www.crecyclerview.R.color.colorPrimary,
@@ -426,12 +425,8 @@ public class ChartFragment extends BaseFragment {
                 EventBus.getDefault().post(mainEvent);
             }
         });
-        tv_xia = head.findViewById(R.id.tv_xia);
-        recyclerView_unavalable_data = head.findViewById(R.id.recyclerView_unavalable_data);
-        recyclerView_unavalable_data.setLayoutManager(new LinearLayoutManager(getActivity()));
-        chartUnavalabeRecyclerviewAdapter = new ChartUnavalabeRecyclerviewAdapter();
-        recyclerView_unavalable_data.setAdapter(chartUnavalabeRecyclerviewAdapter);
-        tv_shang = head.findViewById(R.id.tv_shang);
+        ll_products = head.findViewById(R.id.ll_products);
+
         homeAdapter.addHeaderView(head);
 
         homeAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
