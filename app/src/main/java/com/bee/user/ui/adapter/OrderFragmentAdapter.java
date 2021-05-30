@@ -5,12 +5,9 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
-import com.amap.api.maps.MapView;
 import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
@@ -32,13 +28,9 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.bee.user.Constants;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.AddressBean;
-import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.OrderBean;
 import com.bee.user.bean.StoreBean;
-import com.bee.user.bean.YouhuiquanBean;
 import com.bee.user.ui.order.OrderCommentActivity;
-import com.bee.user.ui.order.OrderDetailMapActivity;
 import com.bee.user.ui.order.TuiKuanActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.ui.xiadan.PayActivity;
@@ -86,22 +78,22 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
         OrderFragmentAdapter.OrderItemAdapter orderItemAdapter = new OrderFragmentAdapter.OrderItemAdapter();
         recyclerview.setAdapter(orderItemAdapter);
 
-        List<OrderBean.OrderItemBean> orderItemBeans = new ArrayList<OrderBean.OrderItemBean>();
-        orderItemBeans.add(new OrderBean.OrderItemBean());
-        orderItemBeans.add(new OrderBean.OrderItemBean());
-        orderItemAdapter.setNewInstance(orderItemBeans);
+        orderItemAdapter.setNewInstance(bean.orderItemList);
 
 
         TextView name = helper.findView(R.id.name);
+        name.setText(bean.storeName+"");
         TextView type = helper.findView(R.id.type);
 
         TextView tv_money = helper.findView(R.id.tv_money);
+        tv_money.setText(bean.totalAmount+"");
         TextView tv_total = helper.findView(R.id.tv_total);
+        tv_total.setText("共"+1+"件");
         TextView tv_zailaiyidan = helper.findView(R.id.tv_zailaiyidan);
         TextView tv_pinglun = helper.findView(R.id.tv_pinglun);
 
 
-        switch (bean.type) {
+        switch (bean.getOrderItemType()) {
 
             case Constants.TYPE_READY://商家正在备货
                 tv_zailaiyidan.setText("联系商家");
@@ -242,20 +234,20 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 aMap.setOnMapClickListener(new AMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
-                        CommonUtil.showOrderDetailActivity(mContext,bean.type);
+                        CommonUtil.showOrderDetailActivity(mContext,bean.getOrderItemType());
 
                     }
                 });
                 aMap.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        CommonUtil.showOrderDetailActivity(mContext,bean.type);
+                        CommonUtil.showOrderDetailActivity(mContext,bean.getOrderItemType());
                     }
                 });
                 aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        CommonUtil.showOrderDetailActivity(mContext,bean.type);
+                        CommonUtil.showOrderDetailActivity(mContext,bean.getOrderItemType());
                         return true;
                     }
                 });
@@ -351,9 +343,12 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
         protected void convert(@NotNull BaseViewHolder baseViewHolder, OrderBean.OrderItemBean o) {
             ImageView iv_image = baseViewHolder.findView(R.id.iv_image);
             Picasso.with(iv_image.getContext())
-                    .load(R.drawable.food2)
+                    .load(o.productPic)
                     .transform(new PicassoRoundTransform(DisplayUtil.dip2px(iv_image.getContext(), 10), 0, PicassoRoundTransform.CornerType.ALL))
                     .into(iv_image);
+
+            TextView tv_name = baseViewHolder.findView(R.id.tv_name);
+            tv_name.setText(o.productName);
         }
 
     }

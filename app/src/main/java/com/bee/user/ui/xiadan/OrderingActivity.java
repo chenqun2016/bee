@@ -449,7 +449,7 @@ public class OrderingActivity extends BaseActivity {
         int feightTemplateDetailId =0 ;
         try{
             Integer storeId = storeIds.get(0);
-            ChooseTimeBean chooseTimeBean = timeBeanHashMaps.get(storeId);
+            ChooseTimeBean chooseTimeBean = timeBeanHashMaps.get(storeId+"");
             feightTemplateDetailId = chooseTimeBean.getCurrent();
         }catch (Exception e){
             e.printStackTrace();
@@ -467,9 +467,9 @@ public class OrderingActivity extends BaseActivity {
         Api.getClient(HttpRequest.baseUrl_order).ordering(Api.getRequestBody(orderingParams)).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<String>() {
+                .subscribe(new BaseSubscriber<Object>() {
                     @Override
-                    public void onSuccess(String userBean) {
+                    public void onSuccess(Object userBean) {
                         startActivity(new Intent(OrderingActivity.this, PayActivity.class));
                     }
 

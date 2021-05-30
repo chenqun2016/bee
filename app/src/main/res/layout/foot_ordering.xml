@@ -44,10 +44,12 @@
             android:layout_toRightOf="@+id/tv_beiz"
             android:gravity="right"
             android:textSize="13sp"
-            android:textColor="@color/color_ccc"
+            android:textColor="@color/color_282525"
             android:drawableRight="@drawable/icon_link"
             android:drawablePadding="10dp"
-            android:text="点击可选择无接触配送"/>
+            android:hint="点击可选择无接触配送"
+            android:textColorHint="@color/color_ccc"
+            android:text=""/>
 
 
         <TextView

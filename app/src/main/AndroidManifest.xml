@@ -141,7 +141,7 @@
         <activity android:name=".ui.xiadan.NewAddressActivity" />
         <activity android:name=".ui.xiadan.PayStatusActivity" />
         <activity android:name=".ui.home.NewsActivity" />
-        <activity android:name=".ui.order.OrderActivity"
+        <activity android:name=".ui.order.OrderListActivity"
             android:launchMode="singleTask"/>
         <activity android:name=".ui.home.NewsItemActivity" />
         <activity android:name=".ui.order.OrderDetailActivity" />

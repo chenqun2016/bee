@@ -5,6 +5,7 @@ import com.bee.user.bean.AddressBean2;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.FoodDetailBean;
+import com.bee.user.bean.OrderListBean;
 import com.bee.user.bean.OrderingConfirmBean;
 import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
@@ -145,7 +146,13 @@ public interface ApiService {
      * 下单
      */
     @POST(HttpRequest.ordering)
-    Observable<BaseResult<String>> ordering(@Body RequestBody info);
+    Observable<BaseResult<Object>> ordering(@Body RequestBody info);
+
+    /**
+     * 订单列表
+     */
+    @POST(HttpRequest.orderList)
+    Observable<BaseResult<OrderListBean>> orderList(@Body RequestBody info);
 
     /**
      * 清空购物车的数据

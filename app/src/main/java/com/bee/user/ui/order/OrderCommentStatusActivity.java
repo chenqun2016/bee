@@ -16,7 +16,7 @@ public class OrderCommentStatusActivity extends BaseActivity {
 
     @OnClick(R.id.btn_2)
     public void onClick(){
-        startActivity(new Intent(this,OrderActivity.class));
+        startActivity(new Intent(this, OrderListActivity.class));
     }
 
     @Override

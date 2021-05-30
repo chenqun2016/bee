@@ -20,10 +20,10 @@ public class ChooseTimeBean {
     public List<ChooseTimeItemBean> tomorrow;
 
     public int getCurrent(){
-        if(pre != -1){
+        if(pre != -1 && today.size()>pre){
             return today.get(pre).feightTemplateDetailId;
-        }else if(pre2 != -1){
-            return today.get(pre2).feightTemplateDetailId;
+        }else if(pre2 != -1 && tomorrow.size()>pre2){
+            return tomorrow.get(pre2).feightTemplateDetailId;
         }
         return -1;
     }

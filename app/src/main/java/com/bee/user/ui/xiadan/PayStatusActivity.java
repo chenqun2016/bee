@@ -9,7 +9,7 @@ import com.bee.user.R;
 import com.bee.user.event.CloseEvent;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.order.OrderActivity;
+import com.bee.user.ui.order.OrderListActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -50,7 +50,7 @@ public class PayStatusActivity extends BaseActivity {
                 break;
             case R.id.btn_2:
 
-                Intent intent = new Intent(this, OrderActivity.class);
+                Intent intent = new Intent(this, OrderListActivity.class);
                 startActivity(intent);
 
                 finish();

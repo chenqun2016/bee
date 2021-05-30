@@ -56,18 +56,18 @@ public class CRecyclerView<T > extends FrameLayout implements SwipeRefreshLayout
     private View failView;//请求异常
 
     static class PageInfo {
-        int page = 0;
+        int page = 1;
 
         void nextPage() {
             page++;
         }
 
         void reset() {
-            page = 0;
+            page = 1;
         }
 
         boolean isFirstPage() {
-            return page == 0;
+            return page == 1;
         }
     }
     private PageInfo pageInfo = new PageInfo();

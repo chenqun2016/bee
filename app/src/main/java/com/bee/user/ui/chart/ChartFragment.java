@@ -46,6 +46,7 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -312,19 +313,19 @@ public class ChartFragment extends BaseFragment {
                 .subscribe(new BaseSubscriber<List<ChartBean>>() {
                     @Override
                     public void onSuccess(List<ChartBean> beans) {
-                        if(null == beans || beans.get(0).distributionStatus == 0){
-                            ll_nonet.setVisibility(View.GONE);
-                            ll_nodata.setVisibility(View.VISIBLE);
-                            ll_havedata.setVisibility(View.GONE);
 
-                            setNoDataViews(beans);
-
-                        }else{
+                        if(beans!= null && beans.size()>0 && beans.get(0).distributionStatus == 1){
                             ll_nonet.setVisibility(View.GONE);
                             ll_nodata.setVisibility(View.GONE);
                             ll_havedata.setVisibility(View.VISIBLE);
 
                             caculate(beans);
+                        }else{
+                            ll_nonet.setVisibility(View.GONE);
+                            ll_nodata.setVisibility(View.VISIBLE);
+                            ll_havedata.setVisibility(View.GONE);
+
+                            setNoDataViews(beans);
                         }
                     }
 
@@ -337,8 +338,26 @@ public class ChartFragment extends BaseFragment {
     }
 
     private void setNoDataViews(List<ChartBean> beans) {
-        mUnAvalableBeans = beans;
-        chartUnavalabeRecyclerviewAdapter.setNewInstance(beans);
+        HashMap<Integer, List<ChartBean>> objectObjectHashMap = new HashMap<>();
+        List<ChartBean> chartBeans = null;
+        for(ChartBean item : beans){
+            if(null == objectObjectHashMap.get(item.getStoreId())  ){
+                chartBeans = new ArrayList<>();
+                chartBeans.add(item);
+                objectObjectHashMap.put(item.getStoreId(),chartBeans);
+            }else{
+                List<ChartBean> beans1 = objectObjectHashMap.get(item.getStoreId());
+                beans1.add(item);
+            }
+        }
+        chartBeans = new ArrayList<>();
+        Collection<List<ChartBean>> values = objectObjectHashMap.values();
+        for(List<ChartBean> lists : values){
+            chartBeans.addAll(lists);
+        }
+
+        mUnAvalableBeans = chartBeans;
+        chartUnavalabeRecyclerviewAdapter.setNewInstance(chartBeans);
 
         recyclerView_unavalable_data.setVisibility(View.VISIBLE);
         tv_shang.setVisibility(View.VISIBLE);

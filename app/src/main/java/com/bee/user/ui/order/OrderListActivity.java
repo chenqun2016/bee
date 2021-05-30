@@ -2,7 +2,6 @@ package com.bee.user.ui.order;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,7 +11,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.home.HomeFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -23,7 +21,7 @@ import butterknife.BindView;
  * 创建时间：2020/09/23  13：43
  * 描述：
  */
-public class OrderActivity extends BaseActivity {
+public class OrderListActivity extends BaseActivity {
 
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
@@ -35,7 +33,7 @@ public class OrderActivity extends BaseActivity {
 
 
     public static Intent newInstance(Context context, int index) {
-        Intent intent = new Intent(context, OrderActivity.class);
+        Intent intent = new Intent(context, OrderListActivity.class);
         intent.putExtra("index",index);
         return intent;
     }
@@ -92,7 +90,7 @@ public class OrderActivity extends BaseActivity {
         if (mFragments[index] != null) {
             return mFragments[index];
         }
-        Fragment fragment = OrderFragment.newInstance(index);
+        Fragment fragment = OrderListFragment.newInstance(index);
 
         mFragments[index] = fragment;
         return mFragments[index];

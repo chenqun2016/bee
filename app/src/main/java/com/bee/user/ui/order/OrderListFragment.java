@@ -1,6 +1,5 @@
 package com.bee.user.ui.order;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,37 +7,35 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bee.user.Constants;
 import com.bee.user.R;
-import com.bee.user.bean.CommentBean;
-import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.OrderBean;
-import com.bee.user.bean.StoreBean;
-import com.bee.user.ui.adapter.CommentAdapter;
-import com.bee.user.ui.adapter.HomeAdapter;
+import com.bee.user.bean.OrderListBean;
+import com.bee.user.params.OrderListParams;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.OrderFragmentAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
-import com.bee.user.ui.nearby.FoodActivity;
-import com.bee.user.ui.nearby.NearbyFragment;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.LoadmoreUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
  * 创建时间：2020/09/23  14：13
  * 描述：
  */
-public class OrderFragment extends BaseFragment {
+public class OrderListFragment extends BaseFragment {
 
 //    public  CRecyclerView crecyclerview;
 
@@ -49,10 +46,10 @@ public class OrderFragment extends BaseFragment {
     LoadmoreUtils loadmoreUtils;
 
 
-    public static OrderFragment newInstance(int type) {
+    public static OrderListFragment newInstance(int type) {
         Bundle arguments = new Bundle();
         arguments.putInt("type", type);
-        OrderFragment fragment = new OrderFragment();
+        OrderListFragment fragment = new OrderListFragment();
         fragment.setArguments(arguments);
         return fragment;
     }
@@ -60,7 +57,7 @@ public class OrderFragment extends BaseFragment {
 
     @Override
     protected void getDatas() {
-
+        loadmoreUtils.refresh(mAdapter);
     }
 
     @Nullable
@@ -101,7 +98,7 @@ public class OrderFragment extends BaseFragment {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
 
-                CommonUtil.showOrderDetailActivity(recyclerview.getContext(),mAdapter.getData().get(position).type);
+                CommonUtil.showOrderDetailActivity(recyclerview.getContext(),mAdapter.getData().get(position).getOrderItemType());
 
             }
         });
@@ -109,7 +106,6 @@ public class OrderFragment extends BaseFragment {
 
 
         initLoadMore();
-        refresh();
     }
 
     @Override
@@ -123,31 +119,62 @@ public class OrderFragment extends BaseFragment {
      */
     private void initLoadMore() {
         loadmoreUtils = new LoadmoreUtils(OrderBean.class) {
+
+            @Override
+            protected boolean getDatas(int page) {
+                getDatasNew(page);
+                return true;
+            }
+
             @Override
             protected List getSampleData(int lenth) {
+
                 ArrayList<OrderBean> beans = new ArrayList<OrderBean>();
 //                int t = type == OrderBean.type2?OrderBean.type2 :OrderBean.type1;
 
-                if(type == 0){
-                    beans.add(new OrderBean(Constants.TYPE_READY));
-                    beans.add(new OrderBean(Constants.TYPE_PEISONG));
-                    beans.add(new OrderBean(Constants.TYPE_CANCELED));
-
-                    beans.add(new OrderBean(Constants.TYPE_PAY_WAITE));
-                    beans.add(new OrderBean(Constants.TYPE_TUIKUAN));
-                    beans.add(new OrderBean(Constants.TYPE_TO_BE_COMMENTED));
-
-                }else{
-                    beans.add(new OrderBean(type));
-                    beans.add(new OrderBean(type));
-                    beans.add(new OrderBean(type));
-                    beans.add(new OrderBean(type));
-                }
+//                if(type == 0){
+//                    beans.add(new OrderBean(Constants.TYPE_READY));
+//                    beans.add(new OrderBean(Constants.TYPE_PEISONG));
+//                    beans.add(new OrderBean(Constants.TYPE_CANCELED));
+//
+//                    beans.add(new OrderBean(Constants.TYPE_PAY_WAITE));
+//                    beans.add(new OrderBean(Constants.TYPE_TUIKUAN));
+//                    beans.add(new OrderBean(Constants.TYPE_TO_BE_COMMENTED));
+//
+//                }else{
+//                    beans.add(new OrderBean(type));
+//                    beans.add(new OrderBean(type));
+//                    beans.add(new OrderBean(type));
+//                    beans.add(new OrderBean(type));
+//                }
 
                 return beans;
             }
         };
         loadmoreUtils.initLoadmore(mAdapter);
+    }
+
+    private void getDatasNew(int page){
+        OrderListParams params = new OrderListParams();
+        params.pageNum = page;
+        params.pageSize = LoadmoreUtils.PAGE_SIZE;
+        params.data = new OrderListParams.OrderListInnerDataClass(type);
+        Api.getClient(HttpRequest.baseUrl_order).orderList(Api.getRequestBody(params)).
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<OrderListBean>() {
+                    @Override
+                    public void onSuccess(OrderListBean o) {
+                        List<OrderBean> beans = o.records;
+                        loadmoreUtils.onSuccess(mAdapter,beans);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                        loadmoreUtils.onFail(mAdapter,fail);
+                    }
+                });
     }
 
     /**

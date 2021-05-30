@@ -24,7 +24,7 @@ import com.bee.user.ui.giftcard.GiftcardActivity;
 import com.bee.user.ui.home.NewsActivity;
 import com.bee.user.ui.mine.coupon.CouponActivity;
 import com.bee.user.ui.mine.membercenter.MemberCenterActivity;
-import com.bee.user.ui.order.OrderActivity;
+import com.bee.user.ui.order.OrderListActivity;
 import com.bee.user.ui.trade.MiLiActivity;
 import com.bee.user.ui.xiadan.ChooseAddressActivity;
 import com.bee.user.utils.CommonUtil;
@@ -99,22 +99,22 @@ public class MineFragment extends BaseFragment {
                 break;
 
             case R.id.tv_order_list:
-                getContext().startActivity(OrderActivity.newInstance(getContext(),0));
+                getContext().startActivity(OrderListActivity.newInstance(getContext(),0));
                 break;
             case R.id.tv_daizhifu:
-                getContext().startActivity(OrderActivity.newInstance(getContext(),1));
+                getContext().startActivity(OrderListActivity.newInstance(getContext(),1));
                 break;
 
             case R.id.tv_daishouhuo:
-                getContext().startActivity(OrderActivity.newInstance(getContext(),2));
+                getContext().startActivity(OrderListActivity.newInstance(getContext(),2));
                 break;
 
             case R.id.tv_daipingjia:
-                getContext().startActivity(OrderActivity.newInstance(getContext(),3));
+                getContext().startActivity(OrderListActivity.newInstance(getContext(),3));
                 break;
 
             case R.id.tv_shouhou:
-                getContext().startActivity(OrderActivity.newInstance(getContext(),4));
+                getContext().startActivity(OrderListActivity.newInstance(getContext(),4));
                 break;
 
 

@@ -7,13 +7,9 @@ import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.bean.MyCommentBean;
-import com.bee.user.bean.TradeRecordBean;
 import com.bee.user.entity.MyCommentEntity;
-import com.bee.user.entity.TradeListEntity;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.nearby.CommentActivity;
-import com.bee.user.ui.order.OrderActivity;
-import com.bee.user.ui.order.OrderCommentActivity;
+import com.bee.user.ui.order.OrderListActivity;
 import com.bee.user.utils.CommonUtil;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 
@@ -56,7 +52,7 @@ public class MyCommentActivity extends BaseActivity {
         tv_guangguang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MyCommentActivity.this, OrderActivity.class));
+                startActivity(new Intent(MyCommentActivity.this, OrderListActivity.class));
             }
         });
 

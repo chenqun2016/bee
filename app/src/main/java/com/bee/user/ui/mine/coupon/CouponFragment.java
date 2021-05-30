@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,9 +15,8 @@ import com.bee.user.bean.CardBean;
 import com.bee.user.bean.YouhuiquanBean;
 import com.bee.user.entity.CardEntity;
 import com.bee.user.entity.CouponEntity;
-import com.bee.user.ui.adapter.CouponFootListAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
-import com.bee.user.ui.order.OrderActivity;
+import com.bee.user.ui.order.OrderListActivity;
 import com.bee.user.utils.CommonUtil;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 
@@ -71,7 +69,7 @@ public class CouponFragment extends BaseFragment {
             tv_guangguang.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(getContext(), OrderActivity.class));
+                    startActivity(new Intent(getContext(), OrderListActivity.class));
                 }
             });
 

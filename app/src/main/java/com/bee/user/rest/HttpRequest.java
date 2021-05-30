@@ -49,6 +49,9 @@ public class HttpRequest {
     public static final String submitPreview = "auth/submitPreview";
     //下单
     public static final String ordering ="auth/generateOrder";
+    //订单列表
+    public static final String orderList ="auth/order/list";
+
 
     //添加至购物车
     public static final String addToCart = "cart/addToCart";

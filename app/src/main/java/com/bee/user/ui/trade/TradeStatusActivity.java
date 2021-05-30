@@ -1,17 +1,11 @@
 package com.bee.user.ui.trade;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bee.user.R;
-import com.bee.user.event.CloseEvent;
-import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.order.OrderActivity;
-
-import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
