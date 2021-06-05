@@ -217,6 +217,7 @@ public class OrderingConfirmBean {
          * products : [{"productSkuId":1135,"productId":26,"productName":"石锅拌饭","price":19,"quantity":null,"productPic":"http://quxianfeng.oss-cn-shanghai.aliyuncs.com/13d25a3e-499e-445d-ba87-0e14d8ff797b?Expires=33147301674&OSSAccessKeyId=LTAI4G2Km1Dj8K2wke5urowk&Signature=fLzy5PIEEkNPoeJ9k9OUQs1El3A%3D","productAttr":null}]
          */
 
+        public String feightTemplateDetail;
         private int storeId;
         private Object storeName;
         private CalcAmountBean calcAmount;

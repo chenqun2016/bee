@@ -19,7 +19,6 @@ import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.AddressBean2;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.OrderingConfirmBean;
-import com.bee.user.bean.StoreBean;
 import com.bee.user.event.CloseEvent;
 import com.bee.user.event.OrderingEvent;
 import com.bee.user.params.OrderPreParams;
@@ -44,7 +43,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -119,9 +117,11 @@ public class OrderingActivity extends BaseActivity {
         }
     }
 
-    public static Intent newIntent(Context context, List<StoreBean> datas) {
+    public static Intent newIntent(Context context, int operationType,ArrayList<Integer> ids,ArrayList<Integer> storeIds) {
         Intent intent = new Intent(context, OrderingActivity.class);
-        intent.putExtra("data", (Serializable) datas);
+        intent.putExtra("operationType",operationType);
+        intent.putIntegerArrayListExtra("ids",ids);
+        intent.putIntegerArrayListExtra("storeIds",storeIds);
         return intent;
     }
 
@@ -447,14 +447,15 @@ public class OrderingActivity extends BaseActivity {
         orderingParams.addressId = mAddress.getId();
 
         int feightTemplateDetailId =0 ;
-        try{
-            Integer storeId = storeIds.get(0);
+        List<OrderingParams.FeightTemplateModel> feightTemplateModels = new ArrayList<>();
+        for(Integer storeId : storeIds){
             ChooseTimeBean chooseTimeBean = timeBeanHashMaps.get(storeId+"");
-            feightTemplateDetailId = chooseTimeBean.getCurrent();
-        }catch (Exception e){
-            e.printStackTrace();
+            if(null != chooseTimeBean){
+                feightTemplateDetailId = chooseTimeBean.getCurrent();
+            }
+            feightTemplateModels.add(new OrderingParams.FeightTemplateModel(feightTemplateDetailId,storeId));
         }
-        orderingParams.feightTemplateDetailId = feightTemplateDetailId;
+        orderingParams.feightTemplateModels = feightTemplateModels;
         orderingParams.note = tv_beizhu.getText().toString();
         orderingParams.operationType = operationType+"";
         orderingParams.cartItemIds = cartIds1.toArray(new Integer[]{});
@@ -556,7 +557,7 @@ public class OrderingActivity extends BaseActivity {
                                     chooseTimeBean.   mCurrentChooseTimeBean = item;
                                 }
                             }
-
+                            setTimeView(storeId,chooseTimeBean.mCurrentChooseTimeBean);
                         }
                     });
 
@@ -588,6 +589,15 @@ public class OrderingActivity extends BaseActivity {
             baseDialog.show();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void setTimeView(String storeId, ChooseTimeBean.ChooseTimeItemBean mCurrentChooseTimeBean) {
+        List<OrderingConfirmBean.StoreOrderConfirmItemsBean> data = orderingAdapter.getData();
+        for(OrderingConfirmBean.StoreOrderConfirmItemsBean bean :data){
+            if(storeId.equals(bean.getStoreId()+"")){
+                bean.feightTemplateDetail = mCurrentChooseTimeBean.arriveTime;
+            }
         }
     }
 

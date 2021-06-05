@@ -35,7 +35,7 @@ public class OrderingAdapter extends BaseQuickAdapter<OrderingConfirmBean.StoreO
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, OrderingConfirmBean.StoreOrderConfirmItemsBean storeBean) {
-        View tv_time_value = baseViewHolder.findView(R.id.tv_time_value);
+        TextView tv_time_value = baseViewHolder.findView(R.id.tv_time_value);
         if(isSingleStore){
             tv_time_value.setVisibility(View.GONE);
         }else{
@@ -46,6 +46,7 @@ public class OrderingAdapter extends BaseQuickAdapter<OrderingConfirmBean.StoreO
                     EventBus.getDefault().post(new OrderingEvent(storeBean.getStoreId()+""));
                 }
             });
+            tv_time_value.setText(storeBean.feightTemplateDetail+"");
         }
 
 

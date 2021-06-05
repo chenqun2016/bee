@@ -90,6 +90,12 @@ public class StoreFragment extends BaseFragment {
         for (int i = 0; i < mDatas.size(); i++) {
             StoreFoodItem2Bean bean = mDatas.get(i);
 
+            if(i != 0 && TextUtils.isEmpty(mDatas.get(i - 1).shopProductCategoryName)){
+                mDatas.get(i - 1).shopProductCategoryName = "";
+            }
+            if(TextUtils.isEmpty(bean.shopProductCategoryName)){
+                bean.shopProductCategoryName = "";
+            }
 
             if (i == 0 || !mDatas.get(i - 1).shopProductCategoryName.equals(bean.shopProductCategoryName)) {
                 ElemeGroupedItem elemeGroupedItem = new ElemeGroupedItem(true, bean.shopProductCategoryName);

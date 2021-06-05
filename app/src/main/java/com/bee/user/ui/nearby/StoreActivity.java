@@ -168,11 +168,7 @@ public class StoreActivity extends BaseActivity {
                         }
                     }
                 }
-                Intent intent = new Intent(this, OrderingActivity.class);
-                intent.putExtra("operationType",2);
-                intent.putIntegerArrayListExtra("ids",intss);
-                intent.putIntegerArrayListExtra("storeIds",storeIds);
-                startActivity(intent);
+                startActivity(OrderingActivity.newIntent(this,2,intss,storeIds));
                 break;
             case R.id.cl_qujiesuan:
                 chart_bottom_dialog_view.showSelectedDialog();

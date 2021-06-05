@@ -1,5 +1,7 @@
 package com.bee.user.params;
 
+import java.util.List;
+
 /**
  * 创建时间：2021/5/15
  * 编写人： 陈陈陈
@@ -14,7 +16,7 @@ public class OrderingParams {
     //商品购物车Ids（操作类型:[2.商品详情]时为必要参数）
     public Integer[] cartItemIds;
     //配送模板 明细Id
-    public int feightTemplateDetailId ;
+    public List<FeightTemplateModel> feightTemplateModels ;
     //订单备注
     public String note;
     //操作类型:[1.商品详情;2.勾选购物车;3.全部购物车的商品;6.秒杀(暂不支持)]
@@ -32,4 +34,15 @@ public class OrderingParams {
     public int pickupWay;
     //订单来源:[0.PC订单;1.商品详情;2.h5;3.微信小程序;4.支付宝小程序;5.app订单]
     public int sourceType ;
+
+
+    public static class FeightTemplateModel{
+        public int feightTemplateDetailId;
+        public int storeId;
+
+        public FeightTemplateModel(int feightTemplateDetailId, int storeId) {
+            this.feightTemplateDetailId = feightTemplateDetailId;
+            this.storeId = storeId;
+        }
+    }
 }

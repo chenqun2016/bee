@@ -154,7 +154,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mContext.startActivity(OrderingActivity.newIntent(mContext, new ArrayList<StoreBean>()));
+                        mContext. startActivity(OrderingActivity.newIntent(mContext,0,new ArrayList<>(),new ArrayList<>()));
                     }
                 });
 

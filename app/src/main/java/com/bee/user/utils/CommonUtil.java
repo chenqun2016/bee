@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.Constants;
 import com.bee.user.R;
-import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.ImageBean;
 import com.bee.user.bean.OrderGridviewItemBean;
@@ -41,7 +40,6 @@ import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.ui.xiadan.PayActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
@@ -143,7 +141,7 @@ public class CommonUtil {
             Intent intent;
             switch (type){
                 case OrderGridviewItemBean.TYPE_reOrder://再来一单
-                    activity. startActivity(OrderingActivity.newIntent(activity,new ArrayList<StoreBean>()));
+                    activity. startActivity(OrderingActivity.newIntent(activity,0,new ArrayList<>(),new ArrayList<>()));
                     break;
                 case OrderGridviewItemBean.TYPE_comment://评价得积分
                     intent = new Intent(activity, OrderCommentActivity.class);
