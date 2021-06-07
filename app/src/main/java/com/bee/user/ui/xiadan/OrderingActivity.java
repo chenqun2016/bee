@@ -448,12 +448,14 @@ public class OrderingActivity extends BaseActivity {
 
         int feightTemplateDetailId =0 ;
         List<OrderingParams.FeightTemplateModel> feightTemplateModels = new ArrayList<>();
-        for(Integer storeId : storeIds){
-            ChooseTimeBean chooseTimeBean = timeBeanHashMaps.get(storeId+"");
-            if(null != chooseTimeBean){
-                feightTemplateDetailId = chooseTimeBean.getCurrent();
+
+        for(int i=0;i<storeIds.size();i++){
+            List<OrderingConfirmBean.StoreOrderConfirmItemsBean> data = orderingAdapter.getData();
+            OrderingConfirmBean.StoreOrderConfirmItemsBean bean = data.get(i);
+            if(null != bean){
+                feightTemplateDetailId = bean.feightTemplateDetailId;
             }
-            feightTemplateModels.add(new OrderingParams.FeightTemplateModel(feightTemplateDetailId,storeId));
+            feightTemplateModels.add(new OrderingParams.FeightTemplateModel(feightTemplateDetailId,storeIds.get(i)));
         }
         orderingParams.feightTemplateModels = feightTemplateModels;
         orderingParams.note = tv_beizhu.getText().toString();
@@ -557,7 +559,7 @@ public class OrderingActivity extends BaseActivity {
                                     chooseTimeBean.   mCurrentChooseTimeBean = item;
                                 }
                             }
-                            setTimeView(storeId,chooseTimeBean.mCurrentChooseTimeBean);
+                            setTimeView(storeId,chooseTimeBean.mCurrentChooseTimeBean,chooseTimeBean.pre >= 0?0:1);
                         }
                     });
 
@@ -592,15 +594,18 @@ public class OrderingActivity extends BaseActivity {
         }
     }
 
-    private void setTimeView(String storeId, ChooseTimeBean.ChooseTimeItemBean mCurrentChooseTimeBean) {
+    private void setTimeView(String storeId, ChooseTimeBean.ChooseTimeItemBean mCurrentChooseTimeBean,int day) {
         List<OrderingConfirmBean.StoreOrderConfirmItemsBean> data = orderingAdapter.getData();
-        for(OrderingConfirmBean.StoreOrderConfirmItemsBean bean :data){
-            if(storeId.equals(bean.getStoreId()+"")){
-                bean.feightTemplateDetail = mCurrentChooseTimeBean.arriveTime;
+        for(int i=0;i<data.size();i++){
+            if(storeId.equals(data.get(i).getStoreId()+"")){
+                data.get(i).feightTemplateDetail = mCurrentChooseTimeBean.arriveTime;
+                data.get(i).feightTemplateDetailId = mCurrentChooseTimeBean.feightTemplateDetailId;
+                data.get(i).currentDay = day;
+                orderingAdapter.notifyItemChanged(i+orderingAdapter.getHeaderLayoutCount());
+                return;
             }
         }
     }
-
 
     private void setAddressView() {
         tv_dizhi.setText(mAddress.getDetailAddress());

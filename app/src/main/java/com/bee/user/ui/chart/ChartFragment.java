@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import com.bee.user.R;
 import com.bee.user.bean.AddressBean2;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.HomeBean;
+import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -43,6 +45,8 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,9 +86,13 @@ public class ChartFragment extends BaseFragment {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
+    @BindView(R.id.tv_heji_money)
+    TextView tv_heji_money;
 
     @BindView(R.id.checkbox)
     CheckBox checkbox;
+
+
 
     private  ChartAdapter adapter;
 
@@ -115,16 +123,6 @@ public class ChartFragment extends BaseFragment {
                 break;
 
             case R.id.tv_clear:
-                adapter.setNewInstance(new ArrayList<>());
-
-
-                ll_nonet.setVisibility(View.GONE);
-                ll_nodata.setVisibility(View.VISIBLE);
-                ll_havedata.setVisibility(View.GONE);
-
-//                initNoNet();
-                initNoDatas();
-//                initDatas();
 
                 List<String> ints = new ArrayList<String>();
                 for(ChartBean bean: mAvalableBeans){
@@ -137,7 +135,15 @@ public class ChartFragment extends BaseFragment {
                         .subscribe(new BaseSubscriber<String>() {
                             @Override
                             public void onSuccess(String s) {
+                                adapter.setNewInstance(new ArrayList<>());
 
+                                ll_nonet.setVisibility(View.GONE);
+                                ll_nodata.setVisibility(View.VISIBLE);
+                                ll_havedata.setVisibility(View.GONE);
+
+//                initNoNet();
+                                initNoDatas();
+//                initDatas();
 
                             }
 
@@ -161,6 +167,7 @@ public class ChartFragment extends BaseFragment {
     @Override public void onDestroyView() {
         super.onDestroyView();
         bind.unbind();
+        EventBus.getDefault().unregister(this);
     }
 
     @Nullable
@@ -177,9 +184,11 @@ public class ChartFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        EventBus.getDefault().register(this);
         initViews();
 
     }
+
 
     private void initViews() {
         ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
@@ -442,5 +451,11 @@ public class ChartFragment extends BaseFragment {
         homeBeans.add(new HomeBean());
         homeBeans.add(new HomeBean());
         homeAdapter.setNewInstance(homeBeans);
+    }
+    private int totalMoney;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onChartFragmentEvent(ChartFragmentEvent event) {
+        totalMoney += event.money;
+        tv_heji_money.setText("¥"+totalMoney);
     }
 }

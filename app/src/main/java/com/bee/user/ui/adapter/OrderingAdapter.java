@@ -46,12 +46,8 @@ public class OrderingAdapter extends BaseQuickAdapter<OrderingConfirmBean.StoreO
                     EventBus.getDefault().post(new OrderingEvent(storeBean.getStoreId()+""));
                 }
             });
-            tv_time_value.setText(storeBean.feightTemplateDetail+"");
+            tv_time_value.setText("大约"+(storeBean.currentDay==0?"今天":"明天")+storeBean.feightTemplateDetail+"送到");
         }
-
-
-
-
 
         TextView tv_store = baseViewHolder.findView(R.id.tv_store);
         tv_store.setText(""+storeBean.getStoreName());

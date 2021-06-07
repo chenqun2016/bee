@@ -64,7 +64,6 @@ public class ChartAdapter extends BaseQuickAdapter<List<ChartBean>, BaseViewHold
                     bean.isSelected = b;
                 }
                 chartFoodItemAdapter.notifyDataSetChanged();
-
             }
         });
 
@@ -83,7 +82,7 @@ public class ChartAdapter extends BaseQuickAdapter<List<ChartBean>, BaseViewHold
                         .subscribe(new BaseSubscriber<String>() {
                             @Override
                             public void onSuccess(String s) {
-
+                                ChartAdapter.this.remove(storeBean);
 
                             }
 
