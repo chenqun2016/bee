@@ -26,6 +26,7 @@ import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.event.AddChartEvent;
+import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.event.CloseEvent;
 import com.bee.user.event.ReflushStoreChartEvent;
 import com.bee.user.event.StoreEvent;
@@ -81,7 +82,6 @@ public class StoreActivity extends BaseActivity {
     View background;
 
 
-
     //titlebar
     @BindView(R.id.iv_back)
     ImageView iv_back;
@@ -95,7 +95,6 @@ public class StoreActivity extends BaseActivity {
     ImageView iv_more;
     @BindView(R.id.tv_dingwei)
     ImageView tv_dingwei;
-
 
 
     //商家信息
@@ -113,18 +112,15 @@ public class StoreActivity extends BaseActivity {
     TextView tv_sells;
 
 
-
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager2 vp;
 
 
-
     //底部dialog
     @BindView(R.id.chart_bottom_dialog_view)
     ChartBottomDialogView chart_bottom_dialog_view;
-
 
 
     //去结算
@@ -147,28 +143,31 @@ public class StoreActivity extends BaseActivity {
     private Fragment[] mFragments;
     String[] titles = new String[]{"菜单", "评价", "商家"};
 
-    private  String id;
+    private String id;
+
+    //只要有改变就刷新购物车数据
+    private boolean isChanged = false;
     //购物车
-    private HashMap<String,AddChartBean> hashMap = new LinkedHashMap<>();
+    private HashMap<String, AddChartBean> hashMap = new LinkedHashMap<>();
     StoreDetailBean storeDetailBean;
 
-    @OnClick({R.id.tv_confirm,R.id.cl_qujiesuan, R.id.tv_dingwei,
-    R.id.tv_search_1,R.id.iv_search})
+    @OnClick({R.id.tv_confirm, R.id.cl_qujiesuan, R.id.tv_dingwei,
+            R.id.tv_search_1, R.id.iv_search})
     public void onClick(View view) {
         switch (view.getId()) {
 
             case R.id.tv_confirm:
                 ArrayList<Integer> intss = new ArrayList<>();
                 ArrayList<Integer> storeIds = new ArrayList<>();
-                if(null != hashMap){
-                    for(AddChartBean bean : hashMap.values()){
+                if (null != hashMap) {
+                    for (AddChartBean bean : hashMap.values()) {
                         intss.add(bean.cartItemId);
-                        if(!storeIds.contains(bean.storeId)){
+                        if (!storeIds.contains(bean.storeId)) {
                             storeIds.add(bean.storeId);
                         }
                     }
                 }
-                startActivity(OrderingActivity.newIntent(this,2,intss,storeIds));
+                startActivity(OrderingActivity.newIntent(this, 2, intss, storeIds));
                 break;
             case R.id.cl_qujiesuan:
                 chart_bottom_dialog_view.showSelectedDialog();
@@ -198,6 +197,9 @@ public class StoreActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (isChanged) {
+            EventBus.getDefault().post(new ChartFragmentEvent(ChartFragmentEvent.TYPE_REFLUSH));
+        }
     }
 
     @Override
@@ -300,8 +302,7 @@ public class StoreActivity extends BaseActivity {
     private void getDatas() {
 
 
-
-        Api.getClient(HttpRequest.baseUrl_shop).shop_getDetail(id) .subscribeOn(Schedulers.io())
+        Api.getClient(HttpRequest.baseUrl_shop).shop_getDetail(id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<StoreDetailBean>() {
                     @Override
@@ -315,32 +316,26 @@ public class StoreActivity extends BaseActivity {
                         super.onFail(fail);
                     }
                 });
-
-
         //TODO
         List<String> integers = new ArrayList<>();
         integers.add(id);
         //TODO
-        Api.getClient(HttpRequest.baseUrl_member).getCart(0,integers)
+        Api.getClient(HttpRequest.baseUrl_member).getCart(0, integers)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<List<ChartBean>>() {
                     @Override
                     public void onSuccess(List<ChartBean> beans) {
                         chart_bottom_dialog_view.reflushAdapter(beans);
-
-
-                        for(ChartBean bean :beans){
-                            if(bean.getQuantity() > 0){
-                                AddChartBean addCartBean = new AddChartBean(bean.getQuantity(),bean.getProductSkuId(),bean.getStoreId(),BigDecimal.valueOf(bean.getPrice()),bean.getId());
-                                hashMap.put(bean.getProductSkuId()+"",addCartBean);
-                            }else{
-                                hashMap.remove(bean.getProductSkuId()+"");
+                        for (ChartBean bean : beans) {
+                            if (bean.getQuantity() > 0) {
+                                AddChartBean addCartBean = new AddChartBean(bean.getQuantity(), bean.getProductSkuId(), bean.getStoreId(), BigDecimal.valueOf(bean.getPrice()), bean.getId());
+                                hashMap.put(bean.getProductSkuId() + "", addCartBean);
+                            } else {
+                                hashMap.remove(bean.getProductSkuId() + "");
                             }
                         }
-
                         resetView();
-
                         getfragment1Datas();
                     }
 
@@ -351,7 +346,7 @@ public class StoreActivity extends BaseActivity {
                 });
     }
 
-    private void getfragment1Datas(){
+    private void getfragment1Datas() {
         Api.getClient(HttpRequest.baseUrl_shop)
                 .shop_queryProductList(id + "")
                 .subscribeOn(Schedulers.io())
@@ -406,17 +401,15 @@ public class StoreActivity extends BaseActivity {
         Picasso.with(this)
                 .load(storeDetailBean.getLogoUrl())
                 .fit()
-                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this,5),0, PicassoRoundTransform.CornerType.ALL))
+                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this, 5), 0, PicassoRoundTransform.CornerType.ALL))
                 .into(iv_icon);
         CommonUtil.initTAGViews(ll_mark);
 
         tv_title.setText(storeDetailBean.getName());
-        tv_distance.setText(storeDetailBean.getDistance()+"公里");
-        tv_time.setText("大约"+storeDetailBean.getDuration()+"分钟");
-        tv_sells.setText("月销"+storeDetailBean.getMonthSalesCount());
+        tv_distance.setText(storeDetailBean.getDistance() + "公里");
+        tv_time.setText("大约" + storeDetailBean.getDuration() + "分钟");
+        tv_sells.setText("月销" + storeDetailBean.getMonthSalesCount());
     }
-
-
 
 
     private void showChooseTypeDialog() {
@@ -465,8 +458,6 @@ public class StoreActivity extends BaseActivity {
     }
 
 
-
-
     final class FragmentAdapter extends FragmentStateAdapter {
 
 
@@ -495,7 +486,7 @@ public class StoreActivity extends BaseActivity {
         switch (index) {
             case 0:
 
-                fragment = StoreFragment.newInstance(DisplayUtil.getWindowHeight(this) - app_barbar.getMeasuredHeight(),id);
+                fragment = StoreFragment.newInstance(DisplayUtil.getWindowHeight(this) - app_barbar.getMeasuredHeight(), id);
                 break;
             case 1:
                 fragment = new CommentFragment();
@@ -511,10 +502,10 @@ public class StoreActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onStoreEvent(StoreEvent event) {
-        if(event.type == StoreEvent.TYPE_START_ACTIVITY){
-            event.intent.putExtra("data",storeDetailBean);
+        if (event.type == StoreEvent.TYPE_START_ACTIVITY) {
+            event.intent.putExtra("data", storeDetailBean);
             startActivity(event.intent);
-        }else{
+        } else {
             showChooseTypeDialog();
         }
 
@@ -530,14 +521,16 @@ public class StoreActivity extends BaseActivity {
     public void onReflushStoreChartEvent(ReflushStoreChartEvent event) {
 
     }
+
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAddChartEvent(AddChartEvent event) {
 
         AddChartBean addChartBean = event.addChartBean;
         Map<String, String> map = new HashMap<>();
         map.put("num", "1");
-        map.put("skuId", addChartBean.skuId+"");
-        map.put("storeId", addChartBean.storeId+"");
+        map.put("skuId", addChartBean.skuId + "");
+        map.put("storeId", addChartBean.storeId + "");
 //        map.put("skuId", "1032");//"16     1030,1032"  "1077 1078  1079    9"
 //        map.put("storeId", "16");
         Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
@@ -546,15 +539,14 @@ public class StoreActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<AddCartBean>() {
                     @Override
                     public void onSuccess(AddCartBean userBean) {
+                        isChanged = true;
                         //添加购物车id
                         addChartBean.cartItemId = userBean.getId();
-                        if(addChartBean.num > 0){
-                            hashMap.put(addChartBean.skuId+"",addChartBean);
-                        }else{
-                            hashMap.remove(addChartBean.skuId+"");
+                        if (addChartBean.num > 0) {
+                            hashMap.put(addChartBean.skuId + "", addChartBean);
+                        } else {
+                            hashMap.remove(addChartBean.skuId + "");
                         }
-
-
                         resetView();
                     }
 
@@ -563,34 +555,30 @@ public class StoreActivity extends BaseActivity {
                         super.onFail(fail);
                     }
                 });
-
-
-
-
     }
 
     private void resetView() {
         Set<Map.Entry<String, AddChartBean>> entries = hashMap.entrySet();
 
         int total = 0;
-        float totalMoney =  0;
-        for (Map.Entry<String, AddChartBean> entry : entries){
+        float totalMoney = 0;
+        for (Map.Entry<String, AddChartBean> entry : entries) {
             total += entry.getValue().num;
             totalMoney += entry.getValue().money.multiply(new BigDecimal(entry.getValue().num)).floatValue();
         }
 
-        if(total > 0){
-            tv_xuangou_tag.setText(total+"");
+        if (total > 0) {
+            tv_xuangou_tag.setText(total + "");
             tv_heji.setText("合计");
             tv_heji_money_pre.setVisibility(View.VISIBLE);
             tv_heji_money.setVisibility(View.VISIBLE);
-            tv_heji_money.setText(totalMoney+"");
+            tv_heji_money.setText(totalMoney + "");
 //            tv_des.setText("");
             tv_confirm.setBackgroundResource(R.drawable.btn_gradient_yellow_round);
             tv_confirm.setEnabled(true);
             cl_qujiesuan.setEnabled(true);
-        }else{
-            tv_xuangou_tag.setText(total+"");
+        } else {
+            tv_xuangou_tag.setText(total + "");
             tv_heji.setText("未选购商品");
             tv_heji_money_pre.setVisibility(View.INVISIBLE);
             tv_heji_money.setVisibility(View.INVISIBLE);

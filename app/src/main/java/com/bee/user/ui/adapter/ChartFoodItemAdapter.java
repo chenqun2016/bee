@@ -79,20 +79,20 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
         });
 
         CheckBox cb_1 = holder.findView(R.id.cb_1);
-        cb_1.setChecked(foodBean.isSelected);
         cb_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 foodBean.isSelected = isChecked;
-
                 int totalMoney = 0;
                 if(isChecked){
                     totalMoney += foodBean.getPrice()*foodBean.getQuantity();
                 }else{
                     totalMoney -= foodBean.getPrice()*foodBean.getQuantity();
                 }
-                EventBus.getDefault().post(new ChartFragmentEvent(totalMoney));
+                EventBus.getDefault().post(new ChartFragmentEvent(ChartFragmentEvent.TYPE_MONEY,totalMoney));
             }
         });
+
+        cb_1.setChecked(foodBean.isSelected);
     }
 }

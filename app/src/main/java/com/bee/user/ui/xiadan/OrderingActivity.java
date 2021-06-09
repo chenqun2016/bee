@@ -190,7 +190,11 @@ public class OrderingActivity extends BaseActivity {
 
     private void setDatas(OrderingConfirmBean userBean) {
         orderingAdapter.setNewInstance(userBean.getStoreOrderConfirmItems());
-        tv_heji_money.setText(userBean.getCalcAmount()+"");
+        int totalMoney = 0;
+        for(OrderingConfirmBean.StoreOrderConfirmItemsBean bean : userBean.getStoreOrderConfirmItems()){
+            totalMoney += bean.getCalcAmount().getTotalAmount();
+        }
+        tv_heji_money.setText("¥"+totalMoney);
     }
 
     private void getDatas() {
@@ -595,14 +599,18 @@ public class OrderingActivity extends BaseActivity {
     }
 
     private void setTimeView(String storeId, ChooseTimeBean.ChooseTimeItemBean mCurrentChooseTimeBean,int day) {
-        List<OrderingConfirmBean.StoreOrderConfirmItemsBean> data = orderingAdapter.getData();
-        for(int i=0;i<data.size();i++){
-            if(storeId.equals(data.get(i).getStoreId()+"")){
-                data.get(i).feightTemplateDetail = mCurrentChooseTimeBean.arriveTime;
-                data.get(i).feightTemplateDetailId = mCurrentChooseTimeBean.feightTemplateDetailId;
-                data.get(i).currentDay = day;
-                orderingAdapter.notifyItemChanged(i+orderingAdapter.getHeaderLayoutCount());
-                return;
+        if(isSingle){
+            tv_time_value.setText("大约"+(day ==0?"今天":"明天")+mCurrentChooseTimeBean.arriveTime+"送到");
+        }else{
+            List<OrderingConfirmBean.StoreOrderConfirmItemsBean> data = orderingAdapter.getData();
+            for(int i=0;i<data.size();i++){
+                if(storeId.equals(data.get(i).getStoreId()+"")){
+                    data.get(i).feightTemplateDetail = mCurrentChooseTimeBean.arriveTime;
+                    data.get(i).feightTemplateDetailId = mCurrentChooseTimeBean.feightTemplateDetailId;
+                    data.get(i).currentDay = day;
+                    orderingAdapter.notifyItemChanged(i+orderingAdapter.getHeaderLayoutCount());
+                    return;
+                }
             }
         }
     }

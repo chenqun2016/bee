@@ -97,7 +97,7 @@
 -keep class com.bee.user.bean.** {*;}
 -keep class com.bee.user.entity.** {*;}
 -keep class com.bee.user.event.** {*;}
-
+-keep class com.bee.user.params.** {*;}
 
 # 状态栏,导航栏 管理工具ImmersionBar
  -keep class com.gyf.immersionbar.* {*;}

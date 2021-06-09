@@ -38,6 +38,7 @@ import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.utils.NetWorkUtil;
+import com.bee.user.utils.ToastUtil;
 import com.bee.user.widget.ChartNoDataDrawerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -110,13 +111,23 @@ public class ChartFragment extends BaseFragment {
             case R.id.tv_confirm:
                 if(null != mAvalableBeans){
                     ArrayList<Integer> intss = new ArrayList<>();
+                    ArrayList<Integer>  storeIds = new ArrayList<>();
                     for(int i = 0; i< mAvalableBeans.size(); i++){
-                        intss.add(mAvalableBeans.get(i).getId());
+                        if(mAvalableBeans.get(i).isSelected){
+                            intss.add(mAvalableBeans.get(i).getId());
+                            if(!storeIds.contains(mAvalableBeans.get(i).getStoreId())){
+                                storeIds.add(mAvalableBeans.get(i).getStoreId());
+                            }
+                        }
+                    }
+                    if(intss.size()==0){
+                        ToastUtil.showSafeToast(getActivity(),"请选择商品");
+                        return;
                     }
                     Intent intent = new Intent(getContext(), OrderingActivity.class);
                     intent.putExtra("operationType",2);
                     intent.putExtra("ids",intss);
-                    intent.putIntegerArrayListExtra("storeIds",new ArrayList<>(integerListHashMap.keySet()));
+                    intent.putIntegerArrayListExtra("storeIds",storeIds);
                     startActivity(intent);
                 }
 
@@ -256,10 +267,19 @@ public class ChartFragment extends BaseFragment {
 
                 switch (view.getId()){
                     case R.id.tv_store:
-                        startActivity(new Intent(getContext(), StoreActivity.class));
+                        Intent intent = new Intent(getContext(), StoreActivity.class);
+                        List<ChartBean> data = (List<ChartBean>) adapter.getData().get(position);
+
+                        if(null != data && null != data.get(0)){
+                            intent.putExtra("id",data.get(0).getStoreId()+"");
+                        }
+
+                        startActivity(intent);
                         break;
                     case R.id.tv_clear:
                         adapter.removeAt(position);
+                        break;
+                    default:
                         break;
                 }
             }
@@ -455,7 +475,16 @@ public class ChartFragment extends BaseFragment {
     private int totalMoney;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onChartFragmentEvent(ChartFragmentEvent event) {
-        totalMoney += event.money;
-        tv_heji_money.setText("¥"+totalMoney);
+        switch (event.type){
+            case ChartFragmentEvent.TYPE_MONEY:
+                totalMoney += event.money;
+                tv_heji_money.setText("¥"+totalMoney);
+                break;
+            case ChartFragmentEvent.TYPE_REFLUSH:
+                loadmoreUtils.reSetPageInfo();
+                getAddress();
+                break;
+        }
+
     }
 }

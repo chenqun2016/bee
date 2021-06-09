@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.ChartBean;
+import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -17,6 +18,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
+import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -57,6 +59,7 @@ public class ChartAdapter extends BaseQuickAdapter<List<ChartBean>, BaseViewHold
 
 
         CheckBox cb_1 = holder.findView(R.id.cb_1);
+        cb_1.setChecked(chartBean.selectedAll);
         cb_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -66,9 +69,6 @@ public class ChartAdapter extends BaseQuickAdapter<List<ChartBean>, BaseViewHold
                 chartFoodItemAdapter.notifyDataSetChanged();
             }
         });
-
-        cb_1.setChecked(chartBean.selectedAll);
-
 
         holder.findView(R.id.tv_clear).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +83,9 @@ public class ChartAdapter extends BaseQuickAdapter<List<ChartBean>, BaseViewHold
                             @Override
                             public void onSuccess(String s) {
                                 ChartAdapter.this.remove(storeBean);
-
+                                if(ChartAdapter.this.getData().size()==0){
+                                    EventBus.getDefault().post(new ChartFragmentEvent(ChartFragmentEvent.TYPE_REFLUSH));
+                                }
                             }
 
                             @Override

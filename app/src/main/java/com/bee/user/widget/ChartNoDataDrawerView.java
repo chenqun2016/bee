@@ -74,6 +74,9 @@ public  class ChartNoDataDrawerView extends FrameLayout implements View.OnClickL
     public void setDatas(List<ChartBean> beans){
         chartUnavalabeRecyclerviewAdapter.setNewInstance(beans);
         isShow = false;
+        if(beans.size()<=0){
+            return;
+        }
         ll_drawer.post(new Runnable() {
             @Override
             public void run() {
@@ -91,6 +94,9 @@ public  class ChartNoDataDrawerView extends FrameLayout implements View.OnClickL
 
     public void show() {
         if(isShow){
+            return;
+        }
+        if(heightSelected <= commonHeight){
             return;
         }
         if (null != closeAnimation && closeAnimation.isRunning()) {
@@ -118,6 +124,9 @@ public  class ChartNoDataDrawerView extends FrameLayout implements View.OnClickL
 
     public void close() {
         if(!isShow){
+            return;
+        }
+        if(heightSelected <= commonHeight){
             return;
         }
         if (null == closeAnimation) {

@@ -80,6 +80,10 @@ public class LoadmoreUtils {
         request(mAdapter);
     }
 
+    public void reSetPageInfo(){
+        pageInfo.reset();
+    }
+
     /**
      * 加载更多
      */

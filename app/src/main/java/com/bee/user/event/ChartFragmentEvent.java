@@ -6,9 +6,18 @@ package com.bee.user.event;
  * 功能描述：
  */
 public class ChartFragmentEvent {
+    public static final int TYPE_MONEY = 1;
+    public static final int TYPE_REFLUSH = 2;
+
+    public final int type;
     public int money;
 
-    public ChartFragmentEvent(int money) {
+    public ChartFragmentEvent(int type,int money) {
         this.money = money;
+        this.type = type;
+    }
+
+    public ChartFragmentEvent(int type) {
+        this.type = type;
     }
 }
