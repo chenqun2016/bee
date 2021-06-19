@@ -19,13 +19,10 @@ import com.amap.api.location.AMapLocation;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.CommentBean;
-import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.StoreListBean;
-import com.bee.user.entity.NearbyEntity;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
-import com.bee.user.ui.adapter.CommentAdapter;
 import com.bee.user.ui.adapter.NearbyStoreFoodAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.utils.CommonUtil;
@@ -37,19 +34,15 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.gyf.immersionbar.ImmersionBar;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
@@ -187,7 +180,7 @@ public class NearbyFragment extends BaseFragment {
             Context mContext = iv_icon.getContext();
 
             Picasso.with(mContext)
-                    .load(R.drawable.food2)
+                    .load(bean.logoUrl)
                     .fit()
                     .transform(new PicassoRoundTransform(DisplayUtil.dip2px(mContext,5),0, PicassoRoundTransform.CornerType.ALL))
                     .into(iv_icon);

@@ -1,9 +1,7 @@
 package com.bee.user.ui.order;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -12,30 +10,27 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.Constants;
 import com.bee.user.R;
+import com.bee.user.bean.FoodBean;
+import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderGridviewItemBean;
-import com.bee.user.bean.StoreBean;
-import com.bee.user.bean.TraceBean;
-import com.bee.user.ui.adapter.OrderCancelAdapter;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.OrderDetailAdapter;
 import com.bee.user.ui.adapter.OrderGridviewItemAdapter;
-import com.bee.user.ui.adapter.OrderTraceAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.nearby.CommentActivity;
-import com.bee.user.ui.xiadan.OrderingActivity;
-import com.bee.user.ui.xiadan.PayActivity;
 import com.bee.user.utils.CommonUtil;
+import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.MyGridView;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -46,8 +41,6 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-
-import static com.bee.user.bean.OrderGridviewItemBean.TYPE_reOrder;
 
 /**
  * 创建人：进京赶考
@@ -68,9 +61,12 @@ public class OrderDetailActivity extends BaseActivity {
 
     LinearLayout ll_bottom;
 
+    private OrderDetailAdapter orderingAdapter;
+
     private long time = 10;
     private Disposable subscription;
     private int type;
+    private int id;
 
 
     @OnClick({R.id.tv_title})
@@ -112,17 +108,30 @@ public class OrderDetailActivity extends BaseActivity {
             subscription = null;
         }
     }
+    private void getOrderDetail(){
+        Api.getClient(HttpRequest.baseUrl_order).orderDetail(id).
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<OrderDetailBean>() {
+                    @Override
+                    public void onSuccess(OrderDetailBean orderDetailBean) {
+                        LogUtil.d(orderDetailBean.toString());
+                        orderingAdapter.setNewInstance(caculate(orderDetailBean));
+                    }
+                });
+    }
 
     @Override
     public void initViews() {
         Intent intent = getIntent();
+        id = intent.getIntExtra("id", 0);
         type = intent.getIntExtra("type", 0);
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        OrderDetailAdapter orderingAdapter = new OrderDetailAdapter();
+        orderingAdapter = new OrderDetailAdapter();
         recyclerView.setAdapter(orderingAdapter);
 
 
@@ -181,13 +190,15 @@ public class OrderDetailActivity extends BaseActivity {
 
         CommonUtil.initBuyCardView(head);
 
-        ArrayList<StoreBean> beans = new ArrayList<>();
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
+//        ArrayList<StoreBean> beans = new ArrayList<>();
+//        beans.add(new StoreBean());
+//        beans.add(new StoreBean());
 
         orderingAdapter.addHeaderView(head);
         orderingAdapter.addFooterView(foot);
-        orderingAdapter.setNewInstance(beans);
+
+
+        getOrderDetail();
     }
 
     //退款中
@@ -350,7 +361,23 @@ public class OrderDetailActivity extends BaseActivity {
         bottomSheetDialog.show();
     }
 
+    HashMap<Integer, List<FoodBean>> integerListHashMap = new HashMap<>();
+    private List<List<FoodBean>> caculate(OrderDetailBean beans) {
+        List<FoodBean> list = beans.orderItemList;
 
-
+        integerListHashMap.clear();
+        List<FoodBean> chartBeans = null;
+        for(FoodBean item : list){
+            if(null == integerListHashMap.get(item.storeId)  ){
+                chartBeans = new ArrayList<>();
+                chartBeans.add(item);
+                integerListHashMap.put(item.storeId,chartBeans);
+            }else{
+                List<FoodBean> beans1 = integerListHashMap.get(item.storeId);
+                beans1.add(item);
+            }
+        }
+        return new ArrayList<>(integerListHashMap.values());
+    }
 
 }

@@ -21,6 +21,7 @@ import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.ImageBean;
+import com.bee.user.bean.OrderBean;
 import com.bee.user.bean.OrderGridviewItemBean;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.TraceBean;
@@ -269,16 +270,19 @@ public class CommonUtil {
     }
 
     //订单详情页有两种，
-    public static void showOrderDetailActivity(Context mContext, int type) {
+    public static void showOrderDetailActivity(Context mContext, OrderBean bean) {
+        int type = bean.getOrderItemType();
         if(type == Constants.TYPE_PAY_WAITE ||
                 type == Constants.TYPE_READY ||
                 type == Constants.TYPE_PEISONG ){
             Intent intent = new Intent(mContext, OrderDetailMapActivity.class);
             intent.putExtra("type",type);
+            intent.putExtra("id",bean.id);
             mContext.startActivity(intent);
         }else{
             Intent intent = new Intent(mContext, OrderDetailActivity.class);
             intent.putExtra("type",type);
+            intent.putExtra("id",bean.id);
             mContext.startActivity(intent);
         }
 

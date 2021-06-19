@@ -98,7 +98,7 @@ public class OrderListFragment extends BaseFragment {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
 
-                CommonUtil.showOrderDetailActivity(recyclerview.getContext(),mAdapter.getData().get(position).getOrderItemType());
+                CommonUtil.showOrderDetailActivity(recyclerview.getContext(),mAdapter.getData().get(position));
 
             }
         });

@@ -10,14 +10,11 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,8 +31,8 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.bee.user.Constants;
 import com.bee.user.R;
+import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.OrderGridviewItemBean;
-import com.bee.user.bean.StoreBean;
 import com.bee.user.ui.adapter.OrderDetailAdapter;
 import com.bee.user.ui.adapter.OrderGridviewItemAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
@@ -50,6 +47,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -101,6 +99,8 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
     private long time = 10;
     private Disposable subscription;
 
+    private int id;
+
     @Override
     protected void initImmersionBar() {
         ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
@@ -119,7 +119,8 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
     @Override
     public void initViews() {
         Intent intent = getIntent();
-         type = intent.getIntExtra("type", 0);
+        id = intent.getIntExtra("id", 0);
+        type = intent.getIntExtra("type", 0);
 
         int statusBarHeight = ImmersionBar.getStatusBarHeight(this);
         CollapsingToolbarLayout.LayoutParams layoutParams = (CollapsingToolbarLayout.LayoutParams) toolbar.getLayoutParams();
@@ -221,9 +222,7 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
         }
         CommonUtil.initBuyCardView(head);
 
-        ArrayList<StoreBean> beans = new ArrayList<>();
-        beans.add(new StoreBean());
-        beans.add(new StoreBean());
+        ArrayList<List<FoodBean>> beans = new ArrayList<>();
 
         orderingAdapter.addHeaderView(head);
         orderingAdapter.addFooterView(foot);

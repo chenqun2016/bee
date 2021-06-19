@@ -119,6 +119,8 @@ public class StoreActivity extends BaseActivity {
     @BindView(R.id.tv_sells)
     TextView tv_sells;
 
+    @BindView(R.id.tv_store_bg)
+    ImageView tv_store_bg;
 
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
@@ -415,6 +417,11 @@ public class StoreActivity extends BaseActivity {
                 .fit()
                 .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this, 5), 0, PicassoRoundTransform.CornerType.ALL))
                 .into(iv_icon);
+
+        Picasso.with(this)
+                .load(storeDetailBean.getLogoUrl())
+                .fit()
+                .into(tv_store_bg);
         CommonUtil.initTAGViews(ll_mark);
 
         tv_title.setText(storeDetailBean.getName());

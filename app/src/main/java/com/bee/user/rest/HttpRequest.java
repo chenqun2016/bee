@@ -51,6 +51,8 @@ public class HttpRequest {
     public static final String ordering ="auth/generateOrder";
     //订单列表
     public static final String orderList ="auth/order/list";
+    //订单详情
+    public static final String orderDetail ="auth/detail";
 
 
     //添加至购物车

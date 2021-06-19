@@ -234,20 +234,20 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 aMap.setOnMapClickListener(new AMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
-                        CommonUtil.showOrderDetailActivity(mContext,bean.getOrderItemType());
+                        CommonUtil.showOrderDetailActivity(mContext,bean);
 
                     }
                 });
                 aMap.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
                     @Override
                     public void onInfoWindowClick(Marker marker) {
-                        CommonUtil.showOrderDetailActivity(mContext,bean.getOrderItemType());
+                        CommonUtil.showOrderDetailActivity(mContext,bean);
                     }
                 });
                 aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        CommonUtil.showOrderDetailActivity(mContext,bean.getOrderItemType());
+                        CommonUtil.showOrderDetailActivity(mContext,bean);
                         return true;
                     }
                 });
