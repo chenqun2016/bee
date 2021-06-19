@@ -3,6 +3,7 @@ package com.bee.user.ui.nearby;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,11 +170,22 @@ public class NearbyFragment extends BaseFragment {
             TextView tv_point = helper.getView(R.id.tv_point);
             tv_point.setText("");
             TextView tv_distance = helper.getView(R.id.tv_distance);
-            tv_distance.setText(bean.distance+"");
+            if(!TextUtils.isEmpty(bean.distance)){
+                tv_distance.setText(bean.distance+"");
+            }
+
             TextView tv_time = helper.getView(R.id.tv_time);
-            tv_time.setText(bean.duration);
+
+            if(!TextUtils.isEmpty(bean.duration)){
+                tv_time.setText(bean.duration+"");
+            }
+
             TextView tv_sells = helper.getView(R.id.tv_sells);
-            tv_sells.setText(bean.monthSalesCount);
+
+            if(!TextUtils.isEmpty(bean.monthSalesCount)){
+                tv_sells.setText(bean.monthSalesCount+"");
+            }
+
 
             ImageView iv_icon = helper.getView(R.id.iv_icon);
 

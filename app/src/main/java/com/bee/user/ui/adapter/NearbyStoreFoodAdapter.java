@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.StoreListBean;
 import com.bee.user.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
@@ -46,8 +45,8 @@ public class NearbyStoreFoodAdapter extends RecyclerView.Adapter<NearbyStoreFood
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         StoreListBean.RecordsBean.ProductsBean bean = list.get(position);
 
-        holder.tv_name.setText(bean.name);
-        holder.tv_money.setText(bean.price+"");
+        holder.tv_name.setText(bean.subTitle);
+        holder.tv_money.setText("¥"+bean.price+"");
 
         Picasso.with(holder.iv_image.getContext())
                 .load(bean.pic)

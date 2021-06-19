@@ -146,7 +146,7 @@ public class HomeFragment extends BaseFragment {
         }
         AMapLocation amapLocation = SPUtils.geTinstance().getLocation();
         if(null != amapLocation){
-            tv_dingwei.setText(amapLocation.getPoiName() );
+            tv_dingwei.setText(amapLocation.getAddress() );
         }
 
         UserBean userInfo = SPUtils.geTinstance().getUserInfo();

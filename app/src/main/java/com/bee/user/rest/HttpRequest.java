@@ -18,6 +18,7 @@ public class HttpRequest {
     public static final String baseUrl_goods = baseUrl + "api-goods/";
     public static final String baseUrl_member = baseUrl + "api-member/";
     public static final String baseUrl_order = baseUrl + "api-order/";
+    public static final String baseUrl_sys = baseUrl + "api-user/";
 
 
     public static final String login = "member/login/oneLogin";
@@ -42,6 +43,9 @@ public class HttpRequest {
     //获取默认收货地址
     public static final String getDefaultArea = "address/getDefaultItem";
     public static final String listAddress = "address/listAddress";
+
+    //获取开通城市列表
+    public static final String openCity = "app-sys/openCity";
 
 
 

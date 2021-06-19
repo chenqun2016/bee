@@ -4,6 +4,7 @@ import com.bee.user.bean.AddCartBean;
 import com.bee.user.bean.AddressBean2;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
+import com.bee.user.bean.CityBean;
 import com.bee.user.bean.FoodDetailBean;
 import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderListBean;
@@ -215,5 +216,12 @@ public interface ApiService {
      */
     @POST(HttpRequest.listAddress)
     Observable<BaseResult<List<AddressBean2>>> listAddress();
+
+
+    /**
+     * 获取默认收货地址
+     */
+    @POST(HttpRequest.openCity)
+    Observable<BaseResult<List<CityBean>>> openCity();
 
 }
