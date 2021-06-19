@@ -90,19 +90,19 @@ public class StoreFragment extends BaseFragment {
         for (int i = 0; i < mDatas.size(); i++) {
             StoreFoodItem2Bean bean = mDatas.get(i);
 
-            if(i != 0 && TextUtils.isEmpty(mDatas.get(i - 1).shopProductCategoryName)){
-                mDatas.get(i - 1).shopProductCategoryName = "";
+            if(i != 0 && TextUtils.isEmpty(mDatas.get(i - 1).name)){
+                mDatas.get(i - 1).name = "";
             }
-            if(TextUtils.isEmpty(bean.shopProductCategoryName)){
-                bean.shopProductCategoryName = "";
+            if(TextUtils.isEmpty(bean.name)){
+                bean.name = "";
             }
 
-            if (i == 0 || !mDatas.get(i - 1).shopProductCategoryName.equals(bean.shopProductCategoryName)) {
-                ElemeGroupedItem elemeGroupedItem = new ElemeGroupedItem(true, bean.shopProductCategoryName);
+            if (i == 0 || !mDatas.get(i - 1).name.equals(bean.name)) {
+                ElemeGroupedItem elemeGroupedItem = new ElemeGroupedItem(true, bean.name);
                 mEDatas.add(elemeGroupedItem);
             }
 
-            ElemeGroupedItem.ItemInfo itemInfo = new ElemeGroupedItem.ItemInfo(bean.skuName, bean.shopProductCategoryName, bean);
+            ElemeGroupedItem.ItemInfo itemInfo = new ElemeGroupedItem.ItemInfo(bean.skuName, bean.name, bean);
             if(!TextUtils.isEmpty(bean.cartQuantity)){
                 itemInfo.num = Integer.parseInt(bean.cartQuantity);
             }
@@ -220,7 +220,7 @@ public class StoreFragment extends BaseFragment {
         }
     }
 
-    private static class ElemeSecondaryAdapterConfig implements ILinkageSecondaryAdapterConfig<ElemeGroupedItem.ItemInfo> {
+    private class ElemeSecondaryAdapterConfig implements ILinkageSecondaryAdapterConfig<ElemeGroupedItem.ItemInfo> {
 
         private Context mContext;
 
@@ -283,9 +283,11 @@ public class StoreFragment extends BaseFragment {
                 AddRemoveView iv_goods_add = holder.getView(R.id.iv_goods_add);
                 iv_goods_add.setNum(item.info.num);
 
+                StoreActivity activity = (StoreActivity) StoreFragment.this.getActivity();
+                activity.setAddChartView(iv_goods_add);
                 iv_goods_add.setOnNumChangedListener(new AddRemoveView.OnNumChangedListener() {
                     @Override
-                    public void onNumChangedListener(int num) {
+                    public void onAddListener(int num) {
                         StoreFoodItem2Bean bean = item.info.getBean();
                         int id = 0;
                         if (null != SPUtils.geTinstance().getUserInfo()) {
@@ -293,10 +295,19 @@ public class StoreFragment extends BaseFragment {
                         }
 
                         AddChartBean addChartBean = new AddChartBean(num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price),bean.cartItemId);
-                        AddChartEvent addChartEvent = new AddChartEvent(addChartBean);
+                        AddChartEvent addChartEvent = new AddChartEvent(addChartBean,1);
+                        EventBus.getDefault().post(addChartEvent);
+                    }
+
+                    @Override
+                    public void onRemoveListener(int num) {
+                        StoreFoodItem2Bean bean = item.info.getBean();
+                        AddChartBean addChartBean = new AddChartBean(num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price),bean.cartItemId);
+                        AddChartEvent addChartEvent = new AddChartEvent(addChartBean,0);
                         EventBus.getDefault().post(addChartEvent);
                     }
                 });
+
                 TextView tv_choosetype = holder.getView(R.id.tv_choosetype);
                 tv_choosetype.setOnClickListener(v -> {
 

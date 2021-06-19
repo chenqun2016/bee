@@ -59,7 +59,7 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
         iv_goods_add.setNum(foodBean.getQuantity());
         iv_goods_add.setOnNumChangedListener(new AddRemoveView.OnNumChangedListener() {
             @Override
-            public void onNumChangedListener(int num) {
+            public void onAddListener(int num) {
                 foodBean.setQuantity(num);
                 Api.getClient(HttpRequest.baseUrl_member).updateQuantity(foodBean.getId()+"",num+"").
                         subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
@@ -76,6 +76,26 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
                         });
 
             }
+
+            @Override
+            public void onRemoveListener(int num) {
+                foodBean.setQuantity(num);
+                Api.getClient(HttpRequest.baseUrl_member).updateQuantity(foodBean.getId()+"",num+"").
+                        subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<String>() {
+                            @Override
+                            public void onSuccess(String s) {
+                            }
+
+                            @Override
+                            public void onFail(String fail) {
+                                super.onFail(fail);
+                            }
+                        });
+            }
+
+
         });
 
         CheckBox cb_1 = holder.findView(R.id.cb_1);

@@ -3,6 +3,7 @@ package com.bee.user.ui.nearby;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
+import com.bee.user.widget.AddRemoveView;
 import com.bee.user.widget.ChartBottomDialogView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -65,6 +67,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
@@ -73,6 +76,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * 描述：
  */
 public class StoreActivity extends BaseActivity {
+    @BindView(R.id.fl_content)
+    FrameLayout fl_content;
+    @BindView(R.id.image_xuangou)
+    ImageView image_xuangou;
+
     @BindView(R.id.app_barbar)
     AppBarLayout app_barbar;
 
@@ -138,18 +146,14 @@ public class StoreActivity extends BaseActivity {
     TextView tv_des;
     @BindView(R.id.tv_confirm)
     TextView tv_confirm;
-
-
-    private Fragment[] mFragments;
     String[] titles = new String[]{"菜单", "评价", "商家"};
-
+    StoreDetailBean storeDetailBean;
+    private Fragment[] mFragments;
     private String id;
-
     //只要有改变就刷新购物车数据
     private boolean isChanged = false;
     //购物车
     private HashMap<String, AddChartBean> hashMap = new LinkedHashMap<>();
-    StoreDetailBean storeDetailBean;
 
     @OnClick({R.id.tv_confirm, R.id.cl_qujiesuan, R.id.tv_dingwei,
             R.id.tv_search_1, R.id.iv_search})
@@ -346,6 +350,7 @@ public class StoreActivity extends BaseActivity {
                 });
     }
 
+
     private void getfragment1Datas() {
         Api.getClient(HttpRequest.baseUrl_shop)
                 .shop_queryProductList(id + "")
@@ -364,7 +369,16 @@ public class StoreActivity extends BaseActivity {
                                 map.put("shopProductCategoryId", bean.getId() + "");
                                 map.put("storeId", bean.getStoreId() + "");
 
-                                observables.add(Api.getClient(HttpRequest.baseUrl_goods).findShopProducts(Api.getRequestBody(map)));
+                                observables.add(Api.getClient(HttpRequest.baseUrl_goods).findShopProducts(Api.getRequestBody(map)).map(new Function<BaseResult<List<StoreFoodItem2Bean>>, BaseResult<List<StoreFoodItem2Bean>>>() {
+                                    @Override
+                                    public BaseResult<List<StoreFoodItem2Bean>> apply(BaseResult<List<StoreFoodItem2Bean>> listBaseResult) throws Throwable {
+                                        List<StoreFoodItem2Bean> data = listBaseResult.getData();
+                                        for(StoreFoodItem2Bean bean1 :data){
+                                            bean1.name = bean.getName();
+                                        }
+                                        return listBaseResult;
+                                    }
+                                }));
 
                             }
                             Observable.merge(observables)
@@ -376,7 +390,6 @@ public class StoreActivity extends BaseActivity {
                                         public void onComplete() {
                                             super.onComplete();
                                             StoreFragment fragment = (StoreFragment) mFragments[0];
-
                                             fragment.setFoodDatas(mDatas);
                                         }
 
@@ -385,7 +398,6 @@ public class StoreActivity extends BaseActivity {
                                             mDatas.addAll(storeFoodItem2Beans);
                                         }
                                     });
-
                         }
                     }
 
@@ -457,27 +469,6 @@ public class StoreActivity extends BaseActivity {
         bottomSheetDialog.show();
     }
 
-
-    final class FragmentAdapter extends FragmentStateAdapter {
-
-
-        public FragmentAdapter(@NonNull FragmentActivity fragmentActivity) {
-            super(fragmentActivity);
-        }
-
-        @NonNull
-        @Override
-        public Fragment createFragment(int position) {
-            return createFragments(position);
-        }
-
-        @Override
-        public int getItemCount() {
-            return titles.length;
-        }
-    }
-
-
     private Fragment createFragments(Integer index) {
         if (mFragments[index] != null) {
             return mFragments[index];
@@ -499,7 +490,6 @@ public class StoreActivity extends BaseActivity {
         return mFragments[index];
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onStoreEvent(StoreEvent event) {
         if (event.type == StoreEvent.TYPE_START_ACTIVITY) {
@@ -508,9 +498,7 @@ public class StoreActivity extends BaseActivity {
         } else {
             showChooseTypeDialog();
         }
-
     }
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCloseEvent(CloseEvent event) {
@@ -522,39 +510,62 @@ public class StoreActivity extends BaseActivity {
 
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAddChartEvent(AddChartEvent event) {
+        if(1 == event.type){
 
-        AddChartBean addChartBean = event.addChartBean;
-        Map<String, String> map = new HashMap<>();
-        map.put("num", "1");
-        map.put("skuId", addChartBean.skuId + "");
-        map.put("storeId", addChartBean.storeId + "");
+            AddChartBean addChartBean = event.addChartBean;
+            Map<String, String> map = new HashMap<>();
+            map.put("num", "1");
+            map.put("skuId", addChartBean.skuId + "");
+            map.put("storeId", addChartBean.storeId + "");
 //        map.put("skuId", "1032");//"16     1030,1032"  "1077 1078  1079    9"
 //        map.put("storeId", "16");
-        Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
-                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<AddCartBean>() {
-                    @Override
-                    public void onSuccess(AddCartBean userBean) {
-                        isChanged = true;
-                        //添加购物车id
-                        addChartBean.cartItemId = userBean.getId();
-                        if (addChartBean.num > 0) {
-                            hashMap.put(addChartBean.skuId + "", addChartBean);
-                        } else {
-                            hashMap.remove(addChartBean.skuId + "");
+            Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
+                    subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseSubscriber<AddCartBean>() {
+                        @Override
+                        public void onSuccess(AddCartBean userBean) {
+                            isChanged = true;
+                            //添加购物车id
+                            addChartBean.cartItemId = userBean.getId();
+                            if (addChartBean.num > 0) {
+                                hashMap.put(addChartBean.skuId + "", addChartBean);
+                            } else {
+                                hashMap.remove(addChartBean.skuId + "");
+                            }
+                            resetView();
                         }
-                        resetView();
-                    }
 
-                    @Override
-                    public void onFail(String fail) {
-                        super.onFail(fail);
-                    }
-                });
+                        @Override
+                        public void onFail(String fail) {
+                            super.onFail(fail);
+                        }
+                    });
+        }else{
+            AddChartBean addChartBean = event.addChartBean;
+            Api.getClient(HttpRequest.baseUrl_member).updateQuantity(addChartBean.cartItemId+"",addChartBean.num+"").
+                    subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseSubscriber<String>() {
+                        @Override
+                        public void onSuccess(String s) {
+                            if (addChartBean.num > 0) {
+                                hashMap.put(addChartBean.skuId + "", addChartBean);
+                            } else {
+                                hashMap.remove(addChartBean.skuId + "");
+                            }
+                            resetView();
+                        }
+
+                        @Override
+                        public void onFail(String fail) {
+                            super.onFail(fail);
+                        }
+                    });
+        }
+
     }
 
     private void resetView() {
@@ -588,5 +599,30 @@ public class StoreActivity extends BaseActivity {
             tv_confirm.setEnabled(false);
             cl_qujiesuan.setEnabled(false);
         }
+    }
+
+
+    final class FragmentAdapter extends FragmentStateAdapter {
+
+
+        public FragmentAdapter(@NonNull FragmentActivity fragmentActivity) {
+            super(fragmentActivity);
+        }
+
+        @NonNull
+        @Override
+        public Fragment createFragment(int position) {
+            return createFragments(position);
+        }
+
+        @Override
+        public int getItemCount() {
+            return titles.length;
+        }
+    }
+
+
+    public void setAddChartView(AddRemoveView iv_goods_add) {
+        iv_goods_add.initAnimalView(fl_content,image_xuangou);
     }
 }

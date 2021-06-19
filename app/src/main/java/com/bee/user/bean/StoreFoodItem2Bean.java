@@ -43,4 +43,5 @@ public class StoreFoodItem2Bean {
     public int shopProductCategoryId;
     public String shopProductCategoryName;
     public String showStatus;
+    public String name;
 }

@@ -2,10 +2,7 @@ package com.bee.user.ui.giftcard;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -128,12 +125,18 @@ public class BuyGiftcardActivity extends BaseActivity {
         iv_goods_add.setNum(1);
         iv_goods_add.setOnNumChangedListener(new AddRemoveView.OnNumChangedListener() {
             @Override
-            public void onNumChangedListener(int num) {
+            public void onAddListener(int num) {
                 if(null != mCurrentBean){
                     tv_heji_money.setText(mCurrentBean.num * num +"");
                     tv_youhui_value.setText(mCurrentBean.num * num+"");
                 }
             }
+
+            @Override
+            public void onRemoveListener(int num) {
+
+            }
+
         });
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

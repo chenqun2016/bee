@@ -82,6 +82,7 @@ dependencies {
 
 
 
+    implementation 'com.github.florent37:viewanimator:1.1.2'
 
     implementation 'com.google.code.gson:gson:2.8.6'
 //    一键登录
