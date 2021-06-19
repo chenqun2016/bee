@@ -194,6 +194,7 @@
         <activity android:name=".ui.mine.AboutActivity" />
         <activity android:name=".ui.mine.UserInfoItemActivity" />
         <activity android:name=".ui.mine.coupon.UnuseCouponActivity" />
+        <activity android:name=".ui.search.SearchCityActivity" />
 
 
     </application>

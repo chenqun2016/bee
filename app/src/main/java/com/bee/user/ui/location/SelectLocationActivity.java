@@ -16,6 +16,7 @@ import com.bee.user.event.LocationChangedEvent;
 import com.bee.user.event.MainEvent;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.search.SearchLocationActivity;
+import com.bee.user.ui.search.SearchCityActivity;
 import com.bee.user.ui.xiadan.ChooseAddressActivity;
 import com.bee.user.ui.xiadan.NewAddressActivity;
 import com.bee.user.utils.LogUtil;
@@ -69,7 +70,8 @@ public class SelectLocationActivity extends BaseActivity {
                 break;
 
             case R.id.tv_location://地址
-                showCityPicker();
+                startActivity(new Intent(this, SearchCityActivity.class));
+//                showCityPicker();
                 break;
             case R.id.tv_reLocation://重新定位
                 EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_reLocation));

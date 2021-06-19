@@ -3,8 +3,10 @@ package com.bee.user.ui.adapter;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.event.ChartFragmentEvent;
@@ -15,6 +17,7 @@ import com.bee.user.utils.DisplayUtil;
 import com.bee.user.widget.AddRemoveView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +40,13 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
 
     @Override
     protected void convert(@NotNull BaseViewHolder holder, ChartBean foodBean) {
+        ImageView iv_goods_img = holder.findView(R.id.iv_goods_img);
+        Picasso.with(iv_goods_img.getContext())
+                .load(foodBean.getProductPic())
+                .fit()
+                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(iv_goods_img.getContext(),10),0, PicassoRoundTransform.CornerType.ALL))
+                .into(iv_goods_img);
+
         TextView iv_goods_price_past = holder.findView(R.id.iv_goods_price_past);
         DisplayUtil.setXiexian(iv_goods_price_past);
 
