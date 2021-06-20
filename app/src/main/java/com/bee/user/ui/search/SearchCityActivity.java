@@ -57,9 +57,15 @@ public class SearchCityActivity extends BaseActivity {
         return R.layout.activity_choose_address_simple;
     }
 
-    @OnClick({R.id.iv_back, R.id.tv_reLocation})
+    @OnClick({R.id.iv_back, R.id.tv_reLocation,R.id.tv_location_area})
     public void onClick(View view){
         switch (view.getId()){
+            case R.id.tv_location_area:
+                Intent intent = new Intent();
+                intent.putExtra("city",tv_location_area.getText().toString());
+                setResult(RESULT_CODE,intent);
+                finish();
+                break;
             case R.id.iv_back:
                 finish();
                 break;
@@ -97,7 +103,7 @@ public class SearchCityActivity extends BaseActivity {
 //                feedbackGridAdapter.current = position;
 //                feedbackGridAdapter.notifyDataSetChanged();
                 Intent intent = new Intent();
-                intent.putExtra("city",feedbackGridAdapter.getData().get(position));
+                intent.putExtra("city",feedbackGridAdapter.getData().get(position).name);
                 setResult(RESULT_CODE,intent);
                 finish();
             }

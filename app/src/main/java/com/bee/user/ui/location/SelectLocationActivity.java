@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.amap.api.location.AMapLocation;
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
-import com.bee.user.bean.CityBean;
 import com.bee.user.bean.DingWeiBean;
 import com.bee.user.event.LocationChangedEvent;
 import com.bee.user.event.MainEvent;
@@ -99,9 +98,9 @@ public class SelectLocationActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_CODE && resultCode == RESULT_CODE){
-            CityBean city = (CityBean) data.getSerializableExtra("city");
+            String city =  data.getStringExtra("city");
             if(null != city){
-                tv_location.setText(city.name);
+                tv_location.setText(city+"");
             }
         }
     }
