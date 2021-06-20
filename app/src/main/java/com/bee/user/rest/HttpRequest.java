@@ -83,4 +83,13 @@ public class HttpRequest {
     //    修改收货地址
     public static final String saveAddress = "address/saveAddress";
 
+    //获取帮助分类列表
+    public static final String helpType = "app-help/helpType";
+
+    //获取帮助内容列表
+    public static final String helpTypeItem = "app-help/helpList/{typeId}";
+
+    //帮助评价
+    public static final String helpApraise = "app-help/helpApraise";
+
 }

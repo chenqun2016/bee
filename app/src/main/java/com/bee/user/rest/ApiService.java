@@ -6,6 +6,8 @@ import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
 import com.bee.user.bean.FoodDetailBean;
+import com.bee.user.bean.HelpTypeBean;
+import com.bee.user.bean.HelpTypeItemBean;
 import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderListBean;
 import com.bee.user.bean.OrderingConfirmBean;
@@ -224,4 +226,21 @@ public interface ApiService {
     @POST(HttpRequest.openCity)
     Observable<BaseResult<List<CityBean>>> openCity();
 
+    /**
+     * 获取帮助分类列表
+     */
+    @POST(HttpRequest.helpType)
+    Observable<BaseResult<List<HelpTypeBean>>> helpType();
+
+    /**
+     * 获取帮助内容列表
+     */
+    @POST(HttpRequest.helpTypeItem)
+    Observable<BaseResult<List<HelpTypeItemBean>>> helpTypeItem(@Path("typeId") int typeId);
+
+    /**
+     * 帮助评价
+     */
+    @POST(HttpRequest.helpApraise)
+    Observable<BaseResult<Object>> helpApraise(@Body RequestBody info);
 }
