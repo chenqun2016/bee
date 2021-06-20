@@ -32,4 +32,41 @@ public class AddressBean implements MultiItemEntity, Serializable {
     public AddressBean(int type) {
         this.type = type;
     }
+
+
+    /**
+     * id : 131
+     * memberId : 38
+     * name : 李四
+     * phoneNumber : 21313
+     * defaultStatus : 1
+     * postCode : 213123
+     * province : 324
+     * city : 北京市
+     * district : df
+     * detailAddress : 第三方老师的反馈的说法
+     * houseNumber : null
+     * gender : null
+     * tag : null
+     * latitude : 123
+     * longitude : 123
+     */
+
+    public int id;
+    public int memberId;
+    public String name;
+    public String phoneNumber;
+    public int defaultStatus;
+    public String postCode;
+    public String province;
+    public String city;
+    public String district;
+    public String detailAddress;
+    public String houseNumber;
+    //性别 1：男 2：女
+    public int gender;
+    //标签 1：家 2：公司 3：学校
+    public int tag;
+    public String latitude;
+    public String longitude;
 }

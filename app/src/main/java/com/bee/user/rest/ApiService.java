@@ -1,7 +1,7 @@
 package com.bee.user.rest;
 
 import com.bee.user.bean.AddCartBean;
-import com.bee.user.bean.AddressBean2;
+import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
@@ -210,12 +210,12 @@ public interface ApiService {
      * 获取默认收货地址
      */
     @POST(HttpRequest.getDefaultArea)
-    Observable<BaseResult<AddressBean2>> getDefaultArea();
+    Observable<BaseResult<AddressBean>> getDefaultArea();
     /**
      * 获取默认收货地址
      */
     @POST(HttpRequest.listAddress)
-    Observable<BaseResult<List<AddressBean2>>> listAddress();
+    Observable<BaseResult<List<AddressBean>>> listAddress();
 
 
     /**

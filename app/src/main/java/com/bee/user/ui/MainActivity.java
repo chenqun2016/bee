@@ -585,7 +585,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         } else if (MainEvent.TYPE_reLocation == event.TYPE) {
 
 //            showLoadingDialog();
-            mLocationClient.stopLocation();
+//            mLocationClient.stopLocation();
 //                        启动定位
             mLocationClient.startLocation();
         }

@@ -19,13 +19,9 @@ import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.HomeGridview2Bean;
-import com.bee.user.bean.UserBean;
 import com.bee.user.entity.LunchEntity;
 import com.bee.user.entity.NearbyEntity;
 import com.bee.user.event.MainEvent;
-import com.bee.user.rest.Api;
-import com.bee.user.rest.BaseSubscriber;
-import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.CRecyclerViewActivity;
 import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.adapter.HomeGridview2Adapter;
@@ -49,16 +45,12 @@ import com.gyf.immersionbar.ImmersionBar;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -146,47 +138,10 @@ public class HomeFragment extends BaseFragment {
         }
         AMapLocation amapLocation = SPUtils.geTinstance().getLocation();
         if(null != amapLocation){
-            tv_dingwei.setText(amapLocation.getAddress() );
+            tv_dingwei.setText(amapLocation.getAoiName() );
         }
 
-        UserBean userInfo = SPUtils.geTinstance().getUserInfo();
-
-        Map<String, String> map = new HashMap<>();
-
-        map.put("id", "");
-        map.put("memberId", "");
-        map.put("name", userInfo.getUsername()+"");
-        map.put("phoneNumber", userInfo.getPhone()+"");
-        map.put("defaultStatus", "1");
-        map.put("postCode", amapLocation.getCityCode());
-        map.put("province", amapLocation.getProvince());
-
-        map.put("city", amapLocation.getCity());
-        map.put("district", amapLocation.getDistrict());
-        map.put("detailAddress", amapLocation.getAddress());
-
-
-        map.put("houseNumber", "路上的风景啦");
-        map.put("gender", "1");
-        map.put("tag", "1");
-
-        map.put("latitude", amapLocation.getLatitude()+"");
-        map.put("longitude", amapLocation.getLongitude()+"");
-
-
-
-
-
-
-        Api.getClient(HttpRequest.baseUrl_member).saveAddress(Api.getRequestBody(map))
-                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<String>() {
-                    @Override
-                    public void onSuccess(String token) {
-                        String s= token;
-                    }
-                });
+//
     }
 
 

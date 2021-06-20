@@ -71,7 +71,7 @@
             android:layout_marginLeft="15dp"
             android:drawableRight="@drawable/icon_jiantou_xia"
             android:drawablePadding="10dp"
-            android:text="上海"
+            android:text=""
             android:textColor="@color/color_3B3838"
             android:textSize="12sp" />
         
@@ -145,7 +145,7 @@
                     android:drawablePadding="10dp"
                     android:layout_marginLeft="10dp"
                     android:drawableLeft="@mipmap/icon_dingwei_chengse_xiao"
-                    android:text="信建大厦"/>
+                    android:text=""/>
 
 
 
@@ -210,7 +210,7 @@
                     android:textSize="12sp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="18dp"
-                    android:text="收货地址"/>
+                    android:text="附近可配送地址"/>
 
 
                 <View

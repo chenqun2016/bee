@@ -1,11 +1,13 @@
 package com.bee.user.bean;
 
+import java.io.Serializable;
+
 /**
  * 创建时间：2021/6/19
  * 编写人： 陈陈陈
  * 功能描述：
  */
-public class CityBean {
+public class CityBean  implements Serializable {
 
     public Object subclass;
     public Integer id;

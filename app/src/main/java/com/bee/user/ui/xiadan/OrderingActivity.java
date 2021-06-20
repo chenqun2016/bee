@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
-import com.bee.user.bean.AddressBean2;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.OrderingConfirmBean;
 import com.bee.user.event.CloseEvent;
@@ -94,7 +93,7 @@ public class OrderingActivity extends BaseActivity {
 
 
     private Map<String, ChooseTimeBean> timeBeanHashMaps = new HashMap<>();
-    private AddressBean2 mAddress;
+    private AddressBean mAddress;
 
     OrderingAdapter orderingAdapter;
     ArrayList<Integer> storeIds;
@@ -201,9 +200,9 @@ public class OrderingActivity extends BaseActivity {
         String token = SPUtils.geTinstance().getToken();
         Api.getClient(HttpRequest.baseUrl_member).listAddress().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<List<AddressBean2>>() {
+                .subscribe(new BaseSubscriber<List<AddressBean>>() {
                     @Override
-                    public void onSuccess(List<AddressBean2> addressBean2) {
+                    public void onSuccess(List<AddressBean> addressBean2) {
                         if(null != addressBean2 && addressBean2.size()>0){
                             mAddress = addressBean2.get(0);
                             setAddressView();
@@ -454,7 +453,7 @@ public class OrderingActivity extends BaseActivity {
     //TODO 下单
     private void doSubmit() {
         OrderingParams orderingParams = new OrderingParams();
-        orderingParams.addressId = mAddress.getId();
+        orderingParams.addressId = mAddress.id;
 
         int feightTemplateDetailId =0 ;
         List<OrderingParams.FeightTemplateModel> feightTemplateModels = new ArrayList<>();
@@ -477,21 +476,9 @@ public class OrderingActivity extends BaseActivity {
         orderingParams.pickupWay = 1;
         orderingParams.sourceType = 5;
 
-        Api.getClient(HttpRequest.baseUrl_order).ordering(Api.getRequestBody(orderingParams)).
-                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<Object>() {
-                    @Override
-                    public void onSuccess(Object userBean) {
-                        startActivity(new Intent(OrderingActivity.this, PayActivity.class));
-                    }
-
-                    @Override
-                    public void onFail(String fail) {
-                        super.onFail(fail);
-                    }
-                });
-
+        Intent intent = new Intent(OrderingActivity.this, PayActivity.class);
+        intent.putExtra("params",orderingParams);
+        startActivity(intent);
     }
 
 
@@ -622,9 +609,9 @@ public class OrderingActivity extends BaseActivity {
     }
 
     private void setAddressView() {
-        tv_dizhi.setText(mAddress.getDetailAddress());
+        tv_dizhi.setText(mAddress.detailAddress);
         tv_dizhi2.setVisibility(View.VISIBLE);
-        tv_dizhi2.setText(mAddress.getName()+mAddress.getPhoneNumber());
+        tv_dizhi2.setText(mAddress.name+mAddress.phoneNumber);
     }
 
 

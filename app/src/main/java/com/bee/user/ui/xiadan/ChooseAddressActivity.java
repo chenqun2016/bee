@@ -5,12 +5,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.YouhuiquanBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.ChooseAddressAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -21,6 +25,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
+import static com.bee.user.ui.xiadan.NewAddressActivity.REQUEST_CODE_NEWADDRESS;
+import static com.bee.user.ui.xiadan.NewAddressActivity.RESULT_CODE_NEWADDRESS;
 
 /**
  * 创建人：进京赶考
@@ -36,7 +45,9 @@ public class ChooseAddressActivity extends BaseActivity {
     @BindView(R.id.toolbar_title)
     TextView toolbar_title;
 
-    ArrayList<AddressBean> addressBeans;
+
+    ChooseAddressAdapter chooseAddressAdapter;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_choose_address;
@@ -60,6 +71,7 @@ public class ChooseAddressActivity extends BaseActivity {
         }
     }
 
+    private int clickPosition = 0;
     @Override
     public void initViews() {
         toolbar_title.setText("收货地址");
@@ -68,34 +80,60 @@ public class ChooseAddressActivity extends BaseActivity {
         tv_right.setVisibility(View.VISIBLE);
 
         recyclerview1.setLayoutManager(new LinearLayoutManager(this));
-        ChooseAddressAdapter chooseAddressAdapter = new ChooseAddressAdapter();
+        chooseAddressAdapter = new ChooseAddressAdapter();
         recyclerview1.setAdapter(chooseAddressAdapter);
         chooseAddressAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                if(position < addressBeans.size()){
-                    Intent intent = new Intent();
-                    intent.putExtra("address",addressBeans.get(position));
-                    setResult(1,intent);
-                    finish();
+                if(position < chooseAddressAdapter.getData().size()){
+//                    Intent intent = new Intent();
+//                    intent.putExtra("address",chooseAddressAdapter.getData().get(position));
+//                    setResult(1,intent);
+//                    finish();
+                    clickPosition = position;
+                    Intent intent = new Intent(ChooseAddressActivity.this, NewAddressActivity.class);
+                    intent.putExtra("address",chooseAddressAdapter.getData().get(position));
+                    startActivityForResult(intent,REQUEST_CODE_NEWADDRESS);
                 }
             }
         });
+        getAddress();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        addressBeans = new ArrayList<>();
-        addressBeans.add(new AddressBean(0));
-        addressBeans.add(new AddressBean(0));
+        if(requestCode == REQUEST_CODE_NEWADDRESS && resultCode == RESULT_CODE_NEWADDRESS ){
+            AddressBean address = (AddressBean)data .getSerializableExtra("address");
+            chooseAddressAdapter.setData(clickPosition,address);
+//            chooseAddressAdapter.notifyItemChanged(clickPosition);
+        }
+    }
 
-        chooseAddressAdapter.setNewInstance(addressBeans);
+    private void getAddress() {
+        Api.getClient(HttpRequest.baseUrl_member).listAddress().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<AddressBean>>() {
+                    @Override
+                    public void onSuccess(List<AddressBean> addressBean2) {
+                        if(null != addressBean2 && addressBean2.size()>0){
+                            if(addressBean2.size() > 4){
+                                chooseAddressAdapter.setNewInstance(addressBean2.subList(0,3));
+                            }else{
+                                chooseAddressAdapter.setNewInstance(addressBean2);
+                            }
 
-        List<AddressBean> lists2 = new ArrayList<>();
-        AddressBean Bean = new AddressBean();
-        Bean.viewType = YouhuiquanBean.type2;
-        lists2.add(Bean);
+                            List<AddressBean> lists2 = new ArrayList<>();
+                            AddressBean Bean = new AddressBean();
+                            Bean.viewType = YouhuiquanBean.type2;
+                            lists2.add(Bean);
 
-        lists2.add(new AddressBean(1));
-        lists2.add(new AddressBean(1));
-        chooseAddressAdapter.addData(lists2);
+                            lists2.add(new AddressBean(1));
+                            lists2.add(new AddressBean(1));
+                            chooseAddressAdapter.addData(lists2);
+                        }
+                    }
+                });
     }
 }

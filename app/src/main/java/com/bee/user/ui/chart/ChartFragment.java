@@ -21,7 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.AddressBean2;
+import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.event.ChartFragmentEvent;
@@ -102,7 +102,7 @@ public class ChartFragment extends BaseFragment {
     HashMap<Integer, List<ChartBean>> integerListHashMap = new HashMap<>();
     private List<ChartBean> mAvalableBeans;
     private List<ChartBean> mUnAvalableBeans;
-    private AddressBean2 mAddress;
+    private AddressBean mAddress;
 
 
     @OnClick({R.id.tv_confirm,R.id.tv_clear})
@@ -235,9 +235,9 @@ public class ChartFragment extends BaseFragment {
     private void getAddress() {
         Api.getClient(HttpRequest.baseUrl_member).listAddress().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<List<AddressBean2>>() {
+                .subscribe(new BaseSubscriber<List<AddressBean>>() {
                     @Override
-                    public void onSuccess(List<AddressBean2> addressBean2) {
+                    public void onSuccess(List<AddressBean> addressBean2) {
                         if(null != addressBean2 && addressBean2.size()>0){
                             mAddress = addressBean2.get(0);
 
@@ -341,7 +341,7 @@ public class ChartFragment extends BaseFragment {
         }
         List<String> integers = new ArrayList<>();
 //                integers.add(16+"");
-        Api.getClient(HttpRequest.baseUrl_member).getCart(mAddress.getId(),integers)
+        Api.getClient(HttpRequest.baseUrl_member).getCart(mAddress.id,integers)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<List<ChartBean>>() {

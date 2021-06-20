@@ -1,19 +1,13 @@
 package com.bee.user.ui.adapter;
 
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
-import com.bee.user.bean.YouhuiquanBean;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 /**
  * 创建人：进京赶考
@@ -49,6 +43,10 @@ public class ChooseAddressAdapter extends BaseMultiItemQuickAdapter<AddressBean,
                     tv_address2.setTextColor(tv_address2.getResources().getColor(R.color.color_CBCBCB));
                     tv_name.setTextColor(tv_name.getResources().getColor(R.color.color_CBCBCB));
                 }
+                tv_address.setText(addressBean.detailAddress+"");
+                tv_tag.setText(addressBean.tag+"");
+                tv_address2.setText(addressBean.houseNumber+"");
+                tv_name.setText(addressBean.name+"");
 
 
 

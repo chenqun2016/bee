@@ -1,8 +1,10 @@
 package com.bee.user.ui.search;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,8 +17,11 @@ import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.sputils.SPUtils;
+import com.bee.user.widget.GridSpaceItemDecoration;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.greenrobot.eventbus.EventBus;
@@ -38,6 +43,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  */
 public class SearchCityActivity extends BaseActivity {
 
+    public static final int REQUEST_CODE = 10;
+    public static final int RESULT_CODE = 1;
 
     @BindView(R.id.tv_location_area)
     TextView tv_location_area;
@@ -75,10 +82,28 @@ public class SearchCityActivity extends BaseActivity {
     public void initViews() {
         EventBus.getDefault().register(this);
 
-        GridLayoutManager layoutManage = new GridLayoutManager(this, 4);
+        AMapLocation location = SPUtils.geTinstance().getLocation();
+        if(null != location){
+            tv_location_area.setText(location.getCity());
+        }
+
+
+        GridLayoutManager layoutManage = new GridLayoutManager(this, 3);
         rv_city.setLayoutManager(layoutManage);
         FeedbackGridAdapter feedbackGridAdapter = new FeedbackGridAdapter();
+        feedbackGridAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull @NotNull BaseQuickAdapter<?, ?> adapter, @NonNull @NotNull View view, int position) {
+//                feedbackGridAdapter.current = position;
+//                feedbackGridAdapter.notifyDataSetChanged();
+                Intent intent = new Intent();
+                intent.putExtra("city",feedbackGridAdapter.getData().get(position));
+                setResult(RESULT_CODE,intent);
+                finish();
+            }
+        });
         rv_city.setAdapter(feedbackGridAdapter );
+        rv_city.addItemDecoration(new GridSpaceItemDecoration(3,DisplayUtil.dip2px(this, 10),DisplayUtil.dip2px(this, 17)));
 
         Api.getClient(HttpRequest.baseUrl_sys).openCity()
                 .subscribeOn(Schedulers.io())
@@ -86,7 +111,7 @@ public class SearchCityActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<List<CityBean>>() {
                     @Override
                     public void onSuccess(List<CityBean> cityBean) {
-
+                        feedbackGridAdapter.setNewInstance(cityBean);
                     }
                 });
     }
@@ -98,23 +123,31 @@ public class SearchCityActivity extends BaseActivity {
         AMapLocation amapLocation = SPUtils.geTinstance().getLocation();
         if (null != amapLocation) {
             if (amapLocation.getErrorCode() == 0) {
-//                tv_location_area.setText( amapLocation.getStreet() + amapLocation.getStreetNum());
-                tv_location_area.setText( amapLocation.getAddress() );
+                tv_location_area.setText( amapLocation.getCity() );
             }
         }
     }
 
-    public static class FeedbackGridAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-        public int current = -1;
+    public static class FeedbackGridAdapter extends BaseQuickAdapter<CityBean, BaseViewHolder> {
+//        public int current = -1;
 
         public FeedbackGridAdapter() {
             super(R.layout.item_choose_city);
         }
 
         @Override
-        protected void convert(@NotNull BaseViewHolder baseViewHolder, String bean) {
-
+        protected void convert(@NotNull BaseViewHolder baseViewHolder, CityBean bean) {
+            TextView tv_city = baseViewHolder.getView(R.id.tv_city);
+            tv_city.setText(bean.name+"");
+//            if(current == getItemPosition(bean)){
+//                tv_city.setBackgroundResource(R.drawable.bg_round2dp_orange);
+//                tv_city.setTextColor(tv_city.getResources().getColor(R.color.white));
+//            }else{
+//                tv_city.setBackgroundResource(R.drawable.bg_round2dp_grey);
+//                tv_city.setTextColor(tv_city.getResources().getColor(R.color.color_282525));
+//            }
         }
     }
+
 
 }

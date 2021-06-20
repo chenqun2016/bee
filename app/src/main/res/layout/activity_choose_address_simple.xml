@@ -70,7 +70,7 @@
             android:drawablePadding="10dp"
             android:layout_marginLeft="10dp"
             android:drawableLeft="@mipmap/icon_dingwei_chengse_xiao"
-            android:text="信建大厦"/>
+            android:text=""/>
 
         <TextView
             android:id="@+id/tv_reLocation"

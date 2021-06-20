@@ -1,5 +1,6 @@
 package com.bee.user.params;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * 编写人： 陈陈陈
  * 功能描述：
  */
-public class OrderingParams {
+public class OrderingParams implements Serializable {
 
     //收货地址id
     public int addressId;
@@ -36,7 +37,7 @@ public class OrderingParams {
     public int sourceType ;
 
 
-    public static class FeightTemplateModel{
+    public static class FeightTemplateModel implements Serializable{
         public int feightTemplateDetailId;
         public int storeId;
 
