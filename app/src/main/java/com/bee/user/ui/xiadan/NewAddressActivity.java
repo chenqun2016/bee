@@ -11,6 +11,7 @@ import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.nearby.DingWeiActivity;
 import com.bee.user.widget.RadioGroupPlus;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
@@ -28,17 +29,23 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Function4;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+import static com.bee.user.ui.nearby.DingWeiActivity.REQUEST_CODE_LOCATION_ACTIVITY;
+
 /**
  * 创建人：进京赶考
  * 创建时间：2020/09/17  20：39
  * 描述：
  */
 public class NewAddressActivity extends BaseActivity {
-    public static final int REQUEST_CODE_NEWADDRESS = 5;
+    public static final int REQUEST_CODE_OLD = 5;
+    public static final int REQUEST_CODE_NEW = 7;
     public static final int RESULT_CODE_NEWADDRESS = 6;
     @BindView(R.id.toolbar_title)
     TextView toolbar_title;
 
+
+    @BindView(R.id.tv_right)
+    TextView tv_right;
 
     @BindView(R.id.tv_name)
     TextView tv_name;
@@ -58,95 +65,23 @@ public class NewAddressActivity extends BaseActivity {
     AddressBean address;
 
 
-    private void setDatas() {
-        if(null != address){
-            tv_name.setText(address.name+"");
-            tv_phone.setText(address.phoneNumber+"");
-            tv_dizhi_text.setText(address.detailAddress+"");
-            tv_menpai_text.setText(address.houseNumber+"");
 
-            rgp_sex.check(address.gender==2?R.id.rb_1:R.id.rb_2);
-            switch (address.tag){
-                case 1:
-                    rgp_tags.check(R.id.rb_3);
-                    break;
-                case 2:
-                    rgp_tags.check(R.id.rb_4);
-                    break;
-                case 3:
-                    rgp_tags.check(R.id.rb_5);
-                    break;
-            }
-        }
-    }
-
-    private void saveAddress() {
-        Map<String, String> map = new HashMap<>();
-        map.put("name", tv_name.getText()+"");
-        map.put("phoneNumber", tv_phone.getText()+"");
-        map.put("detailAddress", tv_dizhi_text.getText()+"");
-        map.put("houseNumber", tv_menpai_text.getText()+"");
-        map.put("gender", (rgp_sex.getCheckedRadioButtonId()==R.id.rb_1?2:1)+"");
-
-        if(null != address){
-            map.put("id", address.id+"");
-            map.put("memberId", address.memberId+"");
-            map.put("defaultStatus", address.defaultStatus+"");
-            map.put("postCode", address.postCode+"");
-            map.put("province", address.province+"");
-            map.put("city", address.city+"");
-            map.put("district",address.district+"");
-            map.put("latitude", address.latitude+"");
-            map.put("longitude", address.longitude+"");
-
-            address.name = tv_name.getText()+"";
-            address.phoneNumber = tv_phone.getText()+"";
-            address.detailAddress =tv_dizhi_text.getText()+"";
-            address.houseNumber = tv_menpai_text.getText()+"";
-            address.gender = (rgp_sex.getCheckedRadioButtonId()==R.id.rb_1?2:1);
-        }
-
-        String tag;
-        switch (rgp_tags.getCheckedRadioButtonId()){
-            case R.id.rb_3:
-                tag = "1";
-                break;
-            case R.id.rb_4:
-                tag = "2";
-                break;
-            case R.id.rb_5:
-                tag = "3";
-                break;
-            default:
-                tag = "1";
-                break;
-        }
-        map.put("tag", tag);
-
-        Api.getClient(HttpRequest.baseUrl_member).saveAddress(Api.getRequestBody(map))
-                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<String>() {
-                    @Override
-                    public void onSuccess(String token) {
-                        Intent intent = new Intent();
-                        intent.putExtra("address",address);
-                        setResult(RESULT_CODE_NEWADDRESS,intent);
-                        finish();
-                    }
-                });
-    }
-
-
-    @OnClick({R.id.tv_sure})
+    @OnClick({R.id.tv_sure,R.id.tv_right,R.id.iv_dizhi_to})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_sure:
                 saveAddress();
                 break;
-
+            case R.id.tv_right:
+                deleteAddress();
+                break;
+            case R.id.iv_dizhi_to:
+                startActivityForResult(new Intent(this, DingWeiActivity.class),REQUEST_CODE_LOCATION_ACTIVITY);
+                break;
         }
     }
+
+
 
 
     @Override
@@ -166,6 +101,10 @@ public class NewAddressActivity extends BaseActivity {
 
         address  = (AddressBean) getIntent().getSerializableExtra("address");
 
+        if(null != address){
+            tv_right.setText("删除");
+            tv_right.setVisibility(View.VISIBLE);
+        }
 
         InitialValueObservable<CharSequence> c1 = RxTextView.textChanges(tv_name);
         InitialValueObservable<CharSequence> c2 = RxTextView.textChanges(tv_phone);
@@ -219,6 +158,29 @@ public class NewAddressActivity extends BaseActivity {
 
     }
 
+    private void setDatas() {
+        if(null != address){
+            tv_name.setText(address.name+"");
+            tv_phone.setText(address.phoneNumber+"");
+            tv_dizhi_text.setText(address.detailAddress+"");
+            tv_menpai_text.setText(address.houseNumber+"");
+
+            rgp_sex.check(address.gender==2?R.id.rb_1:R.id.rb_2);
+            switch (address.tag){
+                case 1:
+                    rgp_tags.check(R.id.rb_3);
+                    break;
+                case 2:
+                    rgp_tags.check(R.id.rb_4);
+                    break;
+                case 3:
+                    rgp_tags.check(R.id.rb_5);
+                    break;
+            }
+        }
+    }
+
+
 
 
     private void checkStatus() {
@@ -239,5 +201,81 @@ public class NewAddressActivity extends BaseActivity {
             tv_sure.setEnabled(false);
             tv_sure.setBackgroundResource(R.drawable.btn_gradient_grey_round);
         }
+    }
+
+
+
+    private void saveAddress() {
+        Map<String, String> map = new HashMap<>();
+        map.put("name", tv_name.getText()+"");
+        map.put("phoneNumber", tv_phone.getText()+"");
+        map.put("detailAddress", tv_dizhi_text.getText()+"");
+        map.put("houseNumber", tv_menpai_text.getText()+"");
+        map.put("gender", (rgp_sex.getCheckedRadioButtonId()==R.id.rb_1?2:1)+"");
+
+        if(null != address){
+            map.put("id", address.id+"");
+            map.put("memberId", address.memberId+"");
+            map.put("defaultStatus", address.defaultStatus+"");
+            map.put("postCode", address.postCode+"");
+            map.put("province", address.province+"");
+            map.put("city", address.city+"");
+            map.put("district",address.district+"");
+            map.put("latitude", address.latitude+"");
+            map.put("longitude", address.longitude+"");
+
+            address.name = tv_name.getText()+"";
+            address.phoneNumber = tv_phone.getText()+"";
+            address.detailAddress =tv_dizhi_text.getText()+"";
+            address.houseNumber = tv_menpai_text.getText()+"";
+            address.gender = (rgp_sex.getCheckedRadioButtonId()==R.id.rb_1?2:1);
+        }
+
+        String tag;
+        switch (rgp_tags.getCheckedRadioButtonId()){
+            case R.id.rb_3:
+                tag = "1";
+                break;
+            case R.id.rb_4:
+                tag = "2";
+                break;
+            case R.id.rb_5:
+                tag = "3";
+                break;
+            default:
+                tag = "1";
+                break;
+        }
+        map.put("tag", tag);
+
+        Api.getClient(HttpRequest.baseUrl_member).saveAddress(Api.getRequestBody(map))
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onSuccess(String token) {
+                        Intent intent = new Intent();
+                        intent.putExtra("address",address);
+                        intent.putExtra("clickPosition",getIntent().getIntExtra("clickPosition",0));
+                        setResult(RESULT_CODE_NEWADDRESS,intent);
+                        finish();
+                    }
+                });
+    }
+
+    private void deleteAddress() {
+        Map<String, String> map = new HashMap<>();
+        map.put("id",address.id+"");
+        Api.getClient(HttpRequest.baseUrl_member).deleteAddress(Api.getRequestBody(map))
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        Intent intent = new Intent();
+                        setResult(RESULT_CODE_NEWADDRESS,intent);
+                        finish();
+                    }
+                });
     }
 }

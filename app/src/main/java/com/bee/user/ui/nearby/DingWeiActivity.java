@@ -1,11 +1,9 @@
 package com.bee.user.ui.nearby;
 
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -16,20 +14,16 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.TextureMapView;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
-import com.amap.api.maps.model.MyLocationStyle;
 import com.bee.user.R;
 import com.bee.user.bean.DingWeiBean;
 import com.bee.user.ui.adapter.DingWeiAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.location.SelectLocationActivity;
 import com.bee.user.utils.sputils.SPUtils;
 
 import java.util.ArrayList;
@@ -43,6 +37,7 @@ import butterknife.OnClick;
  * 描述：
  */
 public class DingWeiActivity extends BaseActivity implements AMap.OnMapLoadedListener {
+    public static final int REQUEST_CODE_LOCATION_ACTIVITY = 11;
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;

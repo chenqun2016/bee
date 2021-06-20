@@ -200,6 +200,9 @@ public interface ApiService {
     @POST(HttpRequest.saveAddress)
     Observable<BaseResult<String>> saveAddress(@Body RequestBody info);
 
+    @POST(HttpRequest.deleteAddress)
+    Observable<BaseResult<String>> deleteAddress(@Body RequestBody info);
+
 
     /**
      * 获取店铺可选配送时间列表

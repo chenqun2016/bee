@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +24,7 @@ import com.bee.user.ui.xiadan.ChooseAddressActivity;
 import com.bee.user.ui.xiadan.NewAddressActivity;
 import com.bee.user.utils.sputils.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.model.LocateState;
@@ -41,8 +43,11 @@ import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+import static com.bee.user.event.MainEvent.TYPE_reset_Location;
 import static com.bee.user.ui.search.SearchCityActivity.REQUEST_CODE;
 import static com.bee.user.ui.search.SearchCityActivity.RESULT_CODE;
+import static com.bee.user.ui.xiadan.NewAddressActivity.REQUEST_CODE_NEW;
+import static com.bee.user.ui.xiadan.NewAddressActivity.RESULT_CODE_NEWADDRESS;
 
 /**
  * 创建人：进京赶考
@@ -82,7 +87,8 @@ public class SelectLocationActivity extends BaseActivity {
                 break;
 
             case R.id.tv_more_locatino://新增地址
-                startActivity(new Intent(this, NewAddressActivity.class));
+                Intent intent = new Intent(this, NewAddressActivity.class);
+                startActivityForResult(intent,REQUEST_CODE_NEW);
                 break;
 
             case R.id.tv_select://选择
@@ -102,6 +108,8 @@ public class SelectLocationActivity extends BaseActivity {
             if(null != city){
                 tv_location.setText(city+"");
             }
+        }else if(requestCode == REQUEST_CODE_NEW && resultCode == RESULT_CODE_NEWADDRESS){
+            getAddress();
         }
     }
 
@@ -130,6 +138,16 @@ public class SelectLocationActivity extends BaseActivity {
 
         recyclerview1.setLayoutManager(new LinearLayoutManager(this));
         chooseAddressAdapter = new ChooseAddressAdapter2();
+        chooseAddressAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull @NotNull BaseQuickAdapter<?, ?> adapter, @NonNull @NotNull View view, int position) {
+                AddressBean addressBean = chooseAddressAdapter.getData().get(position);
+                MainEvent mainEvent = new MainEvent(TYPE_reset_Location);
+                mainEvent.addressBean = addressBean;
+                EventBus.getDefault().post(mainEvent);
+                finish();
+            }
+        });
         recyclerview1.setAdapter(chooseAddressAdapter);
 
         recyclerview2.setLayoutManager(new LinearLayoutManager(this));

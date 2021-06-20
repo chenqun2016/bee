@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amap.api.location.AMapLocation;
 import com.bee.user.R;
+import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.HomeGridview2Bean;
@@ -132,7 +133,6 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void  onLocationChanged(){
-
         if(null != dingweiDialog ){
             dingweiDialog.onMapLoaded();
         }
@@ -140,10 +140,12 @@ public class HomeFragment extends BaseFragment {
         if(null != amapLocation){
             tv_dingwei.setText(amapLocation.getAoiName() );
         }
-
-//
     }
-
+    public void  onLocationChanged(AddressBean event){
+        if(null != event){
+            tv_dingwei.setText(event.detailAddress );
+        }
+    }
 
     @Override
     public void onDestroy() {

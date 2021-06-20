@@ -28,7 +28,8 @@ import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-import static com.bee.user.ui.xiadan.NewAddressActivity.REQUEST_CODE_NEWADDRESS;
+import static com.bee.user.ui.xiadan.NewAddressActivity.REQUEST_CODE_NEW;
+import static com.bee.user.ui.xiadan.NewAddressActivity.REQUEST_CODE_OLD;
 import static com.bee.user.ui.xiadan.NewAddressActivity.RESULT_CODE_NEWADDRESS;
 
 /**
@@ -65,13 +66,13 @@ public class ChooseAddressActivity extends BaseActivity {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_right:
-                startActivity(new Intent(this,NewAddressActivity.class));
+                Intent intent = new Intent(ChooseAddressActivity.this, NewAddressActivity.class);
+                startActivityForResult(intent,REQUEST_CODE_NEW);
                 break;
 
         }
     }
 
-    private int clickPosition = 0;
     @Override
     public void initViews() {
         toolbar_title.setText("收货地址");
@@ -90,10 +91,10 @@ public class ChooseAddressActivity extends BaseActivity {
 //                    intent.putExtra("address",chooseAddressAdapter.getData().get(position));
 //                    setResult(1,intent);
 //                    finish();
-                    clickPosition = position;
                     Intent intent = new Intent(ChooseAddressActivity.this, NewAddressActivity.class);
                     intent.putExtra("address",chooseAddressAdapter.getData().get(position));
-                    startActivityForResult(intent,REQUEST_CODE_NEWADDRESS);
+                    intent.putExtra("clickPosition",position);
+                    startActivityForResult(intent,REQUEST_CODE_OLD);
                 }
             }
         });
@@ -104,10 +105,14 @@ public class ChooseAddressActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_CODE_NEWADDRESS && resultCode == RESULT_CODE_NEWADDRESS ){
+        if(requestCode == REQUEST_CODE_OLD && resultCode == RESULT_CODE_NEWADDRESS ){
             AddressBean address = (AddressBean)data .getSerializableExtra("address");
-            chooseAddressAdapter.setData(clickPosition,address);
-//            chooseAddressAdapter.notifyItemChanged(clickPosition);
+            int clickPosition = data.getIntExtra("clickPosition", 0);
+            if(null != address){
+                chooseAddressAdapter.setData(clickPosition,address);
+            }
+        }else if(requestCode == REQUEST_CODE_NEW && resultCode == RESULT_CODE_NEWADDRESS ){
+            getAddress();
         }
     }
 
@@ -118,11 +123,11 @@ public class ChooseAddressActivity extends BaseActivity {
                     @Override
                     public void onSuccess(List<AddressBean> addressBean2) {
                         if(null != addressBean2 && addressBean2.size()>0){
-                            if(addressBean2.size() > 4){
-                                chooseAddressAdapter.setNewInstance(addressBean2.subList(0,3));
-                            }else{
+//                            if(addressBean2.size() > 4){
+//                                chooseAddressAdapter.setNewInstance(addressBean2.subList(0,3));
+//                            }else{
                                 chooseAddressAdapter.setNewInstance(addressBean2);
-                            }
+//                            }
 
                             List<AddressBean> lists2 = new ArrayList<>();
                             AddressBean Bean = new AddressBean();

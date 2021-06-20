@@ -82,6 +82,8 @@ public class HttpRequest {
 
     //    修改收货地址
     public static final String saveAddress = "address/saveAddress";
+    //    修改收货地址
+    public static final String deleteAddress = "address/deleteAddress";
 
     //获取帮助分类列表
     public static final String helpType = "app-help/helpType";

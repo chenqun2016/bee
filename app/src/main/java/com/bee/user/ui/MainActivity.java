@@ -588,6 +588,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //            mLocationClient.stopLocation();
 //                        启动定位
             mLocationClient.startLocation();
+        }else if (MainEvent.TYPE_reset_Location == event.TYPE) {
+            HomeFragment fragment = (HomeFragment) fragments.get(0);
+            fragment.onLocationChanged(event.addressBean);
         }
 
     }
@@ -598,7 +601,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         onLogin(event.token);
 
     }
-
     private void onLogin(String token) {
         SPUtils.geTinstance().setToken(token);
 
@@ -618,6 +620,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     }
                 });
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onExitloginEvent(ExitloginEvent event) {
