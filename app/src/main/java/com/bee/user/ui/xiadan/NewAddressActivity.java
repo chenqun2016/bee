@@ -66,7 +66,7 @@ public class NewAddressActivity extends BaseActivity {
 
 
 
-    @OnClick({R.id.tv_sure,R.id.tv_right,R.id.iv_dizhi_to})
+    @OnClick({R.id.tv_sure,R.id.tv_right,R.id.tv_dizhi_text})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_sure:
@@ -75,7 +75,7 @@ public class NewAddressActivity extends BaseActivity {
             case R.id.tv_right:
                 deleteAddress();
                 break;
-            case R.id.iv_dizhi_to:
+            case R.id.tv_dizhi_text:
                 startActivityForResult(new Intent(this, DingWeiActivity.class),REQUEST_CODE_LOCATION_ACTIVITY);
                 break;
         }

@@ -163,12 +163,7 @@ public class SelectLocationActivity extends BaseActivity {
                     @Override
                     public void onSuccess(List<AddressBean> addressBean2) {
                         if(null != addressBean2 && addressBean2.size()>0){
-                            if(addressBean2.size() > 4){
-                                chooseAddressAdapter.setNewInstance(addressBean2.subList(0,3));
-                            }else{
-                                chooseAddressAdapter.setNewInstance(addressBean2);
-                            }
-
+                            chooseAddressAdapter.setNewInstance(addressBean2);
                         }
                     }
                 });
