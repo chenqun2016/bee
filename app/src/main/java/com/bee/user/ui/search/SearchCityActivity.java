@@ -104,6 +104,7 @@ public class SearchCityActivity extends BaseActivity {
 //                feedbackGridAdapter.notifyDataSetChanged();
                 Intent intent = new Intent();
                 intent.putExtra("city",feedbackGridAdapter.getData().get(position).name);
+                intent.putExtra("cityCode",feedbackGridAdapter.getData().get(position).cityCode);
                 setResult(RESULT_CODE,intent);
                 finish();
             }

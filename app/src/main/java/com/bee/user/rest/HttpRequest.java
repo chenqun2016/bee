@@ -94,4 +94,8 @@ public class HttpRequest {
     //帮助评价
     public static final String helpApraise = "app-help/helpApraise";
 
+    //企业订餐提交
+    public static final String enterpriseOrder = "app-sys/enterpriseOrder";
+
+
 }

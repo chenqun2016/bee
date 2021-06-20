@@ -246,4 +246,10 @@ public interface ApiService {
      */
     @POST(HttpRequest.helpApraise)
     Observable<BaseResult<Object>> helpApraise(@Body RequestBody info);
+
+    /**
+     * 企业订餐提交
+     */
+    @POST(HttpRequest.enterpriseOrder)
+    Observable<BaseResult<Object>> enterpriseOrder(@Body RequestBody info);
 }
