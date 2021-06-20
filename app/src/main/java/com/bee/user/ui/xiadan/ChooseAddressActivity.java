@@ -38,6 +38,8 @@ import static com.bee.user.ui.xiadan.NewAddressActivity.RESULT_CODE_NEWADDRESS;
  * 描述：
  */
 public class ChooseAddressActivity extends BaseActivity {
+    public static final  int REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_ORDERING = 88;
+
     @BindView(R.id.recyclerview1)
     RecyclerView recyclerview1;
     @BindView(R.id.tv_right)
@@ -75,26 +77,30 @@ public class ChooseAddressActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        int from = getIntent().getIntExtra("from", 0);
         toolbar_title.setText("收货地址");
 
         tv_right.setText("新增地址");
         tv_right.setVisibility(View.VISIBLE);
 
         recyclerview1.setLayoutManager(new LinearLayoutManager(this));
-        chooseAddressAdapter = new ChooseAddressAdapter();
+        chooseAddressAdapter = new ChooseAddressAdapter(from);
         recyclerview1.setAdapter(chooseAddressAdapter);
         chooseAddressAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 if(position < chooseAddressAdapter.getData().size()){
-//                    Intent intent = new Intent();
-//                    intent.putExtra("address",chooseAddressAdapter.getData().get(position));
-//                    setResult(1,intent);
-//                    finish();
-                    Intent intent = new Intent(ChooseAddressActivity.this, NewAddressActivity.class);
-                    intent.putExtra("address",chooseAddressAdapter.getData().get(position));
-                    intent.putExtra("clickPosition",position);
-                    startActivityForResult(intent,REQUEST_CODE_OLD);
+                    if(1 == from){
+                        Intent intent = new Intent();
+                        intent.putExtra("address", chooseAddressAdapter.getData().get(position));
+                        setResult(1, intent);
+                        finish();
+                    }else{
+                        Intent intent = new Intent(ChooseAddressActivity.this, NewAddressActivity.class);
+                        intent.putExtra("address",chooseAddressAdapter.getData().get(position));
+                        intent.putExtra("clickPosition",position);
+                        startActivityForResult(intent,REQUEST_CODE_OLD);
+                    }
                 }
             }
         });

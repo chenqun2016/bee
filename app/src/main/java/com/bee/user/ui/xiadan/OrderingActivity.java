@@ -52,6 +52,8 @@ import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+import static com.bee.user.ui.xiadan.ChooseAddressActivity.REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_ORDERING;
+
 /**
  * 创建人：进京赶考
  * 创建时间：2020/09/04  21：13
@@ -127,12 +129,13 @@ public class OrderingActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == 1) {
+        if (requestCode == REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_ORDERING && resultCode == 1) {
 
             AddressBean address = (AddressBean) data.getSerializableExtra("address");
-            tv_dizhi.setText("新天地大厦C座1808室");
+            tv_dizhi.setText(address.detailAddress+address.houseNumber);
             tv_dizhi2.setVisibility(View.VISIBLE);
-            tv_dizhi2.setText("夏雨天(女士)13708263728");
+            String gender = address.gender==1?"先生":"女士";
+            tv_dizhi2.setText(address.name+"("+gender+")"+address.phoneNumber);
         }
     }
 
@@ -282,7 +285,9 @@ public class OrderingActivity extends BaseActivity {
         tv_dizhi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(OrderingActivity.this, ChooseAddressActivity.class), 1);
+                Intent intent = new Intent(OrderingActivity.this, ChooseAddressActivity.class);
+                intent.putExtra("from",1);
+                startActivityForResult(intent, REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_ORDERING);
             }
         });
 

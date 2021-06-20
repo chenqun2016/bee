@@ -1,5 +1,6 @@
 package com.bee.user.ui.adapter;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bee.user.R;
@@ -15,8 +16,11 @@ import org.jetbrains.annotations.NotNull;
  * 描述：
  */
 public class ChooseAddressAdapter extends BaseMultiItemQuickAdapter<AddressBean, BaseViewHolder> {
-    public ChooseAddressAdapter() {
+    private final int mFrom;
+
+    public ChooseAddressAdapter(int from) {
         super();
+        this.mFrom = from;
         addItemType(AddressBean.type1,R.layout.item_chooose_address);
         addItemType(AddressBean.type2,R.layout.item_choose_address_type2);
     }
@@ -25,6 +29,12 @@ public class ChooseAddressAdapter extends BaseMultiItemQuickAdapter<AddressBean,
     protected void convert(@NotNull BaseViewHolder baseViewHolder, AddressBean addressBean) {
         switch (baseViewHolder.getItemViewType()) {
             case AddressBean.type1:
+                ImageView imageview = baseViewHolder.findView(R.id.imageview);
+                if(1 == mFrom){
+                    imageview.setImageResource(R.drawable.icon_link);
+                }else{
+                    imageview.setImageResource(R.drawable.icon_bianji);
+                }
                 TextView tv_address = baseViewHolder.findView(R.id.tv_address);
                 TextView tv_tag = baseViewHolder.findView(R.id.tv_tag);
                 TextView tv_address2 = baseViewHolder.findView(R.id.tv_address2);

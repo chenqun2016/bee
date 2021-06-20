@@ -164,6 +164,7 @@ public class StoreFragment extends BaseFragment {
 
         private Context mContext;
 
+        @Override
         public void setContext(Context context) {
             mContext = context;
         }
@@ -224,6 +225,7 @@ public class StoreFragment extends BaseFragment {
 
         private Context mContext;
 
+        @Override
         public void setContext(Context context) {
             mContext = context;
         }

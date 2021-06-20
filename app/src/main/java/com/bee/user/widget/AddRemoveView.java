@@ -33,7 +33,7 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
     private int num = 0;//选中数量
 
     //动画执行时间
-    public static final long animalTime = 500;
+    public static final long animalTime = 300;
 
     private ViewGroup parent;
     private View end;
@@ -188,7 +188,8 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
         //移动到起始点（贝塞尔曲线的起点）
         path.moveTo(startX, startY);
         //使用二次萨贝尔曲线：注意第一个起始坐标越大，贝塞尔曲线的横向距离就会越大，一般按照下面的式子取即可
-        path.quadTo((startX + toX) / 2, startY, toX, toY);
+//        path.quadTo(toX, startY, toX, toY);
+        path.cubicTo(((startX+toX)/2+startX)/2,startY-(toY-startY)/3,toX, startY, toX, toY);
         //mPathMeasure用来计算贝塞尔曲线的曲线长度和贝塞尔曲线中间插值的坐标，
         // 如果是true，path会形成一个闭环
         PathMeasure mPathMeasure = new PathMeasure(path, false);
@@ -230,7 +231,7 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
                 parent.removeView(goods);
 
                 //设置锚点view抖动动画
-                ViewAnimator.animate(end).scaleX(1, 1.25f, 0.75f, 1.15f, 0.85f, 1.10f, 1).scaleY(1, 0.75f, 1.25f, 0.85f, 1.15f, 0.9f, 1).duration(animalTime).start();
+                ViewAnimator.animate(end).scaleX(1, 1.25f, 0.75f, 1.15f, 0.85f, 1.10f, 1).scaleY(1, 0.75f, 1.25f, 0.85f, 1.15f, 0.9f, 1).duration(500).start();
             }
 
             @Override
@@ -244,7 +245,7 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
             }
         });
         //设置透明度渐变，缩小动画
-        ViewAnimator.animate(goods).alpha(1f, 0.4f).scaleY(1f, 0.4f).scaleX(1f, 0.4f).duration(animalTime).start();
+//        ViewAnimator.animate(goods).alpha(1f, 0.4f).scaleY(1f, 0.4f).scaleX(1f, 0.4f).duration(animalTime).start();
 
     }
 }
