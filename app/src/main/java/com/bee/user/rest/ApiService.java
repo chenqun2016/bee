@@ -5,6 +5,7 @@ import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
+import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.FoodDetailBean;
 import com.bee.user.bean.HelpTypeBean;
 import com.bee.user.bean.HelpTypeItemBean;
@@ -252,4 +253,10 @@ public interface ApiService {
      */
     @POST(HttpRequest.enterpriseOrder)
     Observable<BaseResult<Object>> enterpriseOrder(@Body RequestBody info);
+
+    /**
+     * 获取指定key的字典配置
+     */
+    @POST(HttpRequest.getDictByType)
+    Observable<BaseResult<List<DictByTypeBean>>> getDictByType(@Path("type") String typeId);
 }

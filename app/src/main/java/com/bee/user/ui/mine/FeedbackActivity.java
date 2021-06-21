@@ -13,7 +13,12 @@ import androidx.annotation.Nullable;
 
 import com.bee.user.PicassoEngine;
 import com.bee.user.R;
+import com.bee.user.bean.DictByTypeBean;
+import com.bee.user.bean.HelpTypeItemBean;
 import com.bee.user.bean.OrderGridviewItemBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.FoodChooseTypeTagsAdapter;
 import com.bee.user.ui.adapter.TagsOrderCommentAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
@@ -34,11 +39,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Function3;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -61,6 +68,8 @@ public class FeedbackActivity extends BaseActivity {
 
     @BindView(R.id.tv_error)
     TextView tv_error;
+
+    private FoodChooseTypeTagsAdapter<DictByTypeBean> tagsAdapter = null;
 
     @OnClick({R.id.tv_agree,R.id.tv_paizhao})
     public void onClick(View view){
@@ -132,11 +141,25 @@ public class FeedbackActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-
-
         initTags();
-
         initOther();
+        toDictByType();
+    }
+
+    /**
+     * 获取反馈类型
+     */
+    private void toDictByType() {
+        Api.getClient(HttpRequest.baseUrl_sys).getDictByType("feedback_type").subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<DictByTypeBean>>() {
+                    @Override
+                    public void onSuccess(List<DictByTypeBean> dictByType) {
+                        if(null != dictByType && dictByType.size()>0){
+                            tagsAdapter.onlyAddAll(dictByType);
+                        }
+                    }
+                });
     }
 
     private void initOther() {
@@ -190,30 +213,19 @@ public class FeedbackActivity extends BaseActivity {
     }
 
     private void initTags() {
-        FoodChooseTypeTagsAdapter<String> tagsAdapter = new FoodChooseTypeTagsAdapter<>(this);
+        tagsAdapter = new FoodChooseTypeTagsAdapter<>(this);
 
         tags.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_SINGLE);
         tags.setAdapter(tagsAdapter);
 
-        tags.setOnTagClickListener(new FlowTagLayout.OnTagClickListener() {
-            @Override
-            public void onItemClick(FlowTagLayout parent, View view, int position) {
+        tags.setOnTagClickListener((parent, view, position) -> {
 
 
-            }
         });
-        tags.setOnTagSelectListener(new FlowTagLayout.OnTagSelectListener() {
-            @Override
-            public void onItemSelect(FlowTagLayout parent, List<Integer> selectedList) {
+        tags.setOnTagSelectListener((parent, selectedList) -> {
 
-            }
         });
-        List<String> dataSource = new ArrayList<>();
-        dataSource.add("软件使用问题");
-        dataSource.add("会员问题");
-        dataSource.add("物流问题");
-        dataSource.add("找不到店铺/商品");
-        tagsAdapter.onlyAddAll(dataSource);
+
     }
 
 

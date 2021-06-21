@@ -97,5 +97,8 @@ public class HttpRequest {
     //企业订餐提交
     public static final String enterpriseOrder = "app-sys/enterpriseOrder";
 
+    //获取指定key的字典配置
+    public static final String getDictByType = "app-sys/getDictByType/{type}";
+
 
 }
