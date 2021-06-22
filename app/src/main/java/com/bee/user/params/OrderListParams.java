@@ -11,9 +11,9 @@ public class OrderListParams {
     public OrderListInnerDataClass data;
 
     public static class OrderListInnerDataClass{
-        public int status;
-
-        public OrderListInnerDataClass(int status) {
+        public String status;
+        public int sourceType = 1;
+        public OrderListInnerDataClass(String status) {
             this.status = status;
         }
     }

@@ -18,15 +18,15 @@ public class OrderBean implements MultiItemEntity, Serializable {
 
     @Override
     public int getItemType() {
-        if(status == Constants.TYPE_PAY_WAITE ||
-                status == Constants.TYPE_READY ||
-                status == Constants.TYPE_PEISONG ){
+        if(status == Constants.TYPE_ORDER_WAIT_PAY ||
+                status == Constants.TYPE_ORDER_READY ||
+                status == Constants.TYPE_ORDER_PEISONG){
             return type2;
         }
         return type1;
     }
 
-    public int getOrderItemType(){
+    public String getOrderItemType(){
         return status;
     }
 
@@ -34,7 +34,7 @@ public class OrderBean implements MultiItemEntity, Serializable {
     public Object storeId;
     public Object storeName;
     public Object deliveryTime;
-    public int status;
+    public String status;
     public String statusMark;
     public int totalAmount;
     public int productNumber;

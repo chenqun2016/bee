@@ -16,6 +16,12 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import butterknife.BindView;
 
+import static com.bee.user.Constants.TYPE_ORDER_ALL;
+import static com.bee.user.Constants.TYPE_ORDER_RECEIVED;
+import static com.bee.user.Constants.TYPE_ORDER_REFUNDED;
+import static com.bee.user.Constants.TYPE_ORDER_WAIT_COMMENT;
+import static com.bee.user.Constants.TYPE_ORDER_WAIT_PAY;
+
 /**
  * 创建人：进京赶考
  * 创建时间：2020/09/23  13：43
@@ -90,8 +96,28 @@ public class OrderListActivity extends BaseActivity {
         if (mFragments[index] != null) {
             return mFragments[index];
         }
-        Fragment fragment = OrderListFragment.newInstance(index);
-
+        String type ;
+        switch (index){
+            case 0:
+                type = TYPE_ORDER_ALL;
+                break;
+            case 1:
+                type = TYPE_ORDER_WAIT_PAY;
+                break;
+            case 2:
+                type = TYPE_ORDER_RECEIVED;
+                break;
+            case 3:
+                type = TYPE_ORDER_WAIT_COMMENT;
+                break;
+            case 4:
+                type = TYPE_ORDER_REFUNDED;
+                break;
+            default:
+                type = TYPE_ORDER_ALL;
+                break;
+        }
+        Fragment fragment = OrderListFragment.newInstance(type);
         mFragments[index] = fragment;
         return mFragments[index];
     }

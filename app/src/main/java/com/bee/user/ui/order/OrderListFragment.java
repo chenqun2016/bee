@@ -41,14 +41,14 @@ public class OrderListFragment extends BaseFragment {
 
 
     public RecyclerView recyclerview;
-    int type;
+    String type;
     OrderFragmentAdapter mAdapter;
     LoadmoreUtils loadmoreUtils;
 
 
-    public static OrderListFragment newInstance(int type) {
+    public static OrderListFragment newInstance(String type) {
         Bundle arguments = new Bundle();
-        arguments.putInt("type", type);
+        arguments.putString("type", type);
         OrderListFragment fragment = new OrderListFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -70,7 +70,7 @@ public class OrderListFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.crecyclerview_base, container, false);
         recyclerview = view.findViewById(R.id.recyclerview);
         Bundle arguments = getArguments();
-        type = arguments.getInt("type", 0);
+        type = arguments.getString("type");
 
 
         return view;

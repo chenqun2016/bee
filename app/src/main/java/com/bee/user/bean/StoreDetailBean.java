@@ -34,6 +34,7 @@ public class StoreDetailBean implements Serializable {
     private int id;
     private String name;
     private String logoUrl;
+    private String appBackgroudUrl;
     private String businessTimes;
     private int brandId;
     private String brandName;
@@ -192,6 +193,14 @@ public class StoreDetailBean implements Serializable {
 
     public void setCategoryVOS(List<CategoryVOSBean> categoryVOS) {
         this.categoryVOS = categoryVOS;
+    }
+
+    public String getAppBackgroundUrl() {
+        return appBackgroudUrl;
+    }
+
+    public void setAppBackgroundUrl(String appBackgroundUrl) {
+        this.appBackgroudUrl = appBackgroundUrl;
     }
 
     public static class CategoryVOSBean implements Serializable{

@@ -95,7 +95,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
 
         switch (bean.getOrderItemType()) {
 
-            case Constants.TYPE_READY://商家正在备货
+            case Constants.TYPE_ORDER_READY://商家正在备货
                 tv_zailaiyidan.setText("联系商家");
                 tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -115,7 +115,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 tv_pinglun.setVisibility(View.GONE);
 
                 break;
-            case Constants.TYPE_PEISONG://商品配送中
+            case Constants.TYPE_ORDER_PEISONG://商品配送中
                 tv_zailaiyidan.setText("联系骑手");
                 tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -136,7 +136,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
 
 
 
-            case Constants.TYPE_PAY_WAITE://等待支付
+            case Constants.TYPE_ORDER_WAIT_PAY://等待支付
                 tv_zailaiyidan.setText("去支付");
                 tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -148,8 +148,8 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 type.setTextColor(type.getResources().getColor(R.color.FF6200));
                 tv_pinglun.setVisibility(View.GONE);
                 break;
-            case Constants.TYPE_CANCELED://订单已取消
-            case Constants.TYPE_COMPLETE://订单已送达,已收货
+            case Constants.TYPE_ORDER_CANCELED://订单已取消
+            case Constants.TYPE_ORDER_RECEIVED://订单已送达,已收货
                 tv_zailaiyidan.setText("再来一单");
                 tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -170,7 +170,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                     }
                 });
                 break;
-            case Constants.TYPE_TO_BE_COMMENTED://待评价
+            case Constants.TYPE_ORDER_WAIT_COMMENT://待评价
                 tv_zailaiyidan.setText("再来一单");
                 tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -192,7 +192,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                     }
                 });
                 break;
-            case Constants.TYPE_TUIKUAN://退款
+            case Constants.TYPE_ORDER_REFUNDED://退款
                 tv_zailaiyidan.setText("退款进度");
                 tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                     @Override

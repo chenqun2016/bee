@@ -419,8 +419,9 @@ public class StoreActivity extends BaseActivity {
                 .into(iv_icon);
 
         Picasso.with(this)
-                .load(storeDetailBean.getLogoUrl())
+                .load(storeDetailBean.getAppBackgroundUrl())
                 .fit()
+                .error(R.drawable.bg_chengse)
                 .into(tv_store_bg);
         CommonUtil.initTAGViews(ll_mark);
 

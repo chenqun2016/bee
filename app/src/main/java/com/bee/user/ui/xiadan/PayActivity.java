@@ -59,10 +59,13 @@ public class PayActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if(null != bottomSheetDialog && bottomSheetDialog.isShowing()){
+            bottomSheetDialog.dismiss();
+        }
     }
-
+    BaseDialog bottomSheetDialog;
     private void showPayDialog(){
-        BaseDialog bottomSheetDialog = new BaseDialog(this){
+        bottomSheetDialog = new BaseDialog(this){
             @Override
             protected int provideContentViewId() {
                 return R.layout.dialog_pay;

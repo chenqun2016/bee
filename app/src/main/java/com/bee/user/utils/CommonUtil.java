@@ -271,10 +271,10 @@ public class CommonUtil {
 
     //订单详情页有两种，
     public static void showOrderDetailActivity(Context mContext, OrderBean bean) {
-        int type = bean.getOrderItemType();
-        if(type == Constants.TYPE_PAY_WAITE ||
-                type == Constants.TYPE_READY ||
-                type == Constants.TYPE_PEISONG ){
+        String type = bean.getOrderItemType();
+        if(type == Constants.TYPE_ORDER_WAIT_PAY ||
+                type == Constants.TYPE_ORDER_READY ||
+                type == Constants.TYPE_ORDER_PEISONG){
             Intent intent = new Intent(mContext, OrderDetailMapActivity.class);
             intent.putExtra("type",type);
             intent.putExtra("id",bean.id);

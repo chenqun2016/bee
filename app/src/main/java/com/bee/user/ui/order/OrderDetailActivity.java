@@ -65,7 +65,7 @@ public class OrderDetailActivity extends BaseActivity {
 
     private long time = 10;
     private Disposable subscription;
-    private int type;
+    private String type;
     private int id;
 
 
@@ -125,7 +125,7 @@ public class OrderDetailActivity extends BaseActivity {
     public void initViews() {
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
-        type = intent.getIntExtra("type", 0);
+        type = intent.getStringExtra("type");
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -141,33 +141,33 @@ public class OrderDetailActivity extends BaseActivity {
         View head;
 
         switch (type) {
-            case Constants.TYPE_COMPLETE://订单已送达
+            case Constants.TYPE_ORDER_RECEIVED://订单已送达
                 tv_title.setText("订单已送达");
                 head = View.inflate(this, R.layout.head_orderdetail_complete, null);
                 initHeadView(head);
                 break;
 
-            case Constants.TYPE_PAY_WAITE://等待支付
+            case Constants.TYPE_ORDER_WAIT_PAY://等待支付
                 tv_title.setText("等待支付，剩余10");
                 head = View.inflate(this, R.layout.head_orderdetail_waite, null);
                 initHeadViewWaite(head);
 
                 countDown();
                 break;
-            case Constants.TYPE_READY://商家正在备货
+            case Constants.TYPE_ORDER_READY://商家正在备货
                 tv_title.setText("商家正在备货");
                 head = View.inflate(this, R.layout.head_orderdetail_beihuo, null);
                 initHeadViewbeihuo(head);
 
                 break;
-            case Constants.TYPE_PEISONG://商品配送中
+            case Constants.TYPE_ORDER_PEISONG://商品配送中
                 tv_title.setText("商品配送中");
                 head = View.inflate(this, R.layout.head_orderdetail_beihuo, null);
                 initHeadViewbeihuo(head);
 
                 break;
 
-            case Constants.TYPE_CANCELED://订单已取消
+            case Constants.TYPE_ORDER_CANCELED://订单已取消
                 tv_title.setText("订单已取消");
                 head = View.inflate(this, R.layout.head_orderdetail_quxiao, null);
                 initHeadViewQuxiao(head);
@@ -177,7 +177,7 @@ public class OrderDetailActivity extends BaseActivity {
                 tv_people_des.setVisibility(View.GONE);
                 ll_bottom.setVisibility(View.VISIBLE);
                 break;
-            case Constants.TYPE_TUIKUAN://退款
+            case Constants.TYPE_ORDER_REFUNDED://退款
                 head = View.inflate(this, R.layout.head_orderdetail_tuikuan, null);
                 initHeadViewtuikuan(head);
                 tv_title.setText("订单已送达");

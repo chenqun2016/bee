@@ -22,28 +22,35 @@ public class Constants {
         return "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC5zS5NObS9AQDwH5sSUNTA2jY6RyUEMGpu9UqmAWNCuDlFo0GovMQkbRuyNy/qXj3V6+0dElG7nCaFQyQ4quww0eZwPE6Sc7iFu3QdoTFPQ4prqpUcYZlcHRdWTntJaaodsI1fMB67eo/oaI4+97MW1za/6nqcGVECz/Z0rqhQswIDAQAB";
     }
 
-//    订单状态：
-//    订单提交成功
-//            订单待支付
-//    订单已支付
-//            商家待接单
-//    商家已接单
-//            配送员待接单配送员已接单配送员取货中
-//    配送员已到店配送员已取货配送员送货中商品已送达
-//    订单已完成\订单已取消（取消原因）
+/**
+订单状态:
+    SS.订单提交成功
+    WP.订单待支付
+    OFP.订单已支付
+    WMJ.商家待接单
+    OMJ.商家已接单
+    JMJ.商家分拣完成（动态顺序）
+    WPS.配送员待接单
+    OPS.配送员已接单
+    QPS.配送员取货中
+    GPS.配送员已到店
+    HPS.配送员已取货
+    SPS.配送员送货中
+    DPS.商品已送达
+    OF.订单已完成
+    OC.订单已取消
+ */
+//    ALL->全部；WAIT_PAY->待支付；RECEIVED->已收货；WAIT_COMMENT->待评价；REFUNDED->退款
 
-    //订单详情中 订单状态
-    public static final int TYPE_ALL = 0;//全部
+    public static final String TYPE_ORDER_ALL = "ALL";
+    public static final String TYPE_ORDER_WAIT_PAY = "WAIT_PAY";
+    public static final String TYPE_ORDER_RECEIVED = "RECEIVED";
+    public static final String TYPE_ORDER_WAIT_COMMENT = "WAIT_COMMENT";
+    public static final String TYPE_ORDER_REFUNDED = "REFUNDED";
 
-    public static final int TYPE_COMPLETE = 2;//订单已送达,已收货
-    public static final int TYPE_TO_BE_COMMENTED =3;//待评价
-    public static final int TYPE_TUIKUAN = 4;//退款
-
-    public static final int TYPE_PAY_WAITE = 1;//等待支付
-    public static final int TYPE_READY = 5;//商家正在备货
-    public static final int TYPE_PEISONG = 6;//商品配送中
-
-    public static final int TYPE_CANCELED = 7;//订单已取消
+    public static final String TYPE_ORDER_READY = "5";//商家正在备货
+    public static final String TYPE_ORDER_PEISONG = "6";//商品配送中
+    public static final String TYPE_ORDER_CANCELED = "7";//订单已取消
 
 
 
