@@ -196,7 +196,10 @@
         <activity android:name=".ui.mine.coupon.UnuseCouponActivity" />
         <activity android:name=".ui.search.SearchCityActivity" />
 
-
+        <service
+            android:name=".service.CheckUpdateService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>

@@ -130,6 +130,7 @@ dependencies {
     implementation project(':base')
     implementation project(':crecyclerview')
     implementation project(':citypicker')
+    implementation 'com.blankj:utilcodex:1.27.1'
 
 
 }

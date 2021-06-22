@@ -6,10 +6,13 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
 import com.bee.user.BeeApplication;
+
+import java.io.File;
 
 /**
  * 创建时间：2020/8/19
@@ -124,5 +127,19 @@ public class DeviceUtils {
             model = "";
         }
         return model;
+    }
+
+    /**
+     * 删除之前的apk
+     *
+     * @param apkName apk名字
+     * @return
+     */
+    public static File clearApk(Context context, String apkName) {
+        File apkFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), apkName);
+        if (apkFile.exists()) {
+            apkFile.delete();
+        }
+        return apkFile;
     }
 }

@@ -24,6 +24,7 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.bee.user.R;
+import com.bee.user.bean.AppUpdateInfoBean;
 import com.bee.user.bean.UserBean;
 import com.bee.user.event.ExitloginEvent;
 import com.bee.user.event.LocationChangedEvent;
@@ -32,12 +33,14 @@ import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
+import com.bee.user.service.CheckUpdateService;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.chart.ChartFragment;
 import com.bee.user.ui.home.HomeFragment;
 import com.bee.user.ui.login.CodeLoginActivity;
 import com.bee.user.ui.mine.MineFragment;
 import com.bee.user.ui.nearby.NearbyFragment;
+import com.bee.user.utils.DeviceUtils;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.utils.ToastUtil;
@@ -125,8 +128,40 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         initLogins();
         initLocations();
+        getAppUpdateInfo();
     }
 
+    /**
+     * 获取版本更新信息
+     */
+    private void getAppUpdateInfo() {
+        Map<String, String> map = new HashMap<>();
+        map.put("versionCode", DeviceUtils.getAppVersionName());
+        map.put("versionName", "Android-USER");
+        Api.getClient(HttpRequest.baseUrl_sys).appUpdateInfo(Api.getRequestBody(map))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<AppUpdateInfoBean>() {
+                    @Override
+                    public void onSuccess(AppUpdateInfoBean appUpdateInfoBean) {
+                        if(appUpdateInfoBean!=null) {
+                            Integer isForceUpdate = appUpdateInfoBean.getIsForceUpdate();//是否强制更新(0:否,1:是)
+                            // TODO: 2021/6/22 根据是否强制更新展示最新的弹框UI
+                            startUpdate(appUpdateInfoBean.getUrl());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 下载更新
+     * @param url
+     */
+    private void startUpdate(String url) {
+        Intent intent = new Intent(this, CheckUpdateService.class);
+        intent.putExtra("url",url);
+        CheckUpdateService.enqueueWork(this,intent);
+    }
 
     @Override
     protected void onResume() {

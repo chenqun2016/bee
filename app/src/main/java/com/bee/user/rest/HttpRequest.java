@@ -100,5 +100,8 @@ public class HttpRequest {
     //获取指定key的字典配置
     public static final String getDictByType = "app-sys/getDictByType/{type}";
 
+    //App版本更新信息
+    public static final String appUpdateInfo = "app-sys/appUpdateInfo";
+
 
 }

@@ -2,6 +2,7 @@ package com.bee.user.rest;
 
 import com.bee.user.bean.AddCartBean;
 import com.bee.user.bean.AddressBean;
+import com.bee.user.bean.AppUpdateInfoBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
@@ -259,4 +260,10 @@ public interface ApiService {
      */
     @POST(HttpRequest.getDictByType)
     Observable<BaseResult<List<DictByTypeBean>>> getDictByType(@Path("type") String typeId);
+
+    /**
+     * App版本更新信息
+     */
+    @POST(HttpRequest.appUpdateInfo)
+    Observable<BaseResult<AppUpdateInfoBean>> appUpdateInfo(@Body RequestBody info);
 }
