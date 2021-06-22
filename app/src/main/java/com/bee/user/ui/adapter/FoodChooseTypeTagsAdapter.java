@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bee.user.R;
+import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.widget.FlowTagLayout;
 
 import java.util.ArrayList;
@@ -51,8 +52,8 @@ public class FoodChooseTypeTagsAdapter<T> extends BaseAdapter implements FlowTag
         TextView textView = (TextView) view.findViewById(R.id.tv_tag);
         T t = mDataList.get(position);
 
-        if (t instanceof String) {
-            textView.setText((String) t);
+        if (t instanceof DictByTypeBean) {
+            textView.setText(((DictByTypeBean) t).getDictValue());
         }
         return view;
     }
