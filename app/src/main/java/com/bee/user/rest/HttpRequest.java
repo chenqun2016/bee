@@ -19,6 +19,7 @@ public class HttpRequest {
     public static final String baseUrl_member = baseUrl + "api-member/";
     public static final String baseUrl_order = baseUrl + "api-order/";
     public static final String baseUrl_sys = baseUrl + "api-user/";
+    public static final String baseUrl_file = baseUrl + "api-third/";
 
 
     public static final String login = "member/login/oneLogin";
@@ -103,5 +104,9 @@ public class HttpRequest {
     //App版本更新信息
     public static final String appUpdateInfo = "app-sys/appUpdateInfo";
 
+    //文件上传阿里云，返回对象
+    public static final String uploadObj = "oss/file/uploadObj";
 
+    //提交意见反馈
+    public static final String submitFeedback = "app-sys/submitFeedback";
 }

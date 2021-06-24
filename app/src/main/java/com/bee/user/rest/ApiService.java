@@ -17,16 +17,20 @@ import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.bean.StoreListBean;
+import com.bee.user.bean.UploadImageBean;
 import com.bee.user.bean.UserBean;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 
 import java.util.List;
 
 import io.reactivex.rxjava3.core.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -266,4 +270,17 @@ public interface ApiService {
      */
     @POST(HttpRequest.appUpdateInfo)
     Observable<BaseResult<AppUpdateInfoBean>> appUpdateInfo(@Body RequestBody info);
+
+    /**
+     * 文件上传阿里云，返回对象
+     */
+    @Multipart
+    @POST(HttpRequest.uploadObj)
+    Observable<BaseResult<UploadImageBean>> uploadObj(@Part MultipartBody.Part file);
+
+    /**
+     * 提交意见反馈
+     */
+    @POST(HttpRequest.submitFeedback)
+    Observable<BaseResult<Object>> submitFeedback(@Body RequestBody info);
 }

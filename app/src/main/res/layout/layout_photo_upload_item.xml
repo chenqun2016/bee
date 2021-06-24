@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginRight="4dp"
+    android:layout_marginBottom="2dp"
+    android:layout_width="65dp"
+    android:layout_height="65dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="gone"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_camrea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="@drawable/xuxian_xiao"
+                android:drawableTop="@drawable/icon_xiangji"
+                android:gravity="center"
+                android:paddingTop="15dp"
+                android:text="上传凭证"
+                android:textColor="@color/color_CBCBCB"
+                android:textSize="11sp" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_del"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="15dp"
+                android:paddingBottom="15dp"
+                android:src="@drawable/icon_del"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
