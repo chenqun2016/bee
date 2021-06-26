@@ -1,5 +1,6 @@
 package com.bee.user.ui.xiadan;
 
+import android.content.Intent;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -20,6 +21,9 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.bee.user.Constants.RESULT_CODE_ORDERING;
+import static com.bee.user.Constants.TEXT_BEIZHU;
 
 /**
  * 创建人：进京赶考
@@ -43,6 +47,9 @@ public class BeizhuActivity extends BaseActivity {
 
     @OnClick({R.id.iv_wancheng})
     public void onClick(View view){
+        Intent intent = new Intent();
+        intent.putExtra(TEXT_BEIZHU,et_content.getText().toString());
+        setResult(RESULT_CODE_ORDERING,intent);
         finish();
     }
 

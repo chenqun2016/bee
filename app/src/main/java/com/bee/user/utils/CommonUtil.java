@@ -2,6 +2,8 @@ package com.bee.user.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
@@ -363,5 +365,22 @@ public class CommonUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static  void copyContentToClipboard(String content, Context context) {
+        try {
+            //获取剪贴板管理器：
+            ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            // 创建普通字符型ClipData
+            ClipData mClipData = ClipData.newPlainText("Label", content);
+            // 将ClipData内容放到系统剪贴板里。
+            cm.setPrimaryClip(mClipData);
+            ToastUtil.ToastShort(context,"已复制");
+        }catch (Exception e){
+            e.printStackTrace();
+            ToastUtil.ToastShort(context,"复制失败");
+        }
+
     }
 }

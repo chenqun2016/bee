@@ -42,10 +42,15 @@ public class Constants {
  */
 //    ALL->全部；WAIT_PAY->待支付；RECEIVED->已收货；WAIT_COMMENT->待评价；REFUNDED->退款
 
+    //全部
     public static final String TYPE_ORDER_ALL = "ALL";
+    //待支付
     public static final String TYPE_ORDER_WAIT_PAY = "WAIT_PAY";
+    //已收货
     public static final String TYPE_ORDER_RECEIVED = "RECEIVED";
+    //待评价
     public static final String TYPE_ORDER_WAIT_COMMENT = "WAIT_COMMENT";
+    //退款
     public static final String TYPE_ORDER_REFUNDED = "REFUNDED";
 
     public static final String TYPE_ORDER_READY = "5";//商家正在备货
@@ -59,4 +64,8 @@ public class Constants {
     public static final int Delay_Reflush_true = 100;
     public static final String PDF_Common = "common";
 
+
+    public static final int REQUEST_CODE_ORDERING = 5;//订单备注
+    public static final int RESULT_CODE_ORDERING = 5;//订单备注
+    public static final String TEXT_BEIZHU = "beizhu";//订单备注
 }

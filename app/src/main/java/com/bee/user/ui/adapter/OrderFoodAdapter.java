@@ -32,6 +32,16 @@ public class OrderFoodAdapter extends BaseQuickAdapter<FoodBean,BaseViewHolder> 
         TextView iv_goods_name = baseViewHolder.findView(R.id.iv_goods_name);
         iv_goods_name.setText(foodBean.productName+"");
 
+        TextView iv_goods_price = baseViewHolder.findView(R.id.iv_goods_price);
+        iv_goods_price.setText(foodBean.productPrice+"");
+
+        TextView iv_goods_detail = baseViewHolder.findView(R.id.iv_goods_detail);
+        iv_goods_detail.setText("");
+
+        TextView iv_goods_num = baseViewHolder.findView(R.id.iv_goods_num);
+        iv_goods_num.setText(foodBean.productQuantity+"");
+
+
         TextView iv_goods_price_past = baseViewHolder.findView(R.id.iv_goods_price_past);
         DisplayUtil.setXiexian(iv_goods_price_past);
 

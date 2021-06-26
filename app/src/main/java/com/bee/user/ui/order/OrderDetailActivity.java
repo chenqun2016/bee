@@ -15,23 +15,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.Constants;
 import com.bee.user.R;
-import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderGridviewItemBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.OrderDetailAdapter;
+import com.bee.user.ui.adapter.OrderFoodAdapter;
 import com.bee.user.ui.adapter.OrderGridviewItemAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.CommonUtil;
-import com.bee.user.utils.LogUtil;
+import com.bee.user.utils.ToastUtil;
 import com.bee.user.widget.MyGridView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -47,7 +45,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * 创建时间：2020/09/23  17：08
  * 描述：
  */
-public class OrderDetailActivity extends BaseActivity {
+public class OrderDetailActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.tv_title)
     TextView tv_title;
 
@@ -57,9 +55,16 @@ public class OrderDetailActivity extends BaseActivity {
 
     View line4;
     TextView tv_people;
-    TextView tv_people_des;
-
     LinearLayout ll_bottom;
+
+    TextView tv_people_des;
+    TextView tv_time_des;
+    TextView tv_address_des;
+    TextView tv_type_des;
+    TextView tv_ordernum_des;
+    TextView tv_pay_type_des;
+    TextView tv_pay_time_des;
+    TextView tv_beizhu_des;
 
     private OrderDetailAdapter orderingAdapter;
 
@@ -67,8 +72,10 @@ public class OrderDetailActivity extends BaseActivity {
     private Disposable subscription;
     private String type;
     private int id;
+    private OrderDetailBean orderDetailBean;
 
 
+    @Override
     @OnClick({R.id.tv_title})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -92,6 +99,12 @@ public class OrderDetailActivity extends BaseActivity {
                 }
 
                 break;
+            case R.id.tv_copy:
+                CommonUtil.copyContentToClipboard(tv_ordernum_des.getText().toString(),this);
+
+                break;
+            default:
+                break;
         }
     }
 
@@ -108,17 +121,35 @@ public class OrderDetailActivity extends BaseActivity {
             subscription = null;
         }
     }
-    private void getOrderDetail(){
+
+    private void getOrderDetail() {
         Api.getClient(HttpRequest.baseUrl_order).orderDetail(id).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<OrderDetailBean>() {
                     @Override
                     public void onSuccess(OrderDetailBean orderDetailBean) {
-                        LogUtil.d(orderDetailBean.toString());
-                        orderingAdapter.setNewInstance(caculate(orderDetailBean));
+                        OrderDetailActivity.this.orderDetailBean = orderDetailBean;
+                        orderingAdapter.setNewInstance(new ArrayList<>());
+
+                        View head2 = View.inflate(OrderDetailActivity.this, R.layout.item_ordering, null);
+                        initHead2View(head2, orderDetailBean);
+                        initDatas(orderDetailBean);
+                        orderingAdapter.addHeaderView(head2, 1);
                     }
                 });
+    }
+
+    private void initDatas(OrderDetailBean orderDetailBean) {
+
+         tv_people_des.setText("");
+         tv_time_des.setText(orderDetailBean.deliveryTime+"");
+         tv_address_des.setText(orderDetailBean.receiverDetailAddress+"\n"+orderDetailBean.createName+orderDetailBean.receiverPhone);
+         tv_type_des.setText(orderDetailBean.billType+"");
+         tv_ordernum_des.setText(orderDetailBean.orderSn+"");
+         tv_pay_type_des.setText(orderDetailBean.payType==1?"米粒支付":"");
+         tv_pay_time_des.setText(orderDetailBean.createTime+"");
+         tv_beizhu_des.setText(orderDetailBean.note+"");
     }
 
     @Override
@@ -195,10 +226,44 @@ public class OrderDetailActivity extends BaseActivity {
 //        beans.add(new StoreBean());
 
         orderingAdapter.addHeaderView(head);
+
+
         orderingAdapter.addFooterView(foot);
 
 
         getOrderDetail();
+    }
+
+    private void initHead2View(View head2, OrderDetailBean orderDetailBean) {
+        TextView tv_store = head2.findViewById(R.id.tv_store);
+        tv_store.setText(orderDetailBean.storeName + "");
+
+        TextView tv_time_value = head2.findViewById(R.id.tv_time_value);
+        tv_time_value.setVisibility(View.GONE);
+
+        RecyclerView recyclerView = head2.findViewById(R.id.recyclerview);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        OrderFoodAdapter adapter = new OrderFoodAdapter(orderDetailBean.orderItemList);
+        recyclerView.setAdapter(adapter);
+
+        TextView tv_youhuiquan_value = head2.findViewById(R.id.tv_youhuiquan_value);
+        tv_youhuiquan_value.setTextColor(tv_youhuiquan_value.getResources().getColor(R.color.color_282525));
+        tv_youhuiquan_value.setCompoundDrawables(null, null, null, null);
+        tv_youhuiquan_value.setText("¥1");
+        tv_youhuiquan_value.setTypeface(Typeface.DEFAULT_BOLD);
+
+
+        TextView tv_total_money_value = head2.findViewById(R.id.tv_total_money_value);
+        tv_total_money_value.setText(orderDetailBean.totalAmount + "");
+        TextView tv_baozhuangfei_value = head2.findViewById(R.id.tv_baozhuangfei_value);
+        tv_baozhuangfei_value.setText("");
+        TextView tv_peisongfei_value = head2.findViewById(R.id.tv_peisongfei_value);
+        tv_peisongfei_value.setText(orderDetailBean.freightAmount + "");
+        TextView tv_total_value = head2.findViewById(R.id.tv_total_value);
+        tv_total_value.setText(orderDetailBean.totalAmount + "");
+        TextView tv_total_youhui_value = head2.findViewById(R.id.tv_total_youhui_value);
+        tv_total_youhui_value.setText(orderDetailBean.couponAmount + "");
     }
 
     //退款中
@@ -206,24 +271,24 @@ public class OrderDetailActivity extends BaseActivity {
         MyGridView gridview_tuikuan = head.findViewById(R.id.gridview_tuikuan);
 
         ArrayList<OrderGridviewItemBean> beans = new ArrayList<>();
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cancel_Order_beihuo,R.drawable.icon_quxiaodingdan,"取消订单",R.color.color_3B3838));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cuidan,R.drawable.icon_cuidan,"催单",R.color.color_ccc));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_change_order,R.drawable.icon_gaidingdanxinxi,"改订单信息",R.color.color_3B3838));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_rider,R.drawable.icon_lianxiqishou,"联系骑手",R.color.color_3B3838));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_shop,R.drawable.icon_lianxishangjia,"联系商家",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cancel_Order_beihuo, R.drawable.icon_quxiaodingdan, "取消订单", R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cuidan, R.drawable.icon_cuidan, "催单", R.color.color_ccc));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_change_order, R.drawable.icon_gaidingdanxinxi, "改订单信息", R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_rider, R.drawable.icon_lianxiqishou, "联系骑手", R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_shop, R.drawable.icon_lianxishangjia, "联系商家", R.color.color_3B3838));
 
 
-        setGridviewAdapter(gridview_tuikuan,beans);
+        setGridviewAdapter(gridview_tuikuan, beans);
 
     }
 
     private void setGridviewAdapter(MyGridView gridview_tuikuan, ArrayList<OrderGridviewItemBean> beans) {
-        OrderGridviewItemAdapter adapter = new OrderGridviewItemAdapter(this,beans);
+        OrderGridviewItemAdapter adapter = new OrderGridviewItemAdapter(this, beans);
         gridview_tuikuan.setAdapter(adapter);
         gridview_tuikuan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CommonUtil.performOrderGridviewClick(OrderDetailActivity.this,adapter,i);
+                CommonUtil.performOrderGridviewClick(OrderDetailActivity.this, adapter, i);
             }
         });
     }
@@ -234,14 +299,13 @@ public class OrderDetailActivity extends BaseActivity {
         MyGridView gridview_beihuo = head.findViewById(R.id.gridview_beihuo);
 
         ArrayList<OrderGridviewItemBean> beans = new ArrayList<>();
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cancel_Order_beihuo,R.drawable.icon_quxiaodingdan,"取消订单",R.color.color_3B3838));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cuidan,R.drawable.icon_cuidan,"催单",R.color.color_ccc));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_change_order,R.drawable.icon_gaidingdanxinxi,"改订单信息",R.color.color_3B3838));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_rider,R.drawable.icon_lianxiqishou,"联系骑手",R.color.color_3B3838));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_shop,R.drawable.icon_lianxishangjia,"联系商家",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cancel_Order_beihuo, R.drawable.icon_quxiaodingdan, "取消订单", R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cuidan, R.drawable.icon_cuidan, "催单", R.color.color_ccc));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_change_order, R.drawable.icon_gaidingdanxinxi, "改订单信息", R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_rider, R.drawable.icon_lianxiqishou, "联系骑手", R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_shop, R.drawable.icon_lianxishangjia, "联系商家", R.color.color_3B3838));
 
-        setGridviewAdapter(gridview_beihuo,beans);
-
+        setGridviewAdapter(gridview_beihuo, beans);
 
 
         TextView tv_jingkuai = head.findViewById(R.id.tv_jingkuai);
@@ -254,18 +318,16 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
 
-
     //等待支付
     private void initHeadViewWaite(View head) {
         MyGridView gridview_3 = head.findViewById(R.id.gridview_3);
 
         ArrayList<OrderGridviewItemBean> beans = new ArrayList<>();
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cancel_Order,R.drawable.icon_quxiaodingdan,"取消订单",R.color.color_3B3838));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_shop,R.drawable.icon_lianxishangjia,"联系商家",R.color.color_3B3838));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_pay_now,R.drawable.icon_lijizhifu,"立即支付",R.color.color_FF6200));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_cancel_Order, R.drawable.icon_quxiaodingdan, "取消订单", R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_shop, R.drawable.icon_lianxishangjia, "联系商家", R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_pay_now, R.drawable.icon_lijizhifu, "立即支付", R.color.color_FF6200));
 
-        setGridviewAdapter(gridview_3,beans);
-
+        setGridviewAdapter(gridview_3, beans);
 
 
         TextView tv_des = head.findViewById(R.id.tv_des);
@@ -286,29 +348,34 @@ public class OrderDetailActivity extends BaseActivity {
     //    默认
     private void initHeadView(View head) {
         ArrayList<OrderGridviewItemBean> beans = new ArrayList<>();
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_reOrder,R.drawable.icon_zailaiyidan,"再来一单",R.color.color_FF6200));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_comment,R.drawable.icon_pinglundefen,"评价得积分",R.color.color_FF6200));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_shouhou,R.drawable.icon_shouhou,"申请售后",R.color.color_3B3838));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_shop,R.drawable.icon_lianxishangjia,"联系商家",R.color.color_3B3838));
-        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_rider,R.drawable.icon_lianxiqishou,"联系骑手",R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_reOrder, R.drawable.icon_zailaiyidan, "再来一单", R.color.color_FF6200));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_comment, R.drawable.icon_pinglundefen, "评价得积分", R.color.color_FF6200));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_shouhou, R.drawable.icon_shouhou, "申请售后", R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_shop, R.drawable.icon_lianxishangjia, "联系商家", R.color.color_3B3838));
+        beans.add(new OrderGridviewItemBean(OrderGridviewItemBean.TYPE_contact_rider, R.drawable.icon_lianxiqishou, "联系骑手", R.color.color_3B3838));
 
         MyGridView gridview_complete = head.findViewById(R.id.gridview_complete);
-        setGridviewAdapter(gridview_complete,beans);
+        setGridviewAdapter(gridview_complete, beans);
     }
 
 
+
     private void initFootView(View foot) {
-
-        TextView tv_youhuiquan_value = foot.findViewById(R.id.tv_youhuiquan_value);
-        tv_youhuiquan_value.setTextColor(tv_youhuiquan_value.getResources().getColor(R.color.color_282525));
-        tv_youhuiquan_value.setCompoundDrawables(null,null,null,null);
-        tv_youhuiquan_value.setText("¥1");
-        tv_youhuiquan_value.setTypeface(Typeface.DEFAULT_BOLD);
-
         line4 = foot.findViewById(R.id.line4);
         tv_people = foot.findViewById(R.id.tv_people);
         tv_people_des = foot.findViewById(R.id.tv_people_des);
         ll_bottom = foot.findViewById(R.id.ll_bottom);
+
+        tv_time_des = foot.findViewById(R.id.tv_time_des);
+        tv_address_des = foot.findViewById(R.id.tv_address_des);
+        tv_type_des = foot.findViewById(R.id.tv_type_des);
+        tv_ordernum_des = foot.findViewById(R.id.tv_ordernum_des);
+        tv_pay_type_des = foot.findViewById(R.id.tv_pay_type_des);
+        tv_pay_time_des = foot.findViewById(R.id.tv_pay_time_des);
+        tv_beizhu_des = foot.findViewById(R.id.tv_beizhu_des);
+
+        TextView tv_copy = foot.findViewById(R.id.tv_copy);
+        tv_copy.setOnClickListener(this);
     }
 
 
@@ -348,8 +415,6 @@ public class OrderDetailActivity extends BaseActivity {
         CommonUtil.initTraceAdapter(recyclerview);
 
 
-
-
         bottomSheetDialog.setCanceledOnTouchOutside(false);
         try {
             bottomSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet)
@@ -360,24 +425,4 @@ public class OrderDetailActivity extends BaseActivity {
 
         bottomSheetDialog.show();
     }
-
-    HashMap<Integer, List<FoodBean>> integerListHashMap = new HashMap<>();
-    private List<List<FoodBean>> caculate(OrderDetailBean beans) {
-        List<FoodBean> list = beans.orderItemList;
-
-        integerListHashMap.clear();
-        List<FoodBean> chartBeans = null;
-        for(FoodBean item : list){
-            if(null == integerListHashMap.get(item.storeId)  ){
-                chartBeans = new ArrayList<>();
-                chartBeans.add(item);
-                integerListHashMap.put(item.storeId,chartBeans);
-            }else{
-                List<FoodBean> beans1 = integerListHashMap.get(item.storeId);
-                beans1.add(item);
-            }
-        }
-        return new ArrayList<>(integerListHashMap.values());
-    }
-
 }

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.rest.Api;
@@ -12,6 +13,7 @@ import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.nearby.DingWeiActivity;
+import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.RadioGroupPlus;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
@@ -177,6 +179,11 @@ public class NewAddressActivity extends BaseActivity {
                     rgp_tags.check(R.id.rb_5);
                     break;
             }
+        }
+
+        AMapLocation location = SPUtils.geTinstance().getLocation();
+        if(null != location){
+            tv_dizhi_text.setText(location.getAoiName());
         }
     }
 

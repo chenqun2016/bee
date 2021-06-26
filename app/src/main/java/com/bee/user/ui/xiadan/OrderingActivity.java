@@ -52,6 +52,9 @@ import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+import static com.bee.user.Constants.REQUEST_CODE_ORDERING;
+import static com.bee.user.Constants.RESULT_CODE_ORDERING;
+import static com.bee.user.Constants.TEXT_BEIZHU;
 import static com.bee.user.ui.xiadan.ChooseAddressActivity.REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_ORDERING;
 
 /**
@@ -136,6 +139,10 @@ public class OrderingActivity extends BaseActivity {
             tv_dizhi2.setVisibility(View.VISIBLE);
             String gender = address.gender==1?"先生":"女士";
             tv_dizhi2.setText(address.name+"("+gender+")"+address.phoneNumber);
+        }
+        if(requestCode == REQUEST_CODE_ORDERING &&  resultCode == RESULT_CODE_ORDERING){
+            String beizhu = data.getStringExtra(TEXT_BEIZHU);
+            tv_beizhu.setText(beizhu);
         }
     }
 
@@ -303,8 +310,7 @@ public class OrderingActivity extends BaseActivity {
         tv_beizhu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                startActivity(new Intent(OrderingActivity.this, BeizhuActivity.class));
+                startActivityForResult(new Intent(OrderingActivity.this, BeizhuActivity.class), REQUEST_CODE_ORDERING);
             }
         });
         tv_tigongcanju = foot.findViewById(R.id.tv_tigongcanju);

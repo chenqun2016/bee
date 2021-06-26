@@ -18,7 +18,7 @@ public class OrderDetailBean {
     public Integer payAmount;
     public Integer feightTemplateDetailId;
     public Integer freightAmount;
-    public Integer status;
+    public String status;
     public Object isPay;
     public Object paymentTime;
     public Integer payType;
@@ -52,7 +52,7 @@ public class OrderDetailBean {
     public Integer buildingId;
     public String buildingName;
     public Object storeId;
-    public Object storeName;
+    public String storeName;
     public Boolean comment;
     public String receiverProvince;
     public String receiverCity;
