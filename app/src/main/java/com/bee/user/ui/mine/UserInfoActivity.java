@@ -1,15 +1,7 @@
 package com.bee.user.ui.mine;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,18 +10,16 @@ import com.bee.user.PicassoEngine;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.RoundedCornersTransform;
-import com.bee.user.event.MainEvent;
+import com.bee.user.bean.UserBean;
 import com.bee.user.event.UserInfoItemEvent;
-import com.bee.user.ui.MainActivity;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.BaseDialog;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.login.CodeLoginActivity;
-import com.bee.user.ui.xiadan.PayActivity;
-import com.bee.user.ui.xiadan.PayStatusActivity;
 import com.bee.user.utils.DisplayUtil;
-import com.bee.user.widget.PayPassView;
+import com.bee.user.utils.sputils.SPUtils;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.configure.PickerOptions;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
@@ -46,7 +36,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,6 +45,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -86,6 +77,37 @@ public class UserInfoActivity extends BaseActivity {
     TextView tv_weiixn_text;
     @BindView(R.id.tv_weibo_text)
     TextView tv_weibo_text;
+
+    @Override
+    public void initViews() {
+        EventBus.getDefault().register(this);
+
+        Api.getClient(HttpRequest.baseUrl_member).getUserInfo()
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<UserBean>() {
+                    @Override
+                    public void onSuccess(UserBean userInfo) {
+                        SPUtils.geTinstance().setLoginCache(userInfo);
+                        if(null != userInfo){
+
+                            Picasso.with(UserInfoActivity.this)
+                                    .load(userInfo.icon)
+                                    .fit()
+                                    .transform(new PicassoRoundTransform(DisplayUtil.dip2px(UserInfoActivity.this,100),0, PicassoRoundTransform.CornerType.ALL))
+                                    .into(tv_icon);
+
+                        }
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
+
+
+    }
 
     @OnClick({R.id.tv_icon, R.id.tv_mingcheng_text
             , R.id.tv_xingbie_text, R.id.tv_shengri_text, R.id.tv_zhiye_text, R.id.tv_qianming_text
@@ -151,10 +173,7 @@ public class UserInfoActivity extends BaseActivity {
         return R.layout.activity_userinfo;
     }
 
-    @Override
-    public void initViews() {
-        EventBus.getDefault().register(this);
-    }
+
 
     @Override
     protected void onDestroy() {
@@ -216,7 +235,7 @@ public class UserInfoActivity extends BaseActivity {
             pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
                 @Override
                 public void onTimeSelect(Date date, View v) {//选中事件回调
-                    if (date.getTime() > new Date().getTime()) {
+                    if (date.getTime() > System.currentTimeMillis()) {
                         date = new Date();
                     }
 
@@ -423,5 +442,33 @@ public class UserInfoActivity extends BaseActivity {
                 tv_dizhi_text.setText(event.getText());
                 break;
         }
+
+
+        Map<String, String> map = new HashMap<>();
+        map.put("id", SPUtils.geTinstance().getUid());
+        map.put("username", tv_mingcheng_text.getText().toString()+"");
+        map.put("nickname", "");
+        map.put("phone", tv_phone_text.getText().toString()+"");
+        map.put("icon", "");
+        map.put("gender", tv_xingbie_text.getText().toString()+"");
+        map.put("birthday", tv_shengri_text.getText().toString()+"");
+        map.put("city", "");
+        map.put("job", tv_zhiye_text.getText().toString()+"");
+        map.put("personalizedSignature", tv_qianming_text.getText().toString());
+
+        Api.getClient(HttpRequest.baseUrl_member).modifyMemberInfo(Api.getRequestBody(map)).
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    public void onSuccess(String str) {
+
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 }

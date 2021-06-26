@@ -74,6 +74,8 @@ public class HttpRequest {
     public static final String updateQuantity = "cart/updateQuantity";
 
 
+    //修改个人信息
+    public static final String modifyMemberInfo = "ums/AppUmsMember/modifyMemberInfo";
     public static final String user_getInfo = "ums/AppUmsMember/getMemberInfo";
     //    用户注册协议
     public static final String xieyi_regist = "http://www.quxianfeng.vip/yszcxy.html";

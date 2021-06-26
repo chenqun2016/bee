@@ -139,7 +139,12 @@ public interface ApiService {
      */
     @GET(HttpRequest.user_getInfo)
     Observable<BaseResult<UserBean>> getUserInfo();
-
+    /**
+     * 修改个人信息
+     * @Path("mobile") String mobile
+     */
+    @POST(HttpRequest.modifyMemberInfo)
+    Observable<BaseResult<String>> modifyMemberInfo(@Body RequestBody info);
 
     /**
      * 添加至购物车

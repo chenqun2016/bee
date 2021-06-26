@@ -40,6 +40,22 @@ public class Constants {
     OF.订单已完成
     OC.订单已取消
  */
+    public static final String TYPE_ORDER_SS = "SS";//订单提交成功
+    public static final String TYPE_ORDER_OFP = "OFP";//订单已支付
+    public static final String TYPE_ORDER_WMJ = "WMJ";//商家待接单
+    public static final String TYPE_ORDER_JMJ = "JMJ";//商家分拣完成
+    public static final String TYPE_ORDER_WPS = "WPS";//配送员待接单
+    public static final String TYPE_ORDER_OPS = "OPS";//配送员已接单
+    public static final String TYPE_ORDER_QPS = "QPS";//配送员取货中
+    public static final String TYPE_ORDER_GPS = "GPS";//配送员已到店
+    public static final String TYPE_ORDER_HPS = "HPS";//配送员已取货
+    public static final String TYPE_ORDER_OF = "OF";//订单已完成
+
+    public static final String TYPE_ORDER_WP = "WP";//订单待支付
+    public static final String TYPE_ORDER_DPS = "DPS";//商品已送达
+    public static final String TYPE_ORDER_OMJ = "OMJ";//商家已接单
+    public static final String TYPE_ORDER_SPS = "SPS";//配送员送货中
+    public static final String TYPE_ORDER_OC = "OC";//订单已取消
 //    ALL->全部；WAIT_PAY->待支付；RECEIVED->已收货；WAIT_COMMENT->待评价；REFUNDED->退款
 
     //全部

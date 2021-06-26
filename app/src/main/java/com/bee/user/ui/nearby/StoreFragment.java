@@ -293,7 +293,7 @@ public class StoreFragment extends BaseFragment {
                         StoreFoodItem2Bean bean = item.info.getBean();
                         int id = 0;
                         if (null != SPUtils.geTinstance().getUserInfo()) {
-                            id = SPUtils.geTinstance().getUserInfo().getId();
+                            id = SPUtils.geTinstance().getUserInfo().id;
                         }
 
                         AddChartBean addChartBean = new AddChartBean(num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price),bean.cartItemId);
