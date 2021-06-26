@@ -23,7 +23,7 @@
         android:textStyle="bold"
         android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
-        android:text="¥200"
+        android:text="¥0"
         android:textColor="@color/color_282525"
         android:textSize="12sp"/>
 
@@ -45,7 +45,7 @@
         android:textStyle="bold"
         android:layout_alignParentRight="true"
         android:layout_marginTop="20dp"
-        android:text="¥2"
+        android:text="¥0"
         android:textColor="@color/color_282525"
         android:textSize="12sp"/>
     <TextView
@@ -65,7 +65,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="20dp"
         android:textStyle="bold"
-        android:text="¥1"
+        android:text="¥0"
         android:textColor="@color/color_282525"
         android:textSize="12sp"/>
     <TextView
@@ -89,7 +89,7 @@
         android:textStyle="bold"
         android:drawableRight="@drawable/icon_link"
         android:drawablePadding="10dp"
-        android:text="3张可用"
+        android:text="0张可用"
         android:textColor="@color/FF6200"
         android:textSize="13sp"/>
 
@@ -111,7 +111,7 @@
         android:layout_marginTop="12dp"
         android:textStyle="bold"
         android:gravity="center_vertical"
-        android:text="¥42.9"
+        android:text="¥0"
         android:textColor="@color/color_282525"
         android:textSize="20sp"/>
 
@@ -137,7 +137,7 @@
         android:layout_marginBottom="3dp"
         android:textStyle="bold"
         android:gravity="center_vertical"
-        android:text="¥12.9"
+        android:text="¥0"
         android:textColor="@color/color_FF5050"
         android:textSize="13sp"/>
 

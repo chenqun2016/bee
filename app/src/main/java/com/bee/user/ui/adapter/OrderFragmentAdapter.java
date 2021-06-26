@@ -88,7 +88,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
         TextView tv_money = helper.findView(R.id.tv_money);
         tv_money.setText(bean.totalAmount+"");
         TextView tv_total = helper.findView(R.id.tv_total);
-        tv_total.setText("共"+1+"件");
+        tv_total.setText("共"+bean.productNumber+"件");
         TextView tv_zailaiyidan = helper.findView(R.id.tv_zailaiyidan);
         TextView tv_pinglun = helper.findView(R.id.tv_pinglun);
 
