@@ -13,30 +13,45 @@ import androidx.annotation.Nullable;
 
 import com.bee.user.PicassoEngine;
 import com.bee.user.R;
+import com.bee.user.bean.AppUpdateInfoBean;
 import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.HelpTypeItemBean;
 import com.bee.user.bean.OrderGridviewItemBean;
+import com.bee.user.bean.UploadImageBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.FoodChooseTypeTagsAdapter;
+import com.bee.user.ui.adapter.GridImageAdapter;
 import com.bee.user.ui.adapter.TagsOrderCommentAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.login.ResetPasswordActivity;
 import com.bee.user.utils.CommonUtil;
+import com.bee.user.utils.DeviceUtils;
+import com.bee.user.utils.MD5Util;
+import com.bee.user.utils.MyExecutors;
 import com.bee.user.widget.FlowTagLayout;
+import com.blankj.utilcode.util.ObjectUtils;
+import com.google.gson.Gson;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
 import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.luck.picture.lib.style.PictureParameterStyle;
 import com.luck.picture.lib.style.PictureSelectorUIStyle;
 
+import java.io.File;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -46,13 +61,16 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Function3;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * 创建人：进京赶考
  * 创建时间：2020/10/26  15：04
  * 描述：
  */
-public class FeedbackActivity extends BaseActivity {
+public class FeedbackActivity extends BaseActivity implements GridImageAdapter.onAddPicClickListener {
     @BindView(R.id.tags)
     FlowTagLayout tags;
 
@@ -68,8 +86,16 @@ public class FeedbackActivity extends BaseActivity {
 
     @BindView(R.id.tv_error)
     TextView tv_error;
+    @BindView(R.id.rc_view)
+    RecyclerView rc_view;
+    @BindView(R.id.tv_paizhao)
+    TextView tv_paizhao;
 
     private FoodChooseTypeTagsAdapter<DictByTypeBean> tagsAdapter = null;
+    private GridImageAdapter gridImageAdapter;
+    private int size = 0;
+    private List<String> urlList = new ArrayList<>();
+    private String dictKey = "";
 
     @OnClick({R.id.tv_agree,R.id.tv_paizhao})
     public void onClick(View view){
@@ -80,52 +106,115 @@ public class FeedbackActivity extends BaseActivity {
                     tv_error.setVisibility(View.VISIBLE);
                     return;
                 }
-                showCancelConfirmDialog();
-
+                toSubmit();
                 break;
             case R.id.tv_paizhao://上传凭证 最多6张
-                PictureSelector.create(this)
-                        .openGallery(PictureMimeType.ofImage())
-                        .imageEngine(PicassoEngine.createPicassoEngine())
-                        .setPictureStyle(PictureParameterStyle.ofSelectTotalStyle())
-                        .maxSelectNum(6)
-                        .forResult(new OnResultCallbackListener<LocalMedia>() {
-                            @Override
-                            public void onResult(List<LocalMedia> result) {
-                                // 结果回调
-
-                                // 例如 LocalMedia 里面返回五种path
-                                // 1.media.getPath(); 原图path，但在Android Q版本上返回的是content:// Uri类型
-                                // 2.media.getCutPath();裁剪后path，需判断media.isCut();切勿直接使用
-                                // 3.media.getCompressPath();压缩后path，需判断media.isCompressed();切勿直接使用
-                                // 4.media.getOriginalPath()); media.isOriginal());为true时此字段才有值
-                                // 5.media.getAndroidQToPath();Android Q版本特有返回的字段，但如果开启了压缩或裁剪还是取裁剪或压缩路
-//                                径；注意：.isAndroidQTransform(false);此字段将返回空
-                                // 如果同时开启裁剪和压缩，则取压缩路径为准因为是先裁剪后压缩
-                                // TODO 可以通过PictureSelectorExternalUtils.getExifInterface();方法获取一些额外的资源信息，
-//                                如旋转角度、经纬度等信息
-
-                                for (LocalMedia media : result) {
-//                                    Log.i(TAG, "是否压缩:" + media.isCompressed());
-//                                    Log.i(TAG, "压缩:" + media.getCompressPath());
-//                                    Log.i(TAG, "原图:" + media.getPath());
-//                                    Log.i(TAG, "是否裁剪:" + media.isCut());
-//                                    Log.i(TAG, "裁剪:" + media.getCutPath());
-//                                    Log.i(TAG, "是否开启原图:" + media.isOriginal());
-//                                    Log.i(TAG, "原图路径:" + media.getOriginalPath());
-//                                    Log.i(TAG, "Android Q 特有Path:" + media.getAndroidQToPath());
-                                }
-                            }
-
-                            @Override
-                            public void onCancel() {
-                                // 取消
-                            }
-                        });
+                openPhoto();
                 break;
+        }
+    }
 
+    private void toSubmit() {
+        urlList.clear();
+        size = gridImageAdapter.getData().size();
+        if (size > 0) {
+            showLoadingDialog();
+                for (int i = 0; i < size; i++) {
+                    LocalMedia media = gridImageAdapter.getData().get(i);
+                    MyExecutors.getInstance().execute(() -> upImageToOss(media));
+                }
+            }else {
+            toSubmitFeedback();
+        }
         }
 
+    /**
+     * 上传图片
+      * @param media
+     */
+    private void upImageToOss(LocalMedia media) {
+        String path = "";
+        if(media.isCompressed()) {
+            path = media.getCompressPath();
+        }else {
+            if(TextUtils.isEmpty(media.getAndroidQToPath())) {
+                path = media.getPath();
+            }else {
+                path = media.getAndroidQToPath();
+            }
+        }
+        File file = new File(path);
+        // 创建 RequestBody，用于封装构建RequestBody
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
+        // MultipartBody.Part  和后端约定好Key，这里的partName是用file
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+        Api.getClient(HttpRequest.baseUrl_file).uploadObj(body).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<UploadImageBean>() {
+                    @Override
+                    public void onSuccess(UploadImageBean uploadImageBean) {
+                        if(uploadImageBean != null) {
+                            urlList.add(uploadImageBean.getUrl());
+                            if(urlList.size() == size) {
+                                runOnUiThread(FeedbackActivity.this::toSubmitFeedback);
+
+                            }
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 提交反馈
+     */
+    private void toSubmitFeedback() {
+        Map map = new HashMap<>();
+        map.put("content", et_content.getText().toString().trim());
+        map.put("feedbackType", Integer.parseInt(dictKey));
+        if(urlList.size()>0) {
+            map.put("images", urlList);
+        }
+        map.put("mobile", et_phone.getText().toString().trim());
+        map.put("realName", et_name.getText().toString().trim());
+        Api.getClient(HttpRequest.baseUrl_sys).submitFeedback(Api.getRequestBody(map))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<Object>() {
+                    @Override
+                    public void onSuccess(Object object) {
+                        closeLoadingDialog();
+                        showCancelConfirmDialog();
+                    }
+                });
+    }
+
+    private void openPhoto() {
+        PictureSelector.create(this)
+                .openGallery(PictureMimeType.ofImage())
+                .imageEngine(PicassoEngine.createPicassoEngine())
+                .setPictureStyle(PictureParameterStyle.ofSelectTotalStyle())
+                .maxSelectNum(6)
+                .isCompress(true)// 是否压缩
+                .compressQuality(100)// 图片压缩后输出质量 0~ 100
+                .synOrAsy(true)//同步true或异步false 压缩 默认同步
+                .selectionData(gridImageAdapter.getData())// 是否传入已选图片
+                .minimumCompressSize(500)// 小于多少kb的图片不压缩
+                .forResult(new OnResultCallbackListener<LocalMedia>() {
+                    @Override
+                    public void onResult(List<LocalMedia> result) {
+                        if(result.size()==0) {
+                            return;
+                        }
+                        tv_paizhao.setVisibility(View.GONE);
+                        rc_view.setVisibility(View.VISIBLE);
+                        gridImageAdapter.setList(result);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // 取消
+                    }
+                });
     }
 
     @Override
@@ -142,8 +231,16 @@ public class FeedbackActivity extends BaseActivity {
     @Override
     public void initViews() {
         initTags();
+        initImage();
         initOther();
         toDictByType();
+    }
+
+    private void initImage() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
+        gridImageAdapter = new GridImageAdapter(this, this);
+        rc_view.setLayoutManager(gridLayoutManager);
+        rc_view.setAdapter(gridImageAdapter);
     }
 
     /**
@@ -157,6 +254,7 @@ public class FeedbackActivity extends BaseActivity {
                     public void onSuccess(List<DictByTypeBean> dictByType) {
                         if(null != dictByType && dictByType.size()>0){
                             tagsAdapter.onlyAddAll(dictByType);
+                            dictKey = dictByType.get(0).getDictKey();
                         }
                     }
                 });
@@ -223,7 +321,9 @@ public class FeedbackActivity extends BaseActivity {
 
         });
         tags.setOnTagSelectListener((parent, selectedList) -> {
-
+            Integer integer = selectedList.get(0);
+            DictByTypeBean dictByTypeBean = (DictByTypeBean) tagsAdapter.getItem(integer);
+            dictKey = dictByTypeBean.getDictKey();
         });
 
     }
@@ -249,6 +349,7 @@ public class FeedbackActivity extends BaseActivity {
             public void onClick(View view) {
                 if (null != dialog && dialog.isShowing()) {
                     dialog.dismiss();
+                    finish();
                 }
             }
         });
@@ -256,5 +357,16 @@ public class FeedbackActivity extends BaseActivity {
 
         dialog.setContentView(inflate);
         dialog.show();
+    }
+
+    @Override
+    public void onAddPicClick() {
+        openPhoto();
+    }
+
+    @Override
+    public void oDelete() {
+        tv_paizhao.setVisibility(View.VISIBLE);
+        rc_view.setVisibility(View.GONE);
     }
 }

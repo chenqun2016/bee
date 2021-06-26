@@ -108,6 +108,17 @@
                     android:text="上传凭证"
                     android:textColor="@color/color_CBCBCB"
                     android:textSize="11sp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rc_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:numColumns="3"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:verticalSpacing="2dp"
+                    android:visibility="gone"
+                    />
 
             </LinearLayout>
 
