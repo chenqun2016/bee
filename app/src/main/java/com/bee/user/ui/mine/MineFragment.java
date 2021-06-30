@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bee.user.R;
+import com.bee.user.RoundedCornersTransform;
 import com.bee.user.event.MainEvent;
 import com.bee.user.ui.adapter.MineGridviewAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
@@ -31,6 +33,7 @@ import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.MyGridView;
 import com.gyf.immersionbar.ImmersionBar;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -171,6 +174,7 @@ public class MineFragment extends BaseFragment {
         if(SPUtils.geTinstance().isLogin()){
             tv_name.setText("1111");
             tv_des.setText("胡蜂会员");
+            resetIcon(SPUtils.geTinstance().getUserInfo().icon);
         }else{
             tv_name.setText("立即登陆");
             tv_des.setText("省多少你说了算");
@@ -265,5 +269,16 @@ public class MineFragment extends BaseFragment {
             tv_des.setText("省多少你说了算");
         }
 
+    }
+
+    public void resetIcon(String str) {
+        if(!TextUtils.isEmpty(str)){
+            Picasso.with(getContext())
+                    .load(str)
+                    .transform(new RoundedCornersTransform())
+                    .error(R.drawable.icon_touxiang)
+                    .placeholder(R.drawable.icon_touxiang)
+                    .into(tv_icon);
+        }
     }
 }

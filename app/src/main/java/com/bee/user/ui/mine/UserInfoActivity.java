@@ -2,6 +2,7 @@ package com.bee.user.ui.mine;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,8 +11,11 @@ import com.bee.user.PicassoEngine;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.RoundedCornersTransform;
+import com.bee.user.bean.UploadImageBean;
 import com.bee.user.bean.UserBean;
+import com.bee.user.event.MainEvent;
 import com.bee.user.event.UserInfoItemEvent;
+import com.bee.user.params.UserInfoParams;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -39,14 +43,15 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * 创建人：进京赶考
@@ -78,6 +83,9 @@ public class UserInfoActivity extends BaseActivity {
     @BindView(R.id.tv_weibo_text)
     TextView tv_weibo_text;
 
+    //阿里云上传后返回的地址
+    private String icon ;
+
     @Override
     public void initViews() {
         EventBus.getDefault().register(this);
@@ -89,7 +97,7 @@ public class UserInfoActivity extends BaseActivity {
                     @Override
                     public void onSuccess(UserBean userInfo) {
                         SPUtils.geTinstance().setLoginCache(userInfo);
-                        if(null != userInfo){
+                        if(null != userInfo && !TextUtils.isEmpty(userInfo.icon)){
 
                             Picasso.with(UserInfoActivity.this)
                                     .load(userInfo.icon)
@@ -98,6 +106,13 @@ public class UserInfoActivity extends BaseActivity {
                                     .into(tv_icon);
 
                         }
+                        tv_mingcheng_text.setText(userInfo.nickname+"");
+                        tv_xingbie_text.setText(userInfo.gender==1?"男":"女");
+                        tv_shengri_text.setText(userInfo.birthday+"");
+                        tv_zhiye_text.setText(userInfo.job+"");
+                        tv_qianming_text.setText(userInfo.personalizedSignature+"");
+                        tv_dizhi_text.setText(userInfo.city+"");
+                        tv_phone_text.setText(userInfo.phone+"");
                     }
 
                     @Override
@@ -206,6 +221,7 @@ public class UserInfoActivity extends BaseActivity {
                     public void onClick(View view) {
                         tv_xingbie_text.setText("男");
                         dialog.dismiss();
+                        setUserDatas();
                     }
                 });
 
@@ -216,6 +232,7 @@ public class UserInfoActivity extends BaseActivity {
                     public void onClick(View view) {
                         tv_xingbie_text.setText("女");
                         dialog.dismiss();
+                        setUserDatas();
                     }
                 });
             }
@@ -240,6 +257,7 @@ public class UserInfoActivity extends BaseActivity {
                     }
 
                     tv_shengri_text.setText(getDateLong(date.getTime()));
+                    setUserDatas();
                 }
             })
                     .setType(new boolean[]{true, true, true, false, false, false})//分别对应 年月日时分秒，默认全部显示
@@ -401,13 +419,9 @@ public class UserInfoActivity extends BaseActivity {
                                         if (null != result && result.size() > 0) {
                                             LocalMedia localMedia = result.get(0);
 
-                                            Picasso.with(UserInfoActivity.this)
-                                                    .load(new File(localMedia.getCutPath()))
-                                                    .transform(new RoundedCornersTransform())
 
-                                                    .error(R.drawable.icon_touxiang)
-                                                    .placeholder(R.drawable.icon_touxiang)
-                                                    .into(tv_icon);
+
+                                            upImageToOss(localMedia);
                                         }
                                     }
 
@@ -424,6 +438,38 @@ public class UserInfoActivity extends BaseActivity {
         bottomSheetDialog.show();
     }
 
+    /**
+     * 上传图片
+     * @param media
+     */
+    private void upImageToOss(LocalMedia media) {
+        String path = media.getCutPath();
+        File file = new File(path);
+        // 创建 RequestBody，用于封装构建RequestBody
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/jpg"), file);
+        // MultipartBody.Part  和后端约定好Key，这里的partName是用file
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+        Api.getClient(HttpRequest.baseUrl_file).uploadObj(body).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<UploadImageBean>() {
+                    @Override
+                    public void onSuccess(UploadImageBean uploadImageBean) {
+                        if(uploadImageBean != null) {
+                            icon = uploadImageBean.getUrl();
+                            Picasso.with(UserInfoActivity.this)
+                                    .load(icon)
+                                    .transform(new RoundedCornersTransform())
+                                    .error(R.drawable.icon_touxiang)
+                                    .placeholder(R.drawable.icon_touxiang)
+                                    .into(tv_icon);
+                            MainEvent mainEvent = new MainEvent(MainEvent.TYPE_reset_icon);
+                            mainEvent.str = icon;
+                            EventBus.getDefault().post(mainEvent);
+                            setUserDatas();
+                        }
+                    }
+                });
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserInfoItemEvent(UserInfoItemEvent event) {
@@ -443,20 +489,24 @@ public class UserInfoActivity extends BaseActivity {
                 break;
         }
 
+        setUserDatas();
 
-        Map<String, String> map = new HashMap<>();
-        map.put("id", SPUtils.geTinstance().getUid());
-        map.put("username", tv_mingcheng_text.getText().toString()+"");
-        map.put("nickname", "");
-        map.put("phone", tv_phone_text.getText().toString()+"");
-        map.put("icon", "");
-        map.put("gender", tv_xingbie_text.getText().toString()+"");
-        map.put("birthday", tv_shengri_text.getText().toString()+"");
-        map.put("city", "");
-        map.put("job", tv_zhiye_text.getText().toString()+"");
-        map.put("personalizedSignature", tv_qianming_text.getText().toString());
+    }
 
-        Api.getClient(HttpRequest.baseUrl_member).modifyMemberInfo(Api.getRequestBody(map)).
+    private void setUserDatas() {
+        UserInfoParams userInfoParams = new UserInfoParams();
+        userInfoParams.id = Integer.parseInt(SPUtils.geTinstance().getUid());
+        userInfoParams.username = "";
+        userInfoParams.nickname = tv_mingcheng_text.getText().toString()+"";
+        userInfoParams.phone = tv_phone_text.getText().toString()+"";
+        userInfoParams.icon = icon+"";
+        userInfoParams.gender = tv_xingbie_text.getText().toString().contains("男")?1:2;
+        userInfoParams.birthday = tv_shengri_text.getText().toString()+"";
+        userInfoParams.city = "";
+        userInfoParams.job = tv_zhiye_text.getText().toString()+"";
+        userInfoParams.personalizedSignature = tv_qianming_text.getText().toString()+"";
+
+        Api.getClient(HttpRequest.baseUrl_member).modifyMemberInfo(Api.getRequestBody(userInfoParams)).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<String>() {

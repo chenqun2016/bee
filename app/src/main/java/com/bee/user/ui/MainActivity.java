@@ -626,6 +626,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }else if (MainEvent.TYPE_reset_Location == event.TYPE) {
             HomeFragment fragment = (HomeFragment) fragments.get(0);
             fragment.onLocationChanged(event.addressBean);
+        }else if (MainEvent.TYPE_reset_icon == event.TYPE) {
+            MineFragment fragment = (MineFragment) fragments.get(3);
+            fragment.resetIcon(event.str);
         }
 
     }

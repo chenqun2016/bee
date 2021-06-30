@@ -12,9 +12,11 @@ public class MainEvent {
     public static final int TYPE_set_index = 1;
     public static final int TYPE_reLocation = 2;
     public static final int TYPE_reset_Location = 3;
+    public static final int TYPE_reset_icon = 4;
 
     public int index = 0;
     public int TYPE = 0;
+    public String str;
 
     public AddressBean addressBean;
     public MainEvent(int TYPE) {
