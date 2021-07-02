@@ -21,12 +21,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.Constants;
 import com.bee.user.R;
+import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.ImageBean;
 import com.bee.user.bean.OrderBean;
 import com.bee.user.bean.OrderGridviewItemBean;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.TraceBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.CommentImagesAdapter;
 import com.bee.user.ui.adapter.OrderCancelAdapter;
 import com.bee.user.ui.adapter.OrderFoodAdapter;
@@ -47,6 +51,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
+import static com.bee.user.bean.DictByTypeBean.TYPE_REFUND_REASON;
 
 /**
  * 创建人：进京赶考
@@ -209,14 +218,14 @@ public class CommonUtil {
             }
         });
 
-        ArrayList<String> beans = new ArrayList<>();
-        beans.add("忘记使用红包");
-        beans.add("信息填写错误");
-        beans.add("送达时间选错了");
-        beans.add("买错了/买少了");
-        beans.add("我不想要了");
-        orderTraceAdapter.setNewInstance(beans);
-
+        Api.getClient(HttpRequest.baseUrl_sys).getDictByType(TYPE_REFUND_REASON).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<DictByTypeBean>>() {
+                    @Override
+                    public void onSuccess(List<DictByTypeBean> dictByType) {
+                        orderTraceAdapter.setNewInstance(dictByType);
+                    }
+                });
 
         bottomSheetDialog.setCanceledOnTouchOutside(false);
         try {

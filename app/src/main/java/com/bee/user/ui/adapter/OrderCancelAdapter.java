@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bee.user.R;
+import com.bee.user.bean.DictByTypeBean;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * 创建时间：2020/09/26  21：19
  * 描述：
  */
-public class OrderCancelAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class OrderCancelAdapter extends BaseQuickAdapter<DictByTypeBean, BaseViewHolder> {
     public int selected = 0;
 
     public OrderCancelAdapter() {
@@ -23,9 +24,9 @@ public class OrderCancelAdapter extends BaseQuickAdapter<String, BaseViewHolder>
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder baseViewHolder, String s) {
+    protected void convert(@NotNull BaseViewHolder baseViewHolder, DictByTypeBean s) {
         TextView tv_reason = baseViewHolder.findView(R.id.tv_reason);
-        tv_reason.setText(s);
+        tv_reason.setText(s.getDictValue());
 
         ImageView iv_selected = baseViewHolder.findView(R.id.iv_selected);
 

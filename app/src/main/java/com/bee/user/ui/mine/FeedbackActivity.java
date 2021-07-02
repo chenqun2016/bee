@@ -10,48 +10,36 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.PicassoEngine;
 import com.bee.user.R;
-import com.bee.user.bean.AppUpdateInfoBean;
 import com.bee.user.bean.DictByTypeBean;
-import com.bee.user.bean.HelpTypeItemBean;
-import com.bee.user.bean.OrderGridviewItemBean;
 import com.bee.user.bean.UploadImageBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.FoodChooseTypeTagsAdapter;
 import com.bee.user.ui.adapter.GridImageAdapter;
-import com.bee.user.ui.adapter.TagsOrderCommentAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.login.ResetPasswordActivity;
 import com.bee.user.utils.CommonUtil;
-import com.bee.user.utils.DeviceUtils;
-import com.bee.user.utils.MD5Util;
 import com.bee.user.utils.MyExecutors;
 import com.bee.user.widget.FlowTagLayout;
-import com.blankj.utilcode.util.ObjectUtils;
-import com.google.gson.Gson;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
 import com.luck.picture.lib.PictureSelector;
-import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.luck.picture.lib.style.PictureParameterStyle;
-import com.luck.picture.lib.style.PictureSelectorUIStyle;
 
 import java.io.File;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -64,6 +52,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
+import static com.bee.user.bean.DictByTypeBean.TYPE_FEEDBACK_TYPE;
 
 /**
  * 创建人：进京赶考
@@ -247,7 +237,7 @@ public class FeedbackActivity extends BaseActivity implements GridImageAdapter.o
      * 获取反馈类型
      */
     private void toDictByType() {
-        Api.getClient(HttpRequest.baseUrl_sys).getDictByType("feedback_type").subscribeOn(Schedulers.io())
+        Api.getClient(HttpRequest.baseUrl_sys).getDictByType(TYPE_FEEDBACK_TYPE).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<List<DictByTypeBean>>() {
                     @Override

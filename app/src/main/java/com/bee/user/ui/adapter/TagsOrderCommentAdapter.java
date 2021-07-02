@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bee.user.R;
+import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.widget.FlowTagLayout;
 
 import java.util.ArrayList;
@@ -53,6 +54,8 @@ public class TagsOrderCommentAdapter <T> extends BaseAdapter implements FlowTagL
 
         if (t instanceof String) {
             textView.setText((String) t);
+        }else  if (t instanceof DictByTypeBean) {
+            textView.setText(((DictByTypeBean) t).getDictValue());
         }
         return view;
     }

@@ -10,20 +10,26 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bee.user.R;
+import com.bee.user.bean.DictByTypeBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.TagsAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.widget.FlowTagLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 import static com.bee.user.Constants.RESULT_CODE_ORDERING;
 import static com.bee.user.Constants.TEXT_BEIZHU;
+import static com.bee.user.bean.DictByTypeBean.TYPE_ORDER_REMARK;
 
 /**
  * 创建人：进京赶考
@@ -43,7 +49,7 @@ public class BeizhuActivity extends BaseActivity {
 
     @BindView(R.id.tv_num)
     TextView tv_num;
-
+    TagsAdapter<DictByTypeBean> tagsAdapter;
 
     @OnClick({R.id.iv_wancheng})
     public void onClick(View view){
@@ -60,6 +66,8 @@ public class BeizhuActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        String text = getIntent().getStringExtra("text");
+        et_content.setText(text);
 
         InputFilter[] filter = new InputFilter[2];
         filter[0] = new InputFilter() {
@@ -97,7 +105,7 @@ public class BeizhuActivity extends BaseActivity {
         });
 
 
-        TagsAdapter<String> tagsAdapter = new TagsAdapter<>(this);
+        tagsAdapter = new TagsAdapter<>(this);
 
 //        tags.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_SINGLE);
         tags.setAdapter(tagsAdapter);
@@ -107,20 +115,29 @@ public class BeizhuActivity extends BaseActivity {
             public void onItemClick(FlowTagLayout parent, View view, int position) {
 
                 String string = et_content.getText().toString();
-                string += " "+((String) parent.getAdapter().getItem(position));
+                string += " "+((DictByTypeBean) parent.getAdapter().getItem(position)).getDictValue();
                 et_content.setText(string);
                 et_content.setSelection(et_content.length());
             }
         });
 
-        List<String> dataSource = new ArrayList<>();
-        dataSource.add("不放辣");
-        dataSource.add("多一点米饭");
-        dataSource.add("请电话给我");
-        dataSource.add("不要冰");
-        dataSource.add("不要葱");
-        dataSource.add("放到前台");
-        dataSource.add("放门口");
-        tagsAdapter.onlyAddAll(dataSource);
+        toDictByType();
+    }
+
+
+    /**
+     * 获取反馈类型
+     */
+    private void toDictByType() {
+        Api.getClient(HttpRequest.baseUrl_sys).getDictByType(TYPE_ORDER_REMARK).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<DictByTypeBean>>() {
+                    @Override
+                    public void onSuccess(List<DictByTypeBean> dictByType) {
+                        if(null != dictByType && dictByType.size()>0){
+                            tagsAdapter.onlyAddAll(dictByType);
+                        }
+                    }
+                });
     }
 }

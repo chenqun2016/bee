@@ -310,7 +310,9 @@ public class OrderingActivity extends BaseActivity {
         tv_beizhu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(OrderingActivity.this, BeizhuActivity.class), REQUEST_CODE_ORDERING);
+                Intent intent = new Intent(OrderingActivity.this, BeizhuActivity.class);
+                intent.putExtra("text",tv_beizhu.getText().toString());
+                startActivityForResult(intent, REQUEST_CODE_ORDERING);
             }
         });
         tv_tigongcanju = foot.findViewById(R.id.tv_tigongcanju);

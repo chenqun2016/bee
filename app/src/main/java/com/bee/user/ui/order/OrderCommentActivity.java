@@ -15,8 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.PicassoEngine;
 import com.bee.user.R;
+import com.bee.user.bean.DictByTypeBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.OrderCommentFoodAdapter;
-import com.bee.user.ui.adapter.TagsAdapter;
 import com.bee.user.ui.adapter.TagsOrderCommentAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.widget.FlowTagLayout;
@@ -25,13 +28,16 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.luck.picture.lib.style.PictureParameterStyle;
-import com.luck.picture.lib.style.PictureSelectorUIStyle;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
+import static com.bee.user.bean.DictByTypeBean.TYPE_ORDER_APPRAISE;
 
 /**
  * 创建人：进京赶考
@@ -56,6 +62,11 @@ public class OrderCommentActivity extends BaseActivity {
 
     @BindView(R.id.tv_num)
     TextView tv_num;
+
+    @BindView(R.id.et_people_content)
+    EditText et_people_content;
+
+    TagsOrderCommentAdapter<DictByTypeBean> tagsAdapter;
 
     @OnClick({R.id.tv_tijiao,R.id.tv_paizhao})
     public void onClick(View view){
@@ -111,34 +122,28 @@ public class OrderCommentActivity extends BaseActivity {
 
 
 
-        TagsOrderCommentAdapter<String> tagsAdapter = new TagsOrderCommentAdapter<>(this);
+        tagsAdapter   = new TagsOrderCommentAdapter<>(this);
 
         tags.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_MULTI);
         tags.setAdapter(tagsAdapter);
 
-        tags.setOnTagClickListener(new FlowTagLayout.OnTagClickListener() {
-            @Override
-            public void onItemClick(FlowTagLayout parent, View view, int position) {
 
-
-            }
-        });
         tags.setOnTagSelectListener(new FlowTagLayout.OnTagSelectListener() {
+
             @Override
             public void onItemSelect(FlowTagLayout parent, List<Integer> selectedList) {
-
+                if(null == selectedList || selectedList.size()==0){
+                    et_people_content.setText("");
+                    return;
+                }
+                StringBuilder sb = new StringBuilder();
+                for(Integer i : selectedList){
+                    sb.append(((DictByTypeBean)tagsAdapter.getItem(i)).getDictValue());
+                    sb.append(" ");
+                    et_people_content.setText(sb.toString());
+                }
             }
         });
-        List<String> dataSource = new ArrayList<>();
-        dataSource.add("不送上楼");
-        dataSource.add("送餐速度");
-        dataSource.add("食品凉了");
-        dataSource.add("未穿制服");
-        dataSource.add("配送慢");
-        dataSource.add("写评价");
-        tagsAdapter.onlyAddAll(dataSource);
-
-
 
         et_content.setSelection(et_content.getText().length());
 
@@ -146,5 +151,24 @@ public class OrderCommentActivity extends BaseActivity {
         SpannableString msp1 = new SpannableString(strs+"12积分");
         msp1.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), strs.length(), msp1.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         tv_num.setText(msp1);
+
+
+        toDictByType();
+    }
+
+    /**
+     * 获取反馈类型
+     */
+    private void toDictByType() {
+        Api.getClient(HttpRequest.baseUrl_sys).getDictByType(TYPE_ORDER_APPRAISE).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<DictByTypeBean>>() {
+                    @Override
+                    public void onSuccess(List<DictByTypeBean> dictByType) {
+                        if(null != dictByType && dictByType.size()>0){
+                            tagsAdapter.onlyAddAll(dictByType);
+                        }
+                    }
+                });
     }
 }
