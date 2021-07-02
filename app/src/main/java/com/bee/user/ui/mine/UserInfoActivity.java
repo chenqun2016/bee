@@ -7,11 +7,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.bee.user.Constants;
 import com.bee.user.PicassoEngine;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.RoundedCornersTransform;
+import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.UploadImageBean;
 import com.bee.user.bean.UserBean;
 import com.bee.user.event.UserInfoItemEvent;
@@ -21,6 +24,7 @@ import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.BaseDialog;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.xiadan.ChooseAddressActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
@@ -52,6 +56,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
+import static com.bee.user.ui.xiadan.ChooseAddressActivity.REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_ORDERING;
 
 /**
  * 创建人：进京赶考
@@ -90,38 +96,23 @@ public class UserInfoActivity extends BaseActivity {
     public void initViews() {
         EventBus.getDefault().register(this);
 
-        Api.getClient(HttpRequest.baseUrl_member).getUserInfo()
-                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<UserBean>() {
-                    @Override
-                    public void onSuccess(UserBean userInfo) {
-                        SPUtils.geTinstance().setLoginCache(userInfo);
-                        if(null != userInfo && !TextUtils.isEmpty(userInfo.icon)){
-                            icon = userInfo.icon;
-                            Picasso.with(UserInfoActivity.this)
-                                    .load(userInfo.icon)
-                                    .fit()
-                                    .transform(new PicassoRoundTransform(DisplayUtil.dip2px(UserInfoActivity.this,100),0, PicassoRoundTransform.CornerType.ALL))
-                                    .into(tv_icon);
+        UserBean userInfo = SPUtils.geTinstance().getUserInfo();
+        if(null != userInfo && !TextUtils.isEmpty(userInfo.icon)){
+            icon = userInfo.icon;
+            Picasso.with(UserInfoActivity.this)
+                    .load(userInfo.icon)
+                    .fit()
+                    .transform(new PicassoRoundTransform(DisplayUtil.dip2px(UserInfoActivity.this,100),0, PicassoRoundTransform.CornerType.ALL))
+                    .into(tv_icon);
 
-                        }
-                        tv_mingcheng_text.setText(userInfo.nickname+"");
-                        tv_xingbie_text.setText(userInfo.gender==1?"男":"女");
-                        tv_shengri_text.setText(userInfo.birthday+"");
-                        tv_zhiye_text.setText(userInfo.job+"");
-                        tv_qianming_text.setText(userInfo.personalizedSignature+"");
-                        tv_dizhi_text.setText(userInfo.city+"");
-                        tv_phone_text.setText(userInfo.phone+"");
-                    }
-
-                    @Override
-                    public void onFail(String fail) {
-                        super.onFail(fail);
-                    }
-                });
-
-
+        }
+        tv_mingcheng_text.setText(userInfo.nickname+"");
+        tv_xingbie_text.setText(userInfo.gender==1?"男":"女");
+        tv_shengri_text.setText(userInfo.birthday+"");
+        tv_zhiye_text.setText(userInfo.job+"");
+        tv_qianming_text.setText(userInfo.personalizedSignature+"");
+        tv_dizhi_text.setText(userInfo.city+"");
+        tv_phone_text.setText(userInfo.phone+"");
     }
 
     @OnClick({R.id.tv_icon, R.id.tv_mingcheng_text
@@ -139,7 +130,7 @@ public class UserInfoActivity extends BaseActivity {
                 intent.putExtra("type", UserInfoItemEvent.TYPE_Name);
                 intent.putExtra("str1", "修改名称");
                 intent.putExtra("str2", "昵称为2～32位字符，支持中文、英文、数字");
-                intent.putExtra("str3", "ss");
+                intent.putExtra("str3", tv_mingcheng_text.getText().toString());
                 startActivity(intent);
                 break;
 
@@ -154,7 +145,7 @@ public class UserInfoActivity extends BaseActivity {
                 intent.putExtra("type", UserInfoItemEvent.TYPE_Profession);
                 intent.putExtra("str1", "职业");
                 intent.putExtra("str2", "职业为2～32位字符，支持中文、英文、数字");
-                intent.putExtra("str3", "工程师");
+                intent.putExtra("str3", tv_zhiye_text.getText().toString());
                 startActivity(intent);
                 break;
             case R.id.tv_qianming_text://个性签名
@@ -162,16 +153,14 @@ public class UserInfoActivity extends BaseActivity {
                 intent.putExtra("type", UserInfoItemEvent.TYPE_Sign);
                 intent.putExtra("str1", "个性签名");
                 intent.putExtra("str2", "签名为2～160位字符，支持中文、英文、数字");
-                intent.putExtra("str3", "天下没有难做的生意");
+                intent.putExtra("str3", tv_qianming_text.getText().toString());
                 startActivity(intent);
                 break;
             case R.id.tv_dizhi_text://收货地址
-                intent = new Intent(UserInfoActivity.this, UserInfoItemActivity.class);
-                intent.putExtra("type", UserInfoItemEvent.TYPE_Location);
-                intent.putExtra("str1", "收货地址");
-                intent.putExtra("str2", "收货地址为2～160位字符，支持中文、英文、数字");
-                intent.putExtra("str3", "上海");
-                startActivity(intent);
+                intent = new Intent(UserInfoActivity.this, ChooseAddressActivity.class);
+                intent.putExtra("from",1);
+                startActivityForResult(intent, REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_ORDERING);
+
                 break;
             case R.id.tv_phone_text://手机号
                 break;
@@ -179,9 +168,21 @@ public class UserInfoActivity extends BaseActivity {
                 break;
             case R.id.tv_weibo_text://微博号
                 break;
+            default:
+                break;
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_ORDERING && resultCode == 1) {
+
+            AddressBean address = (AddressBean) data.getSerializableExtra("address");
+            tv_dizhi_text.setText(address.detailAddress+address.houseNumber);
+            setUserDatas();
+        }
+    }
 
     @Override
     public int getLayoutId() {
@@ -192,11 +193,7 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        if(isChanged){
-            setResult(Constants.RESULT_CODE_USERINFO);
-        }else{
-            setResult(0);
-        }
+
         super.onDestroy();
         EventBus.getDefault().unregister(this);
 
@@ -460,7 +457,6 @@ public class UserInfoActivity extends BaseActivity {
                                     .load(icon)
                                     .transform(new RoundedCornersTransform())
                                     .error(R.drawable.icon_touxiang)
-                                    .placeholder(R.drawable.icon_touxiang)
                                     .into(tv_icon);
 
                             setUserDatas();
@@ -486,10 +482,9 @@ public class UserInfoActivity extends BaseActivity {
             case UserInfoItemEvent.TYPE_Sign:
                 tv_qianming_text.setText(event.getText());
                 break;
-
-            case UserInfoItemEvent.TYPE_Location:
-                tv_dizhi_text.setText(event.getText());
+            default:
                 break;
+
         }
 
         setUserDatas();
@@ -506,7 +501,7 @@ public class UserInfoActivity extends BaseActivity {
         userInfoParams.icon = icon+"";
         userInfoParams.gender = tv_xingbie_text.getText().toString().contains("男")?1:2;
         userInfoParams.birthday = tv_shengri_text.getText().toString()+"";
-        userInfoParams.city = "";
+        userInfoParams.city = tv_dizhi_text.getText().toString();
         userInfoParams.job = tv_zhiye_text.getText().toString()+"";
         userInfoParams.personalizedSignature = tv_qianming_text.getText().toString()+"";
 
@@ -516,7 +511,11 @@ public class UserInfoActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<String>() {
                     @Override
                     public void onSuccess(String str) {
-                        isChanged = true;
+                        if(!isChanged){
+                            isChanged = true;
+                            setResult(Constants.RESULT_CODE_USERINFO);
+                        }
+
 
                     }
 
