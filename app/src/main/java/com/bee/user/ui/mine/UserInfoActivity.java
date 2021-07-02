@@ -367,13 +367,7 @@ public class UserInfoActivity extends BaseActivity {
                                         // 结果回调
                                         if (null != result && result.size() > 0) {
                                             LocalMedia localMedia = result.get(0);
-
-                                            Picasso.with(UserInfoActivity.this)
-                                                    .load(new File(localMedia.getCutPath()))
-                                                    .transform(new RoundedCornersTransform())
-                                                    .error(R.drawable.icon_touxiang)
-                                                    .placeholder(R.drawable.icon_touxiang)
-                                                    .into(tv_icon);
+                                            upImageToOss(localMedia);
                                         }
                                     }
 
@@ -467,6 +461,11 @@ public class UserInfoActivity extends BaseActivity {
                             EventBus.getDefault().post(mainEvent);
                             setUserDatas();
                         }
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
                     }
                 });
     }
