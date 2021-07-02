@@ -70,7 +70,7 @@ public class UserBean {
     public Object buyMoney;
     public Object luckeyCount;
     public Integer memberLevelId;
-    public Object memberLevelName;
+    public String memberLevelName;
     public Object avatar;
     public Object weixinOpenid;
     public Object confimpassword;

@@ -626,9 +626,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         }else if (MainEvent.TYPE_reset_Location == event.TYPE) {
             HomeFragment fragment = (HomeFragment) fragments.get(0);
             fragment.onLocationChanged(event.addressBean);
-        }else if (MainEvent.TYPE_reset_icon == event.TYPE) {
-            MineFragment fragment = (MineFragment) fragments.get(3);
-            fragment.resetIcon(event.str);
         }
 
     }
@@ -649,7 +646,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     @Override
                     public void onSuccess(UserBean str) {
                         SPUtils.geTinstance().setLoginCache(str);
-                        mineFragment.onLogin();
+                        mineFragment.setUserDatas();
                     }
 
                     @Override
@@ -662,7 +659,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onExitloginEvent(ExitloginEvent event) {
-        mineFragment.onLogin();
+        mineFragment.setUserDatas();
 
     }
 

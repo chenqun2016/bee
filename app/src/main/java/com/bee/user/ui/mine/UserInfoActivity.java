@@ -7,13 +7,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bee.user.Constants;
 import com.bee.user.PicassoEngine;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.RoundedCornersTransform;
 import com.bee.user.bean.UploadImageBean;
 import com.bee.user.bean.UserBean;
-import com.bee.user.event.MainEvent;
 import com.bee.user.event.UserInfoItemEvent;
 import com.bee.user.params.UserInfoParams;
 import com.bee.user.rest.Api;
@@ -85,7 +85,7 @@ public class UserInfoActivity extends BaseActivity {
 
     //阿里云上传后返回的地址
     private String icon ;
-
+    private boolean isChanged = false;
     @Override
     public void initViews() {
         EventBus.getDefault().register(this);
@@ -98,7 +98,7 @@ public class UserInfoActivity extends BaseActivity {
                     public void onSuccess(UserBean userInfo) {
                         SPUtils.geTinstance().setLoginCache(userInfo);
                         if(null != userInfo && !TextUtils.isEmpty(userInfo.icon)){
-
+                            icon = userInfo.icon;
                             Picasso.with(UserInfoActivity.this)
                                     .load(userInfo.icon)
                                     .fit()
@@ -192,8 +192,14 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        if(isChanged){
+            setResult(Constants.RESULT_CODE_USERINFO);
+        }else{
+            setResult(0);
+        }
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+
     }
 
     private void showXingBieDialog() {
@@ -456,9 +462,7 @@ public class UserInfoActivity extends BaseActivity {
                                     .error(R.drawable.icon_touxiang)
                                     .placeholder(R.drawable.icon_touxiang)
                                     .into(tv_icon);
-                            MainEvent mainEvent = new MainEvent(MainEvent.TYPE_reset_icon);
-                            mainEvent.str = icon;
-                            EventBus.getDefault().post(mainEvent);
+
                             setUserDatas();
                         }
                     }
@@ -492,6 +496,7 @@ public class UserInfoActivity extends BaseActivity {
 
     }
 
+
     private void setUserDatas() {
         UserInfoParams userInfoParams = new UserInfoParams();
         userInfoParams.id = Integer.parseInt(SPUtils.geTinstance().getUid());
@@ -511,6 +516,7 @@ public class UserInfoActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<String>() {
                     @Override
                     public void onSuccess(String str) {
+                        isChanged = true;
 
                     }
 

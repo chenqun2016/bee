@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
@@ -17,9 +16,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.RoundedCornersTransform;
+import com.bee.user.bean.UserBean;
 import com.bee.user.event.MainEvent;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.MineGridviewAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.giftcard.GiftcardActivity;
@@ -30,6 +33,7 @@ import com.bee.user.ui.order.OrderListActivity;
 import com.bee.user.ui.trade.MiLiActivity;
 import com.bee.user.ui.xiadan.ChooseAddressActivity;
 import com.bee.user.utils.CommonUtil;
+import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.MyGridView;
 import com.gyf.immersionbar.ImmersionBar;
@@ -41,6 +45,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
+import static com.bee.user.Constants.REQUEST_CODE_USERINFO;
+import static com.bee.user.Constants.RESULT_CODE_USERINFO;
 
 /**
  * 创建人：进京赶考
@@ -88,7 +97,7 @@ public class MineFragment extends BaseFragment {
             case R.id.tv_icon:
             case R.id.tv_name:
                 if(SPUtils.geTinstance().isLogin()){
-                    startActivity(new Intent(getContext(),UserInfoActivity.class));
+                    startActivityForResult(new Intent(getContext(),UserInfoActivity.class), REQUEST_CODE_USERINFO);
                 }else{
                     EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_login));
                 }
@@ -133,9 +142,32 @@ public class MineFragment extends BaseFragment {
             case R.id.tv_4://我的积分
                 getContext().startActivity(new Intent(getContext(), MyPointsActivity.class));
                 break;
+            default:
+                break;
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_USERINFO && resultCode == RESULT_CODE_USERINFO){
+            Api.getClient(HttpRequest.baseUrl_member).getUserInfo()
+                    .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseSubscriber<UserBean>() {
+                        @Override
+                        public void onSuccess(UserBean str) {
+                            SPUtils.geTinstance().setLoginCache(str);
+                            setUserDatas();
+                        }
+
+                        @Override
+                        public void onFail(String fail) {
+                            super.onFail(fail);
+                        }
+                    });
+        }
+    }
 
     @Override
     protected void getDatas() {
@@ -170,15 +202,6 @@ public class MineFragment extends BaseFragment {
 
         ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
         layoutParams.height = ImmersionBar.getStatusBarHeight(this);
-
-        if(SPUtils.geTinstance().isLogin()){
-            tv_name.setText("1111");
-            tv_des.setText("胡蜂会员");
-            resetIcon(SPUtils.geTinstance().getUserInfo().icon);
-        }else{
-            tv_name.setText("立即登陆");
-            tv_des.setText("省多少你说了算");
-        }
 
         String str = ""+ CommonUtil.moneyType(10.00d);
         SpannableString msp = new SpannableString(str + "\n米粒/充值");
@@ -255,30 +278,32 @@ public class MineFragment extends BaseFragment {
                         intent = new Intent(getContext(),FeedbackActivity.class);
                         startActivity(intent);
                         break;
+                    default:
+                        break;
                 }
             }
         });
+        setUserDatas();
     }
 
-    public void onLogin() {
-        if(SPUtils.geTinstance().isLogin()){
-            tv_name.setText("1111");
-            tv_des.setText("胡蜂会员");
+    public void setUserDatas() {
+        if(SPUtils.geTinstance().isLogin() && null != SPUtils.geTinstance().getUserInfo()){
+            UserBean userInfo = SPUtils.geTinstance().getUserInfo();
+            tv_name.setText(userInfo.nickname);
+            tv_des.setText(userInfo.memberLevelName+"");
+            Picasso.with(getContext())
+                    .load(userInfo.icon)
+                    .fit()
+                    .transform(new PicassoRoundTransform(DisplayUtil.dip2px(getContext(),100),0, PicassoRoundTransform.CornerType.ALL))
+                    .into(tv_icon);
         }else{
             tv_name.setText("立即登陆");
             tv_des.setText("省多少你说了算");
-        }
-
-    }
-
-    public void resetIcon(String str) {
-        if(!TextUtils.isEmpty(str)){
             Picasso.with(getContext())
-                    .load(str)
-                    .transform(new RoundedCornersTransform())
-                    .error(R.drawable.icon_touxiang)
-                    .placeholder(R.drawable.icon_touxiang)
+                    .load(R.drawable.icon_touxiang)
+                    .fit()
                     .into(tv_icon);
         }
+
     }
 }
