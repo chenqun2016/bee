@@ -15,6 +15,7 @@ import com.bee.user.R;
 import com.bee.user.bean.MiLiChongzhiBean;
 import com.bee.user.ui.adapter.MiLiChongzhiAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
+import com.bee.user.ui.mine.BuyCardActivity;
 import com.bee.user.widget.MyGridView;
 
 import java.util.ArrayList;
@@ -51,7 +52,8 @@ public class MiLiChongzhiFragment extends BaseFragment {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getContext(),TradeStatusActivity.class));
+
+//                startActivity(new Intent(getContext(),TradeStatusActivity.class));
             }
         });
 

@@ -46,6 +46,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import static com.bee.user.event.MainEvent.TYPE_reset_Location;
 import static com.bee.user.ui.search.SearchCityActivity.REQUEST_CODE;
 import static com.bee.user.ui.search.SearchCityActivity.RESULT_CODE;
+import static com.bee.user.ui.xiadan.ChooseAddressActivity.REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_Secectlocation;
+import static com.bee.user.ui.xiadan.ChooseAddressActivity.RESULT_CODE_CHANGED;
 import static com.bee.user.ui.xiadan.NewAddressActivity.REQUEST_CODE_NEW;
 import static com.bee.user.ui.xiadan.NewAddressActivity.RESULT_CODE_NEWADDRESS;
 
@@ -73,7 +75,7 @@ public class SelectLocationActivity extends BaseActivity {
         switch (view.getId()) {
 
             case R.id.tv_right://管理
-                startActivity(new Intent(this, ChooseAddressActivity.class));
+                startActivityForResult(new Intent(this, ChooseAddressActivity.class),REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_Secectlocation);
                 break;
 
             case R.id.tv_location://地址
@@ -109,6 +111,8 @@ public class SelectLocationActivity extends BaseActivity {
                 tv_location.setText(city+"");
             }
         }else if(requestCode == REQUEST_CODE_NEW && resultCode == RESULT_CODE_NEWADDRESS){
+            getAddress();
+        }else if(requestCode == REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_Secectlocation && resultCode == RESULT_CODE_CHANGED){
             getAddress();
         }
     }

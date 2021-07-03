@@ -363,7 +363,10 @@ public class UserInfoActivity extends BaseActivity {
                                 .setCropDimmedColor(getResources().getColor(R.color.color_FF6200_10))
                                 .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
                                 .showCropGrid(false)//是否显示裁剪矩形网格 圆形裁剪时建议设为false
-
+                                .withAspectRatio(1000,1000)
+                                .cutOutQuality(60)
+                                .minimumCompressSize(1024)
+                                .cropImageWideHigh(1000,1000)
                                 .forResult(new OnResultCallbackListener<LocalMedia>() {
                                     @Override
                                     public void onResult(List<LocalMedia> result) {
@@ -407,7 +410,10 @@ public class UserInfoActivity extends BaseActivity {
                                 .setCropDimmedColor(getResources().getColor(R.color.color_FF6200_10))
                                 .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
                                 .showCropGrid(false)//是否显示裁剪矩形网格 圆形裁剪时建议设为false
-
+                                .withAspectRatio(1000,1000)
+                                .cutOutQuality(60)
+                                .minimumCompressSize(1024)
+                                .cropImageWideHigh(1000,1000)
                                 .forResult(new OnResultCallbackListener<LocalMedia>() {
                                     @Override
                                     public void onResult(List<LocalMedia> result) {

@@ -3,7 +3,6 @@ package com.bee.user.ui.mine;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,13 +15,11 @@ import com.alipay.sdk.app.PayTask;
 import com.bee.user.R;
 import com.bee.user.bean.OrderInfo;
 import com.bee.user.bean.PeiSongCardBean;
-import com.bee.user.bean.PointDayBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.BuyCardAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.utils.sputils.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.gson.Gson;
@@ -117,7 +114,7 @@ public class BuyCardActivity extends BaseActivity {
             public void onClick(View view) {
                 Map<String, String> map = new HashMap<>();
                 map.put("bizId", "1");
-                map.put("bizType", "2");
+                map.put("bizType", "1");
                 map.put("cardType", "a");
                 map.put("deviceType", "安卓");
 

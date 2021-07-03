@@ -32,8 +32,13 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.bean.FoodBean;
+import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderGridviewItemBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.OrderDetailAdapter;
+import com.bee.user.ui.adapter.OrderFoodAdapter;
 import com.bee.user.ui.adapter.OrderGridviewItemAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.CommonUtil;
@@ -94,12 +99,22 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
     View line4;
     TextView tv_people;
     TextView tv_people_des;
+    TextView tv_time_des;
+    TextView tv_address_des;
+    TextView tv_type_des;
+    TextView tv_ordernum_des;
+    TextView tv_pay_type_des;
+    TextView tv_pay_time_des;
+    TextView tv_beizhu_des;
+
     LinearLayout ll_bottom;
     private String type;
     private long time = 10;
     private Disposable subscription;
 
     private int id;
+    OrderDetailAdapter orderingAdapter;
+    OrderDetailBean orderDetailBean;
 
     @Override
     protected void initImmersionBar() {
@@ -164,7 +179,7 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-        OrderDetailAdapter orderingAdapter = new OrderDetailAdapter();
+        orderingAdapter = new OrderDetailAdapter();
         recyclerView.setAdapter(orderingAdapter);
 
 
@@ -174,33 +189,33 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
         View head;
 
         switch (type) {
-            case Constants.TYPE_ORDER_RECEIVED://订单已送达
+            case Constants.TYPE_ORDER_DPS://订单已送达
                 tv_text_title.setText("订单已送达");
                 head = View.inflate(this, R.layout.head_orderdetail_complete, null);
                 initHeadView(head);
                 break;
 
-            case Constants.TYPE_ORDER_WAIT_PAY://等待支付
+            case Constants.TYPE_ORDER_WP://等待支付
                 tv_text_title.setText("等待支付，剩余10");
                 head = View.inflate(this, R.layout.head_orderdetail_waite, null);
                 initHeadViewWaite(head);
 
                 countDown();
                 break;
-            case Constants.TYPE_ORDER_READY://商家正在备货
+            case Constants.TYPE_ORDER_OMJ://商家正在备货
                 tv_text_title.setText("商家正在备货");
                 head = View.inflate(this, R.layout.head_orderdetail_beihuo, null);
                 initHeadViewbeihuo(head);
 
                 break;
-            case Constants.TYPE_ORDER_PEISONG://商品配送中
+            case Constants.TYPE_ORDER_SPS://商品配送中
                 tv_text_title.setText("商品配送中");
                 head = View.inflate(this, R.layout.head_orderdetail_beihuo, null);
                 initHeadViewbeihuo(head);
 
                 break;
 
-            case Constants.TYPE_ORDER_CANCELED://订单已取消
+            case Constants.TYPE_ORDER_OC://订单已取消
                 tv_text_title.setText("订单已取消");
                 head = View.inflate(this, R.layout.head_orderdetail_quxiao, null);
                 initHeadViewQuxiao(head);
@@ -210,7 +225,7 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
                 tv_people_des.setVisibility(View.GONE);
                 ll_bottom.setVisibility(View.VISIBLE);
                 break;
-            case Constants.TYPE_ORDER_REFUNDED://退款中
+            case Constants.TYPE_ORDER_PJ://退款中
                 head = View.inflate(this, R.layout.head_orderdetail_tuikuan, null);
                 initHeadViewtuikuan(head);
                 tv_text_title.setText("订单已送达");
@@ -227,8 +242,71 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
         orderingAdapter.addHeaderView(head);
         orderingAdapter.addFooterView(foot);
         orderingAdapter.setNewInstance(beans);
+
+        getOrderDetail();
     }
 
+    private void getOrderDetail() {
+        Api.getClient(HttpRequest.baseUrl_order).orderDetail(id).
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<OrderDetailBean>() {
+                    @Override
+                    public void onSuccess(OrderDetailBean orderDetailBean) {
+                        OrderDetailMapActivity.this.orderDetailBean = orderDetailBean;
+                        orderingAdapter.setNewInstance(new ArrayList<>());
+
+                        View head2 = View.inflate(OrderDetailMapActivity.this, R.layout.item_ordering, null);
+                        initHead2View(head2, orderDetailBean);
+                        initDatas(orderDetailBean);
+                        orderingAdapter.addHeaderView(head2, 1);
+                    }
+                });
+    }
+
+    private void initDatas(OrderDetailBean orderDetailBean) {
+
+        tv_people_des.setText("");
+        tv_time_des.setText(orderDetailBean.deliveryTime+"");
+        tv_address_des.setText(orderDetailBean.receiverDetailAddress+"\n"+orderDetailBean.createName+orderDetailBean.receiverPhone);
+        tv_type_des.setText(orderDetailBean.billType+"");
+        tv_ordernum_des.setText(orderDetailBean.orderSn+"");
+        tv_pay_type_des.setText(orderDetailBean.payType==1?"米粒支付":"");
+        tv_pay_time_des.setText(orderDetailBean.createTime+"");
+        tv_beizhu_des.setText(orderDetailBean.note+"");
+    }
+
+    private void initHead2View(View head2, OrderDetailBean orderDetailBean) {
+        TextView tv_store = head2.findViewById(R.id.tv_store);
+        tv_store.setText(orderDetailBean.storeName + "");
+
+        TextView tv_time_value = head2.findViewById(R.id.tv_time_value);
+        tv_time_value.setVisibility(View.GONE);
+
+        RecyclerView recyclerView = head2.findViewById(R.id.recyclerview);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        OrderFoodAdapter adapter = new OrderFoodAdapter(orderDetailBean.orderItemList);
+        recyclerView.setAdapter(adapter);
+
+        TextView tv_youhuiquan_value = head2.findViewById(R.id.tv_youhuiquan_value);
+        tv_youhuiquan_value.setTextColor(tv_youhuiquan_value.getResources().getColor(R.color.color_282525));
+        tv_youhuiquan_value.setCompoundDrawables(null, null, null, null);
+        tv_youhuiquan_value.setText("¥1");
+        tv_youhuiquan_value.setTypeface(Typeface.DEFAULT_BOLD);
+
+
+        TextView tv_total_money_value = head2.findViewById(R.id.tv_total_money_value);
+        tv_total_money_value.setText(orderDetailBean.totalAmount + "");
+        TextView tv_baozhuangfei_value = head2.findViewById(R.id.tv_baozhuangfei_value);
+        tv_baozhuangfei_value.setText("");
+        TextView tv_peisongfei_value = head2.findViewById(R.id.tv_peisongfei_value);
+        tv_peisongfei_value.setText(orderDetailBean.freightAmount + "");
+        TextView tv_total_value = head2.findViewById(R.id.tv_total_value);
+        tv_total_value.setText(orderDetailBean.totalAmount + "");
+        TextView tv_total_youhui_value = head2.findViewById(R.id.tv_total_youhui_value);
+        tv_total_youhui_value.setText(orderDetailBean.couponAmount + "");
+    }
 
 
     //退款中
@@ -328,12 +406,13 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
 
 
     private void initFootView(View foot) {
-
-        TextView tv_youhuiquan_value = foot.findViewById(R.id.tv_youhuiquan_value);
-        tv_youhuiquan_value.setTextColor(tv_youhuiquan_value.getResources().getColor(R.color.color_282525));
-        tv_youhuiquan_value.setCompoundDrawables(null,null,null,null);
-        tv_youhuiquan_value.setText("¥1");
-        tv_youhuiquan_value.setTypeface(Typeface.DEFAULT_BOLD);
+        tv_time_des = foot.findViewById(R.id.tv_time_des);
+        tv_address_des = foot.findViewById(R.id.tv_address_des);
+        tv_type_des = foot.findViewById(R.id.tv_type_des);
+        tv_ordernum_des = foot.findViewById(R.id.tv_ordernum_des);
+        tv_pay_type_des = foot.findViewById(R.id.tv_pay_type_des);
+        tv_pay_time_des = foot.findViewById(R.id.tv_pay_time_des);
+        tv_beizhu_des = foot.findViewById(R.id.tv_beizhu_des);
 
         line4 = foot.findViewById(R.id.line4);
         tv_people = foot.findViewById(R.id.tv_people);

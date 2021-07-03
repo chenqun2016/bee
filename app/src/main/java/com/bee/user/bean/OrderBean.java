@@ -18,9 +18,9 @@ public class OrderBean implements MultiItemEntity, Serializable {
 
     @Override
     public int getItemType() {
-        if(status == Constants.TYPE_ORDER_WAIT_PAY ||
-                status == Constants.TYPE_ORDER_READY ||
-                status == Constants.TYPE_ORDER_PEISONG){
+        if(Constants.TYPE_ORDER_WP.equals(status) ||
+                Constants.TYPE_ORDER_OMJ.equals(status) ||
+                Constants.TYPE_ORDER_SPS.equals(status) ){
             return type2;
         }
         return type1;
