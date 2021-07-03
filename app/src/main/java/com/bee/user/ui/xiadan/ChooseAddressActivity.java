@@ -39,7 +39,9 @@ import static com.bee.user.ui.xiadan.NewAddressActivity.RESULT_CODE_NEWADDRESS;
  */
 public class ChooseAddressActivity extends BaseActivity {
     public static final  int REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_ORDERING = 88;
+    public static final  int REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_Secectlocation = 89;
 
+    public static final int RESULT_CODE_CHANGED= 90;
     @BindView(R.id.recyclerview1)
     RecyclerView recyclerview1;
     @BindView(R.id.tv_right)
@@ -116,9 +118,13 @@ public class ChooseAddressActivity extends BaseActivity {
             int clickPosition = data.getIntExtra("clickPosition", 0);
             if(null != address){
                 chooseAddressAdapter.setData(clickPosition,address);
+            }else{
+                chooseAddressAdapter.removeAt(clickPosition);
             }
+            setResult(RESULT_CODE_CHANGED);
         }else if(requestCode == REQUEST_CODE_NEW && resultCode == RESULT_CODE_NEWADDRESS ){
             getAddress();
+            setResult(RESULT_CODE_CHANGED);
         }
     }
 

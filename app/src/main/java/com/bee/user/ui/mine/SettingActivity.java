@@ -7,12 +7,12 @@ import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.event.ExitloginEvent;
+import com.bee.user.rest.HttpRequest;
+import com.bee.user.ui.CommonWebActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.blankj.utilcode.util.ObjectUtils;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.EventBusUtils;
-
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
@@ -28,7 +28,7 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.tv_quit)
     TextView tv_quit;
 
-    @OnClick({R.id.tv_safe,R.id.tv_quit,R.id.tv_about})
+    @OnClick({R.id.tv_safe,R.id.tv_quit,R.id.tv_about,R.id.tv_yijian,R.id.tv_yingsi,R.id.tv_xieyi})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_safe:
@@ -44,6 +44,19 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.tv_quit:
                 showExitDialog();
+                break;
+            case R.id.tv_yijian:
+                startActivity(new Intent(this,FeedbackActivity.class));
+                break;
+            case R.id.tv_yingsi:
+                Intent intent2 = new Intent(this, CommonWebActivity.class);
+                intent2.putExtra("url", HttpRequest.xieyi_yinsi);
+                startActivity(intent2);
+                break;
+            case R.id.tv_xieyi:
+                Intent intent1 = new Intent(this, CommonWebActivity.class);
+                intent1.putExtra("url", HttpRequest.xieyi_regist);
+                startActivity(intent1);
                 break;
         }
     }

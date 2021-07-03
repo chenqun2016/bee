@@ -15,6 +15,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler{
     public void uncaughtException(Thread thread, Throwable throwable) {
         if (mDefaultExceptionHandler != null) { //交给系统的UncaughtExceptionHandler处理
             mDefaultExceptionHandler.uncaughtException(thread, throwable);
+
+            android.os.Process.killProcess(android.os.Process.myPid()); //主动杀死进程
         } else {
             android.os.Process.killProcess(android.os.Process.myPid()); //主动杀死进程
         }

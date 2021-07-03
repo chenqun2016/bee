@@ -25,7 +25,6 @@ import com.bee.user.ui.adapter.OrderFoodAdapter;
 import com.bee.user.ui.adapter.OrderGridviewItemAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.CommonUtil;
-import com.bee.user.utils.ToastUtil;
 import com.bee.user.widget.MyGridView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
@@ -172,33 +171,33 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         View head;
 
         switch (type) {
-            case Constants.TYPE_ORDER_RECEIVED://订单已送达
+            case Constants.TYPE_ORDER_DPS://订单已送达
                 tv_title.setText("订单已送达");
                 head = View.inflate(this, R.layout.head_orderdetail_complete, null);
                 initHeadView(head);
                 break;
 
-            case Constants.TYPE_ORDER_WAIT_PAY://等待支付
+            case Constants.TYPE_ORDER_WP://等待支付
                 tv_title.setText("等待支付，剩余10");
                 head = View.inflate(this, R.layout.head_orderdetail_waite, null);
                 initHeadViewWaite(head);
 
                 countDown();
                 break;
-            case Constants.TYPE_ORDER_READY://商家正在备货
+            case Constants.TYPE_ORDER_OMJ://商家正在备货
                 tv_title.setText("商家正在备货");
                 head = View.inflate(this, R.layout.head_orderdetail_beihuo, null);
                 initHeadViewbeihuo(head);
 
                 break;
-            case Constants.TYPE_ORDER_PEISONG://商品配送中
+            case Constants.TYPE_ORDER_SPS://商品配送中
                 tv_title.setText("商品配送中");
                 head = View.inflate(this, R.layout.head_orderdetail_beihuo, null);
                 initHeadViewbeihuo(head);
 
                 break;
 
-            case Constants.TYPE_ORDER_CANCELED://订单已取消
+            case Constants.TYPE_ORDER_OC://订单已取消
                 tv_title.setText("订单已取消");
                 head = View.inflate(this, R.layout.head_orderdetail_quxiao, null);
                 initHeadViewQuxiao(head);
@@ -208,7 +207,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 tv_people_des.setVisibility(View.GONE);
                 ll_bottom.setVisibility(View.VISIBLE);
                 break;
-            case Constants.TYPE_ORDER_REFUNDED://退款
+            case Constants.TYPE_ORDER_PJ://退款
                 head = View.inflate(this, R.layout.head_orderdetail_tuikuan, null);
                 initHeadViewtuikuan(head);
                 tv_title.setText("订单已送达");

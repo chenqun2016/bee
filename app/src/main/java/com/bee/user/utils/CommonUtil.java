@@ -283,9 +283,9 @@ public class CommonUtil {
     //订单详情页有两种，
     public static void showOrderDetailActivity(Context mContext, OrderBean bean) {
         String type = bean.getOrderItemType();
-        if(type == Constants.TYPE_ORDER_WAIT_PAY ||
-                type == Constants.TYPE_ORDER_READY ||
-                type == Constants.TYPE_ORDER_PEISONG){
+        if(Constants.TYPE_ORDER_WP.equals(type) ||
+                Constants.TYPE_ORDER_OMJ.equals(type) ||
+                Constants.TYPE_ORDER_SPS.equals(type)){
             Intent intent = new Intent(mContext, OrderDetailMapActivity.class);
             intent.putExtra("type",type);
             intent.putExtra("id",bean.id);

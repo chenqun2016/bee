@@ -66,8 +66,6 @@ public class NewAddressActivity extends BaseActivity {
 
     AddressBean address;
 
-
-
     @OnClick({R.id.tv_sure,R.id.tv_right,R.id.tv_dizhi_text})
     public void onClick(View view){
         switch (view.getId()){
@@ -100,7 +98,6 @@ public class NewAddressActivity extends BaseActivity {
     @Override
     public void initViews() {
         toolbar_title.setText("新增地址");
-
         address  = (AddressBean) getIntent().getSerializableExtra("address");
 
         if(null != address){
@@ -280,6 +277,7 @@ public class NewAddressActivity extends BaseActivity {
                     @Override
                     public void onSuccess(String s) {
                         Intent intent = new Intent();
+                        intent.putExtra("clickPosition",getIntent().getIntExtra("clickPosition",0));
                         setResult(RESULT_CODE_NEWADDRESS,intent);
                         finish();
                     }

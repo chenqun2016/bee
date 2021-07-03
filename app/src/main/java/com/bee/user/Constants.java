@@ -56,8 +56,25 @@ public class Constants {
     public static final String TYPE_ORDER_OMJ = "OMJ";//商家已接单
     public static final String TYPE_ORDER_SPS = "SPS";//配送员送货中
     public static final String TYPE_ORDER_OC = "OC";//订单已取消
+
+    //TODO
+    public static final String TYPE_ORDER_TK = "S";//待评价
+    public static final String TYPE_ORDER_PJ = "SS";//退款
+
 //    ALL->全部；WAIT_PAY->待支付；RECEIVED->已收货；WAIT_COMMENT->待评价；REFUNDED->退款
 
+    /**
+     *
+     public static final String TYPE_ORDER_WP = "WP";//订单待支付
+     public static final String TYPE_ORDER_DPS = "DPS";//商品已送达
+
+     public static final String TYPE_ORDER_TK = "S";//待评价
+     public static final String TYPE_ORDER_PJ = "SS";//退款
+
+     public static final String TYPE_ORDER_OMJ = "OMJ";//商家已接单
+     public static final String TYPE_ORDER_SPS = "SPS";//配送员送货中
+     public static final String TYPE_ORDER_OC = "OC";//订单已取消
+     */
     //全部
     public static final String TYPE_ORDER_ALL = "ALL";
     //待支付
@@ -66,13 +83,8 @@ public class Constants {
     public static final String TYPE_ORDER_RECEIVED = "RECEIVED";
     //待评价
     public static final String TYPE_ORDER_WAIT_COMMENT = "WAIT_COMMENT";
-    //退款
+    // 退款
     public static final String TYPE_ORDER_REFUNDED = "REFUNDED";
-
-    public static final String TYPE_ORDER_READY = "5";//商家正在备货
-    public static final String TYPE_ORDER_PEISONG = "6";//商品配送中
-    public static final String TYPE_ORDER_CANCELED = "7";//订单已取消
-
 
 
 
