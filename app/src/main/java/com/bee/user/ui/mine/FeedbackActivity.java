@@ -198,6 +198,7 @@ public class FeedbackActivity extends BaseActivity implements GridImageAdapter.o
                         tv_paizhao.setVisibility(View.GONE);
                         rc_view.setVisibility(View.VISIBLE);
                         gridImageAdapter.setList(result);
+                        gridImageAdapter.notifyDataSetChanged();
                     }
 
                     @Override
