@@ -2,14 +2,9 @@ package com.bee.user.ui.mine;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.utils.sputils.SPUtils;
-import com.blankj.utilcode.util.ObjectUtils;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -40,10 +35,5 @@ public class AcountSafeActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-        if(ObjectUtils.isEmpty(SPUtils.geTinstance().getUserInfo().password)) {
-            tv_mimalogin_text.setText(getString(R.string.tv_login_pass_un_set));
-        }else {
-            tv_mimalogin_text.setText(getString(R.string.tv_login_pass_set));
-        }
     }
 }

@@ -10,5 +10,4 @@
 
     <string name="text_kickout">登录状态失效，为保证您的账户安全，请重新登录！</string>
     <string name="tv_login_pass_set">已设置</string>
-    <string name="tv_login_pass_un_set">未设置</string>
 </resources>
