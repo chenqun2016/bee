@@ -10,8 +10,9 @@ import com.bee.user.event.ExitloginEvent;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.CommonWebActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
-
+import com.blankj.utilcode.util.ObjectUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
@@ -31,7 +32,12 @@ public class SettingActivity extends BaseActivity {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_safe:
-                startActivity(new Intent(this,AcountSafeActivity.class));
+                if(!ObjectUtils.isEmpty(SPUtils.geTinstance().getUserInfo())) {
+                    startActivity(new Intent(this,AcountSafeActivity.class));
+                }else {
+                    ToastUtil.ToastShort(this, "您还未登陆，请先登录");
+                }
+
                 break;
             case R.id.tv_about:
                 startActivity(new Intent(this,AboutActivity.class));
@@ -62,7 +68,11 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-
+        if(!ObjectUtils.isEmpty(SPUtils.geTinstance().getUserInfo())) {
+            tv_quit.setVisibility(View.VISIBLE);
+        }else {
+            tv_quit.setVisibility(View.GONE);
+        }
     }
 
     private Dialog systemDialog;

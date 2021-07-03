@@ -147,9 +147,14 @@ public class FeedbackActivity extends BaseActivity implements GridImageAdapter.o
                             urlList.add(uploadImageBean.getUrl());
                             if(urlList.size() == size) {
                                 runOnUiThread(FeedbackActivity.this::toSubmitFeedback);
-
                             }
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        closeLoadingDialog();
                     }
                 });
     }
