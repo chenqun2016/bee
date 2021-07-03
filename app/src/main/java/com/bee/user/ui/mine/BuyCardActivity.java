@@ -1,7 +1,7 @@
 package com.bee.user.ui.mine;
 
-import android.annotation.SuppressLint;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
@@ -91,8 +91,8 @@ public class BuyCardActivity extends BaseActivity {
     }
 
 
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
+    private static final Handler mHandler = new Handler(Looper.myLooper()) {
+        @Override
         @SuppressWarnings("unused")
         public void handleMessage(Message msg) {
             switch (msg.what) {
