@@ -12,6 +12,7 @@ import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.SendCodeView;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
 
@@ -36,12 +37,21 @@ public class SetPasswordActivity1 extends BaseActivity {
     @BindView(R.id.code_text)
     SendCodeView code_text;
 
+    @BindView(R.id.tv_phone)
+    TextView tv_phone;
+
     @OnClick({R.id.tv_agree})
     public void onClick(View view){
         switch (view.getId()) {
             case R.id.tv_agree:
-                String code = ed_user_code.getText().toString();
-                startActivity(new Intent(this,SetPasswordActivity2.class));
+                String code = ed_user_code.getText().toString().trim();
+                if(ObjectUtils.isEmpty(code)) {
+                    return;
+                }
+                Intent intent = new Intent(this,SetPasswordActivity2.class);
+                intent.putExtra("msgCode",code);
+                intent.putExtra("phone",SPUtils.geTinstance().getUserInfo().phone);
+                startActivity(intent);
                 break;
         }
     }
@@ -53,11 +63,16 @@ public class SetPasswordActivity1 extends BaseActivity {
 
     @Override
     public void initViews() {
+        String phone = SPUtils.geTinstance().getUserInfo().phone;
+        if(!ObjectUtils.isEmpty(phone)&&phone.length()>4) {
+            String mobile = phone.substring(0, 3) + "****" + phone.substring(phone.length() - 4);
+            tv_phone.setText(mobile);
+        }
         code_text.initDatas(new SendCodeView.MyOnClickListener() {
             @Override
             public String onGetPhone() {
 
-                return "";
+                return phone;
             }
 
             @Override
