@@ -293,5 +293,5 @@ public interface ApiService {
      * 获取购物车信息
      */
     @GET(HttpRequest.checkSmsCode)
-    Observable<BaseResult<Boolean>> checkSmsCode( @Path("mobile") String mobile, @Path("code") String code);
+    Observable<BaseResult<Object>> checkSmsCode( @Path("mobile") String mobile, @Path("code") String code);
 }

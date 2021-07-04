@@ -67,17 +67,13 @@ public class SetPasswordActivity1 extends BaseActivity {
         Api.getClient(HttpRequest.baseUrl_user).checkSmsCode(SPUtils.geTinstance().getUserInfo().phone,code).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<Boolean>() {
+                .subscribe(new BaseSubscriber<Object>() {
                     @Override
-                    public void onSuccess(Boolean s) {
-                        if(s) {
-                            Intent intent = new Intent(SetPasswordActivity1.this,SetPasswordActivity2.class);
-                            intent.putExtra("msgCode",code);
-                            intent.putExtra("phone",SPUtils.geTinstance().getUserInfo().phone);
-                            startActivity(intent);
-                        }else {
-                            ToastUtil.ToastShort(SetPasswordActivity1.this, "短信验证码输入错误");
-                        }
+                    public void onSuccess(Object s) {
+                        Intent intent = new Intent(SetPasswordActivity1.this,SetPasswordActivity2.class);
+                        intent.putExtra("msgCode",code);
+                        intent.putExtra("phone",SPUtils.geTinstance().getUserInfo().phone);
+                        startActivity(intent);
 
                     }
 
