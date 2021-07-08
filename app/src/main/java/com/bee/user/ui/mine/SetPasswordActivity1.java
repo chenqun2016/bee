@@ -9,7 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bee.user.R;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.SendCodeView;
 import com.blankj.utilcode.util.ObjectUtils;
@@ -19,7 +23,9 @@ import com.jakewharton.rxbinding4.widget.RxTextView;
 import butterknife.Action;
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.functions.Function;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -48,12 +54,34 @@ public class SetPasswordActivity1 extends BaseActivity {
                 if(ObjectUtils.isEmpty(code)) {
                     return;
                 }
-                Intent intent = new Intent(this,SetPasswordActivity2.class);
-                intent.putExtra("msgCode",code);
-                intent.putExtra("phone",SPUtils.geTinstance().getUserInfo().phone);
-                startActivity(intent);
+                toCheckMsgCode(code);
                 break;
         }
+    }
+
+    /**
+     * 校验短信验证码
+     * @param code
+     */
+    private void toCheckMsgCode(String code) {
+        Api.getClient(HttpRequest.baseUrl_user).checkSmsCode(SPUtils.geTinstance().getUserInfo().phone,code).
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<Object>() {
+                    @Override
+                    public void onSuccess(Object s) {
+                        Intent intent = new Intent(SetPasswordActivity1.this,SetPasswordActivity2.class);
+                        intent.putExtra("msgCode",code);
+                        intent.putExtra("phone",SPUtils.geTinstance().getUserInfo().phone);
+                        startActivity(intent);
+
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 
     @Override

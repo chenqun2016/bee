@@ -112,4 +112,6 @@ public class HttpRequest {
 
     //提交意见反馈
     public static final String submitFeedback = "app-sys/submitFeedback";
+    //提交意见反馈
+    public static final String checkSmsCode = "validata/checkSmsCode/{mobile}/{code}";
 }

@@ -293,4 +293,10 @@ public interface ApiService {
      */
     @POST(HttpRequest.submitFeedback)
     Observable<BaseResult<Object>> submitFeedback(@Body RequestBody info);
+
+    /**
+     * 获取购物车信息
+     */
+    @GET(HttpRequest.checkSmsCode)
+    Observable<BaseResult<Object>> checkSmsCode( @Path("mobile") String mobile, @Path("code") String code);
 }
