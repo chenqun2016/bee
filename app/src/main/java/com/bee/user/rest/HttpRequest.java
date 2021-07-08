@@ -58,7 +58,8 @@ public class HttpRequest {
     public static final String orderList ="auth/order/list";
     //订单详情
     public static final String orderDetail ="auth/detail";
-
+    //取消订单
+    public static final String closeOrder ="auth/closeOrder";
 
     //添加至购物车
     public static final String addToCart = "cart/addToCart";

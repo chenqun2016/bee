@@ -172,6 +172,11 @@ public interface ApiService {
     /**
      * 订单列表
      */
+    @POST(HttpRequest.closeOrder)
+    Observable<BaseResult<Object>> closeOrder(@Query("note") String note ,@Query("orderId") Integer orderId );
+    /**
+     * 订单列表
+     */
     @GET(HttpRequest.orderDetail)
     Observable<BaseResult<OrderDetailBean>> orderDetail(@Query("id") Integer id );
 

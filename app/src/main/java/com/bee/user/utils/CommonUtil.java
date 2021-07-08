@@ -145,7 +145,7 @@ public class CommonUtil {
         recyclerView.setAdapter(adapter);
     }
 
-    public static void performOrderGridviewClick(BaseActivity activity, OrderGridviewItemAdapter adapter, int i) {
+    public static void performOrderGridviewClick(BaseActivity activity, OrderGridviewItemAdapter adapter, int i,int id) {
         OrderGridviewItemBean bean = adapter.getList().get(i);
         if(null != bean){
             int type =  bean.type;
@@ -173,7 +173,7 @@ public class CommonUtil {
                     activity.  startActivity(PayActivity.newIntent(activity,new ArrayList<StoreBean>()));
                     break;
                 case OrderGridviewItemBean.TYPE_cancel_Order://取消订单
-                    showCancelDialog(activity);
+                    showCancelDialog(activity,id);
                     break;
                 case OrderGridviewItemBean.TYPE_cancel_Order_beihuo://取消订单_正在备货
                     showCancelConfirmDialog(activity,bean);
@@ -194,7 +194,7 @@ public class CommonUtil {
     }
 
     //    取消订单dialog
-    private static void showCancelDialog(BaseActivity activity) {
+    private static void showCancelDialog(BaseActivity activity,int id) {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(activity);
         bottomSheetDialog.setContentView(R.layout.dialog_order_detail_cancel);
         bottomSheetDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
@@ -228,6 +228,33 @@ public class CommonUtil {
                 });
 
         bottomSheetDialog.setCanceledOnTouchOutside(false);
+
+        bottomSheetDialog.findViewById(R.id.btn_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != bottomSheetDialog && bottomSheetDialog.isShowing()) {
+                    bottomSheetDialog.dismiss();
+                }
+            }
+        });
+        bottomSheetDialog.findViewById(R.id.btn_2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<DictByTypeBean> data = orderTraceAdapter.getData();
+                DictByTypeBean dictByTypeBean = data.get(orderTraceAdapter.selected);
+
+                Api.getClient(HttpRequest.baseUrl_order).closeOrder(dictByTypeBean.getDictValue(),id).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<Object>() {
+                            @Override
+                            public void onSuccess(Object dictByType) {
+                                if (null != bottomSheetDialog && bottomSheetDialog.isShowing()) {
+                                    bottomSheetDialog.dismiss();
+                                }
+                            }
+                        });
+            }
+        });
         try {
             bottomSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet)
                     .setBackgroundResource(android.R.color.transparent);

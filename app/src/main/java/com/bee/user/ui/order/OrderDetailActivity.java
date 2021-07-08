@@ -287,7 +287,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         gridview_tuikuan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CommonUtil.performOrderGridviewClick(OrderDetailActivity.this, adapter, i);
+                CommonUtil.performOrderGridviewClick(OrderDetailActivity.this, adapter, i,id);
             }
         });
     }

@@ -23,22 +23,25 @@ public class Constants {
     }
 
 /**
-订单状态:
-    SS.订单提交成功
-    WP.订单待支付
-    OFP.订单已支付
-    WMJ.商家待接单
-    OMJ.商家已接单
-    JMJ.商家分拣完成（动态顺序）
-    WPS.配送员待接单
-    OPS.配送员已接单
-    QPS.配送员取货中
-    GPS.配送员已到店
-    HPS.配送员已取货
-    SPS.配送员送货中
-    DPS.商品已送达
-    OF.订单已完成
-    OC.订单已取消
+ 订单状态
+ [
+ SS.订单提交成功
+ WP.订单待支付
+ OFP.订单已支付
+ WMJ.商家待接单
+ OMJ.商家已接单
+ JMJ.商家分拣完成（动态顺序）
+ WPS.配送员待接单
+ OPS.配送员已接单
+ QPS.配送员取货中
+ GPS.配送员已到店
+ HPS.配送员已取货
+ SPS.配送员送货中
+ DPS.商品已送达
+ OF.订单已完成
+ OC.订单已取消
+ ]
+ 撤单是在接单之前才能做，申请退款是在收货后才能做
  */
     public static final String TYPE_ORDER_SS = "SS";//订单提交成功
     public static final String TYPE_ORDER_OFP = "OFP";//订单已支付

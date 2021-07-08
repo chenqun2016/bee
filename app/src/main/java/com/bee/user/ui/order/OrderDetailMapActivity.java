@@ -331,7 +331,7 @@ public class OrderDetailMapActivity extends BaseActivity implements AMap.OnMapLo
         gridview_tuikuan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CommonUtil.performOrderGridviewClick(OrderDetailMapActivity.this,adapter,i);
+                CommonUtil.performOrderGridviewClick(OrderDetailMapActivity.this,adapter,i,id);
             }
         });
     }

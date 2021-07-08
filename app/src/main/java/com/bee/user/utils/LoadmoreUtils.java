@@ -2,11 +2,16 @@ package com.bee.user.utils;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewParent;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bee.user.R;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 
@@ -20,7 +25,7 @@ import java.util.List;
  */
 public class LoadmoreUtils {
     public Class aClass;//用于创建测试数据。接入接口后可以删除。
-
+    View emptyView;
     public LoadmoreUtils(Class c) {
         aClass = c;
     }
@@ -55,7 +60,9 @@ public class LoadmoreUtils {
             }
         });
         adapter.getLoadMoreModule().setAutoLoadMore(true);
+        emptyView = LayoutInflater.from(adapter.getRecyclerView().getContext()).inflate(R.layout.crecyclerview_empty, adapter.getRecyclerView(), false);
 
+        setEmptyViewIMG(R.drawable.bg_kongbai4);
         RecyclerView recyclerView = adapter.getRecyclerView();
         ViewParent parent = recyclerView.getParent();
         if (parent instanceof SwipeRefreshLayout) {
@@ -71,7 +78,17 @@ public class LoadmoreUtils {
             });
         }
     }
-
+    public void setEmptyViewText(String text){
+        TextView tv_empty_text = emptyView.findViewById(R.id.tv_empty);
+        tv_empty_text.setText(text);
+    }
+    public void setEmptyViewIMG(int res){
+        ImageView iv_empty = emptyView.findViewById(R.id.iv_empty);
+        iv_empty.setImageResource(res);
+    }
+    public View getEmptyView(){
+        return emptyView;
+    }
 
     public void refresh(BaseQuickAdapter mAdapter) {
         mAdapter.getLoadMoreModule().setEnableLoadMore(false);
@@ -143,6 +160,9 @@ public class LoadmoreUtils {
         if (pageInfo.isFirstPage()) {
             //如果是加载的第一页数据，用 setData()
             mAdapter.setList(data);
+            if(null == data || data.size()<=0){
+                mAdapter.setEmptyView(emptyView);
+            }
         } else {
             //不是第一页，则用add
             mAdapter.addData(data);
