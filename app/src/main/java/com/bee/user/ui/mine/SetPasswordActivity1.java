@@ -14,20 +14,15 @@ import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.SendCodeView;
 import com.blankj.utilcode.util.ObjectUtils;
-import com.jakewharton.rxbinding4.InitialValueObservable;
-import com.jakewharton.rxbinding4.widget.RxTextView;
 
 import java.util.Objects;
 
-import butterknife.Action;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
@@ -68,8 +63,8 @@ public class SetPasswordActivity1 extends BaseActivity {
                 if(ObjectUtils.isEmpty(code)) {
                     return;
                 }
-                toCheckMsgCode(code);
-               // toJump(code);
+//                toCheckMsgCode(code);
+                toJump(code);
                 break;
         }
     }
