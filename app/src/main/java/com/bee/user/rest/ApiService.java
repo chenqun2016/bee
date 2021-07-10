@@ -10,6 +10,8 @@ import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.FoodDetailBean;
 import com.bee.user.bean.HelpTypeBean;
 import com.bee.user.bean.HelpTypeItemBean;
+import com.bee.user.bean.MiLiChongzhiBean;
+import com.bee.user.bean.MyMiLiBean;
 import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderListBean;
 import com.bee.user.bean.OrderingConfirmBean;
@@ -17,6 +19,7 @@ import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.bean.StoreListBean;
+import com.bee.user.bean.TradeRecordBean;
 import com.bee.user.bean.UploadImageBean;
 import com.bee.user.bean.UserBean;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
@@ -299,6 +302,24 @@ public interface ApiService {
      */
     @GET(HttpRequest.checkSmsCode)
     Observable<BaseResult<Object>> checkSmsCode( @Path("mobile") String mobile, @Path("code") String code);
+
+    /**
+     * 【米粒面值配置】
+     */
+    @POST(HttpRequest.miliList)
+    Observable<BaseResult<List<MiLiChongzhiBean>>> miliList();
+
+    /**
+     * 查询【用户米粒额度】
+     */
+    @POST(HttpRequest.getMemberRice)
+    Observable<BaseResult<MyMiLiBean>> getMemberRice();
+
+    /**
+     * 根据条件查询【交易流水】列表
+     */
+    @POST(HttpRequest.getPayList)
+    Observable<BaseResult<List<TradeRecordBean>>> getPayList(@Body RequestBody info);
 
     /**
      * 设置支付密码

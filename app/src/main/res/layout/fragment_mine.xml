@@ -216,7 +216,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="13sp"
                         android:textColor="@color/color_3B3838"
-                        android:text="配送中"/>
+                        android:text="待收货"/>
                     <TextView
                         android:id="@+id/tv_daipingjia"
                         android:layout_width="0dp"

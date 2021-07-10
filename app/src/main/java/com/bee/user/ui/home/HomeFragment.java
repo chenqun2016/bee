@@ -138,7 +138,7 @@ public class HomeFragment extends BaseFragment {
         }
         AMapLocation amapLocation = SPUtils.geTinstance().getLocation();
         if(null != amapLocation){
-            tv_dingwei.setText(amapLocation.getAoiName() );
+            tv_dingwei.setText(amapLocation.getPoiName() );
         }
     }
     public void  onLocationChanged(AddressBean event){

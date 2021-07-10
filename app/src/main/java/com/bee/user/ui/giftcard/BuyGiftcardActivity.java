@@ -114,9 +114,6 @@ public class BuyGiftcardActivity extends BaseActivity {
 
 
         ArrayList<MiLiChongzhiBean> miLiChongzhiBeans = new ArrayList<>();
-        miLiChongzhiBeans.add(new MiLiChongzhiBean(100,"100米粒",""));
-        miLiChongzhiBeans.add(new MiLiChongzhiBean(300,"300米粒",""));
-        miLiChongzhiBeans.add(new MiLiChongzhiBean(500,"500米粒",""));
         MiLiChongzhiAdapter  miLiChongzhiAdapter   = new MiLiChongzhiAdapter(this, miLiChongzhiBeans);
         gridview.setAdapter(miLiChongzhiAdapter);
 
@@ -127,8 +124,8 @@ public class BuyGiftcardActivity extends BaseActivity {
             @Override
             public void onAddListener(int num) {
                 if(null != mCurrentBean){
-                    tv_heji_money.setText(mCurrentBean.num * num +"");
-                    tv_youhui_value.setText(mCurrentBean.num * num+"");
+                    tv_heji_money.setText(mCurrentBean.faceValue * num +"");
+                    tv_youhui_value.setText(mCurrentBean.freeValue * num+"");
                 }
             }
 
@@ -147,8 +144,8 @@ public class BuyGiftcardActivity extends BaseActivity {
                 miLiChongzhiAdapter.notifyDataSetChanged();
 
                 mCurrentBean = miLiChongzhiBeans.get(i);
-                tv_heji_money.setText(mCurrentBean.num * iv_goods_add.getNum() +"");
-                tv_youhui_value.setText(mCurrentBean.num * iv_goods_add.getNum()+"");
+                tv_heji_money.setText(mCurrentBean.faceValue * iv_goods_add.getNum() +"");
+                tv_youhui_value.setText(mCurrentBean.freeValue * iv_goods_add.getNum()+"");
             }
         });
     }

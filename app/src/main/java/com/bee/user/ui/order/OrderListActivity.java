@@ -34,7 +34,7 @@ public class OrderListActivity extends BaseActivity {
     @BindView(R.id.view_pager)
     ViewPager2 vp;
 
-    String[] titles = new String[]{"全部", "待支付", "已收货", "待评价", "退款"};
+    String[] titles = new String[]{"全部", "待支付", "待收货","已收货", "待评价", "退款"};
     private Fragment[] mFragments;
 
 
@@ -104,13 +104,16 @@ public class OrderListActivity extends BaseActivity {
             case 1:
                 type = TYPE_ORDER_WAIT_PAY;
                 break;
-            case 2:
+            case 2://TODO
                 type = TYPE_ORDER_RECEIVED;
                 break;
             case 3:
-                type = TYPE_ORDER_WAIT_COMMENT;
+                type = TYPE_ORDER_RECEIVED;
                 break;
             case 4:
+                type = TYPE_ORDER_WAIT_COMMENT;
+                break;
+            case 5:
                 type = TYPE_ORDER_REFUNDED;
                 break;
             default:

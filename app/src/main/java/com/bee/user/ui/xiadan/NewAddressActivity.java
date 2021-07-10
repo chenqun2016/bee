@@ -180,7 +180,7 @@ public class NewAddressActivity extends BaseActivity {
 
         AMapLocation location = SPUtils.geTinstance().getLocation();
         if(null != location){
-            tv_dizhi_text.setText(location.getAoiName());
+            tv_dizhi_text.setText(location.getPoiName());
         }
     }
 

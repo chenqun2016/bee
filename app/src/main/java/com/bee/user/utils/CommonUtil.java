@@ -19,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.FoodBean;
@@ -40,7 +39,6 @@ import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.mine.BuyCardActivity;
 import com.bee.user.ui.nearby.ImagesActivity;
 import com.bee.user.ui.order.OrderCommentActivity;
-import com.bee.user.ui.order.OrderDetailActivity;
 import com.bee.user.ui.order.OrderDetailMapActivity;
 import com.bee.user.ui.order.ShouHouActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
@@ -49,7 +47,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -310,19 +310,23 @@ public class CommonUtil {
     //订单详情页有两种，
     public static void showOrderDetailActivity(Context mContext, OrderBean bean) {
         String type = bean.getOrderItemType();
-        if(Constants.TYPE_ORDER_WP.equals(type) ||
-                Constants.TYPE_ORDER_OMJ.equals(type) ||
-                Constants.TYPE_ORDER_SPS.equals(type)){
-            Intent intent = new Intent(mContext, OrderDetailMapActivity.class);
-            intent.putExtra("type",type);
-            intent.putExtra("id",bean.id);
-            mContext.startActivity(intent);
-        }else{
-            Intent intent = new Intent(mContext, OrderDetailActivity.class);
-            intent.putExtra("type",type);
-            intent.putExtra("id",bean.id);
-            mContext.startActivity(intent);
-        }
+        Intent intent = new Intent(mContext, OrderDetailMapActivity.class);
+        intent.putExtra("type",type);
+        intent.putExtra("id",bean.id);
+        mContext.startActivity(intent);
+//        if(Constants.TYPE_ORDER_WP.equals(type) ||
+//                Constants.TYPE_ORDER_OMJ.equals(type) ||
+//                Constants.TYPE_ORDER_SPS.equals(type)){
+//            Intent intent = new Intent(mContext, OrderDetailMapActivity.class);
+//            intent.putExtra("type",type);
+//            intent.putExtra("id",bean.id);
+//            mContext.startActivity(intent);
+//        }else{
+//            Intent intent = new Intent(mContext, OrderDetailActivity.class);
+//            intent.putExtra("type",type);
+//            intent.putExtra("id",bean.id);
+//            mContext.startActivity(intent);
+//        }
 
     }
 
@@ -418,5 +422,10 @@ public class CommonUtil {
             ToastUtil.ToastShort(context,"复制失败");
         }
 
+    }
+
+    public static  SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+    public static String formatData(String date){//必须yyyy-MM-dd
+        return date;
     }
 }
