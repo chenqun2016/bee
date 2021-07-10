@@ -1,5 +1,6 @@
 package com.bee.user.ui.mine;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -19,6 +20,8 @@ import com.bee.user.widget.SendCodeView;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
+
+import java.util.Objects;
 
 import butterknife.Action;
 import butterknife.BindView;
@@ -46,6 +49,17 @@ public class SetPasswordActivity1 extends BaseActivity {
     @BindView(R.id.tv_phone)
     TextView tv_phone;
 
+    @BindView(R.id.toolbar_title)
+    TextView toolbar_title;
+
+    private String type = "";//设置密码类型 payPass：支付密码  loginPass:登录密码
+
+    public static void toSetPassword(Activity activity,String type) {
+        Intent intent = new Intent(activity,SetPasswordActivity1.class);
+        intent.putExtra("type",type);
+        activity.startActivity(intent);
+    }
+
     @OnClick({R.id.tv_agree})
     public void onClick(View view){
         switch (view.getId()) {
@@ -55,6 +69,7 @@ public class SetPasswordActivity1 extends BaseActivity {
                     return;
                 }
                 toCheckMsgCode(code);
+               // toJump(code);
                 break;
         }
     }
@@ -70,11 +85,7 @@ public class SetPasswordActivity1 extends BaseActivity {
                 .subscribe(new BaseSubscriber<Object>() {
                     @Override
                     public void onSuccess(Object s) {
-                        Intent intent = new Intent(SetPasswordActivity1.this,SetPasswordActivity2.class);
-                        intent.putExtra("msgCode",code);
-                        intent.putExtra("phone",SPUtils.geTinstance().getUserInfo().phone);
-                        startActivity(intent);
-
+                        toJump(code);
                     }
 
                     @Override
@@ -84,6 +95,24 @@ public class SetPasswordActivity1 extends BaseActivity {
                 });
     }
 
+    /**
+     * 校验验证码成功跳转
+     * @param code
+     */
+    private void toJump(String code) {
+        Intent intent = null;
+        if(Objects.deepEquals("loginPass",type)) {
+            intent = new Intent(SetPasswordActivity1.this,SetPasswordActivity2.class);
+        }else if(Objects.deepEquals("payPass",type)) {
+            intent = new Intent(SetPasswordActivity1.this,SetPayPasswordActivity.class);
+        }
+        if(intent != null) {
+            intent.putExtra("msgCode",code);
+            intent.putExtra("phone",SPUtils.geTinstance().getUserInfo().phone);
+            startActivity(intent);
+        }
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_setpassword;
@@ -91,6 +120,8 @@ public class SetPasswordActivity1 extends BaseActivity {
 
     @Override
     public void initViews() {
+        type = getIntent().getStringExtra("type");
+        setUIInform(type);
         String phone = SPUtils.geTinstance().getUserInfo().phone;
         if(!ObjectUtils.isEmpty(phone)&&phone.length()>4) {
             String mobile = phone.substring(0, 3) + "****" + phone.substring(phone.length() - 4);
@@ -138,7 +169,17 @@ public class SetPasswordActivity1 extends BaseActivity {
         setButtonStatus(false);
     }
 
-
+    /**
+     * 设置页面UI信息
+     * @param type
+     */
+    private void setUIInform(String type) {
+        if(Objects.deepEquals("loginPass",type)) {
+            toolbar_title.setText("修改密码");
+        }else if(Objects.deepEquals("payPass",type)) {
+            toolbar_title.setText("设置支付密码");
+        }
+    }
 
     private void setButtonStatus(Boolean aBoolean) {
         if (aBoolean) {

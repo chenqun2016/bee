@@ -320,4 +320,22 @@ public interface ApiService {
      */
     @POST(HttpRequest.getPayList)
     Observable<BaseResult<List<TradeRecordBean>>> getPayList(@Body RequestBody info);
+
+    /**
+     * 设置支付密码
+     */
+    @POST(HttpRequest.setPayPassword)
+    Observable<BaseResult<Object>> setPayPassword(@Body RequestBody info);
+
+    /**
+     * 重置支付密码
+     */
+    @POST(HttpRequest.resetPayPassword)
+    Observable<BaseResult<Object>> resetPayPassword(@Body RequestBody info);
+
+    /**
+     * check支付密码
+     */
+    @POST(HttpRequest.checkPayPassword)
+    Observable<BaseResult<Object>> checkPayPassword(@Body RequestBody info);
 }

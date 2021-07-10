@@ -5,6 +5,10 @@ import android.view.View;
 import android.widget.TextView;
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.utils.sputils.SPUtils;
+
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -16,14 +20,17 @@ import butterknife.OnClick;
 public class AcountSafeActivity extends BaseActivity {
     @BindView(R.id.tv_mimalogin_text)
     TextView tv_mimalogin_text;
+
+    @BindView(R.id.tv_zhifumima_text)
+    TextView tv_zhifumima_text;
     @OnClick({R.id.tv_mimalogin_text,R.id.tv_zhifumima_text})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_mimalogin_text:
-                startActivity(new Intent(this,SetPasswordActivity1.class));
+                SetPasswordActivity1.toSetPassword(this,"loginPass");
                 break;
             case R.id.tv_zhifumima_text:
-                startActivity(new Intent(this,SetPayPasswordActivity.class));
+                SetPasswordActivity1.toSetPassword(this,"payPass");
                 break;
         }
     }
@@ -35,5 +42,10 @@ public class AcountSafeActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        if(Objects.deepEquals("Y", SPUtils.geTinstance().getUserInfo().payPasswordFlag)) {
+            tv_zhifumima_text.setText("已设置");
+        }else {
+            tv_zhifumima_text.setText("未设置");
+        }
     }
 }

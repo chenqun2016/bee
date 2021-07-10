@@ -1,6 +1,8 @@
 package com.bee.user.ui.mine;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -13,6 +15,8 @@ import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.login.LoginActivity;
+import com.bee.user.ui.login.PasswordLoginActivity;
 import com.bee.user.ui.login.ResetPasswordActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.ToastUtil;
@@ -54,6 +58,7 @@ public class SetPasswordActivity2 extends BaseActivity {
 
     private String msgCode = "";
     private String phone = "";
+    private CountDownTimer mCountDownTimer;
 
     @Override
     public int getLayoutId() {
@@ -127,14 +132,27 @@ public class SetPasswordActivity2 extends BaseActivity {
                 .subscribe(new BaseSubscriber<String>() {
                     @Override
                     public void onSuccess(String userBean) {
-                        SPUtils.geTinstance().setExitlogin();
-                        EventBus.getDefault().post(new ExitloginEvent());
-                        Intent intent =  new Intent(SetPasswordActivity2.this,MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
-                        startActivity(intent);
-                        finish();
+                        showEndDialog();
                     }
                 });
+    }
+
+    /**
+     * 跳转登录页
+     */
+    private void toJump() {
+        if (null != systemDialog) {
+            systemDialog.dismiss();
+            if(mCountDownTimer !=null) {
+                mCountDownTimer.cancel();
+            }
+        }
+        SPUtils.geTinstance().setExitlogin();
+        EventBus.getDefault().post(new ExitloginEvent());
+        Intent intent =  new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
+        startActivity(intent);
+        finish();
     }
 
     private void setButtonStatus(Boolean aBoolean) {
@@ -146,4 +164,39 @@ public class SetPasswordActivity2 extends BaseActivity {
             tv_agree.setBackgroundResource(R.drawable.btn_gradient_grey_round);
         }
     }
+
+    private Dialog systemDialog;
+    private void showEndDialog() {
+        if (null == systemDialog) {
+            systemDialog = new Dialog(this, R.style.loadingDialogTheme);
+            View inflate = View.inflate(this, R.layout.dialog_login_password_tips, null);
+            TextView tv_des = (TextView) inflate.findViewById(R.id.tv_des);
+            TextView tv_queding = (TextView) inflate.findViewById(R.id.btn_sure);
+            mCountDownTimer = new CountDownTimer(4000,1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    tv_des.setText((int)millisUntilFinished/1000+"");
+                }
+
+                @Override
+                public void onFinish() {
+                    toJump();
+                }
+            };
+            mCountDownTimer.start();
+            tv_queding.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if(mCountDownTimer!= null) {
+                        mCountDownTimer.cancel();
+                    }
+                    toJump();
+                }
+            });
+            systemDialog.setContentView(inflate);
+        }
+        systemDialog.show();
+    }
+
 }

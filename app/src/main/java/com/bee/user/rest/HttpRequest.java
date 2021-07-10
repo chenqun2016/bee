@@ -11,7 +11,6 @@ public class HttpRequest {
 
     public static final String baseUrl = "http://dev-beeweb.quxianfeng.vip/bee-member-zuul-gateway/";
 
-
     public static final  String baseUrl_user = baseUrl + "api-uaa/";
     public static final String baseUrl_pay = baseUrl + "api-pay/";
     public static final String baseUrl_shop = baseUrl + "api-shop/";
@@ -112,6 +111,7 @@ public class HttpRequest {
 
     //提交意见反馈
     public static final String submitFeedback = "app-sys/submitFeedback";
+
     //提交意见反馈
     public static final String checkSmsCode = "validata/checkSmsCode/{mobile}/{code}";
 
@@ -126,4 +126,12 @@ public class HttpRequest {
 
     //根据条件查询【交易流水】列表
     public static final String getPayList = "app-t-pay-payments-tran/list";
+    //设置支付密码
+    public static final String setPayPassword = "ums/AppUmsMember/setPayPassword";
+
+    //重置支付密码
+    public static final String resetPayPassword = "ums/AppUmsMember/resetPayPassword";
+
+    //check支付密码
+    public static final String checkPayPassword = "ums/AppUmsMember/checkPayPassword";
 }
