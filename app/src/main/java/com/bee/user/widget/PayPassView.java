@@ -93,7 +93,14 @@ public class PayPassView extends FrameLayout implements View.OnClickListener {
                     for (int i = 0; i < 6; i++) {
                         strPassword += tvList[i].getText().toString().trim();
                     }
-                    passwordInputFinish.inputFinish();    //接口中要实现的方法，完成密码输入完成后的响应逻辑
+                    if(passwordInputFinish != null) {
+                        passwordInputFinish.inputFinish();    //接口中要实现的方法，完成密码输入完成后的响应逻辑
+                    }
+                }else {
+                    if(passwordInputFinish != null) {
+                        passwordInputFinish.inputNoFull();   //接口中要实现的方法，完成密码输入完成后的响应逻辑
+                    }
+
                 }
             }
         });
@@ -143,7 +150,9 @@ public class PayPassView extends FrameLayout implements View.OnClickListener {
             tvList[++currentIndex].setText(str);
         }
         if(currentIndex==0){
-            passwordInputFinish.inputFirst();
+            if(passwordInputFinish != null) {
+                passwordInputFinish.inputFirst();
+            }
         }
     }
 
@@ -160,5 +169,6 @@ public class PayPassView extends FrameLayout implements View.OnClickListener {
     public interface OnPasswordInputFinish {
         void inputFinish();
         void inputFirst();
+        void inputNoFull();
     }
 }

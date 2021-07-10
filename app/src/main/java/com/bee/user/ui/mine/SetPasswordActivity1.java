@@ -69,6 +69,7 @@ public class SetPasswordActivity1 extends BaseActivity {
                     return;
                 }
                 toCheckMsgCode(code);
+               // toJump(code);
                 break;
         }
     }

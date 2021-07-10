@@ -311,4 +311,10 @@ public interface ApiService {
      */
     @POST(HttpRequest.resetPayPassword)
     Observable<BaseResult<Object>> resetPayPassword(@Body RequestBody info);
+
+    /**
+     * check支付密码
+     */
+    @POST(HttpRequest.checkPayPassword)
+    Observable<BaseResult<Object>> checkPayPassword(@Body RequestBody info);
 }

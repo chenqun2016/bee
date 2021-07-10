@@ -156,6 +156,7 @@
         <activity android:name=".ui.mine.SetPasswordActivity1" />
         <activity android:name=".ui.mine.SetPasswordActivity2" />
         <activity android:name=".ui.mine.SetPayPasswordActivity" />
+        <activity android:name=".ui.mine.SetPayPasswordActivity2" />
         <activity android:name=".ui.trade.MiLiActivity" />
         <activity android:name=".ui.trade.TradeStatusActivity" />
         <activity android:name=".ui.trade.TradeListActivity" />

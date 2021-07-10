@@ -11,7 +11,6 @@ public class HttpRequest {
 
     public static final String baseUrl = "http://dev-beeweb.quxianfeng.vip/bee-member-zuul-gateway/";
 
-
     public static final  String baseUrl_user = baseUrl + "api-uaa/";
     public static final String baseUrl_pay = baseUrl + "api-pay/";
     public static final String baseUrl_shop = baseUrl + "api-shop/";
@@ -121,4 +120,7 @@ public class HttpRequest {
 
     //重置支付密码
     public static final String resetPayPassword = "ums/AppUmsMember/resetPayPassword";
+
+    //check支付密码
+    public static final String checkPayPassword = "ums/AppUmsMember/checkPayPassword";
 }

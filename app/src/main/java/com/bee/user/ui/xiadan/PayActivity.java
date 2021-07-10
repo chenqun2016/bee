@@ -108,6 +108,11 @@ public class PayActivity extends BaseActivity {
                     public void inputFirst() {
 
                     }
+
+                    @Override
+                    public void inputNoFull() {
+
+                    }
                 });
 
 
