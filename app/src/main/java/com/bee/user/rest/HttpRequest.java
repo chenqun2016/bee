@@ -112,6 +112,13 @@ public class HttpRequest {
 
     //提交意见反馈
     public static final String submitFeedback = "app-sys/submitFeedback";
+
     //提交意见反馈
     public static final String checkSmsCode = "validata/checkSmsCode/{mobile}/{code}";
+
+    //设置支付密码
+    public static final String setPayPassword = "ums/AppUmsMember/setPayPassword";
+
+    //重置支付密码
+    public static final String resetPayPassword = "ums/AppUmsMember/resetPayPassword";
 }

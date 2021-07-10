@@ -82,7 +82,7 @@ public class UserBean {
     public Boolean accountNonExpired;
     public Boolean accountNonLocked;
     public Boolean credentialsNonExpired;
-
+    public String payPasswordFlag;
 
 
 

@@ -299,4 +299,16 @@ public interface ApiService {
      */
     @GET(HttpRequest.checkSmsCode)
     Observable<BaseResult<Object>> checkSmsCode( @Path("mobile") String mobile, @Path("code") String code);
+
+    /**
+     * 设置支付密码
+     */
+    @POST(HttpRequest.setPayPassword)
+    Observable<BaseResult<Object>> setPayPassword(@Body RequestBody info);
+
+    /**
+     * 重置支付密码
+     */
+    @POST(HttpRequest.resetPayPassword)
+    Observable<BaseResult<Object>> resetPayPassword(@Body RequestBody info);
 }
