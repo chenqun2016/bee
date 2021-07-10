@@ -27,7 +27,7 @@ public class HttpRequest {
     public static final String login_code = "member/login/smscode";
     public static final String resetPassword = "member/resetPassword";
 
-    public static final String zhifubao_pay = "app-t-pay-order/prePaySign";
+
 
 
     //附件 店铺
@@ -114,4 +114,16 @@ public class HttpRequest {
     public static final String submitFeedback = "app-sys/submitFeedback";
     //提交意见反馈
     public static final String checkSmsCode = "validata/checkSmsCode/{mobile}/{code}";
+
+    //米粒面值配置
+    public static final String miliList = "app-t-pay-order/riceFaceConfig";
+
+    //【米粒配送卡充值app预下单】
+    public static final String zhifubao_pay = "app-t-pay-order/prePaySign";
+
+    //查询【用户米粒额度】
+    public static final String getMemberRice = "app-t-pay-payments-tran/getMemberRice";
+
+    //根据条件查询【交易流水】列表
+    public static final String getPayList = "app-t-pay-payments-tran/list";
 }

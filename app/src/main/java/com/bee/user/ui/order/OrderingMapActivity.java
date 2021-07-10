@@ -205,7 +205,7 @@
 //        LatLng locationBean1 = new LatLng(location.getLatitude()+0.005d, location.getLongitude()-0.005d);
 //        MarkerOptions markerOption1 = new MarkerOptions();
 //        markerOption1.position(locationBean1);
-//        markerOption1.title(location.getAoiName()).snippet("");
+//        markerOption1.title(location.getPoiName()).snippet("");
 //        markerOption1.draggable(false);
 //        markerOption1.icon(
 //                // BitmapDescriptorFactory
@@ -221,7 +221,7 @@
 //        LatLng locationBean = new LatLng(location.getLatitude(), location.getLongitude());
 //        MarkerOptions markerOption = new MarkerOptions();
 //        markerOption.position(locationBean);
-//        markerOption.title(location.getAoiName()).snippet("");
+//        markerOption.title(location.getPoiName()).snippet("");
 //
 //        markerOption.draggable(false);
 //        markerOption.icon(

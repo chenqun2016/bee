@@ -137,7 +137,7 @@ public class SelectLocationActivity extends BaseActivity {
         AMapLocation location = SPUtils.geTinstance().getLocation();
         if(null != location){
             tv_location.setText(location.getCity());
-            tv_location_area.setText(location.getAoiName());
+            tv_location_area.setText(location.getPoiName());
         }
 
         recyclerview1.setLayoutManager(new LinearLayoutManager(this));
@@ -254,7 +254,7 @@ public class SelectLocationActivity extends BaseActivity {
         if (null != amapLocation) {
             if (amapLocation.getErrorCode() == 0) {
 //                tv_location_area.setText( amapLocation.getStreet() + amapLocation.getStreetNum());
-                tv_location_area.setText( amapLocation.getAoiName() );
+                tv_location_area.setText( amapLocation.getPoiName() );
                 CityPicker.from(SelectLocationActivity.this).locateComplete(new LocatedCity(amapLocation.getCity(), amapLocation.getProvince(), amapLocation.getAdCode()), LocateState.SUCCESS);
             }
         }

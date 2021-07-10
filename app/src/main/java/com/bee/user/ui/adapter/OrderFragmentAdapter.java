@@ -264,7 +264,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                     LatLng locationBean = new LatLng(location.getLatitude(), location.getLongitude());
                     MarkerOptions markerOption = new MarkerOptions();
                     markerOption.position(locationBean);
-                    markerOption.title(location.getAoiName()).snippet("");
+                    markerOption.title(location.getPoiName()).snippet("");
 
                     markerOption.draggable(false);
                     markerOption.icon(

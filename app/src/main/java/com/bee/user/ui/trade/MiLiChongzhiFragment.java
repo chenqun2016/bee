@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import com.alipay.sdk.app.PayTask;
 import com.bee.user.R;
 import com.bee.user.bean.MiLiChongzhiBean;
-import com.bee.user.bean.OrderInfo;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -25,10 +24,10 @@ import com.bee.user.ui.adapter.MiLiChongzhiAdapter;
 import com.bee.user.ui.base.BaseDialog;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.widget.MyGridView;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -43,7 +42,7 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
 
     MiLiChongzhiAdapter miLiChongzhiAdapter;
     MyGridView gridview;
-
+    ArrayList<MiLiChongzhiBean> miLiChongzhiBeans = new ArrayList<>();
     TextView tv_sure;
     private static final Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
@@ -62,7 +61,22 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
     };
     @Override
     protected void getDatas() {
+        Api.getClient(HttpRequest.baseUrl_pay).miliList().
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<MiLiChongzhiBean>>() {
+                    @Override
+                    public void onSuccess(List<MiLiChongzhiBean> s) {
+                        miLiChongzhiBeans.clear();
+                        miLiChongzhiBeans.addAll(s);
+                        miLiChongzhiAdapter.notifyDataSetChanged();
+                    }
 
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 
     @Nullable
@@ -85,13 +99,7 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
             }
         });
         setButtonStatus(false,tv_sure);
-        ArrayList<MiLiChongzhiBean> miLiChongzhiBeans = new ArrayList<>();
-        miLiChongzhiBeans.add(new MiLiChongzhiBean(50,"50米粒","送10米粒"));
-        miLiChongzhiBeans.add(new MiLiChongzhiBean(100,"100米粒","送20米粒"));
-        miLiChongzhiBeans.add(new MiLiChongzhiBean(200,"200米粒","送40米粒"));
-        miLiChongzhiBeans.add(new MiLiChongzhiBean(300,"300米粒","送50米粒"));
-        miLiChongzhiBeans.add(new MiLiChongzhiBean(500,"500米粒","送100米粒"));
-        miLiChongzhiBeans.add(new MiLiChongzhiBean(1000,"1000米粒","送300米粒"));
+
         miLiChongzhiAdapter   = new MiLiChongzhiAdapter(getContext(), miLiChongzhiBeans);
         gridview.setAdapter(miLiChongzhiAdapter);
 
@@ -103,7 +111,6 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
                 miLiChongzhiAdapter.notifyDataSetChanged();
             }
         });
-
     }
 
     ImageView checkbox_zhifubao;
@@ -180,14 +187,12 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
                 .subscribe(new BaseSubscriber<String>() {
                     @Override
                     public void onSuccess(String r) {
-                        String orderInfo = new Gson().toJson( new OrderInfo());   // 订单信息
-
                         Runnable payRunnable = new Runnable() {
 
                             @Override
                             public void run() {
                                 PayTask alipay = new PayTask(getActivity());
-                                Map<String,String> result = alipay.payV2(orderInfo,true);
+                                Map<String,String> result = alipay.payV2(r,true);
 
                                 Message msg = new Message();
                                 msg.what = 1;

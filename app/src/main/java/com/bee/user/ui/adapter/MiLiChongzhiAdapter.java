@@ -1,7 +1,6 @@
 package com.bee.user.ui.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +27,9 @@ public class MiLiChongzhiAdapter extends BaseAdapter {
     private List<MiLiChongzhiBean> list  = new ArrayList<>();
     private int mIndex = -1;
 
-    public MiLiChongzhiAdapter(Context mContext,List<MiLiChongzhiBean> list) {
+    public MiLiChongzhiAdapter(Context mContext,List<MiLiChongzhiBean> data) {
         this.context = mContext;
-        this.list.clear();
-        this.list .addAll(list);
+        this.list  = data;
     }
 
     @Override
@@ -59,12 +57,13 @@ public class MiLiChongzhiAdapter extends BaseAdapter {
         } else {
             viewHolder = (MiLiHolder) convertView.getTag();
         }
+
         MiLiChongzhiBean bean = list.get(position);
-        viewHolder.tv_1.setText(bean.text1);
-        if(TextUtils.isEmpty(bean.text2)){
+        viewHolder.tv_1.setText(bean.faceValue+"米粒");
+        if(bean.freeValue == 0){
             viewHolder.tv_2.setVisibility(View.GONE);
         }else{
-            viewHolder.tv_2.setText(bean.text2);
+            viewHolder.tv_2.setText("送"+bean.freeValue + "米粒");
         }
 
 

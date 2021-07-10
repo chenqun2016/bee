@@ -6,21 +6,15 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bee.user.R;
-import com.bee.user.bean.TradeRecordBean;
 import com.bee.user.entity.TradeListEntity;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.CommonUtil;
-import com.bee.user.widget.PinnedSectionDecoration;
 import com.bee.user.widget.RadioGroupPlus;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
@@ -28,9 +22,7 @@ import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
 
-import java.lang.reflect.ParameterizedType;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -52,6 +44,11 @@ public class TradeListActivity extends BaseActivity {
 
     @BindView(R.id.background)
     View background;
+
+    @BindView(R.id.shaixuan)
+    TextView shaixuan;
+    @BindView(R.id.tv_time)
+    TextView tv_time;
 
     @OnClick(R.id.shaixuan)
     public void onClick(View view) {
@@ -149,7 +146,9 @@ public class TradeListActivity extends BaseActivity {
                 finish();
             }
         });
-
+        empty.findViewById(R.id.tv_empty2).setVisibility(View.GONE);
+        TextView tv_empty = empty.findViewById(R.id.tv_empty);
+        tv_empty.setText("近一年暂无交易记录");
         crecyclerview.setView(TradeListEntity.class);
         crecyclerview.setEmptyView(empty);
         crecyclerview.setRow(20);
@@ -167,46 +166,28 @@ public class TradeListActivity extends BaseActivity {
         crecyclerview.setOnRequestListener(new CRecyclerView.OnRequestListener() {
             @Override
             public void onRequestEnd() {
-
+                if(null != crecyclerview.getBaseAdapter().getData() && crecyclerview.getBaseAdapter().getData().size()>0){
+                    shaixuan.setVisibility(View.VISIBLE);
+                    tv_time.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void onNoData() {
+                shaixuan.setVisibility(View.GONE);
+                tv_time.setVisibility(View.GONE);
             }
 
             @Override
             public void onNoMoreDatas() {
-
             }
 
             @Override
             public void onRefreshStart() {
-
             }
         });
         crecyclerview.start();
 
-
-        ArrayList<TradeRecordBean> beans = new ArrayList<>();
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-        beans.add(new TradeRecordBean());
-
-
-        crecyclerview.getBaseAdapter().setList(beans);
     }
 
 
@@ -221,7 +202,7 @@ public class TradeListActivity extends BaseActivity {
         pvTime = new TimePickerBuilder(this, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
-                if (date.getTime() > new Date().getTime()) {
+                if (date.getTime() > System.currentTimeMillis()) {
                     date = new Date();
                 }
 

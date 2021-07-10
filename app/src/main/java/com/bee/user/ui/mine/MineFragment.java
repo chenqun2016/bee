@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
+import com.bee.user.bean.MyMiLiBean;
 import com.bee.user.bean.UserBean;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
@@ -122,13 +123,12 @@ public class MineFragment extends BaseFragment {
                 break;
 
             case R.id.tv_daipingjia:
-                getContext().startActivity(OrderListActivity.newInstance(getContext(),3));
-                break;
-
-            case R.id.tv_shouhou:
                 getContext().startActivity(OrderListActivity.newInstance(getContext(),4));
                 break;
 
+            case R.id.tv_shouhou:
+                getContext().startActivity(OrderListActivity.newInstance(getContext(),5));
+                break;
 
             case R.id.tv_1://米粒/充值
                 getContext().startActivity(new Intent(getContext(), MiLiActivity.class));
@@ -171,7 +171,30 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void getDatas() {
+        getMiLiDatas();
+    }
 
+    MyMiLiBean miLiBean;
+    private void getMiLiDatas() {
+        Api.getClient(HttpRequest.baseUrl_pay).getMemberRice().
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<MyMiLiBean>() {
+                    @Override
+                    public void onSuccess(MyMiLiBean s) {
+                        miLiBean = s;
+                        String str = ""+ s.surplusAmount;
+                        SpannableString msp = new SpannableString(str + "\n米粒/充值");
+                        msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        msp.setSpan(new AbsoluteSizeSpan(16, true), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        tv_1.setText(msp);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 
     @Override public void onDestroyView() {
@@ -203,7 +226,7 @@ public class MineFragment extends BaseFragment {
         ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
         layoutParams.height = ImmersionBar.getStatusBarHeight(this);
 
-        String str = ""+ CommonUtil.moneyType(10.00d);
+        String str = ""+ CommonUtil.moneyType(0d);
         SpannableString msp = new SpannableString(str + "\n米粒/充值");
         msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         msp.setSpan(new AbsoluteSizeSpan(16, true), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
