@@ -8,9 +8,12 @@ import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.PayPassView;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -64,7 +67,11 @@ public class SetPayPasswordActivity extends BaseActivity {
     public void onClick(View view){
         switch (view.getId()) {
             case R.id.tv_agree:
-                toSetPass(paypassview.getStrPassword());
+                if(Objects.deepEquals("Y", SPUtils.geTinstance().getUserInfo().payPasswordFlag)) {
+                    toSetPass(paypassview.getStrPassword());
+                }else {
+                    toJump(paypassview.getStrPassword());
+                }
                break;
         }
     }
