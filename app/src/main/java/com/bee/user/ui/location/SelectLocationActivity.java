@@ -22,6 +22,7 @@ import com.bee.user.ui.search.SearchCityActivity;
 import com.bee.user.ui.search.SearchLocationActivity;
 import com.bee.user.ui.xiadan.ChooseAddressActivity;
 import com.bee.user.ui.xiadan.NewAddressActivity;
+import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -229,7 +230,7 @@ public class SelectLocationActivity extends BaseActivity {
             TextView tv_name = baseViewHolder.findView(R.id.tv_name);
 
             tv_address.setText(addressBean.detailAddress+"");
-            tv_tag.setText(addressBean.tag+"");
+            tv_tag.setText(CommonUtil.getLocationTag(addressBean.tag));
             tv_address2.setText(addressBean.houseNumber+"");
             tv_name.setText(addressBean.name+"");
 

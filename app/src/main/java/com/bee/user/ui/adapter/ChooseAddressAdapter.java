@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
+import com.bee.user.utils.CommonUtil;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
@@ -54,7 +55,7 @@ public class ChooseAddressAdapter extends BaseMultiItemQuickAdapter<AddressBean,
                     tv_name.setTextColor(tv_name.getResources().getColor(R.color.color_CBCBCB));
                 }
                 tv_address.setText(addressBean.detailAddress+"");
-                tv_tag.setText(addressBean.tag+"");
+                tv_tag.setText(CommonUtil.getLocationTag(addressBean.tag));
                 tv_address2.setText(addressBean.houseNumber+"");
                 tv_name.setText(addressBean.name+"");
 

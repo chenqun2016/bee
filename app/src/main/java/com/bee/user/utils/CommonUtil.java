@@ -49,7 +49,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -427,5 +426,24 @@ public class CommonUtil {
     public static  SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
     public static String formatData(String date){//必须yyyy-MM-dd
         return date;
+    }
+
+    public static String getLocationTag(int tag) {
+        String tagStr ;
+        switch (tag){
+            case 1:
+                tagStr = "家";
+                break;
+            case 2:
+                tagStr = "公司";
+                break;
+            case 3:
+                tagStr = "学校";
+                break;
+            default:
+                tagStr = "";
+                break;
+        }
+        return tagStr;
     }
 }
