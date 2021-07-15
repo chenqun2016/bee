@@ -13,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bee.user.R;
 import com.bee.user.bean.MyMiLiBean;
+import com.bee.user.event.ReflushEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -20,6 +21,10 @@ import com.bee.user.ui.base.activity.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.gyf.immersionbar.ImmersionBar;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -64,7 +69,14 @@ public class MiLiActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void initViews() {
+        EventBus.getDefault().register(this);
         ViewGroup.LayoutParams layoutParams = statusheight.getLayoutParams();
         layoutParams.height = ImmersionBar.getStatusBarHeight(this);
         statusheight.setLayoutParams(layoutParams);
@@ -91,7 +103,7 @@ public class MiLiActivity extends BaseActivity {
         getMiLiDatas();
     }
     MyMiLiBean miLiBean;
-    private void getMiLiDatas() {
+    public void getMiLiDatas() {
         Api.getClient(HttpRequest.baseUrl_pay).getMemberRice().
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
@@ -130,6 +142,13 @@ public class MiLiActivity extends BaseActivity {
         @Override
         public int getItemCount() {
             return titles.length;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReflushEvent(ReflushEvent event) {
+        if(ReflushEvent.TYPE_REFLUSH_MILI == event.type){
+            getMiLiDatas();
         }
     }
 

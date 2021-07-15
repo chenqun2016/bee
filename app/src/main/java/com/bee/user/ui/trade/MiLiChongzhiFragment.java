@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import com.alipay.sdk.app.PayTask;
 import com.bee.user.R;
 import com.bee.user.bean.MiLiChongzhiBean;
+import com.bee.user.event.ReflushEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -24,6 +25,8 @@ import com.bee.user.ui.adapter.MiLiChongzhiAdapter;
 import com.bee.user.ui.base.BaseDialog;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.widget.MyGridView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,16 +47,24 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
     MyGridView gridview;
     ArrayList<MiLiChongzhiBean> miLiChongzhiBeans = new ArrayList<>();
     TextView tv_sure;
-    private static final Handler mHandler = new Handler(Looper.myLooper()) {
+    private  final Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         @SuppressWarnings("unused")
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1: {
-
+                    try{
+                        Map<String,String> result  = (Map<String, String>) msg.obj;
+                        String res = result.get("result");
+                        if("6000".equals(res) && null != bottomSheetDialog){
+                            bottomSheetDialog.dismiss();
+                            EventBus.getDefault().post(new ReflushEvent(ReflushEvent.TYPE_REFLUSH_MILI));
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     break;
                 }
-
                 default:
                     break;
             }

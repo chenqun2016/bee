@@ -123,6 +123,8 @@ public class PayActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCloseEvent(CloseEvent event) {
-        finish();
+        if(event.type == CloseEvent.TYPE_PAY){
+            finish();
+        }
     }
 }

@@ -6,13 +6,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bee.user.R;
-import com.bee.user.event.ExitloginEvent;
+import com.bee.user.event.ReflushEvent;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.CommonWebActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.blankj.utilcode.util.ObjectUtils;
+
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
@@ -100,7 +101,7 @@ public class SettingActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     SPUtils.geTinstance().setExitlogin();
-                    EventBus.getDefault().post(new ExitloginEvent());
+                    EventBus.getDefault().post(new ReflushEvent(ReflushEvent.TYPE_REFLUSH_EXIT_LOGIN));
                     if (null != systemDialog) {
                         systemDialog.dismiss();
                     }

@@ -171,11 +171,13 @@ public class MineFragment extends BaseFragment {
 
     @Override
     protected void getDatas() {
-        getMiLiDatas();
+        if(SPUtils.geTinstance().isLogin()){
+            getMiLiDatas();
+        }
     }
 
     MyMiLiBean miLiBean;
-    private void getMiLiDatas() {
+    public void getMiLiDatas() {
         Api.getClient(HttpRequest.baseUrl_pay).getMemberRice().
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
