@@ -2,32 +2,53 @@ package com.bee.user.ui.trade;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.LinearInterpolator;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.bee.user.Constants;
 import com.bee.user.R;
-import com.bee.user.entity.TradeListEntity;
+import com.bee.user.bean.TradeRecordBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.CommonUtil;
+import com.bee.user.utils.LoadmoreUtils;
+import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.RadioGroupPlus;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 
-import java.text.SimpleDateFormat;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -35,8 +56,11 @@ import butterknife.OnClick;
  * 描述：
  */
 public class TradeListActivity extends BaseActivity {
-    @BindView(R.id.crecyclerview)
-    CRecyclerView crecyclerview;
+    @BindView(R.id.swiperefresh)
+    SwipeRefreshLayout swiperefresh;
+
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerview;
 
 
     @BindView(R.id.toolbar_title)
@@ -50,80 +74,134 @@ public class TradeListActivity extends BaseActivity {
     @BindView(R.id.tv_time)
     TextView tv_time;
 
+    LoadmoreUtils loadmoreUtils;
+    TradeListAdapter tradeListAdapter;
+    String endDate;
+    String beginDate;
+    String bizType;
+
     @OnClick(R.id.shaixuan)
     public void onClick(View view) {
 
         showShaixuan();
     }
 
+    PopupWindow popupWindow;
+
     private void showShaixuan() {
-        View mMenuView = LayoutInflater.from(this).inflate(R.layout.popop_window_trade_list, null);
-        PopupWindow popupWindow = new PopupWindow(mMenuView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        RadioGroupPlus rp_1 = mMenuView.findViewById(R.id.rp_1);
-        rp_1.setOnCheckedChangeListener(new RadioGroupPlus.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroupPlus group, int checkedId) {
+        if (null == popupWindow) {
+            View mMenuView = LayoutInflater.from(this).inflate(R.layout.popop_window_trade_list, null);
+            popupWindow = new PopupWindow(mMenuView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            RadioGroupPlus rp_1 = mMenuView.findViewById(R.id.rp_1);
 
-            }
-        });
-        RadioGroupPlus rp_2 = mMenuView.findViewById(R.id.rp_2);
-        rp_2.setOnCheckedChangeListener(new RadioGroupPlus.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroupPlus group, int checkedId) {
+            TextView tv_time_left = mMenuView.findViewById(R.id.tv_time_left);
+            TextView tv_time_right = mMenuView.findViewById(R.id.tv_time_right);
 
-            }
-        });
-        rp_1.check(R.id.rb_1);
-        rp_2.check(R.id.rb_11);
+            rp_1.setOnCheckedChangeListener(new RadioGroupPlus.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroupPlus group, int checkedId) {
+                    Calendar calendar = Calendar.getInstance();
+                    String nowString = Constants.sdfLong2.format(calendar.getTime());
+                    tv_time_right.setText(nowString);
+                    String passString;
+                    switch (checkedId) {
+                        case R.id.rb_1:
+                            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 1);
+                            passString = Constants.sdfLong2.format(calendar.getTime());
+                            tv_time_left.setText(passString);
+                            break;
+                        case R.id.rb_2:
+                            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 6);
+                            passString = Constants.sdfLong2.format(calendar.getTime());
+                            tv_time_left.setText(passString);
+                            break;
+                        case R.id.rb_3:
+                            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 3);
+                            passString = Constants.sdfLong2.format(calendar.getTime());
+                            tv_time_left.setText(passString);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+            RadioGroupPlus rp_2 = mMenuView.findViewById(R.id.rp_2);
+            rp_2.setOnCheckedChangeListener(new RadioGroupPlus.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroupPlus group, int checkedId) {
 
-        View btn_1 = mMenuView.findViewById(R.id.btn_1);
-        btn_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                rp_1.check(R.id.rb_1);
-                rp_2.check(R.id.rb_11);
-            }
-        });
-        View btn_2 = mMenuView.findViewById(R.id.btn_2);
-        btn_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                popupWindow.dismiss();
-            }
-        });
+                }
+            });
+            rp_1.check(R.id.rb_1);
+            rp_2.check(R.id.rb_11);
 
+            View btn_1 = mMenuView.findViewById(R.id.btn_1);
+            btn_1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    rp_1.check(R.id.rb_1);
+                    rp_2.check(R.id.rb_11);
+                }
+            });
+            View btn_2 = mMenuView.findViewById(R.id.btn_2);
+            btn_2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    popupWindow.dismiss();
+                    beginDate = tv_time_left.getText().toString();
+                    endDate = tv_time_right.getText().toString();
+                    switch (rp_2.getCheckedRadioButtonId()) {
+                        case R.id.rb_11:
+                            bizType = "";
+                            break;
+                        case R.id.rb_22:
+                            bizType = "C";
+                            break;
+                        case R.id.rb_111:
+                            bizType = "C";
+                            break;
+                        case R.id.rb_222:
+                            bizType = "C";
+                            break;
+                        default:
+                            bizType = "";
+                            break;
+                    }
+                    int checkedRadioButtonId = rp_1.getCheckedRadioButtonId();
+                    RadioButton checkedBt = mMenuView.findViewById(checkedRadioButtonId);
+                    tv_time.setText(checkedBt.getText().toString() + "交易记录");
+                    loadmoreUtils.refresh(tradeListAdapter);
+                }
+            });
+            tv_time_left.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showBirthdayDialog(tv_time_left);
+                }
+            });
+            tv_time_right.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showBirthdayDialog(tv_time_right);
+                }
+            });
 
-        TextView tv_left = mMenuView.findViewById(R.id.tv_left);
-        TextView tv_right = mMenuView.findViewById(R.id.tv_right);
-        tv_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showBirthdayDialog(tv_left);
-            }
-        });
-
-        tv_right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showBirthdayDialog(tv_right);
-            }
-        });
-
-
-        popupWindow.setAnimationStyle(R.style.AnimTools);
-        //实例化一个ColorDrawable颜色为半透明0xb0000000
-        ColorDrawable dw = new ColorDrawable(0x00000000);//
+            popupWindow.setAnimationStyle(R.style.AnimTools);
+            //实例化一个ColorDrawable颜色为半透明0xb0000000
+            ColorDrawable dw = new ColorDrawable(0x00000000);//
 //        //设置SelectPicPopupWindow弹出窗体的背景
-        popupWindow.setBackgroundDrawable(dw);
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                close();
-            }
-        });
+            popupWindow.setBackgroundDrawable(dw);
+            popupWindow.setFocusable(true);
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    close();
+                }
+            });
+        }
         popupWindow.showAsDropDown(toolbar_title, 0, 0);
+
         show();
     }
 
@@ -135,6 +213,11 @@ public class TradeListActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        Calendar calendar = Calendar.getInstance();
+        endDate = Constants.sdfLong2.format(calendar.getTime());
+        calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 1);
+        beginDate = Constants.sdfLong2.format(calendar.getTime());
+        bizType = "";
 
         View empty = View.inflate(this, R.layout.empty_trade_list, null);
         CommonUtil.initBuyCardView(empty);
@@ -149,45 +232,69 @@ public class TradeListActivity extends BaseActivity {
         empty.findViewById(R.id.tv_empty2).setVisibility(View.GONE);
         TextView tv_empty = empty.findViewById(R.id.tv_empty);
         tv_empty.setText("近一年暂无交易记录");
-        crecyclerview.setView(TradeListEntity.class);
-        crecyclerview.setEmptyView(empty);
-        crecyclerview.setRow(20);
-        crecyclerview.setCanLoadMore(true);
-//        crecyclerview.setItemDecoration(new PinnedSectionDecoration(this, new PinnedSectionDecoration.DecorationCallback() {
-//            @Override
-//            public String getGroupText(int position) {
-//                if(null == crecyclerview.getBaseAdapter() ||  position < 0 || crecyclerview.getBaseAdapter().getData().size() <= position ){
-//                    return "";
-//                }
-//
-//                return "近一年交易记录";
-//            }
-//        }));
-        crecyclerview.setOnRequestListener(new CRecyclerView.OnRequestListener() {
-            @Override
-            public void onRequestEnd() {
-                if(null != crecyclerview.getBaseAdapter().getData() && crecyclerview.getBaseAdapter().getData().size()>0){
-                    shaixuan.setVisibility(View.VISIBLE);
-                    tv_time.setVisibility(View.VISIBLE);
-                }
-            }
 
+        tradeListAdapter = new TradeListAdapter();
+        tradeListAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onNoData() {
-                shaixuan.setVisibility(View.GONE);
-                tv_time.setVisibility(View.GONE);
-            }
+            public void onItemClick(@NonNull @NotNull BaseQuickAdapter<?, ?> adapter, @NonNull @NotNull View view, int position) {
+                TradeRecordBean bean = (TradeRecordBean) adapter.getData().get(position);
 
-            @Override
-            public void onNoMoreDatas() {
-            }
-
-            @Override
-            public void onRefreshStart() {
+                Intent intent = new Intent(TradeListActivity.this, TradeDetailActivity.class);
+                intent.putExtra("id", bean.id);
+                startActivity(intent);
             }
         });
-        crecyclerview.start();
+        recyclerview.setAdapter(tradeListAdapter);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        loadmoreUtils = new LoadmoreUtils() {
 
+            @Override
+            protected void getDatas(int page) {
+                getNetDatas(page);
+            }
+        };
+        loadmoreUtils.initLoadmore(tradeListAdapter, swiperefresh);
+        loadmoreUtils.setEmptyView(empty);
+
+        loadmoreUtils.refresh(tradeListAdapter);
+    }
+
+
+    private void getNetDatas(int page) {
+        Map<String, String> map = new HashMap();
+        //交易开始时间
+        map.put("beginDate", beginDate);
+        //业务类型【C.普通账户充值 P.配送卡充值 X. 消费米粒】
+        if (!TextUtils.isEmpty(bizType)) {
+            map.put("bizType", bizType);
+        }
+        //交易结束时间
+        map.put("endDate", endDate);
+        map.put("memberId", SPUtils.geTinstance().getUserInfo().id + "");
+
+        Api.getClient(HttpRequest.baseUrl_pay).getPayList(Api.getRequestBody(map)).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<TradeRecordBean>>() {
+                    @Override
+                    public void onSuccess(List<TradeRecordBean> beans) {
+                        if (page == 1) {
+                            if ((beans == null || beans.size() <= 0)) {
+                                shaixuan.setVisibility(View.GONE);
+                                tv_time.setVisibility(View.GONE);
+                            } else {
+                                shaixuan.setVisibility(View.VISIBLE);
+                                tv_time.setVisibility(View.VISIBLE);
+                            }
+                        }
+                        loadmoreUtils.onSuccess(tradeListAdapter, beans);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                        loadmoreUtils.onFail(tradeListAdapter, fail);
+                    }
+                });
     }
 
 
@@ -258,13 +365,11 @@ public class TradeListActivity extends BaseActivity {
 
     }
 
-    static SimpleDateFormat sdfLong = new SimpleDateFormat("yyyy-MM-dd");
-
     public static String getDateLong(long d) {
         Date date = new Date(d);
         String nowDate = "";
         try {
-            nowDate = sdfLong.format(date);
+            nowDate = Constants.sdfLong2.format(date);
             return nowDate;
         } catch (Exception e) {
             System.out.println("Error at getDate:" + e.getMessage());

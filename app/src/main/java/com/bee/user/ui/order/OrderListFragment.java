@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bee.user.R;
 import com.bee.user.bean.OrderBean;
@@ -24,7 +25,6 @@ import com.bee.user.utils.LoadmoreUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -39,6 +39,7 @@ public class OrderListFragment extends BaseFragment {
 
 //    public  CRecyclerView crecyclerview;
 
+    public SwipeRefreshLayout swiperefresh;
 
     public RecyclerView recyclerview;
     String type;
@@ -69,6 +70,7 @@ public class OrderListFragment extends BaseFragment {
 
         View view = inflater.inflate(R.layout.crecyclerview_base, container, false);
         recyclerview = view.findViewById(R.id.recyclerview);
+        swiperefresh = view.findViewById(R.id.swiperefresh);
         Bundle arguments = getArguments();
         type = arguments.getString("type");
 
@@ -118,40 +120,14 @@ public class OrderListFragment extends BaseFragment {
      * 初始化加载更多
      */
     private void initLoadMore() {
-        loadmoreUtils = new LoadmoreUtils(OrderBean.class) {
+        loadmoreUtils = new LoadmoreUtils() {
 
             @Override
-            protected boolean getDatas(int page) {
+            protected void getDatas(int page) {
                 getDatasNew(page);
-                return true;
-            }
-
-            @Override
-            protected List getSampleData(int lenth) {
-
-                ArrayList<OrderBean> beans = new ArrayList<OrderBean>();
-//                int t = type == OrderBean.type2?OrderBean.type2 :OrderBean.type1;
-
-//                if(type == 0){
-//                    beans.add(new OrderBean(Constants.TYPE_READY));
-//                    beans.add(new OrderBean(Constants.TYPE_PEISONG));
-//                    beans.add(new OrderBean(Constants.TYPE_CANCELED));
-//
-//                    beans.add(new OrderBean(Constants.TYPE_PAY_WAITE));
-//                    beans.add(new OrderBean(Constants.TYPE_TUIKUAN));
-//                    beans.add(new OrderBean(Constants.TYPE_TO_BE_COMMENTED));
-//
-//                }else{
-//                    beans.add(new OrderBean(type));
-//                    beans.add(new OrderBean(type));
-//                    beans.add(new OrderBean(type));
-//                    beans.add(new OrderBean(type));
-//                }
-
-                return beans;
             }
         };
-        loadmoreUtils.initLoadmore(mAdapter);
+        loadmoreUtils.initLoadmore(mAdapter,swiperefresh);
     }
 
     private void getDatasNew(int page){

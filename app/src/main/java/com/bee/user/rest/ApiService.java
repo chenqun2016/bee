@@ -318,6 +318,10 @@ public interface ApiService {
 
     /**
      * 根据条件查询【交易流水】列表
+     *
+     * 充值：购买米粒、充值卡或电子券充值
+     * 收入：系统赠送、系统退款
+     * 支出：购买商品、购买配送卡、购买礼品卡
      */
     @POST(HttpRequest.getPayList)
     Observable<BaseResult<List<TradeRecordBean>>> getPayList(@Body RequestBody info);

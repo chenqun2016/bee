@@ -1,51 +1,30 @@
 package com.bee.user.ui.search;
 
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.LocationBean;
-import com.bee.user.bean.StoreBean;
-import com.bee.user.event.MainEvent;
-import com.bee.user.ui.MainActivity;
-import com.bee.user.ui.adapter.HomeAdapter;
-import com.bee.user.ui.adapter.NearbyAdapter;
-import com.bee.user.ui.adapter.NearbyStoreFoodAdapter;
 import com.bee.user.ui.adapter.TagsAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.nearby.FoodActivity;
-import com.bee.user.ui.nearby.StoreActivity;
-import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LoadmoreUtils;
-import com.bee.user.utils.ToastUtil;
 import com.bee.user.widget.ClearEditText;
 import com.bee.user.widget.FlowTagLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -190,7 +169,7 @@ public class SearchLocationActivity extends BaseActivity {
             }
         });
 
-        LoadmoreUtils loadmoreUtils = new LoadmoreUtils(LocationBean.class);
+        LoadmoreUtils loadmoreUtils = new LoadmoreUtils();
         loadmoreUtils.initLoadmore(adapter);
         loadmoreUtils.refresh(adapter);
 

@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.ChartBean;
-import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.event.MainEvent;
 import com.bee.user.ui.MainActivity;
@@ -212,7 +211,7 @@ public class SearchFoodActivity extends BaseActivity {
                 startActivity(new Intent(SearchFoodActivity.this, FoodActivity.class));
             }
         });
-        loadmoreUtils = new LoadmoreUtils(FoodBean.class);
+        loadmoreUtils = new LoadmoreUtils();
         loadmoreUtils.initLoadmore(adapter);
 
         initSelectedFoodDialog();

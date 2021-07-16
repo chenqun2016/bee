@@ -84,6 +84,9 @@ public class ChartFragment extends BaseFragment {
     SwipeRefreshLayout swiperefresh_tuijian;
     @BindView(R.id.recyclerview_tuijian)
     RecyclerView recyclerview_tuijian;
+
+    @BindView(R.id.swiperefresh)
+    SwipeRefreshLayout swiperefresh;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
@@ -324,15 +327,13 @@ public class ChartFragment extends BaseFragment {
         });
 
 
-        loadmoreUtils = new LoadmoreUtils(ChartBean.class){
+        loadmoreUtils = new LoadmoreUtils(){
             @Override
-            protected boolean getDatas(int page) {
+            protected void getDatas(int page) {
                 getCartDatas();
-
-                return true;
             }
         };
-        loadmoreUtils.initLoadmore(adapter);
+        loadmoreUtils.initLoadmore(adapter,swiperefresh);
     }
 
     private void getCartDatas() {

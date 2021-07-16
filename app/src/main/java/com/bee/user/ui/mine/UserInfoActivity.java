@@ -44,7 +44,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -311,13 +310,12 @@ public class UserInfoActivity extends BaseActivity {
 
     }
 
-    static SimpleDateFormat sdfLong = new SimpleDateFormat("yyyy-MM-dd");
 
     public static String getDateLong(long d) {
         Date date = new Date(d);
         String nowDate = "";
         try {
-            nowDate = sdfLong.format(date);
+            nowDate =Constants. sdfLong2.format(date);
             return nowDate;
         } catch (Exception e) {
             System.out.println("Error at getDate:" + e.getMessage());
