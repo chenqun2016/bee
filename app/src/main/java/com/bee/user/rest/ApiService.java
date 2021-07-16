@@ -15,6 +15,7 @@ import com.bee.user.bean.MyMiLiBean;
 import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderListBean;
 import com.bee.user.bean.OrderingConfirmBean;
+import com.bee.user.bean.PaymentDetailBean;
 import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
@@ -320,6 +321,12 @@ public interface ApiService {
      */
     @POST(HttpRequest.getPayList)
     Observable<BaseResult<List<TradeRecordBean>>> getPayList(@Body RequestBody info);
+
+    /**
+     * 根据条件查询【交易流水】列表
+     */
+    @POST(HttpRequest.getPaymentDetail)
+    Observable<BaseResult<PaymentDetailBean>> getPaymentDetail(@Path("paymentId") Integer paymentId);
 
     /**
      * 设置支付密码

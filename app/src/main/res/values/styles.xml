@@ -100,7 +100,7 @@
 
 
 
-<!--    popwindow动画-->
+<!--    账单明细 popwindow动画-->
     <style name="AnimTools" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/push_in</item>
         <item name="android:windowExitAnimation">@anim/push_out</item>

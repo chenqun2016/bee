@@ -147,7 +147,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
          tv_type_des.setText(orderDetailBean.billType+"");
          tv_ordernum_des.setText(orderDetailBean.orderSn+"");
          tv_pay_type_des.setText(orderDetailBean.payType==1?"米粒支付":"");
-         tv_pay_time_des.setText(orderDetailBean.createTime+"");
+        tv_pay_time_des.setText(CommonUtil.getNomalTime(orderDetailBean.createTime));
          tv_beizhu_des.setText(orderDetailBean.note+"");
     }
 

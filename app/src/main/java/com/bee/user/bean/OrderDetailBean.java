@@ -1,5 +1,6 @@
 package com.bee.user.bean;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,7 +61,7 @@ public class OrderDetailBean {
     public Integer pickupWay;
     public Integer createBy;
     public String createName;
-    public String createTime;
+    public Date createTime;
     public Integer updateBy;
     public String updateName;
     public String updateTime;

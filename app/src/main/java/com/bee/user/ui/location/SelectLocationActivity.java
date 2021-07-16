@@ -2,6 +2,7 @@ package com.bee.user.ui.location;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -69,6 +70,9 @@ public class SelectLocationActivity extends BaseActivity {
 
     @BindView(R.id.tv_location_area)
     TextView tv_location_area;
+
+    @BindView(R.id.ll_kepeisong)
+    LinearLayout ll_kepeisong;
 
     @OnClick({R.id.tv_right, R.id.tv_select, R.id.tv_location,
             R.id.tv_reLocation, R.id.tv_more_locatino, R.id.tv_more})
@@ -158,7 +162,8 @@ public class SelectLocationActivity extends BaseActivity {
         recyclerview2.setLayoutManager(new LinearLayoutManager(this));
         dingWeiAdapter = new DingWeiAdapter2();
         recyclerview2.setAdapter(dingWeiAdapter);
-
+        ll_kepeisong.setVisibility(View.GONE);
+        recyclerview2.setVisibility(View.GONE);
         getAddress();
     }
     private void getAddress() {

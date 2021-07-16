@@ -3,21 +3,21 @@ package com.bee.user.bean;
 import java.util.Date;
 
 /**
- * 创建人：进京赶考
- * 创建时间：2020/10/18  13：19
- * 描述：
+ * 创建时间：2021/7/16
+ * 编写人： 陈陈陈
+ * 功能描述：
  */
-public class TradeRecordBean {
+public class PaymentDetailBean {
 
     public Integer id;
     public Integer memberId;
     public Integer bizId;
     public String bizType;
-    public Long orderId;
+    public String orderId;
     public Integer orderAmount;
     public Integer riceAmount;
     public Integer status;
     public Date createTime;
-    public Object operatorId;
-    public Object operatorName;
+    public Integer operatorId;
+    public String operatorName;
 }

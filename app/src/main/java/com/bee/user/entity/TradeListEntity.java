@@ -43,7 +43,9 @@ public class TradeListEntity extends BaseCEntity<TradeRecordBean> {
     @Override
     public void onClick(Context context, TradeRecordBean item, int position) {
         super.onClick(context, item, position);
-        context.startActivity(new Intent(context, TradeDetailActivity.class));
+        Intent intent = new Intent(context, TradeDetailActivity.class);
+        intent.putExtra("id",item.id);
+        context.startActivity(intent);
     }
 
     @Override
@@ -62,40 +64,15 @@ public class TradeListEntity extends BaseCEntity<TradeRecordBean> {
             view.setVisibility(View.VISIBLE);
         }
         TextView tv_integral_date = helper.findView(R.id.tv_integral_date);
-        tv_integral_date.setText(CommonUtil.formatData(item.createTime));
+        tv_integral_date.setText(CommonUtil.getNomalTime(item.createTime));
 
         TextView tv_trade_type = helper.findView(R.id.tv_trade_type);
-        switch (item.status){
-            case  1:
-                tv_trade_type.setText("交易成功");
-                break;
-            case  0:
-                tv_trade_type.setText("交易处理中");
-                break;
-            case  -1:
-                tv_trade_type.setText("交易失败");
-                break;
-            default:
-                tv_trade_type.setText("交易成功");
-                break;
-        }
+        tv_trade_type.setText(CommonUtil.getTradeType(item.status));
+
         TextView tv_integral_count = helper.findView(R.id.tv_integral_count);
-        tv_integral_count.setText("+"+item.orderAmount/100);
+        tv_integral_count.setText(CommonUtil.getNomalMoneyType(item.orderAmount));
 
         TextView tv_integral_title = helper.findView(R.id.tv_integral_title);
-        switch (item.bizType){
-            case  "C":
-                tv_integral_title.setText("普通账户充值");
-                break;
-            case  "P":
-                tv_integral_title.setText("配送卡充值");
-                break;
-            case  "X":
-                tv_integral_title.setText("消费米粒");
-                break;
-            default:
-                tv_integral_title.setText("普通账户充值");
-                break;
-        }
+        tv_integral_title.setText(CommonUtil.getBizTypeStr(item.bizType));
     }
 }
