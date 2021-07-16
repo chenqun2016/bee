@@ -82,18 +82,6 @@ public class OrderListFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        crecyclerview.setView(OrderEntity.class).start();
-//
-//
-//        ArrayList<OrderBean> beans = new ArrayList<OrderBean>();
-//        beans.add(new OrderBean(type));
-//        beans.add(new OrderBean(type));
-//        beans.add(new OrderBean(type));
-//        beans.add(new OrderBean(type));
-//
-//        crecyclerview.getBaseAdapter().setList(beans);
-
-
         recyclerview.setLayoutManager(new LinearLayoutManager(recyclerview.getContext()));
         mAdapter = new OrderFragmentAdapter();
         mAdapter.setOnItemClickListener(new OnItemClickListener() {

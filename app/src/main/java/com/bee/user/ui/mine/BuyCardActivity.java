@@ -12,17 +12,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alipay.sdk.app.PayTask;
+import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.OrderInfo;
 import com.bee.user.bean.PeiSongCardBean;
+import com.bee.user.bean.UserBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.BuyCardAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.sputils.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +44,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * 描述：
  */
 public class BuyCardActivity extends BaseActivity {
+    @BindView(R.id.iv_icon)
+    ImageView iv_icon;
+    @BindView(R.id.tv_title)
+    TextView tv_title;
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
@@ -109,6 +118,14 @@ public class BuyCardActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        UserBean userInfo = SPUtils.geTinstance().getUserInfo();
+        Picasso.with(this)
+                .load(userInfo.icon)
+                .fit()
+                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this,100),0, PicassoRoundTransform.CornerType.ALL))
+                .into(iv_icon);
+        tv_title.setText(userInfo.nickname);
+
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

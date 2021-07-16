@@ -310,7 +310,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
 
                     LatLngBounds bounds = new LatLngBounds.Builder()
                             .include(locationBean).include(locationBean1).build();
-                    aMap.moveCamera(CameraUpdateFactory.newLatLngBoundsRect(bounds,0,0,DisplayUtil.dip2px(mContext,80),DisplayUtil.dip2px(mContext,5)));
+                    aMap.moveCamera(CameraUpdateFactory.newLatLngBoundsRect(bounds,0,0,DisplayUtil.dip2px(mContext,0),DisplayUtil.dip2px(mContext,30)));
 
 
                 } catch (Exception e) {

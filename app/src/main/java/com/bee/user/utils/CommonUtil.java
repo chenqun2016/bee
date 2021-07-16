@@ -39,7 +39,7 @@ import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.mine.BuyCardActivity;
 import com.bee.user.ui.nearby.ImagesActivity;
 import com.bee.user.ui.order.OrderCommentActivity;
-import com.bee.user.ui.order.OrderDetailMapActivity;
+import com.bee.user.ui.order.OrderDetailActivity;
 import com.bee.user.ui.order.ShouHouActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.ui.xiadan.PayActivity;
@@ -48,7 +48,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -311,7 +310,7 @@ public class CommonUtil {
     //订单详情页有两种，
     public static void showOrderDetailActivity(Context mContext, OrderBean bean) {
         String type = bean.getOrderItemType();
-        Intent intent = new Intent(mContext, OrderDetailMapActivity.class);
+        Intent intent = new Intent(mContext, OrderDetailActivity.class);
         intent.putExtra("type",type);
         intent.putExtra("id",bean.id);
         mContext.startActivity(intent);
