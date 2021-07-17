@@ -131,7 +131,7 @@
             android:textSize="14sp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_version"
-            android:text="当前版本V1.01"/>
+            android:text=""/>
 
 
 

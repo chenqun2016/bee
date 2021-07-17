@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.webkit.MimeTypeMap;
 
 import com.bee.user.utils.DeviceUtils;
@@ -61,7 +62,7 @@ public class CheckUpdateService extends JobIntentService {
         String mimeString = mimeTypeMap.getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(url));
         request.setMimeType(mimeString);
 
-        request.setDestinationInExternalFilesDir(getApplicationContext(), null, "beeUser.apk");
+        request.setDestinationInExternalFilesDir(getApplicationContext(), Environment.DIRECTORY_DOWNLOADS , "beeUser.apk");
 
         downloadManager = (DownloadManager) getApplicationContext().getSystemService(Context.DOWNLOAD_SERVICE);
         mTaskId = downloadManager.enqueue(request);
@@ -86,7 +87,7 @@ public class CheckUpdateService extends JobIntentService {
             switch (status) {
                 case DownloadManager.STATUS_SUCCESSFUL:
                     LogUtil.i("下载成功");
-                    File file = new File(getApplicationContext().getExternalFilesDir(null), "beeUser.apk");
+                    File file = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS ), "beeUser.apk");
                     AppUtils.installApp(file);
                     break;
                 case DownloadManager.STATUS_FAILED:
