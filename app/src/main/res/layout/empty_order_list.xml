@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
+    android:id="@+id/ll_emptyview"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/bg_round10dp_white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:drawableTop="@drawable/bg_kongbai4"
+        android:drawablePadding="10dp"
+        android:layout_marginTop="37dp"
+        android:gravity="center"
+        android:lineSpacingMultiplier="1.2"
+        android:text="最近一年暂无订单"
+        android:textColor="@color/color_3B3838"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="伤了，难道是人品出了问题"
+        android:textColor="@color/color_7c7877"
+        android:textSize="12sp"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_guangguang"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="去随便逛逛"
+        android:textSize="17sp"
+        android:textColor="@color/FF6200"
+        android:layout_marginTop="27dp"
+        android:gravity="center"
+        android:layout_marginRight="72dp"
+        android:layout_marginLeft="72dp"
+        android:background="@drawable/btn_stroke_yellow"/>
+</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:text="为你推荐"
+        android:textColor="@color/color_282525"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/tuijian"/>
+</LinearLayout>
