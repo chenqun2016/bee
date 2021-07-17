@@ -38,6 +38,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -278,10 +279,10 @@ public class TradeListActivity extends BaseActivity {
                         if (page == 1) {
                             if ((beans == null || beans.size() <= 0)) {
                                 shaixuan.setVisibility(View.GONE);
-//                                tv_time.setVisibility(View.GONE);
+                                tv_time.setVisibility(View.GONE);
                             } else {
                                 shaixuan.setVisibility(View.VISIBLE);
-//                                tv_time.setVisibility(View.VISIBLE);
+                                tv_time.setVisibility(View.VISIBLE);
                             }
                         }
                         loadmoreUtils.onSuccess(tradeListAdapter, beans);
@@ -357,8 +358,15 @@ public class TradeListActivity extends BaseActivity {
                 .isDialog(true)
                 .build();
 
-
-        pvTime.setDate(Calendar.getInstance());//注：根据需求来决定是否使用该方法（一般是精确到秒的情况），此项可以在弹出选择器的时候重新设置当前时间，避免在初始化之后由于时间已经设定，导致选中时间与当前时间不匹配的问题。
+        String time = view.getText().toString();
+        Calendar current = Calendar.getInstance();
+        try {
+            Date parse = Constants.sdfLong2.parse(time);
+            current.setTime(parse);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        pvTime.setDate(current);//注：根据需求来决定是否使用该方法（一般是精确到秒的情况），此项可以在弹出选择器的时候重新设置当前时间，避免在初始化之后由于时间已经设定，导致选中时间与当前时间不匹配的问题。
         pvTime.show();
 
     }
@@ -374,6 +382,7 @@ public class TradeListActivity extends BaseActivity {
             return "";
         }
     }
+
 
 
     //弹窗popwindow 的时候，背景同步变暗。

@@ -14,9 +14,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.alipay.sdk.app.PayTask;
 import com.bee.user.R;
 import com.bee.user.bean.MiLiChongzhiBean;
+import com.bee.user.bean.PayResult;
 import com.bee.user.event.ReflushEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -24,6 +24,7 @@ import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.MiLiChongzhiAdapter;
 import com.bee.user.ui.base.BaseDialog;
 import com.bee.user.ui.base.fragment.BaseFragment;
+import com.bee.user.utils.PayUtils;
 import com.bee.user.widget.MyGridView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -47,6 +48,8 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
     MyGridView gridview;
     ArrayList<MiLiChongzhiBean> miLiChongzhiBeans = new ArrayList<>();
     TextView tv_sure;
+
+
     private  final Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         @SuppressWarnings("unused")
@@ -54,11 +57,17 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
             switch (msg.what) {
                 case 1: {
                     try{
-                        Map<String,String> result  = (Map<String, String>) msg.obj;
-                        String res = result.get("result");
-                        if("6000".equals(res) && null != bottomSheetDialog){
-                            bottomSheetDialog.dismiss();
+                        PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                        //支付成功
+                        if("9000".equals(payResult.getResultStatus()) ){
+                            // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                            if(null != bottomSheetDialog && bottomSheetDialog.isShowing()){
+                                bottomSheetDialog.dismiss();
+                            }
                             EventBus.getDefault().post(new ReflushEvent(ReflushEvent.TYPE_REFLUSH_MILI));
+                        }else{
+                            // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+
                         }
                     }catch (Exception e){
                         e.printStackTrace();
@@ -184,7 +193,10 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
 
     private void toPay() {
         Map<String, String> map = new HashMap<>();
-        map.put("bizId", "1");
+        if(-1 !=  miLiChongzhiAdapter.mIndex){
+            MiLiChongzhiBean miLiChongzhiBean = miLiChongzhiBeans.get(miLiChongzhiAdapter.mIndex);
+            map.put("bizId", miLiChongzhiBean.id+"");
+        }
         map.put("bizType", "1");
         map.put("cardType", "a");
         map.put("deviceType", "安卓");
@@ -192,32 +204,7 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
         String payChannel = payType==0?"ALIPAY":"WECHATPAY";
         map.put("payChannel", payChannel);
 
-        Api.getClient(HttpRequest.baseUrl_pay).zhifubao_pay(Api.getRequestBody(map))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<String>() {
-                    @Override
-                    public void onSuccess(String r) {
-                        Runnable payRunnable = new Runnable() {
-
-                            @Override
-                            public void run() {
-                                PayTask alipay = new PayTask(getActivity());
-                                Map<String,String> result = alipay.payV2(r,true);
-
-                                Message msg = new Message();
-                                msg.what = 1;
-                                msg.obj = result;
-                                mHandler.sendMessage(msg);
-                            }
-                        };
-                        // 必须异步调用
-                        Thread payThread = new Thread(payRunnable);
-                        payThread.start();
-                    }
-                });
-
-
+        PayUtils.toPay(getActivity(),map,mHandler);
     }
 
 

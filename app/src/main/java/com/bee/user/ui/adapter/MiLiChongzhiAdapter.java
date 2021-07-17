@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 public class MiLiChongzhiAdapter extends BaseAdapter {
     private Context context;
     private List<MiLiChongzhiBean> list  = new ArrayList<>();
-    private int mIndex = -1;
+    public int mIndex = -1;
 
     public MiLiChongzhiAdapter(Context mContext,List<MiLiChongzhiBean> data) {
         this.context = mContext;
