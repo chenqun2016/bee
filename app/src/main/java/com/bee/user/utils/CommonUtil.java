@@ -170,7 +170,7 @@ public class CommonUtil {
                     callPhone(activity,"10086");
                     break;
                 case OrderGridviewItemBean.TYPE_pay_now://立即支付
-                    activity.  startActivity(PayActivity.newIntent(activity,new ArrayList<StoreBean>()));
+                    activity.  startActivity(PayActivity.newIntent(activity,null,0));
                     break;
                 case OrderGridviewItemBean.TYPE_cancel_Order://取消订单
                     showCancelDialog(activity,id);

@@ -107,7 +107,7 @@ public class SetPayPasswordActivity2 extends BaseActivity {
         map.put("phone", phone);
         map.put("payPassword", payPassWord);
         map.put("smsCode", msgCode);
-        if(Objects.deepEquals("Y", SPUtils.geTinstance().getUserInfo().payPasswordFlag)) {
+        if(SPUtils.geTinstance().hasPayPassword()) {
             Api.getClient(HttpRequest.baseUrl_member).resetPayPassword(Api.getRequestBody(map))
                     .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                     .observeOn(AndroidSchedulers.mainThread())

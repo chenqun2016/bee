@@ -2,7 +2,6 @@ package com.bee.user.ui.xiadan;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -93,9 +92,9 @@ public class OrderingActivity extends BaseActivity {
 
     ArrayList<Integer> cartIds1 ;
 
-    public String canju = "";
+//    public String canju = "";
 
-
+    int totalMoney;
 
     private Map<String, ChooseTimeBean> timeBeanHashMaps = new HashMap<>();
     private AddressBean mAddress;
@@ -107,14 +106,10 @@ public class OrderingActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_confirm:
-                if (TextUtils.isEmpty(canju)) {
-                    showChooseCanjuDialog();
-                } else {
-                    if(null == mAddress){
-                        return;
-                    }
-                    doSubmit();
+                if(null == mAddress){
+                    return;
                 }
+                doSubmit();
 
                 break;
 
@@ -198,8 +193,9 @@ public class OrderingActivity extends BaseActivity {
 
 
     private void setDatas(OrderingConfirmBean userBean) {
+        totalMoney = 0;
         orderingAdapter.setNewInstance(userBean.getStoreOrderConfirmItems());
-        int totalMoney = 0;
+
         for(OrderingConfirmBean.StoreOrderConfirmItemsBean bean : userBean.getStoreOrderConfirmItems()){
             totalMoney += bean.getCalcAmount().getTotalAmount();
         }
@@ -365,8 +361,7 @@ public class OrderingActivity extends BaseActivity {
                     tv_pay.setEnabled(false);
                     ll_xuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
 
-                    canju = "";
-                    tv_tigongcanju.setText(canju);
+                    tv_tigongcanju.setText("");
                 } else {
                     tv_pay.setBackgroundResource(R.drawable.btn_gradient_yellow_round);
                     tv_pay.setEnabled(true);
@@ -374,8 +369,7 @@ public class OrderingActivity extends BaseActivity {
                     tv_buxuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
                     tv_aoto.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
 
-                    canju = num + "双";
-                    tv_tigongcanju.setText(canju);
+                    tv_tigongcanju.setText(num + "双");
                 }
 
             }
@@ -397,8 +391,7 @@ public class OrderingActivity extends BaseActivity {
                 tv_buxuyao.setBackgroundResource(R.drawable.btn_stroke_bg_yellow);
                 tv_aoto.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
 
-                canju = "无需餐具";
-                tv_tigongcanju.setText(canju);
+                tv_tigongcanju.setText("无需餐具");
             }
         });
 
@@ -413,8 +406,7 @@ public class OrderingActivity extends BaseActivity {
                 tv_buxuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
                 tv_aoto.setBackgroundResource(R.drawable.btn_stroke_bg_yellow);
 
-                canju = "依据餐量提供";
-                tv_tigongcanju.setText(canju);
+                tv_tigongcanju.setText("依据餐量提供");
             }
         });
 
@@ -489,9 +481,7 @@ public class OrderingActivity extends BaseActivity {
         orderingParams.pickupWay = 1;
         orderingParams.sourceType = 5;
 
-        Intent intent = new Intent(OrderingActivity.this, PayActivity.class);
-        intent.putExtra("params",orderingParams);
-        startActivity(intent);
+        startActivity( PayActivity.newIntent(OrderingActivity.this,orderingParams,totalMoney));
     }
 
 
