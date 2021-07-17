@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.bean.AppUpdateInfoBean;
-import com.bee.user.event.ExitloginEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.event.ReflushEvent;
@@ -31,8 +30,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-
-import static androidx.core.os.HandlerCompat.postDelayed;
 
 /**
  * 创建人：进京赶考
