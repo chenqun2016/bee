@@ -195,8 +195,6 @@ public class OrderDetailActivity extends BaseActivity  implements AMap.OnMapLoad
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
         type = intent.getStringExtra("type");
-
-
         int statusBarHeight = ImmersionBar.getStatusBarHeight(this);
         CollapsingToolbarLayout.LayoutParams layoutParams = (CollapsingToolbarLayout.LayoutParams) toolbar.getLayoutParams();
         layoutParams.height += statusBarHeight;

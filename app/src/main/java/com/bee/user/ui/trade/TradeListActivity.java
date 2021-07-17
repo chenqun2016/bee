@@ -28,7 +28,6 @@ import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.LoadmoreUtils;
-import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.RadioGroupPlus;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.CustomListener;
@@ -78,7 +77,7 @@ public class TradeListActivity extends BaseActivity {
     TradeListAdapter tradeListAdapter;
     String endDate;
     String beginDate;
-    String bizType;
+    String transactionType;
 
     @OnClick(R.id.shaixuan)
     public void onClick(View view) {
@@ -152,19 +151,19 @@ public class TradeListActivity extends BaseActivity {
                     endDate = tv_time_right.getText().toString();
                     switch (rp_2.getCheckedRadioButtonId()) {
                         case R.id.rb_11:
-                            bizType = "";
+                            transactionType = "A";
                             break;
                         case R.id.rb_22:
-                            bizType = "C";
+                            transactionType = "T";
                             break;
                         case R.id.rb_111:
-                            bizType = "C";
+                            transactionType = "I";
                             break;
                         case R.id.rb_222:
-                            bizType = "C";
+                            transactionType = "S";
                             break;
                         default:
-                            bizType = "";
+                            transactionType = "A";
                             break;
                     }
                     int checkedRadioButtonId = rp_1.getCheckedRadioButtonId();
@@ -217,7 +216,7 @@ public class TradeListActivity extends BaseActivity {
         endDate = Constants.sdfLong2.format(calendar.getTime());
         calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 1);
         beginDate = Constants.sdfLong2.format(calendar.getTime());
-        bizType = "";
+        transactionType = "A";
 
         View empty = View.inflate(this, R.layout.empty_trade_list, null);
         CommonUtil.initBuyCardView(empty);
@@ -265,12 +264,11 @@ public class TradeListActivity extends BaseActivity {
         //交易开始时间
         map.put("beginDate", beginDate);
         //业务类型【C.普通账户充值 P.配送卡充值 X. 消费米粒】
-        if (!TextUtils.isEmpty(bizType)) {
-            map.put("bizType", bizType);
+        if (!TextUtils.isEmpty(transactionType)) {
+            map.put("transactionType", transactionType);
         }
         //交易结束时间
         map.put("endDate", endDate);
-        map.put("memberId", SPUtils.geTinstance().getUserInfo().id + "");
 
         Api.getClient(HttpRequest.baseUrl_pay).getPayList(Api.getRequestBody(map)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -280,10 +278,10 @@ public class TradeListActivity extends BaseActivity {
                         if (page == 1) {
                             if ((beans == null || beans.size() <= 0)) {
                                 shaixuan.setVisibility(View.GONE);
-                                tv_time.setVisibility(View.GONE);
+//                                tv_time.setVisibility(View.GONE);
                             } else {
                                 shaixuan.setVisibility(View.VISIBLE);
-                                tv_time.setVisibility(View.VISIBLE);
+//                                tv_time.setVisibility(View.VISIBLE);
                             }
                         }
                         loadmoreUtils.onSuccess(tradeListAdapter, beans);
