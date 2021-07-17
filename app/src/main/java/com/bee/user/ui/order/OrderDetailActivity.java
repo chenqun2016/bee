@@ -1,7 +1,10 @@
 package com.bee.user.ui.order;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.location.Location;
+import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -10,9 +13,22 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.UiSettings;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.LatLngBounds;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.bean.OrderDetailBean;
@@ -25,8 +41,14 @@ import com.bee.user.ui.adapter.OrderFoodAdapter;
 import com.bee.user.ui.adapter.OrderGridviewItemAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.CommonUtil;
+import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.LogUtil;
+import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.MyGridView;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.gyf.immersionbar.ImmersionBar;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -44,8 +66,27 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * 创建时间：2020/09/23  17：08
  * 描述：
  */
-public class OrderDetailActivity extends BaseActivity implements View.OnClickListener {
-    @BindView(R.id.tv_title)
+public class OrderDetailActivity extends BaseActivity  implements AMap.OnMapLoadedListener, AMap.OnInfoWindowClickListener, View.OnClickListener {
+    @BindView(R.id.coordinator)
+    CoordinatorLayout coordinator;
+
+    @BindView(R.id.appbar)
+    AppBarLayout appbar;
+
+
+    @BindView(R.id.collapsing)
+    CollapsingToolbarLayout collapsing;
+
+//    @BindView(R.id.iv_back)
+//    ImageButton iv_back;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.background)
+    View background;
+
+    @BindView(R.id.tv_text_title)
     TextView tv_title;
 
     @BindView(R.id.recyclerView)
@@ -73,12 +114,17 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     private int id;
     private OrderDetailBean orderDetailBean;
 
+    @Override
+    protected void initImmersionBar() {
+        ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
+    }
+
 
     @Override
-    @OnClick({R.id.tv_title})
+    @OnClick({R.id.tv_text_title})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_title:
+            case R.id.tv_text_title:
                 switch (type) {
 //                    case Constants.TYPE_PAY_WAITE://等待支付
 //                        break;
@@ -109,17 +155,10 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_order_detail;
+        return R.layout.activity_order_detail_map;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (null != subscription && !subscription.isDisposed()) {
-            subscription.dispose();
-            subscription = null;
-        }
-    }
+
 
     private void getOrderDetail() {
         Api.getClient(HttpRequest.baseUrl_order).orderDetail(id).
@@ -147,7 +186,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
          tv_type_des.setText(orderDetailBean.billType+"");
          tv_ordernum_des.setText(orderDetailBean.orderSn+"");
          tv_pay_type_des.setText(orderDetailBean.payType==1?"米粒支付":"");
-         tv_pay_time_des.setText(orderDetailBean.createTime+"");
+        tv_pay_time_des.setText(CommonUtil.getNomalTime(orderDetailBean.createTime));
          tv_beizhu_des.setText(orderDetailBean.note+"");
     }
 
@@ -156,6 +195,34 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
         type = intent.getStringExtra("type");
+        int statusBarHeight = ImmersionBar.getStatusBarHeight(this);
+        CollapsingToolbarLayout.LayoutParams layoutParams = (CollapsingToolbarLayout.LayoutParams) toolbar.getLayoutParams();
+        layoutParams.height += statusBarHeight;
+        toolbar.setLayoutParams(layoutParams);
+        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+
+                int scrollRangle = appBarLayout.getTotalScrollRange();
+
+                LogUtil.d("verticalOffset==" + verticalOffset + "--scrollRangle==" + scrollRangle);
+
+                if (verticalOffset == 0) {//展开
+                    background.setAlpha(0);
+                    tv_title.setAlpha(0f);
+                } else if (Math.abs(verticalOffset) >= scrollRangle) {
+                    background.setAlpha(1);
+                    tv_title.setAlpha(1f);
+                }else {
+                    //保留一位小数
+                    float alpha = (Math.abs(verticalOffset)) * 1.0f / scrollRangle;
+                    background.setAlpha(alpha);
+                    tv_title.setAlpha(alpha);
+                }
+
+
+            }
+        });
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -424,4 +491,185 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
         bottomSheetDialog.show();
     }
+
+
+
+
+
+
+
+
+    //    地图相关代码
+    MapView mMapView;
+    private AMap aMap;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mMapView = (MapView) findViewById(R.id.map);
+        mMapView.onCreate(savedInstanceState);// 此方法必须重写
+
+        if (aMap == null) {
+            aMap = mMapView.getMap();
+            UiSettings mUiSettings = aMap.getUiSettings();
+            mUiSettings.setZoomControlsEnabled(false);//设置地图默认的缩放按钮是否显示
+            mUiSettings.setMyLocationButtonEnabled(false);// 设置地图默认的定位按钮是否显示
+        }
+
+//        定位到自己的位置
+//        MyLocationStyle myLocationStyle;
+//        myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
+//        myLocationStyle.showMyLocation(true);
+////        myLocationStyle.myLocationIcon(BitmapDescriptorFactory.
+////                fromResource(R.drawable.icon_dengdaichuli));
+//        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE) ;//定位一次，且将视角移动到地图中心点
+//        myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
+//        aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
+//        aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+
+        aMap.addOnMyLocationChangeListener(new AMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location location) {
+                //从location对象中获取经纬度信息，地址描述信息，建议拿到位置之后调用逆地理编码接口获取（获取地址描述数据章节有介绍）
+
+            }
+        });
+        aMap.setOnMapLoadedListener(this);// 设置amap加载成功事件监听器
+        aMap.setOnInfoWindowClickListener(this);// 设置点击infoWindow事件监听器
+        aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                return true;
+            }
+        });
+
+        addMaker();
+
+    }
+
+    private void addMaker() {
+        aMap.clear();
+
+        AMapLocation location = SPUtils.geTinstance().getLocation();
+
+//        LatLng CHENGDU = new LatLng(30.679879, 104.064855);// 成都市经纬度
+
+        LatLng locationBean1 = new LatLng(location.getLatitude()+0.005d, location.getLongitude()-0.005d);
+        MarkerOptions markerOption1 = new MarkerOptions();
+        markerOption1.position(locationBean1);
+        markerOption1.title(location.getPoiName()).snippet("");
+        markerOption1.draggable(false);
+        markerOption1.icon(
+                // BitmapDescriptorFactory
+                // .fromResource(R.drawable.location_marker)
+                BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                        .decodeResource(getResources(),
+                                R.drawable.touxiang_beijing)));
+        // 将Marker设置为贴地显示，可以双指下拉看效果
+        markerOption1.setFlat(true);
+        aMap.addMarker(markerOption1);
+
+
+        LatLng locationBean = new LatLng(location.getLatitude(), location.getLongitude());
+        MarkerOptions markerOption = new MarkerOptions();
+        markerOption.position(locationBean);
+        markerOption.title(location.getPoiName()).snippet("");
+
+        markerOption.draggable(false);
+        markerOption.icon(
+                // BitmapDescriptorFactory
+                // .fromResource(R.drawable.location_marker)
+                BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                        .decodeResource(getResources(),
+                                R.drawable.touxiang_beijing)));
+        // 将Marker设置为贴地显示，可以双指下拉看效果
+        markerOption.setFlat(true);
+
+        Marker marker = aMap.addMarker(markerOption);
+
+        aMap.setInfoWindowAdapter(new AMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                View infoWindow = getLayoutInflater().inflate(
+                        R.layout.item_order_map_custom_bg, null);
+
+                TextView tv_text = infoWindow.findViewById(R.id.tv_text);
+//                tv_text.setText(marker.getTitle());
+
+                return infoWindow;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                return null;
+            }
+        });
+
+        marker.showInfoWindow();// 设置默认显示一个infowinfow
+    }
+
+    /**
+     * 监听amap地图加载成功事件回调
+     */
+    @Override
+    public void onMapLoaded() {
+        AMapLocation location = SPUtils.geTinstance().getLocation();
+        LatLng locationBean = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng locationBean1 = new LatLng(location.getLatitude()+0.005d, location.getLongitude()-0.005d);
+
+//CameraPosition的参数意思：目标可视区域的缩放级别。目标可视区域的倾斜度，以角度为单位。可视区域指向的方向，以角度为单位，从正北向逆时针方向计算，从0 度到360 度。
+//        // 设置所有maker显示在当前可视区域地图中
+//        aMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(
+//                locationBean, 15, 0, 0)));
+
+
+        int windowWidth = DisplayUtil.getWindowWidth(this);
+        int windowHeight = DisplayUtil.getWindowHeight(this);
+        // 设置所有maker显示在当前可视区域地图中
+        LatLngBounds bounds = new LatLngBounds.Builder()
+                .include(locationBean).include(locationBean1).build();
+        aMap.moveCamera(CameraUpdateFactory.newLatLngBoundsRect(bounds,windowWidth/4,windowWidth/4, windowHeight/4,windowHeight/2));
+    }
+
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        showTraceDialog();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
+        mMapView.onDestroy();
+
+        if (null != subscription && !subscription.isDisposed()) {
+            subscription.dispose();
+            subscription = null;
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //在activity执行onResume时执行mMapView.onResume ()，重新绘制加载地图
+        mMapView.onResume();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
+        mMapView.onPause();
+    }
+
+    /**
+     * 方法必须重写
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mMapView.onSaveInstanceState(outState);
+    }
+
+
 }

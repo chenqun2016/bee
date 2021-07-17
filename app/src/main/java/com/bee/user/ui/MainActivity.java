@@ -26,10 +26,9 @@ import com.amap.api.location.AMapLocationListener;
 import com.bee.user.R;
 import com.bee.user.bean.AppUpdateInfoBean;
 import com.bee.user.bean.UserBean;
-import com.bee.user.event.ExitloginEvent;
 import com.bee.user.event.LocationChangedEvent;
-import com.bee.user.event.LoginEvent;
 import com.bee.user.event.MainEvent;
+import com.bee.user.event.ReflushEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -144,7 +143,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 .subscribe(new BaseSubscriber<AppUpdateInfoBean>() {
                     @Override
                     public void onSuccess(AppUpdateInfoBean appUpdateInfoBean) {
-                        if(appUpdateInfoBean!=null) {
+                        if (appUpdateInfoBean != null) {
                             Integer isForceUpdate = appUpdateInfoBean.getIsForceUpdate();//是否强制更新(0:否,1:是)
                             // TODO: 2021/6/22 根据是否强制更新展示最新的弹框UI
                             startUpdate(appUpdateInfoBean.getUrl());
@@ -155,12 +154,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     /**
      * 下载更新
+     *
      * @param url
      */
     private void startUpdate(String url) {
         Intent intent = new Intent(this, CheckUpdateService.class);
-        intent.putExtra("url",url);
-        CheckUpdateService.enqueueWork(this,intent);
+        intent.putExtra("url", url);
+        CheckUpdateService.enqueueWork(this, intent);
     }
 
     @Override
@@ -623,19 +623,13 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //            mLocationClient.stopLocation();
 //                        启动定位
             mLocationClient.startLocation();
-        }else if (MainEvent.TYPE_reset_Location == event.TYPE) {
+        } else if (MainEvent.TYPE_reset_Location == event.TYPE) {
             HomeFragment fragment = (HomeFragment) fragments.get(0);
             fragment.onLocationChanged(event.addressBean);
         }
 
     }
 
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginEvent(LoginEvent event) {
-        onLogin(event.token);
-
-    }
     private void onLogin(String token) {
         SPUtils.geTinstance().setToken(token);
 
@@ -658,9 +652,19 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onExitloginEvent(ExitloginEvent event) {
-        mineFragment.setUserDatas();
-
+    public void onReflushEvent(ReflushEvent event) {
+        switch (event.type) {
+            case ReflushEvent.TYPE_REFLUSH_MILI:
+                mineFragment.getMiLiDatas();
+                break;
+            case ReflushEvent.TYPE_REFLUSH_EXIT_LOGIN:
+                mineFragment.setUserDatas();
+                break;
+            case ReflushEvent.TYPE_REFLUSH_LOGIN:
+                onLogin(event.data);
+                break;
+            default:
+                break;
+        }
     }
-
 }

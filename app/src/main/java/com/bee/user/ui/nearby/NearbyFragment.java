@@ -15,11 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.amap.api.location.AMapLocation;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.StoreListBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -56,7 +56,7 @@ public class NearbyFragment extends BaseFragment {
 //    private CRecyclerView<StoreBean> crecyclerview;
 
     private View status_bar1;
-
+    SwipeRefreshLayout swiperefresh;
     private RecyclerView recyclerview;
     NearbyAdapter   mAdapter;
     LoadmoreUtils loadmoreUtils;
@@ -76,6 +76,7 @@ public class NearbyFragment extends BaseFragment {
 //        crecyclerview =  view.findViewById(R.id.crecyclerview);
 //        crecyclerview.setView(NearbyEntity.class);
 
+        swiperefresh = view.findViewById(R.id.swiperefresh);
         recyclerview =  view.findViewById(R.id.recyclerview);
          status_bar1 = view.findViewById(R.id.status_bar1);
         return view;
@@ -117,9 +118,9 @@ public class NearbyFragment extends BaseFragment {
         map.put("maxDistance", 1000+"");
         map.put("productCategoryId", 1+"");
         map.put("productCategoryName", 1+"");
-        loadmoreUtils = new LoadmoreUtils(CommentBean.class){
+        loadmoreUtils = new LoadmoreUtils(){
             @Override
-            protected boolean getDatas(int page) {
+            protected void getDatas(int page) {
 
                 Api.getClient(HttpRequest.baseUrl_shop).shop_nearby(page,LoadmoreUtils.PAGE_SIZE,Api.getRequestBody(map)) .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -136,10 +137,9 @@ public class NearbyFragment extends BaseFragment {
                                 loadmoreUtils.onFail(mAdapter,fail);
                             }
                         });
-                return true;
             }
         };
-        loadmoreUtils.initLoadmore(mAdapter);
+        loadmoreUtils.initLoadmore(mAdapter,swiperefresh);
     }
 
     @Override

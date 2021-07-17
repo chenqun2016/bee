@@ -9,19 +9,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bee.user.R;
-import com.bee.user.event.ExitloginEvent;
+import com.bee.user.event.ReflushEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.login.LoginActivity;
-import com.bee.user.ui.login.PasswordLoginActivity;
-import com.bee.user.ui.login.ResetPasswordActivity;
-import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
-import com.blankj.utilcode.util.ObjectUtils;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
 
@@ -38,7 +33,6 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.BiFunction;
-import io.reactivex.rxjava3.functions.Function3;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
@@ -148,7 +142,7 @@ public class SetPasswordActivity2 extends BaseActivity {
             }
         }
         SPUtils.geTinstance().setExitlogin();
-        EventBus.getDefault().post(new ExitloginEvent());
+        EventBus.getDefault().post(new ReflushEvent(ReflushEvent.TYPE_REFLUSH_EXIT_LOGIN));
         Intent intent =  new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
         startActivity(intent);

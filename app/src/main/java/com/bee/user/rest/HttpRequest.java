@@ -126,6 +126,9 @@ public class HttpRequest {
 
     //根据条件查询【交易流水】列表
     public static final String getPayList = "app-t-pay-payments-tran/list";
+    //查询交易明细
+    public static final String getPaymentDetail = "app-t-pay-payments-tran/getPaymentDetail/{paymentId}";
+
     //设置支付密码
     public static final String setPayPassword = "ums/AppUmsMember/setPayPassword";
 
@@ -134,4 +137,6 @@ public class HttpRequest {
 
     //check支付密码
     public static final String checkPayPassword = "ums/AppUmsMember/checkPayPassword";
+
+
 }

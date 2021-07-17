@@ -235,23 +235,23 @@ public class NewAddressActivity extends BaseActivity {
             address.gender = (rgp_sex.getCheckedRadioButtonId()==R.id.rb_1?2:1);
         }
 
-        String tag;
+        int tag;
         switch (rgp_tags.getCheckedRadioButtonId()){
             case R.id.rb_3:
-                tag = "1";
+                tag = 1;
                 break;
             case R.id.rb_4:
-                tag = "2";
+                tag = 2;
                 break;
             case R.id.rb_5:
-                tag = "3";
+                tag = 3;
                 break;
             default:
-                tag = "1";
+                tag = 1;
                 break;
         }
-        map.put("tag", tag);
-
+        map.put("tag", tag+"");
+        address.tag = tag;
         Api.getClient(HttpRequest.baseUrl_member).saveAddress(Api.getRequestBody(map))
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())

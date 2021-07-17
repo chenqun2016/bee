@@ -66,7 +66,7 @@ public class PayStatusActivity extends BaseActivity {
     @Override
     public void initViews() {
 
-        EventBus.getDefault().post(new CloseEvent());
+        EventBus.getDefault().post(new CloseEvent(CloseEvent.TYPE_PAY));
 
 
         iv_icon.setImageResource(R.drawable.icon_dengdaichuli);

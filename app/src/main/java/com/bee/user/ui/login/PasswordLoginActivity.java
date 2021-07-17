@@ -7,22 +7,17 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bee.user.R;
-import com.bee.user.bean.UserBean;
-import com.bee.user.event.CodeLoginFinishEvent;
-import com.bee.user.event.LoginEvent;
+import com.bee.user.event.CloseEvent;
+import com.bee.user.event.ReflushEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.CommonWebActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.CommonUtil;
-import com.bee.user.utils.LogUtil;
 import com.bee.user.utils.ToastUtil;
-import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.ClearEditText;
 import com.bee.user.widget.MyPasswordView;
-import com.google.gson.Gson;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 import com.jakewharton.rxbinding4.InitialValueObservable;
 import com.jakewharton.rxbinding4.widget.RxTextView;
 
@@ -40,7 +35,6 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.BiFunction;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import okhttp3.RequestBody;
 
 /**
  * 创建人：进京赶考
@@ -118,9 +112,8 @@ public class PasswordLoginActivity extends BaseActivity {
                                 closeLoadingDialog();
                                 tv_agree.setEnabled(true);
 
-
-                                EventBus.getDefault().post(new CodeLoginFinishEvent());
-                                EventBus.getDefault().post(new LoginEvent(token));
+                                EventBus.getDefault().post(new CloseEvent(CloseEvent.TYPE_LOGIN));
+                                EventBus.getDefault().post(new ReflushEvent(ReflushEvent.TYPE_REFLUSH_LOGIN,token));
                                 finish();
                             }
 

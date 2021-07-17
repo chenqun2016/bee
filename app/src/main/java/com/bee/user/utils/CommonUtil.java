@@ -39,15 +39,15 @@ import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.mine.BuyCardActivity;
 import com.bee.user.ui.nearby.ImagesActivity;
 import com.bee.user.ui.order.OrderCommentActivity;
-import com.bee.user.ui.order.OrderDetailMapActivity;
+import com.bee.user.ui.order.OrderDetailActivity;
 import com.bee.user.ui.order.ShouHouActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.ui.xiadan.PayActivity;
+import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -310,7 +310,7 @@ public class CommonUtil {
     //订单详情页有两种，
     public static void showOrderDetailActivity(Context mContext, OrderBean bean) {
         String type = bean.getOrderItemType();
-        Intent intent = new Intent(mContext, OrderDetailMapActivity.class);
+        Intent intent = new Intent(mContext, OrderDetailActivity.class);
         intent.putExtra("type",type);
         intent.putExtra("id",bean.id);
         mContext.startActivity(intent);
@@ -424,8 +424,68 @@ public class CommonUtil {
 
     }
 
-    public static  SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
-    public static String formatData(String date){//必须yyyy-MM-dd
-        return date;
+    public static String getLocationTag(int tag) {
+        String tagStr ;
+        switch (tag){
+            case 1:
+                tagStr = "家";
+                break;
+            case 2:
+                tagStr = "公司";
+                break;
+            case 3:
+                tagStr = "学校";
+                break;
+            default:
+                tagStr = "";
+                break;
+        }
+        return tagStr;
+    }
+
+    public static String getNomalMoneyType(Integer orderAmount) {
+        return "+" + orderAmount/100 ;
+    }
+
+    public static String getTradeType(int status){
+        String str ;
+        switch (status){
+            case  1:
+                str = "交易成功";
+                break;
+            case  0:
+                str = "交易处理中";
+                break;
+            case  -1:
+                str ="交易失败";
+                break;
+            default:
+                str ="交易成功";
+                break;
+        }
+        return str;
+    }
+
+    public static String getBizTypeStr(String bizType) {
+        String str;
+        switch (bizType){
+            case  "C":
+                str = "普通账户充值";
+                break;
+            case  "P":
+                str = "配送卡充值";
+                break;
+            case  "X":
+                str = "消费米粒";
+                break;
+            default:
+                str = "普通账户充值";
+                break;
+        }
+        return str;
+    }
+
+    public static String getNomalTime(Date createTime) {
+        return TimeUtils.date2String(createTime);
     }
 }

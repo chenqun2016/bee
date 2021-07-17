@@ -191,7 +191,7 @@ public class SearchActivity extends BaseActivity {
             }
         });
 
-        LoadmoreUtils loadmoreUtils = new LoadmoreUtils(StoreListBean.RecordsBean.class);
+        LoadmoreUtils loadmoreUtils = new LoadmoreUtils();
         loadmoreUtils.initLoadmore(nearbyAdapter);
         loadmoreUtils.refresh(nearbyAdapter);
 

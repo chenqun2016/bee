@@ -108,7 +108,7 @@ public class CommentFragment extends BaseFragment {
      * 初始化加载更多
      */
     private void initLoadMore() {
-        loadmoreUtils = new LoadmoreUtils(CommentBean.class);
+        loadmoreUtils = new LoadmoreUtils();
         loadmoreUtils.initLoadmore(mAdapter);
     }
 

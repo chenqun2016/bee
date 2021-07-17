@@ -29,7 +29,6 @@ import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.event.AddChartEvent;
 import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.event.CloseEvent;
-import com.bee.user.event.ReflushStoreChartEvent;
 import com.bee.user.event.StoreEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -510,13 +509,11 @@ public class StoreActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCloseEvent(CloseEvent event) {
-        finish();
+        if(event.type == CloseEvent.TYPE_PAY){
+            finish();
+        }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onReflushStoreChartEvent(ReflushStoreChartEvent event) {
-
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAddChartEvent(AddChartEvent event) {
