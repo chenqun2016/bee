@@ -176,28 +176,7 @@ public class MineFragment extends BaseFragment {
         }
     }
 
-    MyMiLiBean miLiBean;
-    public void getMiLiDatas() {
-        Api.getClient(HttpRequest.baseUrl_pay).getMemberRice().
-                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<MyMiLiBean>() {
-                    @Override
-                    public void onSuccess(MyMiLiBean s) {
-                        miLiBean = s;
-                        String str = ""+ s.surplusAmount;
-                        SpannableString msp = new SpannableString(str + "\n米粒/充值");
-                        msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
-                        msp.setSpan(new AbsoluteSizeSpan(16, true), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        tv_1.setText(msp);
-                    }
 
-                    @Override
-                    public void onFail(String fail) {
-                        super.onFail(fail);
-                    }
-                });
-    }
 
     @Override public void onDestroyView() {
         super.onDestroyView();
@@ -330,5 +309,28 @@ public class MineFragment extends BaseFragment {
                     .into(tv_icon);
         }
 
+    }
+
+    MyMiLiBean miLiBean;
+    public void getMiLiDatas() {
+        Api.getClient(HttpRequest.baseUrl_pay).getMemberRice().
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<MyMiLiBean>() {
+                    @Override
+                    public void onSuccess(MyMiLiBean s) {
+                        miLiBean = s;
+                        String str = ""+ s.surplusAmount;
+                        SpannableString msp = new SpannableString(str + "\n米粒/充值");
+                        msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        msp.setSpan(new AbsoluteSizeSpan(16, true), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        tv_1.setText(msp);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 }
