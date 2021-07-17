@@ -276,7 +276,7 @@ public class TradeListActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<List<TradeRecordBean>>() {
                     @Override
                     public void onSuccess(List<TradeRecordBean> beans) {
-                        if (page == 1) {
+                        if (page == 1 && "A".equals(transactionType)) {
                             if ((beans == null || beans.size() <= 0)) {
                                 shaixuan.setVisibility(View.GONE);
                                 tv_time.setVisibility(View.GONE);

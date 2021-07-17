@@ -53,6 +53,8 @@ import java.util.Date;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 import static com.bee.user.bean.DictByTypeBean.TYPE_REFUND_REASON;
@@ -245,12 +247,24 @@ public class CommonUtil {
 
                 Api.getClient(HttpRequest.baseUrl_order).closeOrder(dictByTypeBean.getDictValue(),id).subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new BaseSubscriber<Object>() {
+                        .subscribe(new Observer<Boolean>() {
                             @Override
-                            public void onSuccess(Object dictByType) {
+                            public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+                            }
+
+                            @Override
+                            public void onNext(@io.reactivex.rxjava3.annotations.NonNull Boolean aBoolean) {
                                 if (null != bottomSheetDialog && bottomSheetDialog.isShowing()) {
                                     bottomSheetDialog.dismiss();
                                 }
+                            }
+
+                            @Override
+                            public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                            }
+
+                            @Override
+                            public void onComplete() {
                             }
                         });
             }
