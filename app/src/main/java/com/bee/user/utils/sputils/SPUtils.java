@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-
 import com.amap.api.location.AMapLocation;
 import com.bee.user.BeeApplication;
 import com.bee.user.Constants;
@@ -13,6 +12,7 @@ import com.bee.user.bean.UserBean;
 import com.google.gson.Gson;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -155,6 +155,10 @@ public class SPUtils {
         } else {
             return mUser;
         }
+    }
+
+    public boolean hasPayPassword(){
+        return Objects.deepEquals("Y", SPUtils.geTinstance().getUserInfo().payPasswordFlag);
     }
 
     public void setLocation(AMapLocation value) {

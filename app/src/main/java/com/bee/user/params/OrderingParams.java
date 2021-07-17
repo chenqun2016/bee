@@ -10,6 +10,9 @@ import java.util.List;
  */
 public class OrderingParams implements Serializable {
 
+    //支付密码
+    public String password;
+
     //收货地址id
     public int addressId;
     //商品购物车Id（操作类型:[1.商品详情]时为必要参数）

@@ -177,7 +177,7 @@ public interface ApiService {
      * 订单列表
      */
     @POST(HttpRequest.closeOrder)
-    Observable<BaseResult<Object>> closeOrder(@Query("note") String note ,@Query("orderId") Integer orderId );
+    Observable<Boolean> closeOrder(@Query("note") String note ,@Query("orderId") Integer orderId );
     /**
      * 订单列表
      */

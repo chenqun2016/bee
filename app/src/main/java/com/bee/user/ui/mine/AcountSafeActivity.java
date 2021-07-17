@@ -1,13 +1,11 @@
 package com.bee.user.ui.mine;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
+
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.sputils.SPUtils;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -42,7 +40,7 @@ public class AcountSafeActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-        if(Objects.deepEquals("Y", SPUtils.geTinstance().getUserInfo().payPasswordFlag)) {
+        if(SPUtils.geTinstance().hasPayPassword()) {
             tv_zhifumima_text.setText("已设置");
         }else {
             tv_zhifumima_text.setText("未设置");
