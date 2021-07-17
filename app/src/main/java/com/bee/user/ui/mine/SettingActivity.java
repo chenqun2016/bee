@@ -132,6 +132,7 @@ public class SettingActivity extends BaseActivity {
 
                 @Override
                 public void onClick(View v) {
+                    CacheDataManager.clearAllCache(SettingActivity.this);
                     SPUtils.geTinstance().setExitlogin();
                     EventBus.getDefault().post(new ReflushEvent(ReflushEvent.TYPE_REFLUSH_EXIT_LOGIN));
                     if (null != systemDialog) {
