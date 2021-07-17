@@ -641,6 +641,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     public void onSuccess(UserBean str) {
                         SPUtils.geTinstance().setLoginCache(str);
                         mineFragment.setUserDatas();
+                        mineFragment.getMiLiDatas();
                     }
 
                     @Override
