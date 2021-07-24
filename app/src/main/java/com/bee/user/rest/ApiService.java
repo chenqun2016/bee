@@ -8,6 +8,7 @@ import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
 import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.FoodDetailBean;
+import com.bee.user.bean.GiftcardBean;
 import com.bee.user.bean.HelpTypeBean;
 import com.bee.user.bean.HelpTypeItemBean;
 import com.bee.user.bean.MiLiChongzhiBean;
@@ -362,4 +363,13 @@ public interface ApiService {
      */
     @POST(HttpRequest.fillCardBinding)
     Observable<BaseResult<String>> fillCardBinding(@Body RequestBody info);
+
+
+    /**
+     * 获取可购买礼品卡列表
+     * @return
+     */
+    @POST(HttpRequest.giftCard)
+    Observable<BaseResult<List<GiftcardBean>>> giftCard();
+
 }

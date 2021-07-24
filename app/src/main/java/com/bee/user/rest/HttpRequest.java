@@ -144,4 +144,7 @@ public class HttpRequest {
     //通过充值卡绑定充值
     public static final String fillCardBinding = "app-coupon/fillCardBinding";
 
+
+    //获取可购买礼品卡列表
+    public static final String giftCard = "app-coupon/giftCard";
 }
