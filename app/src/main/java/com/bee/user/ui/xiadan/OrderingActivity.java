@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.ChooseTimeBean;
+import com.bee.user.bean.OrderingBean;
 import com.bee.user.bean.OrderingConfirmBean;
 import com.bee.user.event.CloseEvent;
 import com.bee.user.event.OrderingEvent;
@@ -475,15 +476,29 @@ public class OrderingActivity extends BaseActivity {
         orderingParams.note = tv_beizhu.getText().toString();
         orderingParams.operationType = operationType+"";
         orderingParams.cartItemIds = cartIds1.toArray(new Integer[]{});
-        orderingParams.orderId = 0;
         orderingParams.orderType = 1;
         orderingParams.payType = 1;
         orderingParams.pickupWay = 1;
         orderingParams.sourceType = 5;
 
-        startActivity( PayActivity.newIntent(OrderingActivity.this,orderingParams,totalMoney));
-    }
+        showLoadingDialog();
+        Api.getClient(HttpRequest.baseUrl_order).ordering(Api.getRequestBody(orderingParams)).
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<OrderingBean>() {
+                    @Override
+                    public void onSuccess(OrderingBean userBean) {
+                        orderingParams.orderId = userBean.orderList.get(0).id;
+                        startActivity( PayActivity.newIntent(OrderingActivity.this,orderingParams,totalMoney));
+                        closeLoadingDialog();
+                    }
 
+                    @Override
+                    protected void onFail(String errorMsg, int errorCode) {
+                        closeLoadingDialog();
+                    }
+                });
+    }
 
 
     private  void showChooseTimeDialog(String storeId) {

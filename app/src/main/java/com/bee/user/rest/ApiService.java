@@ -14,6 +14,7 @@ import com.bee.user.bean.MiLiChongzhiBean;
 import com.bee.user.bean.MyMiLiBean;
 import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderListBean;
+import com.bee.user.bean.OrderingBean;
 import com.bee.user.bean.OrderingConfirmBean;
 import com.bee.user.bean.PaymentDetailBean;
 import com.bee.user.bean.StoreDetailBean;
@@ -165,7 +166,12 @@ public interface ApiService {
      * 下单
      */
     @POST(HttpRequest.ordering)
-    Observable<BaseResult<Object>> ordering(@Body RequestBody info);
+    Observable<BaseResult<OrderingBean>> ordering(@Body RequestBody info);
+    /**
+     * 米粒下单
+     */
+    @POST(HttpRequest.riceGrainsOrder)
+    Observable<BaseResult<Object>> riceGrainsOrder(@Query("orderId") Integer orderId ,@Body RequestBody info);
 
     /**
      * 订单列表

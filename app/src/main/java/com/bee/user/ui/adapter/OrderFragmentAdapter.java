@@ -29,6 +29,7 @@ import com.bee.user.Constants;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.OrderBean;
+import com.bee.user.params.OrderingParams;
 import com.bee.user.ui.order.OrderCommentActivity;
 import com.bee.user.ui.order.TuiKuanActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
@@ -140,7 +141,9 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 tv_zailaiyidan.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mContext.startActivity(PayActivity.newIntent(mContext, null , 0));
+                        OrderingParams orderingParams = new OrderingParams();
+                        orderingParams.orderId = bean.id;
+                        mContext.startActivity(PayActivity.newIntent(mContext, orderingParams , bean.totalAmount));
                     }
                 });
                 type.setText("等待支付");

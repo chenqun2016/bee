@@ -51,8 +51,11 @@ public class HttpRequest {
 
     //确认单信息
     public static final String submitPreview = "auth/submitPreview";
-    //下单
+    //预下单
     public static final String ordering ="auth/generateOrder";
+    //米粒下单
+    public static final String riceGrainsOrder ="auth/riceGrainsOrder";
+
     //订单列表
     public static final String orderList ="auth/order/list";
     //订单详情

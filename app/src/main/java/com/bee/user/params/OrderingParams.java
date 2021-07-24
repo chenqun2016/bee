@@ -11,7 +11,7 @@ import java.util.List;
 public class OrderingParams implements Serializable {
 
     //支付密码
-    public String password;
+    public String payPassword;
 
     //收货地址id
     public int addressId;

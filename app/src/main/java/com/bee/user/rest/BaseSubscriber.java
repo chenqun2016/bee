@@ -5,12 +5,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.bee.user.BeeApplication;
-import com.bee.user.R;
 import com.bee.user.utils.NetWorkUtil;
 import com.bee.user.utils.ToastUtil;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.EventBusUtils;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.KICKOUTEvent;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -69,7 +66,7 @@ public abstract class BaseSubscriber<T> implements BaseObserver<T>, Observer<Bas
 //                ToastUtil.getInstance().ToastShortFromNet("请求异常");
             }
         }
-        onFail(e.getMessage());
+        onFail(e.getMessage(),-1);
     }
     @Override
     public void onNext(BaseResult<T> baseBean) {
@@ -87,8 +84,13 @@ public abstract class BaseSubscriber<T> implements BaseObserver<T>, Observer<Bas
 //                    ToastUtil.getInstance().ToastShortFromNet("请求异常");
                 }
 //            }
-            onFail(baseBean.getErrorMsg());
+            onFail(baseBean.getErrorMsg(),baseBean.getErrorCode());
         }
+    }
+
+    protected void onFail(String errorMsg, int errorCode) {
+        Log.e("basesubscriber",errorMsg+"/"+errorCode);
+        onFail(errorMsg);
     }
 
     @Override

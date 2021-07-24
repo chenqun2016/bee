@@ -17,6 +17,7 @@ import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.BaseDialog;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.mine.SetPasswordActivity1;
+import com.bee.user.ui.order.OrderListActivity;
 import com.bee.user.ui.trade.MiLiActivity;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.PayPassView;
@@ -100,7 +101,8 @@ public class PayActivity extends BaseActivity {
             showCommonDialog("对不起，您的米粒当前余额不足", "暂不支付", "立即充值", new DialogClickListener() {
                 @Override
                 public void onDialogCancle() {
-                    doPay("");
+                    Intent intent = new Intent(PayActivity.this, OrderListActivity.class);
+                    startActivity(intent);
                 }
 
                 @Override
@@ -138,7 +140,7 @@ public class PayActivity extends BaseActivity {
                     paypassview.setOnFinishInput(new PayPassView.OnPasswordInputFinish() {
                         @Override
                         public void inputFinish() {
-                            doPay(paypassview.getStrPassword());
+                            doMiLiPay(paypassview.getStrPassword());
                         }
 
                         @Override
@@ -155,54 +157,49 @@ public class PayActivity extends BaseActivity {
             };
             bottomSheetDialog.show();
         } else {
-            doPay("");
+            doMiLiPay("");
         }
     }
 
-    private void doPay(String password) {
-        //TODO 下单没扣米粒
+    private void doMiLiPay(String password) {
         OrderingParams params = (OrderingParams) getIntent().getSerializableExtra("params");
-        params.password = password;
-        Api.getClient(HttpRequest.baseUrl_order).ordering(Api.getRequestBody(params)).
+        params.payPassword = password;
+        Api.getClient(HttpRequest.baseUrl_order).riceGrainsOrder(params.orderId,Api.getRequestBody(params)).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<Object>() {
                     @Override
                     public void onSuccess(Object userBean) {
-                        //有设置支付密码的情况
-                        if (SPUtils.geTinstance().hasPayPassword()) {
-                            //判断接口返回的支付密码验证状态
-                            if (true) {
-                                toPayStatusActivity();
-                            } else {
-                                //支付密码验证失败
-                                showCommonDialog("支付密码错误，请重试", "忘记密码", "重新支付", new DialogClickListener() {
-                                    @Override
-                                    public void onDialogCancle() {
-                                        //忘记支付密码，重新设置支付密码
-                                        SetPasswordActivity1.toSetPassword(PayActivity.this, "payPass");
-                                    }
-
-                                    @Override
-                                    public void onDialogSure() {
-                                        //重新支付
-                                        if (null != paypassview) {
-                                            paypassview.clearText();
-                                        }
-                                    }
-                                });
-                            }
-                        } else {
-                            toPayStatusActivity();
-                        }
-
+                        toPayStatusActivity();
                     }
 
                     @Override
-                    public void onFail(String fail) {
-                        super.onFail(fail);
+                    protected void onFail(String errorMsg, int errorCode) {
+                        onPayFail(errorCode);
                     }
                 });
+    }
+
+    private void onPayFail(int errorCode) {
+        //有设置支付密码的情况
+        if(404 == errorCode && SPUtils.geTinstance().hasPayPassword()){
+            //支付密码验证失败
+            showCommonDialog("支付密码错误，请重试", "忘记密码", "重新支付", new DialogClickListener() {
+                @Override
+                public void onDialogCancle() {
+                    //忘记支付密码，重新设置支付密码
+                    SetPasswordActivity1.toSetPassword(PayActivity.this, "payPass");
+                }
+
+                @Override
+                public void onDialogSure() {
+                    //重新支付
+                    if (null != paypassview) {
+                        paypassview.clearText();
+                    }
+                }
+            });
+        }
     }
 
     private void toPayStatusActivity() {
