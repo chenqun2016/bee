@@ -30,7 +30,7 @@
         android:layout_marginLeft="18dp"
         android:textSize="16sp"
         android:hint="请输入12位卡号"
-        android:text="8882626685116129"
+        android:text=""
         android:textColorHint="@color/color_ccc"/>
 
 
@@ -72,7 +72,7 @@
         android:layout_marginLeft="18dp"
         android:textSize="16sp"
         android:hint="请输入6位密码"
-        android:text="zgpcaole"
+        android:text=""
         android:textColorHint="@color/color_ccc"/>
 
 

@@ -10,7 +10,7 @@ import com.bee.user.bean.MyMiLiBean;
 import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.event.CloseEvent;
 import com.bee.user.event.ReflushEvent;
-import com.bee.user.params.OrderingParams;
+import com.bee.user.params.PayParams;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -64,7 +64,7 @@ public class PayActivity extends BaseActivity {
     }
 
 
-    public static Intent newIntent(Context context, OrderingParams datas, int totalMoney) {
+    public static Intent newIntent(Context context, PayParams datas, int totalMoney) {
         Intent intent = new Intent(context, PayActivity.class);
         intent.putExtra("params", datas);
         intent.putExtra("totalMoney", totalMoney);
@@ -162,9 +162,9 @@ public class PayActivity extends BaseActivity {
     }
 
     private void doMiLiPay(String password) {
-        OrderingParams params = (OrderingParams) getIntent().getSerializableExtra("params");
+        PayParams params = (PayParams) getIntent().getSerializableExtra("params");
         params.payPassword = password;
-        Api.getClient(HttpRequest.baseUrl_order).riceGrainsOrder(params.orderId,Api.getRequestBody(params)).
+        Api.getClient(HttpRequest.baseUrl_order).riceGrainsOrder(Api.getRequestBody(params)).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<Object>() {

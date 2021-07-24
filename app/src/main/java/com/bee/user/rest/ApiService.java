@@ -7,6 +7,7 @@ import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
 import com.bee.user.bean.DictByTypeBean;
+import com.bee.user.bean.DingWeiBean;
 import com.bee.user.bean.FoodDetailBean;
 import com.bee.user.bean.GiftcardBean;
 import com.bee.user.bean.HelpTypeBean;
@@ -172,7 +173,7 @@ public interface ApiService {
      * 米粒下单
      */
     @POST(HttpRequest.riceGrainsOrder)
-    Observable<BaseResult<Object>> riceGrainsOrder(@Query("orderId") Integer orderId ,@Body RequestBody info);
+    Observable<BaseResult<Object>> riceGrainsOrder(@Body RequestBody info);
 
     /**
      * 订单列表
@@ -372,4 +373,11 @@ public interface ApiService {
     @POST(HttpRequest.giftCard)
     Observable<BaseResult<List<GiftcardBean>>> giftCard();
 
+
+    /**
+     * 附近地址
+     * @return
+     */
+    @POST(HttpRequest.nearByBuilding)
+    Observable<BaseResult<List<DingWeiBean>>> nearByBuilding(@Body RequestBody info);
 }

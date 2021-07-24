@@ -22,6 +22,7 @@ import com.bee.user.event.CloseEvent;
 import com.bee.user.event.OrderingEvent;
 import com.bee.user.params.OrderPreParams;
 import com.bee.user.params.OrderingParams;
+import com.bee.user.params.PayParams;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -488,8 +489,13 @@ public class OrderingActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<OrderingBean>() {
                     @Override
                     public void onSuccess(OrderingBean userBean) {
-                        orderingParams.orderId = userBean.orderList.get(0).id;
-                        startActivity( PayActivity.newIntent(OrderingActivity.this,orderingParams,totalMoney));
+                        PayParams payParams = new PayParams();
+                        List<Integer> ins = new ArrayList<>();
+                        for(OrderingBean.OrderListBean bean : userBean.orderList){
+                            ins.add(bean.id);
+                        }
+                        payParams.orderIds = ins;
+                        startActivity( PayActivity.newIntent(OrderingActivity.this,payParams,totalMoney));
                         closeLoadingDialog();
                     }
 

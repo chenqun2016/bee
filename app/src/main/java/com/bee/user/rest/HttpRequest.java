@@ -147,4 +147,7 @@ public class HttpRequest {
 
     //获取可购买礼品卡列表
     public static final String giftCard = "app-coupon/giftCard";
+    //附近地址
+    public static final String nearByBuilding = "app-area-building/nearByBuilding";
+
 }

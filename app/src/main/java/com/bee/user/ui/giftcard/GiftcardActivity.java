@@ -108,7 +108,7 @@ public class GiftcardActivity extends BaseActivity {
                 });
     }
 
-    public class MyAdapter extends BaseQuickAdapter<GiftcardBean, BaseViewHolder>  implements LoadMoreModule {
+    public static class MyAdapter extends BaseQuickAdapter<GiftcardBean, BaseViewHolder>  implements LoadMoreModule {
 
         public MyAdapter() {
             super(R.layout.item_giftcard);

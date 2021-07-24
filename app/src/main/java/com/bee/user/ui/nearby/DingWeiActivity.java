@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,14 +23,25 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.bee.user.R;
 import com.bee.user.bean.DingWeiBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.DingWeiAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.sputils.SPUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -39,9 +51,15 @@ import butterknife.OnClick;
 public class DingWeiActivity extends BaseActivity implements AMap.OnMapLoadedListener {
     public static final int REQUEST_CODE_LOCATION_ACTIVITY = 11;
 
+    @BindView(R.id.tv_title)
+    TextView tv_title;
+
+    @BindView(R.id.tv_other)
+    TextView tv_other;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
+    DingWeiAdapter dingWeiAdapter;
     @OnClick({R.id.tv_location_area,R.id.tv_location})
     public void onClick(View view){
         switch (view.getId()){
@@ -61,13 +79,60 @@ public class DingWeiActivity extends BaseActivity implements AMap.OnMapLoadedLis
 
     @Override
     public void initViews() {
+        tv_title.setText("确认收货地址");
+        tv_other.setText("当前可配送地址");
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<DingWeiBean> dingWeiBeans = new ArrayList<>();
-        dingWeiBeans.add(new DingWeiBean());
-        dingWeiBeans.add(new DingWeiBean());
-        dingWeiBeans.add(new DingWeiBean());
-        DingWeiAdapter dingWeiAdapter = new DingWeiAdapter(dingWeiBeans);
+
+        dingWeiAdapter = new DingWeiAdapter();
+        dingWeiAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull @NotNull BaseQuickAdapter<?, ?> adapter, @NonNull @NotNull View view, int position) {
+                DingWeiBean bean = (DingWeiBean) adapter.getData().get(position);
+                LatLng locationBean = new LatLng(Double.parseDouble(bean.latitude), Double.parseDouble(bean.longitude));
+                addMaker(locationBean,bean.name);
+
+                // 设置所有maker显示在当前可视区域地图中
+                aMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(
+                        locationBean, 18, 0, 0)));
+
+                if(dingWeiAdapter.current != position){
+                    int pre = dingWeiAdapter.current;
+                    dingWeiAdapter.notifyItemChanged(pre);
+                }
+                dingWeiAdapter.current = position;
+                dingWeiAdapter.notifyItemChanged(position);
+            }
+        });
         recyclerview.setAdapter(dingWeiAdapter);
+
+        getDatas();
+    }
+
+    private void getDatas() {
+
+        AMapLocation location = SPUtils.geTinstance().getLocation();
+
+        Map<String,String> map = new HashMap();
+//        map.put("longitude", location.getLongitude()+"");
+//        map.put("latitude", location.getLatitude()+"");
+        map.put("longitude", "121.518689");
+        map.put("latitude", "31.240972");
+
+        Api.getClient(HttpRequest.baseUrl_shop)
+                .nearByBuilding(Api.getRequestBody(map))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<DingWeiBean>>() {
+                    @Override
+                    public void onSuccess(List<DingWeiBean> beans) {
+                        dingWeiAdapter.setNewInstance(beans);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 
 
@@ -108,20 +173,17 @@ public class DingWeiActivity extends BaseActivity implements AMap.OnMapLoadedLis
         });
         aMap.setOnMapLoadedListener(this);// 设置amap加载成功事件监听器
 
-
-        addMaker();
-
+        AMapLocation location = SPUtils.geTinstance().getLocation();
+//        LatLng CHENGDU = new LatLng(30.679879, 104.064855);// 成都市经纬度
+        LatLng locationBean = new LatLng(location.getLatitude(), location.getLongitude());
+        addMaker(locationBean,location.getPoiName());
     }
 
-    private void addMaker() {
-        AMapLocation location = SPUtils.geTinstance().getLocation();
+    private void addMaker(LatLng locationBean,String title) {
 
-//        LatLng CHENGDU = new LatLng(30.679879, 104.064855);// 成都市经纬度
-
-        LatLng locationBean = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions  markerOption = new MarkerOptions();
         markerOption.position(locationBean);
-        markerOption.title(location.getPoiName()).snippet("");
+        markerOption.title(title).snippet("");
 
         markerOption.draggable(false);
         markerOption.icon(
@@ -168,7 +230,7 @@ public class DingWeiActivity extends BaseActivity implements AMap.OnMapLoadedLis
 
         // 设置所有maker显示在当前可视区域地图中
         aMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(
-                locationBean, 15, 0, 0)));
+                locationBean, 18, 0, 0)));
     }
 
 
