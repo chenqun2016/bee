@@ -20,14 +20,17 @@
 
     <EditText
         android:id="@+id/card_num"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@null"
         app:layout_constraintLeft_toRightOf="@+id/tv_card"
         app:layout_constraintTop_toTopOf="@+id/tv_card"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="18dp"
         android:layout_marginLeft="18dp"
         android:textSize="16sp"
         android:hint="请输入12位卡号"
+        android:text="8882626685116129"
         android:textColorHint="@color/color_ccc"/>
 
 
@@ -59,14 +62,17 @@
 
     <EditText
         android:id="@+id/pass"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@null"
         app:layout_constraintLeft_toRightOf="@+id/tv_pass"
         app:layout_constraintTop_toTopOf="@+id/tv_pass"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="18dp"
         android:layout_marginLeft="18dp"
         android:textSize="16sp"
         android:hint="请输入6位密码"
+        android:text="zgpcaole"
         android:textColorHint="@color/color_ccc"/>
 
 
@@ -84,19 +90,23 @@
     
     <TextView
         android:id="@+id/tv_arror"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginLeft="60dp"
         android:drawablePadding="10dp"
+        app:layout_constraintWidth_max="350dp"
         android:drawableLeft="@drawable/icon_cuowu"
-        android:text="对不起，您输入的卡号有误"
+        android:text="对不起，输入有误"
         android:textColor="@color/color_FF564A"
         android:textSize="14sp"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
         android:background="@drawable/btn_stroke_bg_yellow"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line2"/>
 
@@ -107,6 +117,7 @@
         android:layout_height="40dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_arror"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:textColor="@color/white"
         android:textSize="17sp"
         android:gravity="center"

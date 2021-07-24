@@ -123,11 +123,16 @@
                     app:tabSelectedTextColor="@color/FF6200"
                     app:tabTextColor="@color/color_282626" />
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/view_pager"
+<!--                <androidx.viewpager2.widget.ViewPager2-->
+<!--                    android:id="@+id/view_pager"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="270dp"-->
+<!--                    android:layout_marginTop="5dp" />-->
+
+                <FrameLayout
+                    android:id="@+id/fl_content"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
 

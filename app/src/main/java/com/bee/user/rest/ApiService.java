@@ -349,4 +349,11 @@ public interface ApiService {
      */
     @POST(HttpRequest.checkPayPassword)
     Observable<BaseResult<Object>> checkPayPassword(@Body RequestBody info);
+
+
+    /**
+     * check支付密码
+     */
+    @POST(HttpRequest.fillCardBinding)
+    Observable<BaseResult<String>> fillCardBinding(@Body RequestBody info);
 }

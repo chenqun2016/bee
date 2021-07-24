@@ -48,7 +48,7 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
     MyGridView gridview;
     ArrayList<MiLiChongzhiBean> miLiChongzhiBeans = new ArrayList<>();
     TextView tv_sure;
-
+    MiLiChongzhiBean mCurrentiLiChongzhiBean;
 
     private  final Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
@@ -65,6 +65,11 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
                                 bottomSheetDialog.dismiss();
                             }
                             EventBus.getDefault().post(new ReflushEvent(ReflushEvent.TYPE_REFLUSH_MILI));
+                            if(null != mCurrentiLiChongzhiBean){
+                                String str = "本次充值"+mCurrentiLiChongzhiBean.faceValue+"米粒，系统赠送"+mCurrentiLiChongzhiBean.freeValue+"米粒";
+                                startActivity(TradeStatusActivity.newInstance(getContext(),str));
+                            }
+
                         }else{
                             // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
 
@@ -191,11 +196,12 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
         setButtonStatus(true,tv_dialog_sure);
     }
 
+
     private void toPay() {
         Map<String, String> map = new HashMap<>();
         if(-1 !=  miLiChongzhiAdapter.mIndex){
-            MiLiChongzhiBean miLiChongzhiBean = miLiChongzhiBeans.get(miLiChongzhiAdapter.mIndex);
-            map.put("bizId", miLiChongzhiBean.id+"");
+            mCurrentiLiChongzhiBean = miLiChongzhiBeans.get(miLiChongzhiAdapter.mIndex);
+            map.put("bizId", mCurrentiLiChongzhiBean.id+"");
         }
         map.put("bizType", "1");
         map.put("cardType", "a");

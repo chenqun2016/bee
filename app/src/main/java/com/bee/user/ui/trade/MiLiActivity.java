@@ -5,11 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.fragment.app.FragmentManager;
 
 import com.bee.user.R;
 import com.bee.user.bean.MyMiLiBean;
@@ -19,7 +16,6 @@ import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.gyf.immersionbar.ImmersionBar;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,8 +40,8 @@ public class MiLiActivity extends BaseActivity {
 
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
-    @BindView(R.id.view_pager)
-    ViewPager2 vp;
+//    @BindView(R.id.view_pager)
+//    ViewPager2 vp;
 
     @BindView(R.id.tv_mili)
     TextView tv_mili;
@@ -86,19 +82,54 @@ public class MiLiActivity extends BaseActivity {
 
 
 
-        vp.setAdapter(new FragmentAdapter(this));
+//        vp.setAdapter(new FragmentAdapter(this));
 //        vp.setUserInputEnabled(false);
 
-        new TabLayoutMediator(tabLayout, vp, (tab, position) -> {
-            tab.setText(titles[position]);
-        }).attach();
-
-        tabLayout.post(new Runnable() {
+//        new TabLayoutMediator(tabLayout, vp, (tab, position) -> {
+//            tab.setText(titles[position]);
+//        }).attach();
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void run() {
-                tabLayout.getTabAt(index).select();
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                if(0 == position){
+                    Fragment chongzhi = supportFragmentManager.findFragmentByTag("chongzhi");
+                    if(null == chongzhi){
+                        chongzhi = new MiLiChongzhiFragment();
+                    }
+                    supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fl_content,chongzhi,"chongzhi")
+                            .commitAllowingStateLoss();
+                }else{
+                    Fragment daijinquan = supportFragmentManager.findFragmentByTag("daijinquan");
+                    if(null == daijinquan){
+                        daijinquan = new MiLiDaijinquanFragment();
+                    }
+                    supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fl_content,daijinquan,"daijinquan")
+                            .commitAllowingStateLoss();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
+        TabLayout.Tab tab = tabLayout.newTab();
+        tab.setText(titles[0]);
+        tabLayout.addTab(tab,true);
+        TabLayout.Tab tab2 = tabLayout.newTab();
+        tab2.setText(titles[1]);
+        tabLayout.addTab(tab2);
 
         getMiLiDatas();
     }
@@ -121,29 +152,29 @@ public class MiLiActivity extends BaseActivity {
                 });
     }
 
-    final class FragmentAdapter extends FragmentStateAdapter {
-
-
-        public FragmentAdapter(@NonNull FragmentActivity fragmentActivity) {
-            super(fragmentActivity);
-        }
-
-        @NonNull
-        @Override
-        public Fragment createFragment(int position) {
-            if(0 == position){
-                return new MiLiChongzhiFragment();
-            }else{
-                return new MiLiDaijinquanFragment();
-            }
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return titles.length;
-        }
-    }
+//    final class FragmentAdapter extends FragmentStateAdapter {
+//
+//
+//        public FragmentAdapter(@NonNull FragmentActivity fragmentActivity) {
+//            super(fragmentActivity);
+//        }
+//
+//        @NonNull
+//        @Override
+//        public Fragment createFragment(int position) {
+//            if(0 == position){
+//                return new MiLiChongzhiFragment();
+//            }else{
+//                return new MiLiDaijinquanFragment();
+//            }
+//
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return titles.length;
+//        }
+//    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onReflushEvent(ReflushEvent event) {

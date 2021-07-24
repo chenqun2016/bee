@@ -1,5 +1,8 @@
 package com.bee.user.ui.trade;
 
+import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +35,11 @@ public class TradeStatusActivity extends BaseActivity {
     @BindView(R.id.btn_2)
     TextView btn_2;
 
+    public static Intent newInstance(Context context, String text) {
+        Intent intent = new Intent(context, TradeStatusActivity.class);
+        intent.putExtra("content",text);
+        return intent;
+    }
 
     @OnClick({R.id.btn_1,R.id.btn_2})
     public void onClick(View view){
@@ -52,11 +60,15 @@ public class TradeStatusActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        Intent intent = getIntent();
+        String content = intent.getStringExtra("content");
 
+        if(!TextUtils.isEmpty(content)){
+            des.setText(content);
+        }
 
-
-        iv_icon.setImageResource(R.drawable.icon_dengdaichuli);
-        iv_icon.setImageResource(R.drawable.icon_zhifushibai);
+//        iv_icon.setImageResource(R.drawable.icon_dengdaichuli);
+//        iv_icon.setImageResource(R.drawable.icon_zhifushibai);
         iv_icon.setImageResource(R.drawable.icon_zhifuchenggong);
 
 
