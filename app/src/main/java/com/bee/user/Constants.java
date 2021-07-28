@@ -86,6 +86,8 @@ public class Constants {
     public static final String TYPE_ORDER_ALL = "ALL";
     //待支付
     public static final String TYPE_ORDER_WAIT_PAY = "WAIT_PAY";
+    //待收货
+    public static final String TYPE_ORDER_WAIT_RECEIVED = "WAIT_RECEIVED";
     //已收货
     public static final String TYPE_ORDER_RECEIVED = "RECEIVED";
     //待评价

@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.bee.user.R;
@@ -88,29 +87,27 @@ public class MiLiActivity extends BaseActivity {
 //        new TabLayoutMediator(tabLayout, vp, (tab, position) -> {
 //            tab.setText(titles[position]);
 //        }).attach();
+
+
+
         FragmentManager supportFragmentManager = getSupportFragmentManager();
+        MiLiChongzhiFragment miLiChongzhiFragment = new MiLiChongzhiFragment();
+        MiLiDaijinquanFragment miLiDaijinquanFragment = new MiLiDaijinquanFragment();
+        supportFragmentManager.beginTransaction()
+                .add(R.id.fl_content,miLiChongzhiFragment,"chongzhi")
+                .add(R.id.fl_content,miLiDaijinquanFragment,"daijinquan")
+                .hide(miLiDaijinquanFragment)
+                .commitAllowingStateLoss();
+
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 if(0 == position){
-                    Fragment chongzhi = supportFragmentManager.findFragmentByTag("chongzhi");
-                    if(null == chongzhi){
-                        chongzhi = new MiLiChongzhiFragment();
-                    }
-                    supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.fl_content,chongzhi,"chongzhi")
-                            .commitAllowingStateLoss();
+                    supportFragmentManager.beginTransaction().show(miLiChongzhiFragment).hide(miLiDaijinquanFragment).commitAllowingStateLoss();
                 }else{
-                    Fragment daijinquan = supportFragmentManager.findFragmentByTag("daijinquan");
-                    if(null == daijinquan){
-                        daijinquan = new MiLiDaijinquanFragment();
-                    }
-                    supportFragmentManager
-                            .beginTransaction()
-                            .replace(R.id.fl_content,daijinquan,"daijinquan")
-                            .commitAllowingStateLoss();
+                    supportFragmentManager.beginTransaction().show(miLiDaijinquanFragment).hide(miLiChongzhiFragment).commitAllowingStateLoss();
                 }
             }
 

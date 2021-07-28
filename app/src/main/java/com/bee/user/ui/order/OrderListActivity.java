@@ -21,6 +21,7 @@ import static com.bee.user.Constants.TYPE_ORDER_RECEIVED;
 import static com.bee.user.Constants.TYPE_ORDER_REFUNDED;
 import static com.bee.user.Constants.TYPE_ORDER_WAIT_COMMENT;
 import static com.bee.user.Constants.TYPE_ORDER_WAIT_PAY;
+import static com.bee.user.Constants.TYPE_ORDER_WAIT_RECEIVED;
 
 /**
  * 创建人：进京赶考
@@ -104,8 +105,8 @@ public class OrderListActivity extends BaseActivity {
             case 1:
                 type = TYPE_ORDER_WAIT_PAY;
                 break;
-            case 2://TODO
-                type = TYPE_ORDER_RECEIVED;
+            case 2:
+                type = TYPE_ORDER_WAIT_RECEIVED;
                 break;
             case 3:
                 type = TYPE_ORDER_RECEIVED;
