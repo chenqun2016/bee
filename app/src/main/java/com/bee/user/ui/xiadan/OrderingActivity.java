@@ -109,7 +109,7 @@ public class OrderingActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_confirm:
                 if(null == mAddress){
-                    showCommonDialog("请设置收货地址", null, "确定", new DialogClickListener() {
+                    showCommonDialog("请添加收货人地址", null, "立即添加", new DialogClickListener() {
                         @Override
                         public void onDialogCancle() {
                         }
@@ -504,6 +504,7 @@ public class OrderingActivity extends BaseActivity {
                         payParams.orderIds = ins;
                         startActivity( PayActivity.newIntent(OrderingActivity.this,payParams,totalMoney));
                         closeLoadingDialog();
+                        finish();
                     }
 
                     @Override

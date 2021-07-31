@@ -40,8 +40,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView
-        android:id="@+id/crecyclerview"
+    <FrameLayout
+        android:id="@+id/fl_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"

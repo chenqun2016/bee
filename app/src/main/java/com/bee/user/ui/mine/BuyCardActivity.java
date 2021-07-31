@@ -15,6 +15,9 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.PeiSongCardBean;
 import com.bee.user.bean.UserBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.BuyCardAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.DisplayUtil;
@@ -24,12 +27,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -123,9 +128,11 @@ public class BuyCardActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Map<String, String> map = new HashMap<>();
-                map.put("bizId", "1");
+                PeiSongCardBean peiSongCardBean = adapter.getData().get(adapter.current);
+                if(null != peiSongCardBean){
+                    map.put("bizId", peiSongCardBean.id+"");
+                }
                 map.put("bizType", "2");
-                map.put("cardType", "a");
                 map.put("deviceType", "安卓");
 
                 String payChannel = payType==0?"ALIPAY":"WECHATPAY";
@@ -151,14 +158,29 @@ public class BuyCardActivity extends BaseActivity {
         });
         recyclerview.setAdapter(adapter);
 
-        ArrayList<PeiSongCardBean> beans = new ArrayList<>();
-        beans.add(new PeiSongCardBean(0,"连续年度卡","89","15.50元/月","年"));
-        beans.add(new PeiSongCardBean(0,"年度卡","99","15.50元/月","年"));
-        beans.add(new PeiSongCardBean(1,"连续季度卡","25.9","15.50元/月","季"));
-        beans.add(new PeiSongCardBean(1,"季度卡","25.9","15.50元/月","季"));
-        beans.add(new PeiSongCardBean(2,"连续月度卡","8.9","15.50元/月","月"));
-        beans.add(new PeiSongCardBean(2,"月度卡","8.9","15.50元/月","月"));
-        adapter.setNewInstance(beans);
+//        ArrayList<PeiSongCardBean> beans = new ArrayList<>();
+//        beans.add(new PeiSongCardBean(0,"连续年度卡","89","15.50元/月","年"));
+//        beans.add(new PeiSongCardBean(0,"年度卡","99","15.50元/月","年"));
+//        beans.add(new PeiSongCardBean(1,"连续季度卡","25.9","15.50元/月","季"));
+//        beans.add(new PeiSongCardBean(1,"季度卡","25.9","15.50元/月","季"));
+//        beans.add(new PeiSongCardBean(2,"连续月度卡","8.9","15.50元/月","月"));
+//        beans.add(new PeiSongCardBean(2,"月度卡","8.9","15.50元/月","月"));
+//        adapter.setNewInstance(beans);
+
+        getDatas();
+    }
+
+    private void getDatas() {
+        Api.getClient(HttpRequest.baseUrl_pay).distributionCardOnSale()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<PeiSongCardBean>>() {
+                    @Override
+                    public void onSuccess(List<PeiSongCardBean> bean) {
+                        adapter.setNewInstance(bean);
+                    }
+
+                });
     }
 
 

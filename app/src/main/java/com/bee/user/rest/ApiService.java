@@ -3,9 +3,11 @@ package com.bee.user.rest;
 import com.bee.user.bean.AddCartBean;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.AppUpdateInfoBean;
+import com.bee.user.bean.CardBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
+import com.bee.user.bean.CouponBean;
 import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.DingWeiBean;
 import com.bee.user.bean.FoodDetailBean;
@@ -19,6 +21,7 @@ import com.bee.user.bean.OrderListBean;
 import com.bee.user.bean.OrderingBean;
 import com.bee.user.bean.OrderingConfirmBean;
 import com.bee.user.bean.PaymentDetailBean;
+import com.bee.user.bean.PeiSongCardBean;
 import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
@@ -380,4 +383,29 @@ public interface ApiService {
      */
     @POST(HttpRequest.nearByBuilding)
     Observable<BaseResult<List<DingWeiBean>>> nearByBuilding(@Body RequestBody info);
+
+
+    /**
+     * 优惠券列表
+     * @return
+     */
+    @POST(HttpRequest.couponList)
+    Observable<BaseResult<CouponBean>> couponList(@Body RequestBody info);
+
+
+    /**
+     *
+     * 用户配送卡列表
+     * @return
+     */
+    @POST(HttpRequest.distributionCard)
+    Observable<BaseResult<List<CardBean>>> distributionCard();
+
+    /**
+     *
+     * 获取可购买配送卡列表
+     * @return
+     */
+    @POST(HttpRequest.distributionCardOnSale)
+    Observable<BaseResult<List<PeiSongCardBean>>> distributionCardOnSale();
 }

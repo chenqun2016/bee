@@ -150,4 +150,11 @@ public class HttpRequest {
     //附近地址
     public static final String nearByBuilding = "app-area-building/nearByBuilding";
 
+
+    //优惠券列表app-coupon/distributionCard
+    public static final String couponList = "app-coupon/couponList";
+    //用户配送卡列表
+    public static final String distributionCard = "app-coupon/distributionCard";
+    //获取可购买配送卡列表
+    public static final String distributionCardOnSale = "app-coupon/distributionCardOnSale";
 }

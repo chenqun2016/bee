@@ -7,18 +7,28 @@ package com.bee.user.bean;
  */
 public class PeiSongCardBean {
 
-    public  int type;
-
-    public String text1;
-    public String text2;
-    public String text3;
-    public String text4;
-
-    public PeiSongCardBean(int type, String text1, String text2, String text3, String text4) {
-        this.type = type;
-        this.text1 = text1;
-        this.text2 = text2;
-        this.text3 = text3;
-        this.text4 = text4;
-    }
+    public long id;
+    public String cardName;
+    public String cardType;
+//coupon_type '卡类型[M.月卡 Q.季卡 Y.年卡 SM.连续包月卡 SQ.连续包季卡 SY.连续包年卡]',
+    public String couponType;
+    public Integer faceValue;
+    public Integer freeValue;
+    public Object minAmount;
+    public Object exchangeDays;
+    public Integer platform;
+    public Integer publishNumber;
+    public Integer personLimit;
+    public Integer sort;
+    public Object memo;
+    public String backgroudImageUrl;
+    public Object expireTime;
+    public Integer status;
+    public Integer delFlag;
+    public Integer createBy;
+    public String createName;
+    public String createTime;
+    public Integer updateBy;
+    public String updateName;
+    public String updateTime;
 }

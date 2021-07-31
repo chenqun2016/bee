@@ -204,7 +204,6 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
             map.put("bizId", mCurrentiLiChongzhiBean.id+"");
         }
         map.put("bizType", "1");
-        map.put("cardType", "a");
         map.put("deviceType", "安卓");
 
         String payChannel = payType==0?"ALIPAY":"WECHATPAY";

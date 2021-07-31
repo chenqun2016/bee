@@ -79,6 +79,10 @@ public class PayActivity extends BaseActivity {
         totalMoney = getIntent().getIntExtra("totalMoney", 0);
         tv_money.setText("¥" + totalMoney);
         getMiLiDatas();
+
+        //刷新数据
+        EventBus.getDefault().post(new ReflushEvent(ReflushEvent.TYPE_REFLUSH_MILI));
+        EventBus.getDefault().post(new ChartFragmentEvent(ChartFragmentEvent.TYPE_REFLUSH));
     }
 
 
@@ -204,8 +208,7 @@ public class PayActivity extends BaseActivity {
     }
 
     private void toPayStatusActivity() {
-        EventBus.getDefault().post(new ReflushEvent(ReflushEvent.TYPE_REFLUSH_MILI));
-        EventBus.getDefault().post(new ChartFragmentEvent(ChartFragmentEvent.TYPE_REFLUSH));
+
         startActivity(new Intent(PayActivity.this, PayStatusActivity.class));
 
     }

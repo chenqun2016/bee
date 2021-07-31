@@ -11,7 +11,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.giftcard.GiftcardRecordActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -33,7 +32,7 @@ public class CouponActivity extends BaseActivity {
     ViewPager2 vp;
 
 
-    String[] titles = new String[]{"优惠券(3)", "配送卡(3)"};
+    String[] titles = new String[]{"优惠券", "配送卡"};
 
     @OnClick({R.id.tv_right})
     public void onClick(View view){
@@ -79,9 +78,9 @@ public class CouponActivity extends BaseActivity {
         @Override
         public Fragment createFragment(int position) {
             if(0 == position){
-                return CouponFragment.newInstance(0);
+                return CouponFragment.newInstance(0,0);
             }else{
-                return CouponFragment.newInstance(1);
+                return CouponFragment.newInstance(1,0);
             }
 
         }

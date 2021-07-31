@@ -22,10 +22,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class PayUtils {
 
 /*    bizId	integer($int64)
-    支付业务ID[米粒配置ID]
+    支付业务ID[米粒配置/配送卡 /礼品卡ID]
 
     bizType	string
-    支付业务类型[1.米粒面值2.配送卡]
+    支付业务类型[1.米粒面值2.配送卡，4.礼品卡]
 
     cardType	string
     配送卡类型[a.月度 b.季度 c.年度]

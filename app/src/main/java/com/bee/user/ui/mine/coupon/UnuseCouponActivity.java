@@ -1,13 +1,11 @@
 package com.bee.user.ui.mine.coupon;
 
-import com.bee.user.R;
-import com.bee.user.bean.YouhuiquanBean;
-import com.bee.user.entity.CouponEntity;
-import com.bee.user.ui.base.activity.BaseActivity;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
+import android.widget.FrameLayout;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.fragment.app.FragmentManager;
+
+import com.bee.user.R;
+import com.bee.user.ui.base.activity.BaseActivity;
 
 import butterknife.BindView;
 
@@ -17,8 +15,9 @@ import butterknife.BindView;
  * 描述：
  */
 public class UnuseCouponActivity extends BaseActivity {
-    @BindView(R.id.crecyclerview)
-     CRecyclerView crecyclerview;
+
+    @BindView(R.id.fl_content)
+    FrameLayout fl_content;
 
     @Override
     public int getLayoutId() {
@@ -27,23 +26,9 @@ public class UnuseCouponActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-
-        crecyclerview.setView(CouponEntity.class);
-//        crecyclerview.start();
-
-
-        List<YouhuiquanBean> lists = new ArrayList<>();
-        lists.add(new YouhuiquanBean(1));
-        lists.add(new YouhuiquanBean(1));
-        lists.add(new YouhuiquanBean(1));
-        lists.add(new YouhuiquanBean(1));
-        lists.add(new YouhuiquanBean(1));
-        lists.add(new YouhuiquanBean(1));
-        lists.add(new YouhuiquanBean(1));
-        lists.add(new YouhuiquanBean(1));
-        lists.add(new YouhuiquanBean(1));
-        lists.add(new YouhuiquanBean(1));
-        crecyclerview.getBaseAdapter().setList(lists);
-        crecyclerview.getBaseAdapter().getLoadMoreModule().loadMoreEnd(true);
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fl_content,CouponFragment.newInstance(0,2))
+                .commitAllowingStateLoss();
     }
 }
