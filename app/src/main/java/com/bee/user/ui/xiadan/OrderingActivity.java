@@ -109,12 +109,20 @@ public class OrderingActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_confirm:
                 if(null == mAddress){
+                    showCommonDialog("请设置收货地址", null, "确定", new DialogClickListener() {
+                        @Override
+                        public void onDialogCancle() {
+                        }
+
+                        @Override
+                        public void onDialogSure() {
+                            toChooseAddressActivity();
+                        }
+                    });
                     return;
                 }
                 doSubmit();
-
                 break;
-
         }
     }
 
@@ -199,7 +207,7 @@ public class OrderingActivity extends BaseActivity {
         orderingAdapter.setNewInstance(userBean.getStoreOrderConfirmItems());
 
         for(OrderingConfirmBean.StoreOrderConfirmItemsBean bean : userBean.getStoreOrderConfirmItems()){
-            totalMoney += bean.getCalcAmount().getTotalAmount();
+            totalMoney += bean.getCalcAmount().getPayAmount();
         }
         tv_heji_money.setText("¥"+totalMoney);
     }
@@ -290,9 +298,7 @@ public class OrderingActivity extends BaseActivity {
         tv_dizhi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(OrderingActivity.this, ChooseAddressActivity.class);
-                intent.putExtra("from",1);
-                startActivityForResult(intent, REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_ORDERING);
+                toChooseAddressActivity();
             }
         });
 
@@ -322,6 +328,7 @@ public class OrderingActivity extends BaseActivity {
             }
         });
     }
+
 
 
     //    选择餐具
@@ -636,6 +643,12 @@ public class OrderingActivity extends BaseActivity {
         tv_dizhi.setText(mAddress.detailAddress);
         tv_dizhi2.setVisibility(View.VISIBLE);
         tv_dizhi2.setText(mAddress.name+mAddress.phoneNumber);
+    }
+
+    private void toChooseAddressActivity() {
+        Intent intent = new Intent(OrderingActivity.this, ChooseAddressActivity.class);
+        intent.putExtra("from",1);
+        startActivityForResult(intent, REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_ORDERING);
     }
 
 

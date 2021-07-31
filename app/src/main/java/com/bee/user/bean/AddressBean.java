@@ -52,7 +52,7 @@ public class AddressBean implements MultiItemEntity, Serializable {
      * longitude : 123
      */
 
-    public int id;
+    public long id;
     public int memberId;
     public String name;
     public String phoneNumber;

@@ -52,7 +52,8 @@ public class PayActivity extends BaseActivity {
                 showPayDialog();
                 break;
             case R.id.tv_about:
-                finish();
+                Intent intent = new Intent(PayActivity.this, OrderListActivity.class);
+                startActivity(intent);
                 break;
         }
 

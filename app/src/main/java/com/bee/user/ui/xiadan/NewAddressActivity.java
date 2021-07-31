@@ -217,24 +217,6 @@ public class NewAddressActivity extends BaseActivity {
         map.put("houseNumber", tv_menpai_text.getText()+"");
         map.put("gender", (rgp_sex.getCheckedRadioButtonId()==R.id.rb_1?2:1)+"");
 
-        if(null != address){
-            map.put("id", address.id+"");
-            map.put("memberId", address.memberId+"");
-            map.put("defaultStatus", address.defaultStatus+"");
-            map.put("postCode", address.postCode+"");
-            map.put("province", address.province+"");
-            map.put("city", address.city+"");
-            map.put("district",address.district+"");
-            map.put("latitude", address.latitude+"");
-            map.put("longitude", address.longitude+"");
-
-            address.name = tv_name.getText()+"";
-            address.phoneNumber = tv_phone.getText()+"";
-            address.detailAddress =tv_dizhi_text.getText()+"";
-            address.houseNumber = tv_menpai_text.getText()+"";
-            address.gender = (rgp_sex.getCheckedRadioButtonId()==R.id.rb_1?2:1);
-        }
-
         int tag;
         switch (rgp_tags.getCheckedRadioButtonId()){
             case R.id.rb_3:
@@ -251,7 +233,26 @@ public class NewAddressActivity extends BaseActivity {
                 break;
         }
         map.put("tag", tag+"");
-        address.tag = tag;
+        if(null != address){
+            map.put("id", address.id+"");
+            map.put("memberId", address.memberId+"");
+            map.put("defaultStatus", address.defaultStatus+"");
+            map.put("postCode", address.postCode+"");
+            map.put("province", address.province+"");
+            map.put("city", address.city+"");
+            map.put("district",address.district+"");
+            map.put("latitude", address.latitude+"");
+            map.put("longitude", address.longitude+"");
+
+            address.name = tv_name.getText()+"";
+            address.phoneNumber = tv_phone.getText()+"";
+            address.detailAddress =tv_dizhi_text.getText()+"";
+            address.houseNumber = tv_menpai_text.getText()+"";
+            address.gender = (rgp_sex.getCheckedRadioButtonId()==R.id.rb_1?2:1);
+            address.tag = tag;
+        }
+
+
         Api.getClient(HttpRequest.baseUrl_member).saveAddress(Api.getRequestBody(map))
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
@@ -263,6 +264,11 @@ public class NewAddressActivity extends BaseActivity {
                         intent.putExtra("clickPosition",getIntent().getIntExtra("clickPosition",0));
                         setResult(RESULT_CODE_NEWADDRESS,intent);
                         finish();
+                    }
+
+                    @Override
+                    protected void onFail(String errorMsg, int errorCode) {
+                        super.onFail(errorMsg, errorCode);
                     }
                 });
     }

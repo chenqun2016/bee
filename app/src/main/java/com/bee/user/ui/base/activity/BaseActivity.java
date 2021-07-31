@@ -3,6 +3,7 @@ package com.bee.user.ui.base.activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -92,15 +93,24 @@ public abstract class BaseActivity extends BasePreActivity {
     }
 
     private Dialog commonDialog;
-    public void showCommonDialog(String content,String left,String right,DialogClickListener listener) {
+    public void showCommonDialog(String content,@Nullable  String left,@Nullable String right,DialogClickListener listener) {
         commonDialog = new Dialog(this, R.style.loadingDialogTheme);
         View inflate = View.inflate(this, R.layout.dialog_hint3, null);
         TextView tv_des = (TextView) inflate.findViewById(R.id.tv_des);
         tv_des.setText(content);
         TextView tv_quxiao = (TextView) inflate.findViewById(R.id.btn_cancel);
         TextView tv_queding = (TextView) inflate.findViewById(R.id.btn_sure);
-        tv_quxiao.setText(left);
-        tv_queding.setText(right);
+        if(!TextUtils.isEmpty(left)){
+            tv_quxiao.setText(left);
+        }else{
+            tv_quxiao.setVisibility(View.GONE);
+        }
+        if(!TextUtils.isEmpty(right)){
+            tv_queding.setText(right);
+        }else{
+            tv_queding.setVisibility(View.GONE);
+        }
+
 
         tv_quxiao.setOnClickListener(new View.OnClickListener() {
 

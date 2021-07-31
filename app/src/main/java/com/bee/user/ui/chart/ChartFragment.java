@@ -247,6 +247,11 @@ public class ChartFragment extends BaseFragment {
                             getCartDatas();
                         }
                     }
+
+                    @Override
+                    protected void onFail(String errorMsg, int errorCode) {
+                        super.onFail(errorMsg, errorCode);
+                    }
                 });
     }
 

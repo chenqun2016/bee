@@ -14,7 +14,7 @@ public class OrderingParams implements Serializable {
     public String payPassword;
 
     //收货地址id
-    public int addressId;
+    public long addressId;
     //商品购物车Id（操作类型:[1.商品详情]时为必要参数）
     public int cartItemId;
     //商品购物车Ids（操作类型:[2.商品详情]时为必要参数）

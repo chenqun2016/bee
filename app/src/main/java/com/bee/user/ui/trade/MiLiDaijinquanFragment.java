@@ -110,6 +110,9 @@ public class MiLiDaijinquanFragment extends BaseFragment {
                                 tv_arror.setVisibility(View.GONE);
                                 startActivity(TradeStatusActivity.newInstance(getContext(),object));
                                 EventBus.getDefault().post(new ReflushEvent(ReflushEvent.TYPE_REFLUSH_MILI));
+
+                                card_num.setText("");
+                                pass.setText("");
                             }
 
                             @Override
