@@ -5,9 +5,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.amap.api.location.AMapLocation;
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
+import com.bee.user.bean.DingWeiBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -32,6 +35,7 @@ import io.reactivex.rxjava3.functions.Function4;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 import static com.bee.user.ui.nearby.DingWeiActivity.REQUEST_CODE_LOCATION_ACTIVITY;
+import static com.bee.user.ui.nearby.DingWeiActivity.RESULT_CODE_LOCATION_ACTIVITY;
 
 /**
  * 创建人：进京赶考
@@ -76,13 +80,40 @@ public class NewAddressActivity extends BaseActivity {
                 deleteAddress();
                 break;
             case R.id.tv_dizhi_text:
-                startActivityForResult(new Intent(this, DingWeiActivity.class),REQUEST_CODE_LOCATION_ACTIVITY);
+                Intent intent = new Intent(this, DingWeiActivity.class);
+                if(null != address){
+                    intent.putExtra("longitude",address.longitude+"");
+                    intent.putExtra("latitude",address.latitude+"");
+                }else{
+                    AMapLocation location = SPUtils.geTinstance().getLocation();
+                    intent.putExtra("longitude",location.getLongitude()+"");
+                    intent.putExtra("latitude",location.getLatitude()+"");
+                }
+
+                startActivityForResult(intent,REQUEST_CODE_LOCATION_ACTIVITY);
                 break;
         }
     }
 
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_LOCATION_ACTIVITY && resultCode == RESULT_CODE_LOCATION_ACTIVITY && null != data){
+            DingWeiBean data1 = (DingWeiBean) data.getSerializableExtra("data");
+            if(null != data1){
+                if(null == address){
+                    address = new AddressBean();
+                }
+                address.detailAddress = data1.name;
+                address.latitude = data1.latitude;
+                address.longitude = data1.longitude;
+                address.postCode = data1.cityCode;
+                tv_dizhi_text.setText(data1.name);
+            }
+        }
+    }
 
     @Override
     protected void initImmersionBar() {
@@ -250,6 +281,18 @@ public class NewAddressActivity extends BaseActivity {
             address.houseNumber = tv_menpai_text.getText()+"";
             address.gender = (rgp_sex.getCheckedRadioButtonId()==R.id.rb_1?2:1);
             address.tag = tag;
+        }else{
+            AMapLocation location = SPUtils.geTinstance().getLocation();
+
+            map.put("id", "");
+            map.put("memberId", "");
+            map.put("defaultStatus", "");
+            map.put("postCode", location.getCityCode()+"");
+            map.put("province", location.getProvince()+"");
+            map.put("city", location.getCity()+"");
+            map.put("district",location.getDistrict()+"");
+            map.put("latitude", location.getLatitude()+"");
+            map.put("longitude", location.getLongitude()+"");
         }
 
 

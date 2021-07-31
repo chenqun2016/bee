@@ -42,7 +42,7 @@ public class BuyCardAdapter extends BaseQuickAdapter<PeiSongCardBean, BaseViewHo
 
         tv_text1.setText(peiSongCardBean.cardName+"");
         tv_text2.setText(peiSongCardBean.faceValue+"");
-        tv_text3.setText("0元/月");
+        tv_text3.setText(peiSongCardBean.averagePrice+"");
 
         Picasso.with(getContext())
                 .load(peiSongCardBean.backgroudImageUrl)

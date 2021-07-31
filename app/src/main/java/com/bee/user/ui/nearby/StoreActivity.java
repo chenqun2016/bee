@@ -180,7 +180,7 @@ public class StoreActivity extends BaseActivity {
 
             case R.id.tv_dingwei:
 
-                startActivity(new Intent(this, DingWeiActivity.class));
+//                startActivity(new Intent(this, DingWeiActivity.class));
                 break;
 
             case R.id.iv_search:

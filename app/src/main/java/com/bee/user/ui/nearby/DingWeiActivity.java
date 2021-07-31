@@ -1,5 +1,6 @@
 package com.bee.user.ui.nearby;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
@@ -50,6 +51,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  */
 public class DingWeiActivity extends BaseActivity implements AMap.OnMapLoadedListener {
     public static final int REQUEST_CODE_LOCATION_ACTIVITY = 11;
+    public static final int RESULT_CODE_LOCATION_ACTIVITY = 111;
 
     @BindView(R.id.tv_title)
     TextView tv_title;
@@ -88,19 +90,27 @@ public class DingWeiActivity extends BaseActivity implements AMap.OnMapLoadedLis
             @Override
             public void onItemClick(@NonNull @NotNull BaseQuickAdapter<?, ?> adapter, @NonNull @NotNull View view, int position) {
                 DingWeiBean bean = (DingWeiBean) adapter.getData().get(position);
-                LatLng locationBean = new LatLng(Double.parseDouble(bean.latitude), Double.parseDouble(bean.longitude));
-                addMaker(locationBean,bean.name);
+                try{
+                    LatLng locationBean = new LatLng(Double.parseDouble(bean.latitude), Double.parseDouble(bean.longitude));
+                    addMaker(locationBean,bean.name);
 
-                // 设置所有maker显示在当前可视区域地图中
-                aMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(
-                        locationBean, 18, 0, 0)));
-
+                    // 设置所有maker显示在当前可视区域地图中
+                    aMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(
+                            locationBean, 18, 0, 0)));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 if(dingWeiAdapter.current != position){
                     int pre = dingWeiAdapter.current;
                     dingWeiAdapter.notifyItemChanged(pre);
                 }
                 dingWeiAdapter.current = position;
                 dingWeiAdapter.notifyItemChanged(position);
+
+                Intent intent = new Intent();
+                intent.putExtra("data",bean);
+                setResult(RESULT_CODE_LOCATION_ACTIVITY,intent);
+                finish();
             }
         });
         recyclerview.setAdapter(dingWeiAdapter);
@@ -109,12 +119,12 @@ public class DingWeiActivity extends BaseActivity implements AMap.OnMapLoadedLis
     }
 
     private void getDatas() {
-
-        AMapLocation location = SPUtils.geTinstance().getLocation();
-
         Map<String,String> map = new HashMap();
-//        map.put("longitude", location.getLongitude()+"");
-//        map.put("latitude", location.getLatitude()+"");
+
+        Intent intent = getIntent();
+//        map.put("longitude", intent.getStringExtra("longitude"));
+//        map.put("latitude", intent.getStringExtra("latitude"));
+
         map.put("longitude", "121.518689");
         map.put("latitude", "31.240972");
 
