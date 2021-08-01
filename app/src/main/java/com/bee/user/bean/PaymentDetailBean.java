@@ -9,15 +9,20 @@ import java.util.Date;
  */
 public class PaymentDetailBean {
 
+
     public Integer id;
     public Integer memberId;
     public Integer bizId;
     public String bizType;
-    public String orderId;
+    public String bizTypeDesc;
+    public String tranType;
+    public String tranTypeDesc;
+    public Integer orderId;
     public Integer orderAmount;
     public Integer riceAmount;
-    public Integer status;
+    public String status;
+    public Object remarks;
     public Date createTime;
-    public Integer operatorId;
-    public String operatorName;
+    public Object operatorId;
+    public Object operatorName;
 }

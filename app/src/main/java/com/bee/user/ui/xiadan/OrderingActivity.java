@@ -139,11 +139,11 @@ public class OrderingActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_ORDERING && resultCode == 1) {
 
-            AddressBean address = (AddressBean) data.getSerializableExtra("address");
-            tv_dizhi.setText(address.detailAddress+address.houseNumber);
+            mAddress = (AddressBean) data.getSerializableExtra("address");
+            tv_dizhi.setText(mAddress.detailAddress+mAddress.houseNumber);
             tv_dizhi2.setVisibility(View.VISIBLE);
-            String gender = address.gender==1?"先生":"女士";
-            tv_dizhi2.setText(address.name+"("+gender+")"+address.phoneNumber);
+            String gender = mAddress.gender==1?"先生":"女士";
+            tv_dizhi2.setText(mAddress.name+"("+gender+")"+mAddress.phoneNumber);
         }
         if(requestCode == REQUEST_CODE_ORDERING &&  resultCode == RESULT_CODE_ORDERING){
             String beizhu = data.getStringExtra(TEXT_BEIZHU);

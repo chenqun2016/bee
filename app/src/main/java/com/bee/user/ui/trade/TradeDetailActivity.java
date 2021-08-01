@@ -1,5 +1,6 @@
 package com.bee.user.ui.trade;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -62,14 +63,16 @@ public class TradeDetailActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<PaymentDetailBean>() {
                     @Override
                     public void onSuccess(PaymentDetailBean bean) {
-                        mili.setText("*");
-                        mili_num.setText(CommonUtil.getNomalMoneyType(bean.orderAmount));
-                        jiaoyi.setText(CommonUtil.getTradeType(bean.status));
-                        tv_trade_type_value.setText(CommonUtil.getBizTypeStr(bean.bizType));
+                        mili.setText(bean.bizTypeDesc+"");
+                        mili_num.setText(CommonUtil.getTradeType(bean.tranType)+ CommonUtil.getNomalMoneyType(bean.orderAmount));
+                        if(!TextUtils.isEmpty(bean.status)){
+                            jiaoyi.setText(CommonUtil.getTradeType(Integer.parseInt(bean.status)));
+                        }
+                        tv_trade_type_value.setText(bean.tranTypeDesc);
                         tv_pay_type_value.setText("*");
                         tv_trade_time_value.setText(CommonUtil.getNomalTime(bean.createTime));
-                        tv_trade_num_value.setText(bean.orderId);
-                        tv_beizhu_value.setText("*");
+                        tv_trade_num_value.setText(bean.orderId+"");
+                        tv_beizhu_value.setText(bean.remarks+"");
                     }
                 });
     }

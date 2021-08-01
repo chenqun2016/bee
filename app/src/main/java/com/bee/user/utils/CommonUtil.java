@@ -458,7 +458,7 @@ public class CommonUtil {
     }
 
     public static String getNomalMoneyType(Integer orderAmount) {
-        return "+" + orderAmount/100 ;
+        return "" + orderAmount/100 ;
     }
 
     public static String getTradeType(int status){
@@ -480,6 +480,25 @@ public class CommonUtil {
         return str;
     }
 
+    //交易类型[I.收入（米粒） S.支出 （米粒）C.充值]
+    public static String getTradeType(String type){
+        String str ;
+        switch (type){
+            case  "I":
+                str = "+";
+                break;
+            case  "S":
+                str = "-";
+                break;
+            case  "C":
+                str ="+";
+                break;
+            default:
+                str ="+";
+                break;
+        }
+        return str;
+    }
     public static String getBizTypeStr(String bizType) {
         String str;
         switch (bizType){
