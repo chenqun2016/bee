@@ -399,7 +399,7 @@ public interface ApiService {
      * @return
      */
     @POST(HttpRequest.distributionCard)
-    Observable<BaseResult<List<CardBean>>> distributionCard();
+    Observable<BaseResult<CardBean>> distributionCard();
 
     /**
      *
@@ -408,4 +408,13 @@ public interface ApiService {
      */
     @POST(HttpRequest.distributionCardOnSale)
     Observable<BaseResult<List<PeiSongCardBean>>> distributionCardOnSale();
+
+
+    /**
+     * 优惠券列表
+     * @return
+     */
+    @POST(HttpRequest.buyCard)
+    Observable<BaseResult<Object>> buyCard(@Body RequestBody info);
+
 }

@@ -28,7 +28,7 @@ public class UnuseCouponActivity extends BaseActivity {
     public void initViews() {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fl_content,CouponFragment.newInstance(0,2))
+                .replace(R.id.fl_content,CouponFragment.newInstance(2))
                 .commitAllowingStateLoss();
     }
 }

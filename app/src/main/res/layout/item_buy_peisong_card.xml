@@ -1,80 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="120dp"
+    android:layout_height="170dp"
+    android:background="@drawable/bg_touying"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/iv_bg"
-        android:layout_width="155dp"
-        android:layout_height="230dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_width="95dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_round10dp_white"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <LinearLayout
-        android:id="@+id/ll_content"
-        android:layout_width="155dp"
-        android:layout_height="230dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_282525"
+        android:textStyle="bold"
+        android:textSize="13sp"
+        android:layout_marginTop="20dp"
+        android:text="年度卡"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-        <TextView
-            android:id="@+id/tv_text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:layout_marginTop="24dp"
-            android:text="连续年度卡"/>
+    <TextView
+        android:id="@+id/text_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_FF564A"
+        android:textSize="15sp"
+        android:layout_marginBottom="3dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:text="¥"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_text2"
+        app:layout_constraintRight_toLeftOf="@+id/tv_text2"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-7dp"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tv_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_FF564A"
+        android:includeFontPadding="false"
+        android:layout_marginLeft="4dp"
+        android:textSize="30sp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:text="89"
+        app:layout_constraintLeft_toRightOf="@+id/text_text2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_text1"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:text="¥"/>
+    <TextView
+        android:id="@+id/tv_text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_FF7066"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_text2"
+        android:textSize="11sp"
+        android:layout_marginTop="-5dp"
+        android:text="15.50元/月"/>
 
-            <TextView
-                android:id="@+id/tv_text2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginLeft="4dp"
-                android:textSize="50sp"
-                android:textStyle="bold"
-                android:text="89"/>
-
-
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/tv_text3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:layout_marginTop="-5dp"
-            android:text="15.50元/月"/>
-
-        <TextView
-            android:id="@+id/tv_text4"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:gravity="center"
-            android:textColor="@color/color_F26F30"
-            android:background="@drawable/bg_round100dp_white"
-            android:textStyle="bold"
-            android:textSize="36sp"
-            android:layout_marginTop="25dp"
-            android:text="年"/>
-
-
-    </LinearLayout>
-</FrameLayout>
+    <TextView
+        android:id="@+id/tv_text4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/color_7c7877"
+        android:lineSpacingExtra="2dp"
+        android:textSize="10sp"
+        android:layout_marginTop="10dp"
+        android:text="今日购买有效期到"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_text3"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

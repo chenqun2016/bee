@@ -48,9 +48,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observer;
@@ -518,7 +520,12 @@ public class CommonUtil {
         return str;
     }
 
+    //yyyy-MM-dd HH:mm:ss
     public static String getNomalTime(Date createTime) {
         return TimeUtils.date2String(createTime);
+    }
+    //yyyy-MM-dd
+    public static String getNomalTime2(Date createTime) {
+        return TimeUtils.date2String(createTime,new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()));
     }
 }

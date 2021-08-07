@@ -1,5 +1,6 @@
 package com.bee.user.ui.mine.coupon;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
@@ -24,15 +25,21 @@ import butterknife.OnClick;
  */
 public class CouponActivity extends BaseActivity {
 
-
-
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.view_pager)
     ViewPager2 vp;
 
-
+    //跳转到第几个
+    int index;
     String[] titles = new String[]{"优惠券", "配送卡"};
+
+    public static Intent newIntent(Context context,int index) {
+        Intent intent = new Intent(context, CouponActivity.class);
+        intent.putExtra("index", index);
+        return intent;
+    }
+
 
     @OnClick({R.id.tv_right})
     public void onClick(View view){
@@ -49,19 +56,23 @@ public class CouponActivity extends BaseActivity {
         return R.layout.activity_coupon;
     }
 
+
     @Override
     public void initViews() {
+        Intent intent = getIntent();
+        index = intent.getIntExtra("index", 0);
         vp.setAdapter(new FragmentAdapter(this));
 
         new TabLayoutMediator(tabLayout, vp, (tab, position) -> {
             tab.setText(titles[position]);
         }).attach();
 
-
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                tabLayout.getTabAt(0).select();
+                if(index < titles.length){
+                    tabLayout.getTabAt(index).select();
+                }
             }
         });
     }
@@ -78,11 +89,10 @@ public class CouponActivity extends BaseActivity {
         @Override
         public Fragment createFragment(int position) {
             if(0 == position){
-                return CouponFragment.newInstance(0,0);
+                return CouponFragment.newInstance(0);
             }else{
-                return CouponFragment.newInstance(1,0);
+                return new PeiSongCardFragment();
             }
-
         }
 
         @Override

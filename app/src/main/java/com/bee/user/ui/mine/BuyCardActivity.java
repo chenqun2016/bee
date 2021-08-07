@@ -1,9 +1,7 @@
 package com.bee.user.ui.mine;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,8 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
+import com.bee.user.bean.MyMiLiBean;
 import com.bee.user.bean.PeiSongCardBean;
 import com.bee.user.bean.UserBean;
+import com.bee.user.event.CloseEvent;
+import com.bee.user.event.ReflushEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -25,16 +26,22 @@ import com.bee.user.utils.PayUtils;
 import com.bee.user.utils.sputils.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+
+import static com.bee.user.utils.PayUtils.PAY_TYPE_PEISONG_CARD;
 
 /**
  * 创建人：进京赶考
@@ -42,21 +49,18 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * 描述：
  */
 public class BuyCardActivity extends BaseActivity {
+    @BindView(R.id.statusheight)
+    View statusheight;
+
     @BindView(R.id.iv_icon)
     ImageView iv_icon;
     @BindView(R.id.tv_title)
     TextView tv_title;
+    @BindView(R.id.tv_mili_keyong)
+    TextView tv_mili_keyong;
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
-
-
-
-    @BindView(R.id.checkbox_zhifubao)
-    ImageView checkbox_zhifubao;
-
-    @BindView(R.id.checkbox_weixin)
-    ImageView checkbox_weixin;
 
 
 
@@ -64,58 +68,31 @@ public class BuyCardActivity extends BaseActivity {
     TextView tv_sure;
 
     BuyCardAdapter adapter;
-
-
-    private int payType = -1;
-    @OnClick({R.id.ll_zhifubao,R.id.ll_weixin})
-    public void onClick(View view){
-        switch (view.getId()){
-            case R.id.ll_zhifubao:
-                payType = 0;
-                break;
-            case R.id.ll_weixin:
-                payType = 1;
-                break;
-        }
-
-        if(payType == 0){
-            checkbox_zhifubao.setImageResource(R.drawable.icon_xuanzhong_gouwuche);
-            checkbox_weixin.setImageResource(R.drawable.checkbutton_chart);
-        }else if(payType == 1){
-            checkbox_zhifubao.setImageResource(R.drawable.checkbutton_chart);
-            checkbox_weixin.setImageResource(R.drawable.icon_xuanzhong_gouwuche);
-        }
-
-
-        if(adapter.current != -1){
-            setButtonStatus(true);
-        }
-    }
+    private MyMiLiBean mMiliBean;
 
     @Override
     public int getLayoutId() {
         return R.layout.activity_buy_card;
     }
 
+    @Override
+    protected void initImmersionBar() {
+        ImmersionBar.with(this).statusBarDarkFont(true, 0.2f).init();
+    }
 
-    private static final Handler mHandler = new Handler(Looper.myLooper()) {
-        @Override
-        @SuppressWarnings("unused")
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1: {
-
-                    break;
-                }
-
-                default:
-                    break;
-            }
-        };
-    };
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     public void initViews() {
+        EventBus.getDefault().register(this);
+        ViewGroup.LayoutParams layoutParams = statusheight.getLayoutParams();
+        layoutParams.height = ImmersionBar.getStatusBarHeight(this);
+        statusheight.setLayoutParams(layoutParams);
+
         UserBean userInfo = SPUtils.geTinstance().getUserInfo();
         Picasso.with(this)
                 .load(userInfo.icon)
@@ -130,15 +107,12 @@ public class BuyCardActivity extends BaseActivity {
                 Map<String, String> map = new HashMap<>();
                 PeiSongCardBean peiSongCardBean = adapter.getData().get(adapter.current);
                 if(null != peiSongCardBean){
-                    map.put("bizId", peiSongCardBean.id+"");
+                    map.put("cardId", peiSongCardBean.id+"");
                 }
-                map.put("bizType", "2");
-                map.put("deviceType", "安卓");
-
-                String payChannel = payType==0?"ALIPAY":"WECHATPAY";
-                map.put("payChannel", payChannel);
-
-                PayUtils.toPay(BuyCardActivity.this,map,mHandler);
+                //卡类型：LGST-配送卡；GC-礼品卡
+                map.put("cardType", "LGST");
+                List<PeiSongCardBean> data = adapter.getData();
+                PayUtils.pay(PAY_TYPE_PEISONG_CARD,mMiliBean,data.get(adapter.current).faceValue,map,BuyCardActivity.this);
             }
         });
         recyclerview.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
@@ -149,10 +123,8 @@ public class BuyCardActivity extends BaseActivity {
                 if( adapter.current  != position){
                     adapter.current = position;
                     adapter.notifyDataSetChanged();
-                }
-
-                if(payType != -1){
-                    setButtonStatus(true);
+                    List<PeiSongCardBean> data = adapter.getData();
+                    setButtonStatus(true,data.get(position).faceValue+"");
                 }
             }
         });
@@ -168,6 +140,7 @@ public class BuyCardActivity extends BaseActivity {
 //        adapter.setNewInstance(beans);
 
         getDatas();
+        getMiLiDatas();
     }
 
     private void getDatas() {
@@ -183,14 +156,50 @@ public class BuyCardActivity extends BaseActivity {
                 });
     }
 
+    public void getMiLiDatas() {
+        Api.getClient(HttpRequest.baseUrl_pay).getMemberRice().
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<MyMiLiBean>() {
+                    @Override
+                    public void onSuccess(MyMiLiBean s) {
+                        mMiliBean = s;
+                        tv_mili_keyong.setText("可用米粒 "+s.surplusAmount);
+                    }
 
-    private void setButtonStatus(Boolean aBoolean) {
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
+    }
+
+
+
+    private void setButtonStatus(Boolean aBoolean,String money) {
         if (aBoolean) {
             tv_sure.setEnabled(true);
             tv_sure.setBackgroundResource(R.drawable.btn_gradient_yellow_round);
+            tv_sure.setText("确认支付¥"+money);
         } else {
             tv_sure.setEnabled(false);
             tv_sure.setBackgroundResource(R.drawable.btn_gradient_grey_round);
+            tv_sure.setText("确认支付");
+        }
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCloseEvent(CloseEvent event) {
+        if (event.type == CloseEvent.TYPE_PAY) {
+            finish();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReflushEvent(ReflushEvent event) {
+        if (ReflushEvent.TYPE_REFLUSH_MILI == event.type) {
+            getMiLiDatas();
         }
     }
 }

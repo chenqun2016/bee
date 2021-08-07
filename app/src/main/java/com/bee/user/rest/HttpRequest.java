@@ -157,4 +157,8 @@ public class HttpRequest {
     public static final String distributionCard = "app-coupon/distributionCard";
     //获取可购买配送卡列表
     public static final String distributionCardOnSale = "app-coupon/distributionCardOnSale";
+
+
+    //购买礼品卡、配送卡
+    public static final String buyCard = "app-coupon/buyCard";
 }

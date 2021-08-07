@@ -9,12 +9,16 @@ import com.bee.user.R;
 import com.bee.user.event.CloseEvent;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.mine.coupon.CouponActivity;
 import com.bee.user.ui.order.OrderListActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.bee.user.utils.PayUtils.PAY_TYPE_ORDER;
+import static com.bee.user.utils.PayUtils.PAY_TYPE_PEISONG_CARD;
 
 /**
  * 创建人：进京赶考
@@ -40,7 +44,8 @@ public class PayStatusActivity extends BaseActivity {
     @BindView(R.id.btn_2)
     TextView btn_2;
 
-
+    //类型
+    int type;
     @OnClick({R.id.btn_1,R.id.btn_2})
     public void onClick(View view){
         switch (view.getId()){
@@ -49,9 +54,13 @@ public class PayStatusActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_2:
-
-                Intent intent = new Intent(this, OrderListActivity.class);
-                startActivity(intent);
+                if(type == PAY_TYPE_ORDER){
+                    Intent intent = new Intent(this, OrderListActivity.class);
+                    startActivity(intent);
+                }
+                if(type == PAY_TYPE_PEISONG_CARD){
+                    startActivity(CouponActivity.newIntent(this,1));
+                }
 
                 finish();
                 break;
@@ -68,6 +77,7 @@ public class PayStatusActivity extends BaseActivity {
 
         EventBus.getDefault().post(new CloseEvent(CloseEvent.TYPE_PAY));
 
+        type = getIntent().getIntExtra("type", 0);
 
         iv_icon.setImageResource(R.drawable.icon_dengdaichuli);
         iv_icon.setImageResource(R.drawable.icon_zhifushibai);

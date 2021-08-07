@@ -1,5 +1,7 @@
 package com.bee.user.bean;
 
+import java.util.Date;
+
 /**
  * 创建人：进京赶考
  * 创建时间：2020/11/21  12：38
@@ -22,7 +24,7 @@ public class PeiSongCardBean {
     public Integer sort;
     public Object memo;
     public String backgroudImageUrl;
-    public Object expireTime;
+    public Date expireTime;
     public Integer status;
     public Integer delFlag;
     public Integer createBy;
