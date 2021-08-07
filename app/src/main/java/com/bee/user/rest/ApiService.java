@@ -29,6 +29,7 @@ import com.bee.user.bean.StoreListBean;
 import com.bee.user.bean.TradeRecordBean;
 import com.bee.user.bean.UploadImageBean;
 import com.bee.user.bean.UserBean;
+import com.bee.user.bean.UserPointsBean;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 
 import java.util.List;
@@ -417,4 +418,38 @@ public interface ApiService {
     @POST(HttpRequest.buyCard)
     Observable<BaseResult<Object>> buyCard(@Body RequestBody info);
 
+    /**
+     * 查询会员积分信息
+     * @return
+     */
+    @POST(HttpRequest.getUserPoints)
+    Observable<BaseResult<UserPointsBean>> getUserPoints();
+
+    /**
+     * 会员签到
+     * @return
+     */
+    @POST(HttpRequest.userSignIn)
+    Observable<BaseResult<Object>> userSignIn();
+
+    /**
+     * 获取活动信息
+     * @return
+     */
+    @POST(HttpRequest.getActivityMessage)
+    Observable<BaseResult<Object>> getActivityMessage(@Body RequestBody info);
+
+    /**
+     * 注销账户发送验证码
+     * @Path("mobile") String mobile
+     */
+    @POST(HttpRequest.sendSmsCode)
+    Observable<BaseResult<String>> sendSmsCode(@Body RequestBody info);
+
+    /**
+     * 注销账号
+     * @return
+     */
+    @POST(HttpRequest.closeAccount)
+    Observable<BaseResult<Object>> closeAccount(@Body RequestBody info);
 }

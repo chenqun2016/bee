@@ -47,6 +47,7 @@ public class SendCodeView extends FrameLayout implements View.OnClickListener {
 
     private int clickableColor = R.color.color_3e7dfb;
     private int unClickableColor = R.color.color_ccc;
+    private String sendType = "other";//短信验证码发送场景 cancelAccount:注销账户
 
 
 
@@ -74,21 +75,42 @@ public class SendCodeView extends FrameLayout implements View.OnClickListener {
 
 
     private void sendCode() {
-        Api.getClient(HttpRequest.baseUrl_user).smsCode(mListener.onGetPhone())
-                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<String>() {
-                    @Override
-                    public void onSuccess(String str) {
-                        onHttpNext(str);
-                    }
+        if("cancelAccount".equals(sendType)) {
+            Map map = new HashMap();
+            map.put("bizCode","D");
+            Api.getClient(HttpRequest.baseUrl_user).sendSmsCode(Api.getRequestBody(map))
+                    .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseSubscriber<String>() {
+                        @Override
+                        public void onSuccess(String str) {
+                            onHttpNext(str);
+                        }
 
-                    @Override
-                    public void onFail(String fail) {
-                        super.onFail(fail);
-                        onHttpError();
-                    }
-                });
+                        @Override
+                        public void onFail(String fail) {
+                            super.onFail(fail);
+                            onHttpError();
+                        }
+                    });
+        }else {
+            Api.getClient(HttpRequest.baseUrl_user).smsCode(mListener.onGetPhone())
+                    .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseSubscriber<String>() {
+                        @Override
+                        public void onSuccess(String str) {
+                            onHttpNext(str);
+                        }
+
+                        @Override
+                        public void onFail(String fail) {
+                            super.onFail(fail);
+                            onHttpError();
+                        }
+                    });
+        }
+
     }
 
 
@@ -205,6 +227,14 @@ public class SendCodeView extends FrameLayout implements View.OnClickListener {
         setCodeState(false);
 
         sendCode();
+    }
+
+    /**
+     * 设置短信验证码发送场景
+     * @param type
+     */
+    public void setSmsSendType(String type) {
+        this.sendType = type;
     }
 
 

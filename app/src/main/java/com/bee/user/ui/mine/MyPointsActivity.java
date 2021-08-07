@@ -9,27 +9,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bee.user.R;
-import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.PointDayBean;
 import com.bee.user.bean.RenWuBean;
-import com.bee.user.bean.StoreBean;
-import com.bee.user.ui.adapter.ShouHouItemAdapter;
+import com.bee.user.bean.UserPointsBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.utils.ToastUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.gyf.immersionbar.ImmersionBar;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -50,17 +51,44 @@ public class MyPointsActivity extends BaseActivity {
     @BindView(R.id.tv_qiandao)
     TextView tv_qiandao;
 
+    @BindView(R.id.tv_mili)
+    TextView tv_mili;
+
+    private static final  String ACTIVITYCODE  = "signIn";//签到送积分
+
     @OnClick({R.id.tv_qiandao,R.id.tv_right})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_qiandao:
-                showQiandaoDialog();
+               // showQiandaoDialog();
+                toSign();
                 break;
             case R.id.tv_right:
                 startActivity(new Intent(this,PointDetailListActivity.class));
                 break;
         }
 
+    }
+
+    /**
+     * 去签到
+     */
+    private void toSign() {
+        Api.getClient(HttpRequest.baseUrl_activity).userSignIn().
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<Object>() {
+                    @Override
+                    public void onSuccess(Object s) {
+                        showQiandaoDialog();
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                        ToastUtil.showSafeToast(MyPointsActivity.this,fail);
+                    }
+                });
     }
 
     @Override
@@ -104,11 +132,53 @@ public class MyPointsActivity extends BaseActivity {
         renwuBeans.add(new RenWuBean(R.drawable.icon_qiandao_jifen,"累计签到7天","连续签到7天额外获得30积分"));
         renwuBeans.add(new RenWuBean(R.drawable.icon_wanchengdingdan,"完成2单外卖订单","在线点单外卖配送2单"));
         renWuAdapter.setNewInstance(renwuBeans);
+        toUserPoints();
+        toActivityMessage();
     }
 
+    /**
+     * 获取活动信息
+     */
+    private void toActivityMessage() {
+        Map map = new HashMap();
+        map.put("activityCode",ACTIVITYCODE);
+        Api.getClient(HttpRequest.baseUrl_activity).getActivityMessage(Api.getRequestBody(map)).
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<Object>() {
+                    @Override
+                    public void onSuccess(Object userPointsBean) {
 
+                    }
 
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
+    }
 
+    /**
+     *获取会员积分
+     *
+     */
+    private void toUserPoints() {
+        Api.getClient(HttpRequest.baseUrl_activity).getUserPoints().
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<UserPointsBean>() {
+                    @Override
+                    public void onSuccess(UserPointsBean userPointsBean) {
+                        tv_mili.setText(userPointsBean.getNoUsePoints()+"");
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                        tv_mili.setText("0");
+                    }
+                });
+    }
 
 
     public static class PointsAdapter extends BaseQuickAdapter<PointDayBean, BaseViewHolder> {

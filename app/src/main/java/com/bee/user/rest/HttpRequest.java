@@ -19,6 +19,7 @@ public class HttpRequest {
     public static final String baseUrl_order = baseUrl + "api-order/";
     public static final String baseUrl_sys = baseUrl + "api-user/";
     public static final String baseUrl_file = baseUrl + "api-third/";
+    public static final String baseUrl_activity = baseUrl + "api-activity/";
 
 
     public static final String login = "member/login/oneLogin";
@@ -161,4 +162,18 @@ public class HttpRequest {
 
     //购买礼品卡、配送卡
     public static final String buyCard = "app-coupon/buyCard";
+    //查询会员积分信息
+    public static final String getUserPoints = "member/points/getUserPoints";
+
+    //会员签到
+    public static final String userSignIn = "member/points/userSignIn";
+
+    //获取活动信息
+    public static final String getActivityMessage = "member/points/getActivityMessage";
+
+    //注销账户获取短信验证码
+    public static final String sendSmsCode = "validata/sendSmsCode";
+
+    //注销账号
+    public static final String closeAccount = "ums/AppUmsMember/closeAccount";
 }
