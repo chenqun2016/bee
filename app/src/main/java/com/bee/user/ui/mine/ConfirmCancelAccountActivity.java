@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bee.user.R;
+import com.bee.user.event.ReflushEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -20,6 +21,10 @@ import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.SendCodeView;
 import com.blankj.utilcode.util.ObjectUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -60,24 +65,25 @@ public class ConfirmCancelAccountActivity extends BaseActivity {
                 if(ObjectUtils.isEmpty(code)) {
                     return;
                 }
-//                toCheckMsgCode(code);
-                showEndDialog("注销账号成功");
+                toCloseAccount(code);
                 break;
         }
     }
 
     /**
-     * 校验短信验证码
+     * 注销账号
      * @param code
      */
-    private void toCheckMsgCode(String code) {
-        Api.getClient(HttpRequest.baseUrl_user).checkSmsCode(SPUtils.geTinstance().getUserInfo().phone,code).
+    private void toCloseAccount(String code) {
+        Map map = new HashMap();
+        map.put("smsCode",code);
+        Api.getClient(HttpRequest.baseUrl_member).closeAccount(Api.getRequestBody(map)).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<Object>() {
                     @Override
                     public void onSuccess(Object s) {
-
+                        showEndDialog("注销账号成功");
                     }
 
                     @Override
@@ -94,6 +100,7 @@ public class ConfirmCancelAccountActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        code_text.setSmsSendType("cancelAccount");
         String phone = SPUtils.geTinstance().getUserInfo().phone;
         if(!ObjectUtils.isEmpty(phone)&&phone.length()>4) {
             String mobile = phone.substring(0, 3) + "****" + phone.substring(phone.length() - 4);
@@ -159,15 +166,13 @@ public class ConfirmCancelAccountActivity extends BaseActivity {
             TextView tv_des = (TextView) inflate.findViewById(R.id.tv_des);
             tv_des.setText(inform);
             TextView tv_queding = (TextView) inflate.findViewById(R.id.btn_sure);
-            tv_queding.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    Intent intent =  new Intent(ConfirmCancelAccountActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
-                    startActivity(intent);
-                    finish();
-                }
+            tv_queding.setOnClickListener(v -> {
+                SPUtils.geTinstance().setExitlogin();
+                EventBus.getDefault().post(new ReflushEvent(ReflushEvent.TYPE_REFLUSH_EXIT_LOGIN));
+                Intent intent =  new Intent(ConfirmCancelAccountActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
+                startActivity(intent);
+                finish();
             });
             systemDialog.setContentView(inflate);
         }
