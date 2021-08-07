@@ -9,6 +9,7 @@ import java.util.Date;
  */
 public class TradeRecordBean {
 
+    public String tranType;
     public Integer id;
     public Integer memberId;
     public Integer bizId;
