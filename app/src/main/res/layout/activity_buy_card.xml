@@ -152,7 +152,7 @@
         android:layout_marginTop="30dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_mili_pay"
-        android:background="@drawable/btn_gradient_grey_round"
+        android:background="@drawable/btn_gradient_yellow_round"
         android:text="确认支付"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

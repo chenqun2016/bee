@@ -124,7 +124,7 @@ public class BuyCardActivity extends BaseActivity {
                     adapter.current = position;
                     adapter.notifyDataSetChanged();
                     List<PeiSongCardBean> data = adapter.getData();
-                    setButtonStatus(true,data.get(position).faceValue+"");
+                    setButtonStatus(data.get(position).faceValue+"");
                 }
             }
         });
@@ -151,6 +151,10 @@ public class BuyCardActivity extends BaseActivity {
                     @Override
                     public void onSuccess(List<PeiSongCardBean> bean) {
                         adapter.setNewInstance(bean);
+                        if(null != bean && bean.size()>0){
+
+                        }
+                        setButtonStatus(bean.get(0).faceValue+"");
                     }
 
                 });
@@ -176,16 +180,8 @@ public class BuyCardActivity extends BaseActivity {
 
 
 
-    private void setButtonStatus(Boolean aBoolean,String money) {
-        if (aBoolean) {
-            tv_sure.setEnabled(true);
-            tv_sure.setBackgroundResource(R.drawable.btn_gradient_yellow_round);
-            tv_sure.setText("确认支付¥"+money);
-        } else {
-            tv_sure.setEnabled(false);
-            tv_sure.setBackgroundResource(R.drawable.btn_gradient_grey_round);
-            tv_sure.setText("确认支付");
-        }
+    private void setButtonStatus(String money) {
+        tv_sure.setText("确认支付¥"+money);
     }
 
 

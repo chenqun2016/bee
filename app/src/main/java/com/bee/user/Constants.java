@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
  */
 public class Constants {
     public static SimpleDateFormat sdfLong2 = new SimpleDateFormat("yyyy/MM/dd");
-
+    public static SimpleDateFormat sdfLong3 = new SimpleDateFormat("yyyy-MM-dd");
 
     public static final float RATE_HOME = 280f / 650f;              //首页banner
     public static final String UID = "uid";

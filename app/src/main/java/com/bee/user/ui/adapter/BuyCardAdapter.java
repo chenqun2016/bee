@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class BuyCardAdapter extends BaseQuickAdapter<PeiSongCardBean, BaseViewHolder> {
 
-    public int current  = -1;
+    public int current  = 0;
 
     public BuyCardAdapter() {
         super(R.layout.item_buy_peisong_card);
