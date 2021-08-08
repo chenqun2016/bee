@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bee.user.R;
-import com.bee.user.bean.CardBean;
+import com.bee.user.bean.PeiSongCardBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -54,9 +54,9 @@ public class PeiSongCardFragment extends BaseFragment {
         Api.getClient(HttpRequest.baseUrl_pay).distributionCard()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<CardBean>() {
+                .subscribe(new BaseSubscriber<PeiSongCardBean>() {
                     @Override
-                    public void onSuccess(CardBean bean) {
+                    public void onSuccess(PeiSongCardBean bean) {
                     }
 
                     @Override

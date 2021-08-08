@@ -3,7 +3,6 @@ package com.bee.user.rest;
 import com.bee.user.bean.AddCartBean;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.AppUpdateInfoBean;
-import com.bee.user.bean.CardBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
@@ -400,7 +399,7 @@ public interface ApiService {
      * @return
      */
     @POST(HttpRequest.distributionCard)
-    Observable<BaseResult<CardBean>> distributionCard();
+    Observable<BaseResult<PeiSongCardBean>> distributionCard();
 
     /**
      *

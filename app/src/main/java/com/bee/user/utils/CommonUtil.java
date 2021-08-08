@@ -522,10 +522,16 @@ public class CommonUtil {
 
     //yyyy-MM-dd HH:mm:ss
     public static String getNomalTime(Date createTime) {
+        if(null == createTime){
+            return "";
+        }
         return TimeUtils.date2String(createTime);
     }
     //yyyy-MM-dd
     public static String getNomalTime2(Date createTime) {
+        if(null == createTime){
+            return "";
+        }
         return TimeUtils.date2String(createTime,new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()));
     }
 }

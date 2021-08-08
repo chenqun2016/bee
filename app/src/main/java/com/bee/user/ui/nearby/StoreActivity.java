@@ -374,8 +374,10 @@ public class StoreActivity extends BaseActivity {
                                     @Override
                                     public BaseResult<List<StoreFoodItem2Bean>> apply(BaseResult<List<StoreFoodItem2Bean>> listBaseResult) throws Throwable {
                                         List<StoreFoodItem2Bean> data = listBaseResult.getData();
-                                        for(StoreFoodItem2Bean bean1 :data){
-                                            bean1.name = bean.getName();
+                                        if(null != data){
+                                            for(StoreFoodItem2Bean bean1 :data){
+                                                bean1.name = bean.getName();
+                                            }
                                         }
                                         return listBaseResult;
                                     }
