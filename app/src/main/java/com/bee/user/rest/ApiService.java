@@ -3,6 +3,7 @@ package com.bee.user.rest;
 import com.bee.user.bean.AddCartBean;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.AppUpdateInfoBean;
+import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
@@ -451,4 +452,11 @@ public interface ApiService {
      */
     @POST(HttpRequest.closeAccount)
     Observable<BaseResult<Object>> closeAccount(@Body RequestBody info);
+    /**
+     * 获取指定位置的banner，
+     * 【app-index-top：APP首页顶部banner；app-index-middle：APP首页中部banner；app-my：APP我的banner】
+     * @return
+     */
+    @POST(HttpRequest.getBanner)
+    Observable<BaseResult<List<BannerBean>>> getBanner(@Path("place") String place);
 }

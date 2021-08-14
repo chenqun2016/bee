@@ -1,6 +1,5 @@
 package com.bee.user.ui.home;
 
-import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,7 +31,7 @@ public class BannerImageHolder extends Holder<BannerBean> {
 
     @Override
     public void updateUI(BannerBean data) {
-        if(TextUtils.isEmpty(data.url)){
+        if(TextUtils.isEmpty(data.imageUrl)){
             Picasso.with(imageView.getContext())
                     .load(R.drawable.banner)
                     .fit()
@@ -40,7 +39,7 @@ public class BannerImageHolder extends Holder<BannerBean> {
                     .into(imageView);
         }else{
             Picasso.with(imageView.getContext())
-                    .load(data.url)
+                    .load(data.imageUrl)
                     .fit()
                     .transform(new PicassoRoundTransform(DisplayUtil.dip2px(imageView.getContext(),5),0, PicassoRoundTransform.CornerType.ALL))
                     .into(imageView);

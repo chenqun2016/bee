@@ -23,6 +23,9 @@ import com.bee.user.bean.HomeGridview2Bean;
 import com.bee.user.entity.LunchEntity;
 import com.bee.user.entity.NearbyEntity;
 import com.bee.user.event.MainEvent;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.CRecyclerViewActivity;
 import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.adapter.HomeGridview2Adapter;
@@ -52,6 +55,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -75,10 +80,11 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.tv_dingwei)
     TextView tv_dingwei;
 
+    private ConvenientBanner mBanner;
 
 
 
-    private List<BannerBean> adsList = new ArrayList<>();//banner数据
+    private List<BannerBean> bannerList = new ArrayList<>();//banner数据
     private DingweiDialog dingweiDialog;
 
 
@@ -95,6 +101,33 @@ public class HomeFragment extends BaseFragment {
     protected void getDatas() {
         EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_reLocation));
 
+        getBannerDatas();
+    }
+
+    private void getBannerDatas() {
+
+        Api.getClient(HttpRequest.baseUrl_sys).getBanner("app-index-top")
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<BannerBean>>() {
+                    @Override
+                    public void onSuccess(List<BannerBean> banners) {
+                        if(null ==banners || banners.size()==0 ){
+                            mBanner.setVisibility(View.GONE);
+                        }else {
+                            mBanner.setVisibility(View.VISIBLE);
+                            bannerList.clear();
+                            bannerList.addAll(banners);
+                            mBanner.notifyDataSetChanged();
+                            mBanner.setFirstItemPos(0);
+                        }
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 
 
@@ -311,38 +344,29 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initHeaderViewBanner(View headerViewBanner) {
-        ConvenientBanner mBanner = (ConvenientBanner) headerViewBanner.findViewById(R.id.banner2);
+        mBanner = (ConvenientBanner) headerViewBanner.findViewById(R.id.banner2);
 //        LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) mBanner.getLayoutParams();
 //        params2.width = DisplayUtil.getWindowWidth(getActivity());
 //        params2.height = (int) ((params2.width - DisplayUtil.dip2px(getContext(), 30)) * Constants.RATE_HOME) + DisplayUtil.dip2px(getContext(), 35);
 //        mBanner.setLayoutParams(params2);
-        BannerBean bannerBean = new BannerBean();
-        bannerBean.url = "";
-        adsList.add(bannerBean);
-        adsList.add(bannerBean);
-        adsList.add(bannerBean);
         mBanner.setPages(new CBViewHolderCreator() {
             @Override
             public Holder createHolder(View itemView) {
                 return new BannerImageHolder(itemView);
             }
-
             @Override
             public int getLayoutId() {
                 return R.layout.item_home_banner_image;
             }
-
-
-        }, adsList);
-        mBanner.setPageIndicator(new int[]{R.drawable.point_banner_yellow, R.drawable.point_banner_grey});
+        }, bannerList);
         mBanner.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
 
             }
         });
+        mBanner.setPageIndicator(new int[]{R.drawable.point_banner_grey, R.drawable.point_banner_yellow});
         mBanner.setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
-
     }
 
 }

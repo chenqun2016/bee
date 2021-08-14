@@ -176,4 +176,7 @@ public class HttpRequest {
 
     //注销账号
     public static final String closeAccount = "ums/AppUmsMember/closeAccount";
+
+    //获取指定位置的banner，【app-index-top：APP首页顶部banner；app-index-middle：APP首页中部banner；app-my：APP我的banner】
+    public static final String getBanner = "app-sys/getBanner/{place}";
 }

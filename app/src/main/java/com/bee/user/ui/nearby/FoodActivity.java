@@ -1,9 +1,6 @@
 package com.bee.user.ui.nearby;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -12,8 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
-import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.FoodDetailBean;
 import com.bee.user.bean.StoreBean;
@@ -40,17 +34,12 @@ import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bigkoo.convenientbanner.listener.OnPageChangeListener;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -439,7 +428,7 @@ public class FoodActivity extends BaseActivity {
 //        params2.height = (int) ((params2.width - DisplayUtil.dip2px(getContext(), 30)) * Constants.RATE_HOME) + DisplayUtil.dip2px(getContext(), 35);
 //        mBanner.setLayoutParams(params2);
         BannerBean bannerBean = new BannerBean();
-        bannerBean.url = mBeans.pic;
+        bannerBean.imageUrl = mBeans.pic;
 
         List<BannerBean> adsList = new ArrayList<>();//banner数据
         adsList.add(bannerBean);
