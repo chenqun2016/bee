@@ -46,7 +46,6 @@ public class BannerUtils {
                 bannerList.get(position).onClick(banner.getContext());
             }
         });
-        banner.setPageIndicator(new int[]{R.drawable.point_banner_grey, R.drawable.point_banner_yellow});
         banner.setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
     }
 
@@ -64,7 +63,8 @@ public class BannerUtils {
                             if( bannerList.size()==0 ){
                                 banner.setVisibility(View.GONE);
                             }else {
-                                banner.setCanLoop(bannerList.size() != 1);
+                                banner.setPageIndicator(new int[]{R.drawable.point_banner_grey, R.drawable.point_banner_yellow});
+                                banner.setCanLoop(bannerList.size() > 1);
                                 banner.setVisibility(View.VISIBLE);
                                 banner.notifyDataSetChanged();
                             }
