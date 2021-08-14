@@ -243,17 +243,17 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <include layout="@layout/item_orderdetail_head_card"
+            <com.bigkoo.convenientbanner.ConvenientBanner
                 android:id="@+id/buy_card"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="110dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/bg_round10dp_white"
                 android:layout_marginTop="10dp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tl_2"/>
-
+                app:layout_constraintTop_toBottomOf="@+id/tl_2"
+                app:canLoop="true"/>
 
             <LinearLayout
                 android:id="@+id/ll_2"

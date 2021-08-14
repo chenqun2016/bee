@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
+import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.ImageBean;
@@ -36,6 +37,7 @@ import com.bee.user.ui.adapter.OrderFoodAdapter;
 import com.bee.user.ui.adapter.OrderGridviewItemAdapter;
 import com.bee.user.ui.adapter.OrderTraceAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.ui.home.BannerImageHolder;
 import com.bee.user.ui.mine.BuyCardActivity;
 import com.bee.user.ui.nearby.ImagesActivity;
 import com.bee.user.ui.order.OrderCommentActivity;
@@ -43,6 +45,9 @@ import com.bee.user.ui.order.OrderDetailActivity;
 import com.bee.user.ui.order.ShouHouActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.ui.xiadan.PayActivity;
+import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
+import com.bigkoo.convenientbanner.holder.Holder;
 import com.blankj.utilcode.util.TimeUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -534,4 +539,6 @@ public class CommonUtil {
         }
         return TimeUtils.date2String(createTime,new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()));
     }
+
+
 }

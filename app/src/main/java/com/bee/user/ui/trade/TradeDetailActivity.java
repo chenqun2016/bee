@@ -69,7 +69,7 @@ public class TradeDetailActivity extends BaseActivity {
                             jiaoyi.setText(CommonUtil.getTradeType(Integer.parseInt(bean.status)));
                         }
                         tv_trade_type_value.setText(bean.tranTypeDesc);
-                        tv_pay_type_value.setText("*");
+                        tv_pay_type_value.setText(bean.payChannelDesc);
                         tv_trade_time_value.setText(CommonUtil.getNomalTime(bean.createTime));
                         tv_trade_num_value.setText(bean.orderId+"");
                         tv_beizhu_value.setText(bean.remarks+"");

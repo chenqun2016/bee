@@ -109,4 +109,13 @@ public class Constants {
 
     public static final int REQUEST_CODE_USERINFO = 6;//用户信息
     public static final int RESULT_CODE_USERINFO = 7;//用户信息
+
+
+
+    // 首页banner1
+    public static final String BANNER_TYPE_HOME_TOP = "app-index-top";
+    // 首页banner2
+    public static final String BANNER_TYPE_HOME_MIDELE = "app-index-middle";
+    // 我的页面banner2
+    public static final String BANNER_TYPE_MINE = "app-my";
 }

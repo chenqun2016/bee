@@ -18,8 +18,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bee.user.Constants;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
+import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.MyMiLiBean;
 import com.bee.user.bean.UserBean;
 import com.bee.user.event.MainEvent;
@@ -35,14 +37,19 @@ import com.bee.user.ui.mine.membercenter.MemberCenterActivity;
 import com.bee.user.ui.order.OrderListActivity;
 import com.bee.user.ui.trade.MiLiActivity;
 import com.bee.user.ui.xiadan.ChooseAddressActivity;
+import com.bee.user.utils.BannerUtils;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.MyGridView;
+import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +69,9 @@ import static com.bee.user.Constants.RESULT_CODE_USERINFO;
 public class MineFragment extends BaseFragment {
 
     Unbinder bind;
+
+    @BindView(R.id.buy_card)
+    ConvenientBanner banner;
 
     @BindView(R.id.status_bar1)
     View status_bar1;
@@ -86,6 +96,7 @@ public class MineFragment extends BaseFragment {
 
     @BindView(R.id.gridview)
     MyGridView gridview;
+    private List<BannerBean> bannerList = new ArrayList<>();//banner3数据
 
     @OnClick({R.id.tv_icon,R.id.tv_name,R.id.tv_des,R.id.iv_msg,
             R.id.tv_order_list, R.id.tv_daizhifu, R.id.tv_daishouhuo, R.id.tv_daipingjia, R.id.tv_shouhou,
@@ -223,11 +234,11 @@ public class MineFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        CommonUtil.initBuyCardView(view);
         initViews();
     }
 
     private void initViews() {
+        BannerUtils.initBanner(banner,bannerList);
 
         ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
         layoutParams.height = ImmersionBar.getStatusBarHeight(this);
@@ -317,6 +328,7 @@ public class MineFragment extends BaseFragment {
             }
         });
         setUserDatas();
+        BannerUtils.getBannerDatas(Constants.BANNER_TYPE_MINE,banner,bannerList);
     }
 
     public void setUserDatas() {

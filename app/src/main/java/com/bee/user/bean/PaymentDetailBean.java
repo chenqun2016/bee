@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class PaymentDetailBean {
 
-
+    public String payChannelDesc;
     public Integer id;
     public Integer memberId;
     public Integer bizId;
