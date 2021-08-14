@@ -139,8 +139,7 @@
         <activity android:name=".ui.mine.MyCommentActivity" />
         <activity android:name=".ui.mine.CompanyOrderingActivity" />
         <activity android:name=".ui.mine.CompanyCooperateActivity" />
-        <activity android:name=".ui.mine.coupon.CouponActivity"
-            android:launchMode="singleTask"/>
+        <activity android:name=".ui.mine.coupon.CouponActivity"/>
         <activity android:name=".ui.mine.BillActivity" />
         <activity android:name=".ui.mine.BillListActivity" />
         <activity android:name=".ui.mine.InvoicingActivity" />
@@ -154,7 +153,6 @@
         <activity android:name=".ui.giftcard.GetGiftcardActivity" />
         <activity android:name=".ui.mine.MyPointsActivity" />
         <activity android:name=".ui.mine.PointDetailListActivity" />
-        <activity android:name=".ui.order.OrderDetailMapActivity" />
         <activity android:name=".ui.mine.BuyCardActivity" />
         <activity android:name=".ui.mine.HelpCenterActivity" />
         <activity android:name=".ui.mine.HelpCenterItemActivity" />

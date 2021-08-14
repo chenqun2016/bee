@@ -11,9 +11,14 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bee.user.R;
+import com.bee.user.event.CloseEvent;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -58,7 +63,14 @@ public class CouponActivity extends BaseActivity {
 
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void initViews() {
+        EventBus.getDefault().register(this);
         Intent intent = getIntent();
         index = intent.getIntExtra("index", 0);
         vp.setAdapter(new FragmentAdapter(this));
@@ -101,4 +113,11 @@ public class CouponActivity extends BaseActivity {
         }
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCloseEvent(CloseEvent event) {
+        if (event.type == CloseEvent.TYPE_PAY) {
+            finish();
+        }
+    }
 }

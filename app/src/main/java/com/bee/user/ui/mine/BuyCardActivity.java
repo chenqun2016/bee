@@ -62,7 +62,8 @@ public class BuyCardActivity extends BaseActivity {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
-
+    @BindView(R.id.tv_time)
+    TextView tv_time;
 
     @BindView(R.id.tv_sure)
     TextView tv_sure;
@@ -139,8 +140,29 @@ public class BuyCardActivity extends BaseActivity {
 //        beans.add(new PeiSongCardBean(2,"月度卡","8.9","15.50元/月","月"));
 //        adapter.setNewInstance(beans);
 
+        getCardDatas();
         getDatas();
         getMiLiDatas();
+    }
+    private void getCardDatas() {
+        Api.getClient(HttpRequest.baseUrl_pay).distributionCard()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<PeiSongCardBean>() {
+                    @Override
+                    public void onSuccess(PeiSongCardBean bean) {
+                        if(null == bean){
+                            tv_time.setText("开通配送卡，省钱以后花");
+                        }else{
+                            tv_time.setText(bean.expireTimeDesc);
+                        }
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 
     private void getDatas() {

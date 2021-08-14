@@ -17,7 +17,7 @@ public class PeiSongCardBean {
     public Integer faceValue;
     public Integer freeValue;
     public Object minAmount;
-    public Object exchangeDays;
+    public String exchangeDays;
     public Integer platform;
     public Integer publishNumber;
     public Integer personLimit;
@@ -25,6 +25,9 @@ public class PeiSongCardBean {
     public Object memo;
     public String backgroudImageUrl;
     public Date expireTime;
+    public String expireTimeDesc;
+    public String remainDays;
+//    0-正常，1-已过期
     public Integer status;
     public Integer delFlag;
     public Integer createBy;
