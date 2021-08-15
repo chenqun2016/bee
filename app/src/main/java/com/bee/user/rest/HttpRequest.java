@@ -20,6 +20,7 @@ public class HttpRequest {
     public static final String baseUrl_sys = baseUrl + "api-user/";
     public static final String baseUrl_file = baseUrl + "api-third/";
     public static final String baseUrl_activity = baseUrl + "api-activity/";
+    public static final  String baseUrl_eva = baseUrl + "api-eva/";
 
 
     public static final String login = "member/login/oneLogin";
@@ -179,4 +180,8 @@ public class HttpRequest {
 
     //获取指定位置的banner，【app-index-top：APP首页顶部banner；app-index-middle：APP首页中部banner；app-my：APP我的banner】
     public static final String getBanner = "app-sys/getBanner/{place}";
+
+
+    //新增店铺订单评价
+    public static final String commentCreate = "evaShopStoreOrder/create";
 }

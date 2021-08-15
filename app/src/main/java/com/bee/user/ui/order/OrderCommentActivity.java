@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.PicassoEngine;
 import com.bee.user.R;
 import com.bee.user.bean.DictByTypeBean;
+import com.bee.user.params.CommentParams;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -72,7 +73,23 @@ public class OrderCommentActivity extends BaseActivity {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_tijiao:
-                startActivity(new Intent(this,OrderCommentStatusActivity.class));
+                CommentParams commentParams = new CommentParams();
+                Api.getClient(HttpRequest.baseUrl_eva).commentCreate(Api.getRequestBody(commentParams))
+                        .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<Object>() {
+                            @Override
+                            public void onSuccess(Object str) {
+
+                                startActivity(new Intent(OrderCommentActivity.this,OrderCommentStatusActivity.class));
+                            }
+
+                            @Override
+                            public void onFail(String fail) {
+                                super.onFail(fail);
+                            }
+                        });
+
                 break;
             case R.id.tv_paizhao:
                 PictureSelector.create(this)

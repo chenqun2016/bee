@@ -459,4 +459,13 @@ public interface ApiService {
      */
     @POST(HttpRequest.getBanner)
     Observable<BaseResult<List<BannerBean>>> getBanner(@Path("place") String place);
+
+
+
+    /**
+     * 新增店铺订单评价
+     * @return
+     */
+    @POST(HttpRequest.commentCreate)
+    Observable<BaseResult<Object>> commentCreate(@Body RequestBody info);
 }
