@@ -1,5 +1,6 @@
 package com.bee.user.ui.xiadan;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
@@ -52,7 +53,7 @@ public class ChooseAddressActivity extends BaseActivity {
 
 
     ChooseAddressAdapter chooseAddressAdapter;
-
+    private int showOrNot;//是否展示超出配送范围地址 0：不展示  1：展示
     @Override
     public int getLayoutId() {
         return R.layout.activity_choose_address;
@@ -80,6 +81,7 @@ public class ChooseAddressActivity extends BaseActivity {
     @Override
     public void initViews() {
         int from = getIntent().getIntExtra("from", 0);
+        showOrNot = getIntent().getIntExtra("showOrNot", 1);
         toolbar_title.setText("收货地址");
 
         tv_right.setText("新增地址");
@@ -141,14 +143,17 @@ public class ChooseAddressActivity extends BaseActivity {
                                 chooseAddressAdapter.setNewInstance(addressBean2);
 //                            }
 
-                            List<AddressBean> lists2 = new ArrayList<>();
-                            AddressBean Bean = new AddressBean();
-                            Bean.viewType = YouhuiquanBean.type2;
-                            lists2.add(Bean);
+                            if(showOrNot == 1) {
+                                List<AddressBean> lists2 = new ArrayList<>();
+                                AddressBean Bean = new AddressBean();
+                                Bean.viewType = YouhuiquanBean.type2;
+                                lists2.add(Bean);
 
-                            lists2.add(new AddressBean(1));
-                            lists2.add(new AddressBean(1));
-                            chooseAddressAdapter.addData(lists2);
+                                lists2.add(new AddressBean(1));
+                                lists2.add(new AddressBean(1));
+                                chooseAddressAdapter.addData(lists2);
+                            }
+
                         }
                     }
                 });

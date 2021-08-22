@@ -286,6 +286,7 @@ public class MineFragment extends BaseFragment {
                         break;
                     case 1:
                         intent = new Intent(getContext(), ChooseAddressActivity.class);
+                        intent.putExtra("showOrNot",0);
                         startActivity(intent);
                         break;
                     case 2:
