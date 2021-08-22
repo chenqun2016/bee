@@ -169,8 +169,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 tv_pinglun.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(mContext, OrderCommentActivity.class);
-                        mContext.startActivity(intent);
+                        OrderCommentActivity. newInstance(mContext,bean.id);
                     }
                 });
                 break;
@@ -191,8 +190,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 tv_pinglun.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(mContext, OrderCommentActivity.class);
-                        mContext.startActivity(intent);
+                        OrderCommentActivity.newInstance(mContext,bean.id);
                     }
                 });
                 break;

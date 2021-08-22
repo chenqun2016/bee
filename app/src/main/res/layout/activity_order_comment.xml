@@ -238,8 +238,6 @@
                         android:textColor="@color/color_272525"
                         android:textSize="15sp" />
 
-
-
                     <TextView
                         android:id="@+id/tv_paizhao"
                         android:layout_width="65dp"
@@ -251,21 +249,34 @@
                         android:drawableTop="@drawable/icon_xiangji"
                         android:gravity="center"
                         android:text="上传凭证"
+                        android:visibility="gone"
                         android:textColor="@color/color_CBCBCB"
                         android:textSize="11sp"
                         android:layout_below="@+id/et_content"/>
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rc_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_paizhao"
+                        android:layout_marginTop="10dp"
+                        android:numColumns="3"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_marginBottom="6dp"
+                        android:verticalSpacing="2dp" />
 
                     <TextView
                         android:id="@+id/tv_num"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
                         android:text="评论文字/图片 12积分"
                         android:textColor="@color/color_7C7877"
                         android:textSize="11sp"
                         android:layout_alignParentRight="true"
-                        android:layout_alignBottom="@+id/tv_paizhao"/>
+                        android:layout_below="@+id/rc_view"/>
 
                 </RelativeLayout>
 

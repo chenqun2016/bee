@@ -7,13 +7,10 @@ import android.widget.FrameLayout;
 
 import com.bee.user.R;
 import com.bee.user.bean.MyCommentBean;
-import com.bee.user.bean.TradeRecordBean;
 import com.bee.user.ui.order.OrderCommentActivity;
-import com.bee.user.ui.trade.TradeDetailActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseCEntity;
-import com.huaxiafinance.www.crecyclerview.swipedellayout.SwipeMenuLayout;
 
 import io.reactivex.rxjava3.core.Observable;
 
@@ -47,6 +44,7 @@ public class MyCommentEntity extends BaseCEntity<MyCommentBean> {
         sl_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                OrderCommentActivity.newInstance(mContext,);
                 mContext.startActivity(new Intent(mContext, OrderCommentActivity.class));
             }
         });
