@@ -14,19 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.R;
 import com.bee.user.bean.PointDayBean;
 import com.bee.user.bean.RenWuBean;
+import com.bee.user.bean.SignInMessageBean;
 import com.bee.user.bean.UserPointsBean;
+import com.bee.user.bean.UserSigninBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.ToastUtil;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.gyf.immersionbar.ImmersionBar;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -53,14 +55,15 @@ public class MyPointsActivity extends BaseActivity {
 
     @BindView(R.id.tv_mili)
     TextView tv_mili;
+    @BindView(R.id.tv_lianxuqiandao)
+    TextView tv_lianxuqiandao;
 
-    private static final  String ACTIVITYCODE  = "signIn";//签到送积分
+    private PointsAdapter pointsAdapter;
 
     @OnClick({R.id.tv_qiandao,R.id.tv_right})
     public void onClick(View view){
         switch (view.getId()){
             case R.id.tv_qiandao:
-               // showQiandaoDialog();
                 toSign();
                 break;
             case R.id.tv_right:
@@ -77,10 +80,10 @@ public class MyPointsActivity extends BaseActivity {
         Api.getClient(HttpRequest.baseUrl_activity).userSignIn().
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<Object>() {
+                .subscribe(new BaseSubscriber<UserSigninBean>() {
                     @Override
-                    public void onSuccess(Object s) {
-                        showQiandaoDialog();
+                    public void onSuccess(UserSigninBean userSigninBean) {
+                        showQiandaoDialog(userSigninBean);
                     }
 
                     @Override
@@ -108,19 +111,8 @@ public class MyPointsActivity extends BaseActivity {
         statusheight.setLayoutParams(layoutParams);
 
         recyclerview_qiandao.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
-        PointsAdapter pointsAdapter = new PointsAdapter();
+        pointsAdapter = new PointsAdapter();
         recyclerview_qiandao.setAdapter(pointsAdapter);
-
-        ArrayList<PointDayBean> beans = new ArrayList<>();
-        beans.add(new PointDayBean("1天",5,true));
-        beans.add(new PointDayBean("2天",5,false));
-        beans.add(new PointDayBean("3天",5,false));
-        beans.add(new PointDayBean("4天",5,false));
-        beans.add(new PointDayBean("5天",5,false));
-        beans.add(new PointDayBean("6天",5,false));
-        beans.add(new PointDayBean("7天",5,false));
-        pointsAdapter.setNewInstance(beans);
-
 
 
         recyclerview_renwu.setLayoutManager(new LinearLayoutManager(this,RecyclerView.VERTICAL,false));
@@ -133,22 +125,27 @@ public class MyPointsActivity extends BaseActivity {
         renwuBeans.add(new RenWuBean(R.drawable.icon_wanchengdingdan,"完成2单外卖订单","在线点单外卖配送2单"));
         renWuAdapter.setNewInstance(renwuBeans);
         toUserPoints();
-        toActivityMessage();
+        toSignInMessage();
     }
 
     /**
      * 获取活动信息
      */
-    private void toActivityMessage() {
-        Map map = new HashMap();
-        map.put("activityCode",ACTIVITYCODE);
-        Api.getClient(HttpRequest.baseUrl_activity).getActivityMessage(Api.getRequestBody(map)).
+    private void toSignInMessage() {
+        Api.getClient(HttpRequest.baseUrl_activity).getSignInMessage().
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<Object>() {
+                .subscribe(new BaseSubscriber<SignInMessageBean>() {
                     @Override
-                    public void onSuccess(Object userPointsBean) {
-
+                    public void onSuccess(SignInMessageBean signInMessageBean) {
+                        int isNowSignIn = signInMessageBean.getIsNowSignIn();//今天是否签到 0：否 1：是
+                        int moreSignIns = signInMessageBean.getMoreSignIns();//连续签到多少天
+                        List<PointDayBean> signs = signInMessageBean.getSigns();
+                        if(!ObjectUtils.isEmpty(signs)) {
+                            pointsAdapter.setNewInstance(signs);
+                        }
+                        tv_lianxuqiandao.setText(String.format(getString(R.string.tv_lianxuqiandao),moreSignIns+""));
+                        setButtonStatus(isNowSignIn);
                     }
 
                     @Override
@@ -193,11 +190,11 @@ public class MyPointsActivity extends BaseActivity {
 
             TextView tv_day = baseViewHolder.getView(R.id.tv_day);
             TextView tv_point = baseViewHolder.getView(R.id.tv_point);
-            tv_day.setText(bean.str);
-            tv_point.setText(bean.point+"分");
+            tv_day.setText(bean.dayNum+ "天");
+            tv_point.setText(bean.points+"分");
 
             View content = baseViewHolder.findView(R.id.content);
-            if(bean.current){
+            if(bean.isSignIn == 1){
                 tv_image.setImageResource(R.drawable.icon_wutouying);
                 tv_day.setTextColor(tv_day.getResources().getColor(R.color.white));
                 tv_point.setTextColor(tv_point.getResources().getColor(R.color.white));
@@ -246,21 +243,24 @@ public class MyPointsActivity extends BaseActivity {
 
 
     //    取消订单dialog
-    private  void showQiandaoDialog() {
+    private  void showQiandaoDialog(UserSigninBean userSigninBean) {
         Dialog dialog = new Dialog(this, R.style.loadingDialogTheme);
+
         View inflate = View.inflate(this, R.layout.dialog_qiandao, null);
         inflate.findViewById(R.id.btn_get_sign).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (null != dialog && dialog.isShowing()) {
+                    toUserPoints();
+                    toSignInMessage();
                     dialog.dismiss();
                 }
             }
         });
         TextView tv_status = inflate.findViewById(R.id.tv_status);
         TextView tv_get_integer = inflate.findViewById(R.id.tv_get_integer);
-        String str = "已连续签到3天，领取";
-        String str2 = "10";
+        String str = String.format(getString(R.string.tv_sign_inform),userSigninBean.getRunningDays()+"");
+        String str2 = userSigninBean.getPoints()+"";
         String str3 = "积分";
         SpannableString msp = new SpannableString(str + str2 + str3);
         msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), str.length(), str.length()+str2.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
@@ -268,5 +268,17 @@ public class MyPointsActivity extends BaseActivity {
 
         dialog.setContentView(inflate);
         dialog.show();
+    }
+
+    private void setButtonStatus(int isNowSignIn) {
+        if (isNowSignIn == 0) {
+            tv_qiandao.setEnabled(true);
+            tv_qiandao.setBackgroundResource(R.drawable.btn_gradient_yellow_round);
+            tv_qiandao.setText("立即签到");
+        } else {
+            tv_qiandao.setEnabled(false);
+            tv_qiandao.setBackgroundResource(R.drawable.btn_gradient_grey_round);
+            tv_qiandao.setText("已签到");
+        }
     }
 }

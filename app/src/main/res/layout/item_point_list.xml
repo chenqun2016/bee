@@ -4,16 +4,14 @@
     android:layout_height="70dp"
     android:background="@color/white">
 
-    <TextView
+    <ImageView
         android:id="@+id/icon_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/icon_goumai"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="13sp" />
+        android:src="@drawable/icon_goumai"
+        />
 
     <TextView
         android:id="@+id/tv_integral_title"
@@ -23,7 +21,7 @@
         android:layout_marginTop="14dp"
         android:textStyle="bold"
         android:layout_toRightOf="@+id/icon_type"
-        android:text="签到"
+        android:text=""
         android:textColor="@color/color_282525"
         android:textSize="15sp" />
 
@@ -37,7 +35,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="4dp"
         android:layout_toRightOf="@+id/icon_type"
-        android:text="2020-07-01 10:30:02"
+        android:text=""
         android:textColor="@color/color_7C7877"
         android:textSize="13sp" />
 

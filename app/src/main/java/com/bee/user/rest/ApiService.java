@@ -22,6 +22,8 @@ import com.bee.user.bean.OrderingBean;
 import com.bee.user.bean.OrderingConfirmBean;
 import com.bee.user.bean.PaymentDetailBean;
 import com.bee.user.bean.PeiSongCardBean;
+import com.bee.user.bean.PointDetailBen;
+import com.bee.user.bean.SignInMessageBean;
 import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
@@ -30,6 +32,7 @@ import com.bee.user.bean.TradeRecordBean;
 import com.bee.user.bean.UploadImageBean;
 import com.bee.user.bean.UserBean;
 import com.bee.user.bean.UserPointsBean;
+import com.bee.user.bean.UserSigninBean;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseResult;
 
 import java.util.List;
@@ -430,14 +433,14 @@ public interface ApiService {
      * @return
      */
     @POST(HttpRequest.userSignIn)
-    Observable<BaseResult<Object>> userSignIn();
+    Observable<BaseResult<UserSigninBean>> userSignIn();
 
     /**
      * 获取活动信息
      * @return
      */
-    @POST(HttpRequest.getActivityMessage)
-    Observable<BaseResult<Object>> getActivityMessage(@Body RequestBody info);
+    @POST(HttpRequest.getSignInMessage)
+    Observable<BaseResult<SignInMessageBean>> getSignInMessage();
 
     /**
      * 注销账户发送验证码
@@ -468,4 +471,11 @@ public interface ApiService {
      */
     @POST(HttpRequest.commentCreate)
     Observable<BaseResult<Object>> commentCreate(@Body RequestBody info);
+
+    /**
+     * 获取积分记录
+     * @return
+     */
+    @POST(HttpRequest.pointsRecord)
+    Observable<BaseResult<List<PointDetailBen>>> pointsRecord();
 }

@@ -7,15 +7,33 @@ package com.bee.user.bean;
  */
 public class PointDayBean {
 
-    public String str;
-
-    public  int point;
-
-    public boolean current;
-
-    public PointDayBean(String str, int point, boolean current) {
-        this.str = str;
-        this.point = point;
-        this.current = current;
+    public int getDayNum() {
+        return dayNum;
     }
+
+    public void setDayNum(int dayNum) {
+        this.dayNum = dayNum;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getIsSignIn() {
+        return isSignIn;
+    }
+
+    public void setIsSignIn(int isSignIn) {
+        this.isSignIn = isSignIn;
+    }
+
+    public int dayNum;
+
+    public  int points;
+
+    public int isSignIn;
 }
