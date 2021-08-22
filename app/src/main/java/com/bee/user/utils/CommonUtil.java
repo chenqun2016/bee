@@ -25,6 +25,7 @@ import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.ImageBean;
 import com.bee.user.bean.OrderBean;
+import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderGridviewItemBean;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.TraceBean;
@@ -150,7 +151,7 @@ public class CommonUtil {
         recyclerView.setAdapter(adapter);
     }
 
-    public static void performOrderGridviewClick(BaseActivity activity, OrderGridviewItemAdapter adapter, int i,int id) {
+    public static void performOrderGridviewClick(BaseActivity activity, OrderGridviewItemAdapter adapter, int i, int id, OrderDetailBean orderDetailBean) {
         OrderGridviewItemBean bean = adapter.getList().get(i);
         if(null != bean){
             int type =  bean.type;
@@ -161,8 +162,7 @@ public class CommonUtil {
                     activity. startActivity(OrderingActivity.newIntent(activity,0,new ArrayList<>(),new ArrayList<>()));
                     break;
                 case OrderGridviewItemBean.TYPE_comment://评价得积分
-                    intent = new Intent(activity, OrderCommentActivity.class);
-                    activity.  startActivity(intent);
+                    OrderCommentActivity.newInstance(activity,id,orderDetailBean.orderItemList);
                     break;
                 case OrderGridviewItemBean.TYPE_shouhou://申请售后
                     intent = new Intent(activity, ShouHouActivity.class);

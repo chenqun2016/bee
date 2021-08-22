@@ -6,6 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.utils.DisplayUtil;
@@ -14,12 +18,9 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnItemClickListener;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  - @Description:  投稿 投诉等Activity使用
@@ -141,9 +142,15 @@ public class GridImageAdapter extends
      */
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        LocalMedia media1 = list.get(0);
-        String mimeType = media1.getMimeType();
-        int mediaType = PictureMimeType.getMimeType(mimeType);
+        int mediaType = 0;
+        try {
+            LocalMedia media1 = list.get(0);
+            String mimeType = media1.getMimeType();
+            mediaType = PictureMimeType.getMimeType(mimeType);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
         //少于8张，显示继续添加的图标
         if (getItemViewType(position) == TYPE_CAMERA) {
             if(PictureConfig.TYPE_VIDEO == mediaType) {
