@@ -10,6 +10,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -20,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.PicassoEngine;
 import com.bee.user.R;
 import com.bee.user.bean.DictByTypeBean;
-import com.bee.user.bean.FoodBean;
+import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.UploadImageBean;
 import com.bee.user.params.CommentParams;
 import com.bee.user.rest.Api;
@@ -64,6 +65,13 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
+    @BindView(R.id.iv_name)
+    TextView iv_name;
+
+    @BindView(R.id.iv_goods_img)
+    ImageView iv_goods_img;
+
+
     @BindView(R.id.tags)
     FlowTagLayout tags;
 
@@ -102,10 +110,10 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
         context.startActivity(intent);
     }
 
-    public static void newInstance(Context context, int id,List<FoodBean> orderItemList) {
+    public static void newInstance(Context context, int id, OrderDetailBean orderDetailBean) {
         Intent intent = new Intent(context, OrderCommentActivity.class);
         intent.putExtra("id", id);
-        intent.putExtra("foodlist", (Serializable) orderItemList);
+        intent.putExtra("orderDetailBean", (Serializable) orderDetailBean);
         context.startActivity(intent);
     }
 
@@ -121,8 +129,10 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
         }
 
     }
+
     private int size = 0;
     private List<String> urlList = new ArrayList<>();
+
     //提交图片到服务器
     private void toSubmit() {
         urlList.clear();
@@ -146,8 +156,8 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
         commentParams.isAnonymous = cb_1.isChecked() ? 1 : 0;
         commentParams.star = (int) ratin1.getRating();
         StringBuilder builder = new StringBuilder();
-        for(String s : urlList){
-            builder.append(s+",");
+        for (String s : urlList) {
+            builder.append(s + ",");
         }
         commentParams.pics = builder.toString();
 
@@ -172,16 +182,17 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
 
     /**
      * 上传图片
+     *
      * @param media
      */
     private void upImageToOss(LocalMedia media) {
         String path = "";
-        if(media.isCompressed()) {
+        if (media.isCompressed()) {
             path = media.getCompressPath();
-        }else {
-            if(TextUtils.isEmpty(media.getAndroidQToPath())) {
+        } else {
+            if (TextUtils.isEmpty(media.getAndroidQToPath())) {
                 path = media.getPath();
-            }else {
+            } else {
                 path = media.getAndroidQToPath();
             }
         }
@@ -195,9 +206,9 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
                 .subscribe(new BaseSubscriber<UploadImageBean>() {
                     @Override
                     public void onSuccess(UploadImageBean uploadImageBean) {
-                        if(uploadImageBean != null) {
+                        if (uploadImageBean != null) {
                             urlList.add(uploadImageBean.getUrl());
-                            if(urlList.size() == size) {
+                            if (urlList.size() == size) {
                                 runOnUiThread(OrderCommentActivity.this::toSubmitComment);
                             }
                         }
@@ -210,6 +221,7 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
                     }
                 });
     }
+
     private void openPhoto() {
         PictureSelector.create(this)
                 .openGallery(PictureMimeType.ofImage())
@@ -260,12 +272,22 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
         OrderCommentFoodAdapter orderCommentFoodAdapter = new OrderCommentFoodAdapter();
         recyclerview.setAdapter(orderCommentFoodAdapter);
 
-        Serializable foodlist = getIntent().getSerializableExtra("foodlist");
-        if(null != foodlist){
-            List<FoodBean> list = (List<FoodBean>) foodlist;
-            orderCommentFoodAdapter.setNewInstance(list);
-        }
+        try {
+            Serializable bean = getIntent().getSerializableExtra("orderDetailBean");
+            if (null != bean) {
+                OrderDetailBean list = (OrderDetailBean) bean;
+                orderCommentFoodAdapter.setNewInstance(list.orderItemList);
+                iv_name.setText(list.storeName);
+//                Picasso.with(this)
+//                        .load(list.)
+//                        .fit()
+//                        .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this,100),0, PicassoRoundTransform.CornerType.ALL))
+//                        .into(iv_goods_img);
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         tagsAdapter = new TagsOrderCommentAdapter<>(this);

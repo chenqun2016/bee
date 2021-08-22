@@ -162,7 +162,7 @@ public class CommonUtil {
                     activity. startActivity(OrderingActivity.newIntent(activity,0,new ArrayList<>(),new ArrayList<>()));
                     break;
                 case OrderGridviewItemBean.TYPE_comment://评价得积分
-                    OrderCommentActivity.newInstance(activity,id,orderDetailBean.orderItemList);
+                    OrderCommentActivity.newInstance(activity,id,orderDetailBean);
                     break;
                 case OrderGridviewItemBean.TYPE_shouhou://申请售后
                     intent = new Intent(activity, ShouHouActivity.class);

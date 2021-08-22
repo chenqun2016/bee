@@ -1,5 +1,6 @@
 package com.bee.user.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * 编写人： 陈陈陈
  * 功能描述：
  */
-public class OrderDetailBean {
+public class OrderDetailBean implements Serializable {
 
     public Integer id;
     public Integer memberId;

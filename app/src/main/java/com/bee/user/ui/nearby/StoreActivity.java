@@ -485,11 +485,10 @@ public class StoreActivity extends BaseActivity {
         Fragment fragment = null;
         switch (index) {
             case 0:
-
                 fragment = StoreFragment.newInstance(DisplayUtil.getWindowHeight(this) - app_barbar.getMeasuredHeight(), id);
                 break;
             case 1:
-                fragment = new CommentFragment();
+                fragment = new CommentFragment(id);
                 break;
             case 2:
                 fragment = new StoreDesFragment();

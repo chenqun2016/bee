@@ -1,8 +1,6 @@
 package com.bee.user.ui.nearby;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +11,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
-import com.bee.user.bean.CommentBean;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.CommentAdapter;
 import com.bee.user.ui.adapter.TagsCommentAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.widget.FlowTagLayout;
-import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -35,6 +37,7 @@ import butterknife.Unbinder;
  */
 public class CommentFragment extends BaseFragment {
 
+    private final String storeId;
     @BindView(R.id.tags)
     FlowTagLayout tags;
 
@@ -46,16 +49,41 @@ public class CommentFragment extends BaseFragment {
 
     LoadmoreUtils loadmoreUtils;
 
+    public CommentFragment(String id) {
+        super();
+        this.storeId = id;
+    }
+
     @Override
     protected void getDatas() {
 
+        HashMap<String, String> stringStringHashMap = new HashMap<>();
+        stringStringHashMap.put("storeId",storeId);
+        stringStringHashMap.put("searchKey","");
+
+        Api.getClient(HttpRequest.baseUrl_eva).commentQueryList(Api.getRequestBody(stringStringHashMap))
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<Object>>() {
+                    @Override
+                    public void onSuccess(List<Object> beans) {
+
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
+
     @Override
     public void onDestroy() {
         unbinder.unbind();
 
         super.onDestroy();
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

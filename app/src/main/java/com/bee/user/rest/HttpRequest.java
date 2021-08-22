@@ -184,4 +184,7 @@ public class HttpRequest {
 
     //新增店铺订单评价
     public static final String commentCreate = "evaShopStoreOrder/create";
+
+    //根据条件查询店铺订单评价列表
+    public static final String commentQueryList = "evaShopStoreOrder/queryList";
 }
