@@ -169,8 +169,8 @@ public class HttpRequest {
     //会员签到
     public static final String userSignIn = "member/points/userSignIn";
 
-    //获取活动信息
-    public static final String getActivityMessage = "member/points/getActivityMessage";
+    //获取签到列表信息
+    public static final String getSignInMessage = "member/points/getSignInMessage";
 
     //注销账户获取短信验证码
     public static final String sendSmsCode = "validata/sendSmsCode";
@@ -187,4 +187,6 @@ public class HttpRequest {
 
     //根据条件查询店铺订单评价列表
     public static final String commentQueryList = "evaShopStoreOrder/queryList";
+    //获取积分记录
+    public static final String pointsRecord = "member/points/pointsRecord";
 }
