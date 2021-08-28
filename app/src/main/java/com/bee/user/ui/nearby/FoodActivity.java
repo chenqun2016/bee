@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
-import com.bee.user.bean.CommentBean;
+import com.bee.user.bean.CommentWrapBean;
 import com.bee.user.bean.FoodDetailBean;
 import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.StoreDetailBean;
@@ -28,6 +28,7 @@ import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.home.BannerImageHolder;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.utils.LogUtil;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
@@ -39,6 +40,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -109,7 +111,8 @@ public class FoodActivity extends BaseActivity {
     LinearLayout ll_foot;
 
     String[] titles = new String[]{"商品", "评价", "详情"};
-
+    int storeId;
+    int skuId;
 
     @OnClick({R.id.view1, R.id.view2, R.id.view3})
     public void onClick(View view) {
@@ -163,6 +166,9 @@ public class FoodActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        skuId  = getIntent().getIntExtra("skuId",0);
+        storeId = getIntent().getIntExtra("storeId", 0);
+
         View iv_back2 = findViewById(R.id.iv_back2);
         if(null != iv_back2){
             iv_back2.setOnClickListener(new View.OnClickListener() {
@@ -254,20 +260,9 @@ public class FoodActivity extends BaseActivity {
 //        View bottom = View.inflate(this, R.layout.bottom_food_list, null);
 //        mAdapter.addFooterView(bottom);
 
-        List<CommentBean> sampleData = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            CommentBean status = new CommentBean();
-            sampleData.add(status);
-        }
 
-        mAdapter.setNewInstance(sampleData);
-
-
+        getComments();
         initScroll();
-
-
-
-
         getDatas();
     }
 
@@ -275,7 +270,7 @@ public class FoodActivity extends BaseActivity {
 
     private void getDatas() {
         Intent intent = getIntent();
-        int skuId = intent.getIntExtra("skuId",0);
+
 
         Api.getClient(HttpRequest.baseUrl_goods).productDetail(skuId)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
@@ -294,7 +289,28 @@ public class FoodActivity extends BaseActivity {
                     }
                 });
     }
+    private void getComments() {
 
+        HashMap<String, String> stringStringHashMap = new HashMap<>();
+//        stringStringHashMap.put("orderId", "");
+        stringStringHashMap.put("storeId", storeId+"");
+        stringStringHashMap.put("searchKey", "");
+
+        Api.getClient(HttpRequest.baseUrl_eva).commentQueryList(Api.getRequestBody(stringStringHashMap),0, LoadmoreUtils.PAGE_SIZE)
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<CommentWrapBean>() {
+                    @Override
+                    public void onSuccess(CommentWrapBean beans) {
+                        mAdapter.setNewInstance(beans.records);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
+    }
 
     private void initScroll() {
 
@@ -413,7 +429,10 @@ public class FoodActivity extends BaseActivity {
         tv_food_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(FoodActivity.this, CommentActivity.class));
+                Intent intent = new Intent(FoodActivity.this, CommentActivity.class);
+                intent.putExtra("storeId",storeId);
+                intent.putExtra("skuId",skuId);
+                startActivity(intent);
             }
         });
     }

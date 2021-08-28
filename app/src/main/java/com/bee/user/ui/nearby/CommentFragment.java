@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +44,9 @@ public class CommentFragment extends BaseFragment {
     @BindView(R.id.tags)
     FlowTagLayout tags;
 
+    @BindView(R.id.store_point)
+    ConstraintLayout store_point;
+
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
@@ -50,9 +55,11 @@ public class CommentFragment extends BaseFragment {
 
     LoadmoreUtils loadmoreUtils;
 
-    public CommentFragment(String id) {
+    int type = 0;
+    public CommentFragment(String id,int type) {
         super();
         this.storeId = id;
+        this.type = type;
     }
 
     @Override
@@ -79,6 +86,9 @@ public class CommentFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if(type == 1){
+            store_point.setVisibility(View.GONE);
+        }
         recyclerview.setLayoutManager(new LinearLayoutManager(recyclerview.getContext()));
         mAdapter = new CommentAdapter();
         recyclerview.setAdapter(mAdapter);
