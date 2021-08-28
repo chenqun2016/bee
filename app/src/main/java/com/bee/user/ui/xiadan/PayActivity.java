@@ -16,11 +16,8 @@ import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.base.BaseDialog;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.mine.SetPasswordActivity1;
 import com.bee.user.ui.order.OrderListActivity;
-import com.bee.user.ui.trade.MiLiActivity;
-import com.bee.user.utils.sputils.SPUtils;
-import com.bee.user.widget.PayPassView;
+import com.bee.user.utils.PayUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -98,121 +95,9 @@ public class PayActivity extends BaseActivity {
     BaseDialog bottomSheetDialog;
 
     private void showPayDialog() {
-        if (null == miLiBean) {
-            return;
-        }
-        //余额不足
-        if (miLiBean.surplusAmount <= totalMoney) {
-            showCommonDialog("对不起，您的米粒当前余额不足", "暂不支付", "立即充值", new DialogClickListener() {
-                @Override
-                public void onDialogCancle() {
-                    Intent intent = new Intent(PayActivity.this, OrderListActivity.class);
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onDialogSure() {
-                    startActivity(new Intent(PayActivity.this, MiLiActivity.class));
-                }
-            });
-        } else {
-            hasPayPassword();
-        }
-    }
-
-    PayPassView paypassview;
-
-    private void hasPayPassword() {
-        if (SPUtils.geTinstance().hasPayPassword()) {
-            bottomSheetDialog = new BaseDialog(this) {
-                @Override
-                protected int provideContentViewId() {
-                    return R.layout.dialog_pay;
-                }
-
-                @Override
-                protected void initViews(BaseDialog dialog) {
-                    dialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (null != dialog && dialog.isShowing()) {
-                                dialog.dismiss();
-                            }
-                        }
-                    });
-
-                    paypassview = dialog.findViewById(R.id.paypassview);
-                    paypassview.setOnFinishInput(new PayPassView.OnPasswordInputFinish() {
-                        @Override
-                        public void inputFinish() {
-                            doMiLiPay(paypassview.getStrPassword());
-                        }
-
-                        @Override
-                        public void inputFirst() {
-                        }
-
-                        @Override
-                        public void inputNoFull() {
-                        }
-                    });
-
-
-                }
-            };
-            bottomSheetDialog.show();
-        } else {
-            doMiLiPay("");
-        }
-    }
-
-    private void doMiLiPay(String password) {
         PayParams params = (PayParams) getIntent().getSerializableExtra("params");
-        params.payPassword = password;
-        Api.getClient(HttpRequest.baseUrl_order).riceGrainsOrder(Api.getRequestBody(params)).
-                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<Object>() {
-                    @Override
-                    public void onSuccess(Object userBean) {
-                        toPayStatusActivity();
-                    }
-
-                    @Override
-                    protected void onFail(String errorMsg, int errorCode) {
-                        onPayFail(errorCode);
-                    }
-                });
+        PayUtils.pay(PayUtils.PAY_TYPE_ORDER,miLiBean,totalMoney,params, PayActivity.this);
     }
-
-    private void onPayFail(int errorCode) {
-        //有设置支付密码的情况
-        if(404 == errorCode && SPUtils.geTinstance().hasPayPassword()){
-            //支付密码验证失败
-            showCommonDialog("支付密码错误，请重试", "忘记密码", "重新支付", new DialogClickListener() {
-                @Override
-                public void onDialogCancle() {
-                    //忘记支付密码，重新设置支付密码
-                    SetPasswordActivity1.toSetPassword(PayActivity.this, "payPass");
-                }
-
-                @Override
-                public void onDialogSure() {
-                    //重新支付
-                    if (null != paypassview) {
-                        paypassview.clearText();
-                    }
-                }
-            });
-        }
-    }
-
-    private void toPayStatusActivity() {
-
-        startActivity(new Intent(PayActivity.this, PayStatusActivity.class));
-
-    }
-
 
     MyMiLiBean miLiBean;
 

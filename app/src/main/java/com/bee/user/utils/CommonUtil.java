@@ -23,7 +23,6 @@ import com.bee.base.AppGlobals;
 import com.bee.user.R;
 import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.FoodBean;
-import com.bee.user.bean.ImageBean;
 import com.bee.user.bean.OrderBean;
 import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderGridviewItemBean;
@@ -50,8 +49,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -97,17 +98,13 @@ public class CommonUtil {
     }
 
     //评论图片
-    public static void initCommentAdapter(RecyclerView images) {
+    public static void initCommentAdapter(RecyclerView images,String[] list) {
+        if(null == list || list.length==0){
+            return;
+        }
         images.setLayoutManager(new LinearLayoutManager(images.getContext(),LinearLayoutManager.HORIZONTAL,false));
-        ArrayList<ImageBean> imageBeans = new ArrayList<>();
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        CommentImagesAdapter commentImagesAdapter = new CommentImagesAdapter(imageBeans);
+        List<String> strings = Arrays.asList(list);
+        CommentImagesAdapter commentImagesAdapter = new CommentImagesAdapter(strings);
         images.setAdapter(commentImagesAdapter);
 
         commentImagesAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -115,13 +112,10 @@ public class CommonUtil {
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
 
                 Intent intent = new Intent(images.getContext(), ImagesActivity.class);
-                intent.putExtra("datas",imageBeans);
+                intent.putExtra("datas", (Serializable) strings);
                 images.getContext().startActivity(intent);
             }
         });
-
-
-
     }
 
     //订单跟踪
@@ -162,7 +156,7 @@ public class CommonUtil {
                     activity. startActivity(OrderingActivity.newIntent(activity,0,new ArrayList<>(),new ArrayList<>()));
                     break;
                 case OrderGridviewItemBean.TYPE_comment://评价得积分
-                    OrderCommentActivity.newInstance(activity,id,orderDetailBean);
+                    OrderCommentActivity.newInstance(activity,id,orderDetailBean.storeId,orderDetailBean);
                     break;
                 case OrderGridviewItemBean.TYPE_shouhou://申请售后
                     intent = new Intent(activity, ShouHouActivity.class);

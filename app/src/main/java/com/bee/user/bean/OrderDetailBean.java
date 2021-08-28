@@ -53,7 +53,7 @@ public class OrderDetailBean implements Serializable {
     public Object modifyTime;
     public Integer buildingId;
     public String buildingName;
-    public Object storeId;
+    public int storeId;
     public String storeName;
     public Boolean comment;
     public String receiverProvince;

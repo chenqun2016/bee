@@ -31,7 +31,7 @@ public class OrderBean implements MultiItemEntity, Serializable {
     }
 
     public int id;
-    public Object storeId;
+    public int storeId;
     public Object storeName;
     public Object deliveryTime;
     public String status;

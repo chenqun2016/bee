@@ -3,11 +3,7 @@ package com.bee.user.ui.nearby;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.BannerBean;
-import com.bee.user.bean.ImageBean;
-import com.bee.user.utils.DisplayUtil;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.squareup.picasso.Picasso;
 
@@ -16,7 +12,7 @@ import com.squareup.picasso.Picasso;
  * 创建时间：2020/09/03  16：29
  * 描述：
  */
-public class ImagesHolder extends Holder<ImageBean> {
+public class ImagesHolder extends Holder<String> {
     private ImageView imageView;
 
     public ImagesHolder(View itemView) {
@@ -30,9 +26,9 @@ public class ImagesHolder extends Holder<ImageBean> {
     }
 
     @Override
-    public void updateUI(ImageBean data) {
+    public void updateUI(String data) {
         Picasso.with(imageView.getContext())
-                .load(data.url)
+                .load(data)
                 .into(imageView);
     }
 }

@@ -104,15 +104,17 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
 
     TagsOrderCommentAdapter<DictByTypeBean> tagsAdapter;
 
-    public static void newInstance(Context context, int id) {
+    public static void newInstance(Context context, int id,int storeId) {
         Intent intent = new Intent(context, OrderCommentActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("storeId", storeId);
         context.startActivity(intent);
     }
 
-    public static void newInstance(Context context, int id, OrderDetailBean orderDetailBean) {
+    public static void newInstance(Context context, int id,int storeId, OrderDetailBean orderDetailBean) {
         Intent intent = new Intent(context, OrderCommentActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("storeId", storeId);
         intent.putExtra("orderDetailBean", (Serializable) orderDetailBean);
         context.startActivity(intent);
     }
@@ -150,9 +152,10 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
 
     //提交评论
     private void toSubmitComment() {
+        Intent intent = getIntent();
         CommentParams commentParams = new CommentParams();
         commentParams.content = et_content.getText().toString();
-        commentParams.orderId = getIntent().getIntExtra("id", 0);
+        commentParams.orderId = intent .getIntExtra("id", 0);
         commentParams.isAnonymous = cb_1.isChecked() ? 1 : 0;
         commentParams.star = (int) ratin1.getRating();
         StringBuilder builder = new StringBuilder();
@@ -160,7 +163,7 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
             builder.append(s + ",");
         }
         commentParams.pics = builder.toString();
-
+        commentParams.storeId = intent .getIntExtra("storeId", 0);
 
         Api.getClient(HttpRequest.baseUrl_eva).commentCreate(Api.getRequestBody(commentParams))
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
