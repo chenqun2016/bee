@@ -202,6 +202,7 @@
                 android:id="@+id/ll_kepeisong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <TextView
@@ -235,6 +236,7 @@
                 android:id="@+id/recyclerview2"
                 android:overScrollMode="never"
                 android:scrollbars="none"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

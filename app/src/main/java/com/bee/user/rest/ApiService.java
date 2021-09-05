@@ -7,6 +7,7 @@ import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
+import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.CommentWrapBean;
 import com.bee.user.bean.CouponBean;
 import com.bee.user.bean.DictByTypeBean;
@@ -509,4 +510,21 @@ public interface ApiService {
      */
     @POST(HttpRequest.pointsRecord)
     Observable<BaseResult<List<PointDetailBen>>> pointsRecord();
+
+
+    /**
+     * 根据订单ID订单评价
+     */
+    @POST(HttpRequest.queryCommentByOrder)
+    Observable<BaseResult<CommentBean>> queryCommentByOrder(@Path("orderId") Integer orderId);
+
+
+
+    /**
+     * 获取积分记录
+     *
+     * @return
+     */
+    @POST(HttpRequest.myOrderComment)
+    Observable<BaseResult<CommentWrapBean>> myOrderComment(@Body RequestBody info);
 }

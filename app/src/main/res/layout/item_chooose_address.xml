@@ -20,6 +20,9 @@
         android:layout_height="wrap_content"
         android:textColor="@color/color_282525"
         android:textSize="18sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:maxWidth="280dp"
         android:layout_marginTop="10dp"
         android:text="万福轩3号楼2幢"/>
 
@@ -29,8 +32,8 @@
         android:layout_height="wrap_content"
         android:paddingRight="4dp"
         android:paddingLeft="4dp"
-        android:layout_marginLeft="5dp"
         android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
         android:background="@drawable/tag_choose_address_green"
         android:layout_toRightOf="@+id/tv_address"
         android:textSize="11sp"

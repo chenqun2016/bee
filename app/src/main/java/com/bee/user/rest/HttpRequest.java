@@ -189,4 +189,10 @@ public class HttpRequest {
     public static final String commentQueryList = "evaShopStoreOrder/queryList";
     //获取积分记录
     public static final String pointsRecord = "member/points/pointsRecord";
+
+    //根据订单ID订单评价
+    public static final String queryCommentByOrder = "evaShopStoreOrder/queryByOrder/{orderId}";
+
+    //查询我的评价
+    public static final String myOrderComment = "evaShopStoreOrder/myOrderComment";
 }

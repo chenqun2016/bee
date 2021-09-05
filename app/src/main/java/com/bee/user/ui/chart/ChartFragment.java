@@ -175,7 +175,7 @@ public class ChartFragment extends BaseFragment {
 
     @Override
     protected void getDatas() {
-        loadmoreUtils.refresh(adapter);
+
     }
 
     @Override public void onDestroyView() {
@@ -244,7 +244,7 @@ public class ChartFragment extends BaseFragment {
                         if(null != addressBean2 && addressBean2.size()>0){
                             mAddress = addressBean2.get(0);
 
-                            getCartDatas();
+                            loadmoreUtils.refresh(adapter);
                         }
                     }
 
@@ -303,12 +303,12 @@ public class ChartFragment extends BaseFragment {
                 into(imageview);
         adapter.addFooterView(foot);
 
-        recyclerview.setHasFixedSize(true);
-        recyclerview.setNestedScrollingEnabled(false);
-        recyclerview.setItemViewCacheSize(200);
-        RecyclerView.RecycledViewPool recycledViewPool = new
-                RecyclerView.RecycledViewPool();
-        recyclerview.setRecycledViewPool(recycledViewPool);
+//        recyclerview.setHasFixedSize(true);
+//        recyclerview.setNestedScrollingEnabled(false);
+//        recyclerview.setItemViewCacheSize(200);
+//        RecyclerView.RecycledViewPool recycledViewPool = new
+//                RecyclerView.RecycledViewPool();
+//        recyclerview.setRecycledViewPool(recycledViewPool);
 
 //        ArrayList<ChartBean> beans = new ArrayList<>();
 //        beans.add(new ChartBean());

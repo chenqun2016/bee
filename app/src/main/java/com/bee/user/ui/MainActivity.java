@@ -555,6 +555,12 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                     //可在其中解析amapLocation获取相应内容。
                     LogUtil.d("location==" + amapLocation.toStr());
                     SPUtils.geTinstance().setLocation(amapLocation);
+
+
+                    EventBus.getDefault().post(new LocationChangedEvent());
+                    HomeFragment fragment = (HomeFragment) fragments.get(0);
+                    fragment.onLocationChanged();
+
                 } else {
                     //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                     Log.e("AmapError", "location Error, ErrCode:"
@@ -562,13 +568,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                             + amapLocation.getErrorInfo());
                 }
             }
-
-
-            EventBus.getDefault().post(new LocationChangedEvent());
-            HomeFragment fragment = (HomeFragment) fragments.get(0);
-            fragment.onLocationChanged();
-
-
             closeLoadingDialog();
         }
     };
@@ -625,7 +624,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             mLocationClient.startLocation();
         } else if (MainEvent.TYPE_reset_Location == event.TYPE) {
             HomeFragment fragment = (HomeFragment) fragments.get(0);
-            fragment.onLocationChanged(event.addressBean);
+            fragment.onLocationChanged(event.locationInfo.name);
+        } else if(MainEvent.TYPE_reset_Location_from_SelectLocationActivity == event.TYPE){
+            HomeFragment fragment = (HomeFragment) fragments.get(0);
+            fragment.onLocationChanged();
         }
 
     }

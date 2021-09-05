@@ -43,7 +43,7 @@ public class ImagesActivity extends BaseActivity {
         base_pre_content.setBackgroundResource(R.color.transparent);
         Intent intent = getIntent();
         List<String> datas = (List<String>)intent.getSerializableExtra("datas");
-
+        int position = intent.getIntExtra("position", 0);
         banner2.setPages(new CBViewHolderCreator() {
             @Override
             public Holder createHolder(View itemView) {
@@ -74,6 +74,12 @@ public class ImagesActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int index) {
+            }
+        });
+        banner2.post(new Runnable() {
+            @Override
+            public void run() {
+                banner2.setCurrentItem(position,false);
             }
         });
     }
