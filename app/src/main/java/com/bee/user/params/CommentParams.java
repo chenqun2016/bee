@@ -26,7 +26,7 @@ public class CommentParams {
         public String createName;
         public String createTime;
         public Integer delFlag;
-        public Integer give;
+        public float give;
         public Integer id;
         public Integer shopOrderCommentId;
         public Integer star;

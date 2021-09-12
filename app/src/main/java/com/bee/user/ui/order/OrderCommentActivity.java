@@ -99,6 +99,12 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
     @BindView(R.id.ratin1)
     MaterialRatingBar ratin1;
 
+    @BindView(R.id.ratin2)
+    MaterialRatingBar ratin2;
+
+    @BindView(R.id.ratin3)
+    MaterialRatingBar ratin3;
+
     @BindView(R.id.tv_paizhao)
     TextView tv_paizhao;
 
@@ -176,6 +182,20 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
         List<CommentParams.DetailsBean> details = new ArrayList<>();
 
         List<FoodBean> data = orderCommentFoodAdapter.getData();
+
+
+        CommentParams.DetailsBean detailsBean1 = new CommentParams.DetailsBean();
+        detailsBean1.commentObjId = 1;
+        detailsBean1.commentObj = "包装";
+        detailsBean1.give = ratin2.getRating();
+        detailsBean1.commentType = 1;
+        details.add(detailsBean1);
+        CommentParams.DetailsBean detailsBean2 = new CommentParams.DetailsBean();
+        detailsBean2.commentObjId = 2;
+        detailsBean2.commentObj = "味道";
+        detailsBean2.give = ratin2.getRating();
+        detailsBean2.commentType = 1;
+        details.add(detailsBean2);
         for(FoodBean bean : data){
             if(bean.commentType == -1){
                 continue;
@@ -184,6 +204,7 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
             detailsBean.commentObjId = bean.id;
             detailsBean.commentObj = bean.productName;
             detailsBean.give = bean.commentType;
+            detailsBean.commentType = 2;
             details.add(detailsBean);
         }
         commentParams.details = details;
