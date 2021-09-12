@@ -16,6 +16,11 @@ android {
             // 设置支持的SO库架构
             abiFilters 'armeabi'
         }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME :  "com.bee.user",
+                JPUSH_APPKEY  : "ee9c8634bfd9a30cb4b94fbf",//值来自开发者平台取得的AppKey
+                JPUSH_CHANNEL : "default_developer",
+        ]
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -132,6 +137,8 @@ dependencies {
     implementation project(':crecyclerview')
     implementation project(':citypicker')
     implementation 'com.blankj:utilcodex:1.27.1'
+    implementation files('libs/jpush-android-3.8.6.jar')
+    implementation files('libs/jcore-android-2.5.5.jar')
 
 
 }

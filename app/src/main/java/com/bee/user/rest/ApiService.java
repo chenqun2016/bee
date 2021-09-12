@@ -375,8 +375,8 @@ public interface ApiService {
     /**
      * check支付密码
      */
-    @POST(HttpRequest.checkPayPassword)
-    Observable<BaseResult<Object>> checkPayPassword(@Body RequestBody info);
+    @POST(HttpRequest.checkOldPayPassword)
+    Observable<BaseResult<Object>> checkOldPayPassword(@Body RequestBody info);
 
 
     /**

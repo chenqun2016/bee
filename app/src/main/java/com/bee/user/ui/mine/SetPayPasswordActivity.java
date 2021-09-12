@@ -86,7 +86,7 @@ public class SetPayPasswordActivity extends BaseActivity {
         map.put("phone", phone);
         map.put("payPassword", payPassWord);
         map.put("smsCode", msgCode);
-        Api.getClient(HttpRequest.baseUrl_member).checkPayPassword(Api.getRequestBody(map))
+        Api.getClient(HttpRequest.baseUrl_member).checkOldPayPassword(Api.getRequestBody(map))
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<Object>() {

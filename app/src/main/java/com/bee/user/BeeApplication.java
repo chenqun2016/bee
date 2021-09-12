@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 import androidx.multidex.MultiDex;
+import cn.jpush.android.api.JPushInterface;
 
 import com.bee.user.utils.LogUtil;
 
@@ -79,6 +80,8 @@ public class BeeApplication extends Application {
             //***************************************
 
             init();
+            JPushInterface.setDebugMode(BuildConfig.DEBUG);
+            JPushInterface.init(this);
 //        if (getApplicationInfo().packageName.equals(CommonUtil.getCurProcessName(getApplicationContext())))
 //            EventBus.getDefault().register(this);
         } catch (Exception e) {

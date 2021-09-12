@@ -73,7 +73,8 @@ public class CheckUpdateService extends JobIntentService {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            checkDownloadStatus();
+            // TODO: 2021/9/12 暂时关闭  后期打开
+          //  checkDownloadStatus();
         }
     };
 

@@ -141,7 +141,7 @@ public class HttpRequest {
     public static final String resetPayPassword = "ums/AppUmsMember/resetPayPassword";
 
     //check支付密码
-    public static final String checkPayPassword = "ums/AppUmsMember/checkPayPassword";
+    public static final String checkOldPayPassword = "ums/AppUmsMember/checkOldPayPassword";
 
     //通过充值卡绑定充值
     public static final String fillCardBinding = "app-coupon/fillCardBinding";
