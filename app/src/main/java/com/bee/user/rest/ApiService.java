@@ -528,7 +528,7 @@ public interface ApiService {
      * @return
      */
     @POST(HttpRequest.myOrderComment)
-    Observable<BaseResult<CommentWrapBean>> myOrderComment(@Body RequestBody info);
+    Observable<BaseResult<MyCommentWrapBean>> myOrderComment(@Body RequestBody info);
 
     /**
      * 今日秒杀时间段
@@ -537,7 +537,7 @@ public interface ApiService {
      */
     @POST(HttpRequest.goodsTimeSection)
     Observable<BaseResult<List<TimeSectionBean>>> goodsTimeSection();
-    Observable<BaseResult<MyCommentWrapBean>> myOrderComment(@Body RequestBody info);
+
 
 
     /**
