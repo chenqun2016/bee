@@ -198,4 +198,10 @@ public class HttpRequest {
 
     //今日秒杀时间段
     public static final String goodsTimeSection= "app-flash-sale-goods/timeSection";
+
+    //删除店铺订单评价信息
+    public static final String myOrderCommentDelete = "evaShopStoreOrder/delete/{id}";
+
+    public static final String queryListBySkuId = "evaShopStoreOrder/queryListBySkuId";
+
 }

@@ -1,5 +1,6 @@
 package com.bee.user.bean;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -8,8 +9,8 @@ import java.util.List;
  * @Author： 陈陈陈
  * 功能描述：
  */
-public class CommentWrapBean {
-    public List<CommentBean> records;
+public class MyCommentWrapBean {
+    public List<CommentItemBean> records;
     public Integer total;
     public Integer size;
     public Integer current;
@@ -17,4 +18,11 @@ public class CommentWrapBean {
     public Boolean hitCount;
     public Boolean searchCount;
     public Integer pages;
+
+    public class CommentItemBean {
+        public Integer id;
+        public String storeName;
+        public String storeLogo;
+        public Date createTime;
+    }
 }
