@@ -1,6 +1,7 @@
 package com.bee.user.ui.nearby;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -427,9 +428,15 @@ public class StoreActivity extends BaseActivity {
         CommonUtil.initTAGViews(ll_mark);
 
         tv_title.setText(storeDetailBean.getName());
-        tv_distance.setText(storeDetailBean.getDistance() + "公里");
-        tv_time.setText("大约" + storeDetailBean.getDuration() + "分钟");
-        tv_sells.setText("月销" + storeDetailBean.getMonthSalesCount());
+        if(!TextUtils.isEmpty(storeDetailBean.getDistance())){
+            tv_distance.setText(storeDetailBean.getDistance() + "公里");
+        }
+        if(!TextUtils.isEmpty(storeDetailBean.getDuration())){
+            tv_time.setText("大约" + storeDetailBean.getDuration() + "分钟");
+        }
+        if(!TextUtils.isEmpty(storeDetailBean.getMonthSalesCount())){
+            tv_sells.setText("月销" + storeDetailBean.getMonthSalesCount());
+        }
     }
 
 

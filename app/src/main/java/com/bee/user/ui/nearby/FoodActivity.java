@@ -1,6 +1,7 @@
 package com.bee.user.ui.nearby;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -40,7 +41,6 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -289,14 +289,12 @@ public class FoodActivity extends BaseActivity {
                     }
                 });
     }
+
+    /**
+     * 刷新
+     */
     private void getComments() {
-
-        HashMap<String, String> stringStringHashMap = new HashMap<>();
-//        stringStringHashMap.put("orderId", "");
-        stringStringHashMap.put("storeId", storeId+"");
-        stringStringHashMap.put("searchKey", "");
-
-        Api.getClient(HttpRequest.baseUrl_eva).commentQueryList(Api.getRequestBody(stringStringHashMap),0, LoadmoreUtils.PAGE_SIZE)
+        Api.getClient(HttpRequest.baseUrl_eva).queryListBySkuId(skuId+"", 1, LoadmoreUtils.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<CommentWrapBean>() {
@@ -406,9 +404,15 @@ public class FoodActivity extends BaseActivity {
 
         StoreDetailBean data = (StoreDetailBean) getIntent().getSerializableExtra("data");
         tv_title.setText(data.getName()+"");
-        tv_distance.setText(data.getDistance()+"公里");
-        tv_time.setText("大约"+data.getDuration()+"分钟");
-        tv_sells.setText("月销"+data.getMonthSalesCount());
+        if(!TextUtils.isEmpty(data.getDistance())){
+            tv_distance.setText(data.getDistance() + "公里");
+        }
+        if(!TextUtils.isEmpty(data.getDuration())){
+            tv_time.setText("大约" + data.getDuration() + "分钟");
+        }
+        if(!TextUtils.isEmpty(data.getMonthSalesCount())){
+            tv_sells.setText("月销" + data.getMonthSalesCount());
+        }
 
         Picasso.with(this)
                 .load(data.getLogoUrl())

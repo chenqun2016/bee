@@ -32,7 +32,7 @@ public class CommentAdapter extends BaseQuickAdapter<CommentBean, BaseViewHolder
     @Override
     protected void convert(@NotNull BaseViewHolder helper, CommentBean commentBean) {
         RecyclerView images = helper.findView(R.id.images);
-        if(null == commentBean || null == commentBean.eva){
+        if (null == commentBean || null == commentBean.eva) {
             return;
         }
         String pics = commentBean.eva.pics;
@@ -44,12 +44,11 @@ public class CommentAdapter extends BaseQuickAdapter<CommentBean, BaseViewHolder
             images.setVisibility(View.GONE);
         }
         TextView tv_name = helper.findView(R.id.tv_name);
-        tv_name.setText(commentBean.eva.username+"");
+        tv_name.setText(commentBean.eva.username + "");
         TextView tv_time = helper.findView(R.id.tv_time);
         tv_time.setText(CommonUtil.getNomalTime2(commentBean.eva.createTime));
         TextView tv_des = helper.findView(R.id.tv_des);
-        tv_des.setText(commentBean.eva.content+"");
-
+        tv_des.setText(commentBean.eva.content + "");
 
 
         //TODO
@@ -57,6 +56,7 @@ public class CommentAdapter extends BaseQuickAdapter<CommentBean, BaseViewHolder
         Picasso.with(touxiang.getContext()).load(R.drawable.icon_touxiang).into(touxiang);
         ImageView dengji = helper.findView(R.id.dengji);
         TextView tv_comment = helper.findView(R.id.tv_comment);
+        tv_comment.setText(commentBean.eva.isAnonymous == 1 ? "赞了该商品" : "踩了该商品");
         LinearLayout ll_store_reply = helper.findView(R.id.ll_store_reply);
         TextView tv_store_reply = helper.findView(R.id.tv_store_reply);
     }
