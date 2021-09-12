@@ -195,4 +195,10 @@ public class HttpRequest {
 
     //查询我的评价
     public static final String myOrderComment = "evaShopStoreOrder/myOrderComment";
+
+    //删除店铺订单评价信息
+    public static final String myOrderCommentDelete = "evaShopStoreOrder/delete/{id}";
+
+    public static final String queryListBySkuId = "evaShopStoreOrder/queryListBySkuId";
+
 }

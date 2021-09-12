@@ -17,6 +17,7 @@ import com.bee.user.bean.GiftcardBean;
 import com.bee.user.bean.HelpTypeBean;
 import com.bee.user.bean.HelpTypeItemBean;
 import com.bee.user.bean.MiLiChongzhiBean;
+import com.bee.user.bean.MyCommentWrapBean;
 import com.bee.user.bean.MyMiLiBean;
 import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderListBean;
@@ -526,5 +527,22 @@ public interface ApiService {
      * @return
      */
     @POST(HttpRequest.myOrderComment)
-    Observable<BaseResult<CommentWrapBean>> myOrderComment(@Body RequestBody info);
+    Observable<BaseResult<MyCommentWrapBean>> myOrderComment(@Body RequestBody info);
+
+
+    /**
+     * 删除店铺订单评价信息
+     *
+     * @return
+     */
+    @POST(HttpRequest.myOrderCommentDelete)
+    Observable<BaseResult<Object>> myOrderCommentDelete(@Path("id") Integer id);
+
+    /**
+     * 删除店铺订单评价信息
+     *
+     * @return
+     */
+    @POST(HttpRequest.queryListBySkuId)
+    Observable<BaseResult<CommentWrapBean>> queryListBySkuId(@Query("skuId") String skuId,@Query("pageNum") int pageNum, @Query("pageSize") int pageSize);
 }

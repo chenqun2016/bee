@@ -38,7 +38,7 @@ public class CommentActivity extends BaseActivity {
 
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fl_content,  new CommentFragment(storeId+"",1))
+                .replace(R.id.fl_content,  new CommentFragment(skuId+"",1))
                 .commitAllowingStateLoss();
     }
 }

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,8 +54,10 @@ public class CommentFragment extends BaseFragment {
 
     LoadmoreUtils loadmoreUtils;
 
+    //1:商品评价列表。 0：店铺评价列表
     int type = 0;
-    public CommentFragment(String id,int type) {
+
+    public CommentFragment(String id, int type) {
         super();
         this.storeId = id;
         this.type = type;
@@ -86,7 +87,7 @@ public class CommentFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if(type == 1){
+        if (type == 1) {
             store_point.setVisibility(View.GONE);
         }
         recyclerview.setLayoutManager(new LinearLayoutManager(recyclerview.getContext()));
@@ -134,7 +135,12 @@ public class CommentFragment extends BaseFragment {
         loadmoreUtils = new LoadmoreUtils() {
             @Override
             protected void getDatas(int page) {
-                CommentFragment.this.getComments(page);
+                if (type == 0) {
+                    CommentFragment.this.getComments(page);
+                } else {
+                    CommentFragment.this.getComments2(page);
+                }
+
             }
         };
         loadmoreUtils.initLoadmore(mAdapter);
@@ -149,19 +155,40 @@ public class CommentFragment extends BaseFragment {
         stringStringHashMap.put("storeId", storeId);
         stringStringHashMap.put("searchKey", currentTag);
 
-        Api.getClient(HttpRequest.baseUrl_eva).commentQueryList(Api.getRequestBody(stringStringHashMap),page,LoadmoreUtils.PAGE_SIZE)
+        Api.getClient(HttpRequest.baseUrl_eva).commentQueryList(Api.getRequestBody(stringStringHashMap), page, LoadmoreUtils.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<CommentWrapBean>() {
                     @Override
                     public void onSuccess(CommentWrapBean beans) {
-                        loadmoreUtils.onSuccess(mAdapter,beans.records);
+                        loadmoreUtils.onSuccess(mAdapter, beans.records);
                     }
 
                     @Override
                     public void onFail(String fail) {
                         super.onFail(fail);
-                        loadmoreUtils.onFail(mAdapter,fail);
+                        loadmoreUtils.onFail(mAdapter, fail);
+                    }
+                });
+    }
+
+    /**
+     * 刷新
+     */
+    private void getComments2(int page) {
+        Api.getClient(HttpRequest.baseUrl_eva).queryListBySkuId(storeId, page, LoadmoreUtils.PAGE_SIZE)
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<CommentWrapBean>() {
+                    @Override
+                    public void onSuccess(CommentWrapBean beans) {
+                        loadmoreUtils.onSuccess(mAdapter, beans.records);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                        loadmoreUtils.onFail(mAdapter, fail);
                     }
                 });
     }
