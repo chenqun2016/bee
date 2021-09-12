@@ -30,6 +30,7 @@ import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.bean.StoreListBean;
+import com.bee.user.bean.TimeSectionBean;
 import com.bee.user.bean.TradeRecordBean;
 import com.bee.user.bean.UploadImageBean;
 import com.bee.user.bean.UserBean;
@@ -527,4 +528,12 @@ public interface ApiService {
      */
     @POST(HttpRequest.myOrderComment)
     Observable<BaseResult<CommentWrapBean>> myOrderComment(@Body RequestBody info);
+
+    /**
+     * 今日秒杀时间段
+     *
+     * @return
+     */
+    @POST(HttpRequest.goodsTimeSection)
+    Observable<BaseResult<List<TimeSectionBean>>> goodsTimeSection();
 }
