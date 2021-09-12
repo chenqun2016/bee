@@ -40,6 +40,6 @@ public class TradeListAdapter extends BaseQuickAdapter<TradeRecordBean, BaseView
         tv_integral_count.setText(CommonUtil.getTradeType(item.tranType)+CommonUtil.getNomalMoneyType(item.orderAmount));
 
         TextView tv_integral_title = helper.findView(R.id.tv_integral_title);
-        tv_integral_title.setText(CommonUtil.getBizTypeStr(item.bizType));
+        tv_integral_title.setText(item.bizTypeDesc);
     }
 }

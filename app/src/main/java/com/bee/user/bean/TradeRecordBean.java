@@ -21,4 +21,7 @@ public class TradeRecordBean {
     public Date createTime;
     public Object operatorId;
     public Object operatorName;
+
+    public String tranTypeDesc;
+    public String bizTypeDesc;
 }

@@ -74,7 +74,7 @@ public class ShouHouActivity extends BaseActivity {
         });
 
         RecyclerView images = foot.findViewById(R.id.images);
-        CommonUtil.initCommentAdapter(images);
+        CommonUtil.initCommentAdapter(images,null);
     }
 
     BottomSheetDialog bottomSheetDialog;

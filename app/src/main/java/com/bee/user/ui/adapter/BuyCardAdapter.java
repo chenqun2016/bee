@@ -1,5 +1,7 @@
 package com.bee.user.ui.adapter;
 
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +30,13 @@ public class BuyCardAdapter extends BaseQuickAdapter<PeiSongCardBean, BaseViewHo
     protected void convert(@NotNull BaseViewHolder baseViewHolder, PeiSongCardBean peiSongCardBean) {
         int layoutPosition = baseViewHolder.getLayoutPosition();
 
-
+        TextView tv_tag = baseViewHolder.getView(R.id.tv_tag);
+        if(!TextUtils.isEmpty(peiSongCardBean.recommendTag)){
+            tv_tag.setText(peiSongCardBean.recommendTag);
+            tv_tag.setVisibility(View.VISIBLE);
+        }else{
+            tv_tag.setVisibility(View.GONE);
+        }
 
         ImageView iv_bg = baseViewHolder.getView(R.id.iv_bg);
         TextView tv_text1 = baseViewHolder.getView(R.id.tv_text1);

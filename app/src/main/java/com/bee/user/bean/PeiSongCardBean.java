@@ -38,4 +38,5 @@ public class PeiSongCardBean {
     public String updateTime;
 
     public String averagePrice;
+    public String recommendTag;
 }

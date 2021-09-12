@@ -174,6 +174,17 @@ public class OrderDetailActivity extends BaseActivity  implements AMap.OnMapLoad
                         initHead2View(head2, orderDetailBean);
                         initDatas(orderDetailBean);
                         orderingAdapter.addHeaderView(head2, 1);
+
+                        if(orderDetailBean.comment){
+                            View  headComment = View.inflate(OrderDetailActivity.this, R.layout.item_order_my_comment, null);
+                            headComment.findViewById(R.id.tv_my_comment).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    OrderCommentActivity.newInstance(OrderDetailActivity.this,id,orderDetailBean.storeId,orderDetailBean,false);
+                                }
+                            });
+                            orderingAdapter.addHeaderView(headComment);
+                        }
                     }
                 });
     }
@@ -292,6 +303,7 @@ public class OrderDetailActivity extends BaseActivity  implements AMap.OnMapLoad
 //        beans.add(new StoreBean());
 
         orderingAdapter.addHeaderView(head);
+
 
 
         orderingAdapter.addFooterView(foot);

@@ -7,6 +7,8 @@ import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
+import com.bee.user.bean.CommentBean;
+import com.bee.user.bean.CommentWrapBean;
 import com.bee.user.bean.CouponBean;
 import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.DingWeiBean;
@@ -62,26 +64,25 @@ public interface ApiService {
      * 支付宝预下单参数对象
      * bizId	integer($int64)
      * 支付业务ID[米粒配置ID]
-     *
+     * <p>
      * bizType	string
      * 支付业务类型[1.米粒面值2.配送卡]
-     *
+     * <p>
      * cardType	string
      * 配送卡类型[a.月度 b.季度 c.年度]
-     *
+     * <p>
      * deviceType	string
      * 设备类型[安卓、IOS]
-     *
+     * <p>
      * payChannel	string
      * 支付渠道[ALIPAY.支付宝 WECHATPAY.微信支付]
-     *
-     *
      */
     @POST(HttpRequest.zhifubao_pay)
     Observable<BaseResult<String>> zhifubao_pay(@Body RequestBody info);
 
     /**
      * 密码登陆
+     *
      * @Query("phone") String phone,@Query("password") String password
      */
     @POST(HttpRequest.login_password)
@@ -90,6 +91,7 @@ public interface ApiService {
 
     /**
      * 验证码登陆
+     *
      * @Query("phone") String phone,@Query("smsCode") String smsCode
      */
     @POST(HttpRequest.login_code)
@@ -97,6 +99,7 @@ public interface ApiService {
 
     /**
      * 重置密码
+     *
      * @Query("phone") String phone,@Query("password") String password,@Query("smsCode") String smsCode
      */
     @POST(HttpRequest.resetPassword)
@@ -105,12 +108,11 @@ public interface ApiService {
 
     /**
      * 发送验证码
+     *
      * @Path("mobile") String mobile
      */
     @GET("validata/smsCode/{mobile}")
     Observable<BaseResult<String>> smsCode(@Path("mobile") String mobile);
-
-
 
 
     /**
@@ -149,12 +151,15 @@ public interface ApiService {
 
     /**
      * 获取用户信息
+     *
      * @Path("mobile") String mobile
      */
     @GET(HttpRequest.user_getInfo)
     Observable<BaseResult<UserBean>> getUserInfo();
+
     /**
      * 修改个人信息
+     *
      * @Path("mobile") String mobile
      */
     @POST(HttpRequest.modifyMemberInfo)
@@ -171,11 +176,13 @@ public interface ApiService {
      */
     @POST(HttpRequest.submitPreview)
     Observable<BaseResult<OrderingConfirmBean>> submitPreview(@Body RequestBody info);
+
     /**
      * 下单
      */
     @POST(HttpRequest.ordering)
     Observable<BaseResult<OrderingBean>> ordering(@Body RequestBody info);
+
     /**
      * 米粒下单
      */
@@ -192,39 +199,43 @@ public interface ApiService {
      * 订单列表
      */
     @POST(HttpRequest.closeOrder)
-    Observable<Boolean> closeOrder(@Query("note") String note ,@Query("orderId") Integer orderId );
+    Observable<Boolean> closeOrder(@Query("note") String note, @Query("orderId") Integer orderId);
+
     /**
      * 订单列表
      */
     @GET(HttpRequest.orderDetail)
-    Observable<BaseResult<OrderDetailBean>> orderDetail(@Query("id") Integer id );
+    Observable<BaseResult<OrderDetailBean>> orderDetail(@Query("id") Integer id);
 
     /**
      * 清空购物车的数据
      */
     @POST(HttpRequest.clearCartInfo)
     Observable<BaseResult<String>> clearCartInfo(@Query("storeIds") List<String> storeIds);
+
     /**
      * 删除购物项
      */
     @GET(HttpRequest.deleteCartItem)
     Observable<BaseResult<String>> deleteCartItem(@Query("cartItemIds") List<Integer> cartItemIds);
+
     /**
      * 获取购物车信息
      */
     @GET(HttpRequest.getCart)
-    Observable<BaseResult<List<ChartBean>>> getCart( @Query("receiveAddressId") Long receiveAddressId, @Query("storeIds") List<String> storeIds);
+    Observable<BaseResult<List<ChartBean>>> getCart(@Query("receiveAddressId") Long receiveAddressId, @Query("storeIds") List<String> storeIds);
+
     /**
      * 获取购物车某个购物项
      */
     @GET(HttpRequest.getCartItem)
-    Observable<BaseResult<String>> getCartItem(@Query("skuId") String skuId,@Query("storeId") String storeId);
+    Observable<BaseResult<String>> getCartItem(@Query("skuId") String skuId, @Query("storeId") String storeId);
+
     /**
      * 修改商品数量
      */
     @POST(HttpRequest.updateQuantity)
-    Observable<BaseResult<String>> updateQuantity(@Query("cartItemId") String cartItemId,@Query("quantity") String quantity);
-
+    Observable<BaseResult<String>> updateQuantity(@Query("cartItemId") String cartItemId, @Query("quantity") String quantity);
 
 
     /**
@@ -251,6 +262,7 @@ public interface ApiService {
      */
     @POST(HttpRequest.getDefaultArea)
     Observable<BaseResult<AddressBean>> getDefaultArea();
+
     /**
      * 获取默认收货地址
      */
@@ -317,7 +329,7 @@ public interface ApiService {
      * 获取购物车信息
      */
     @GET(HttpRequest.checkSmsCode)
-    Observable<BaseResult<Object>> checkSmsCode( @Path("mobile") String mobile, @Path("code") String code);
+    Observable<BaseResult<Object>> checkSmsCode(@Path("mobile") String mobile, @Path("code") String code);
 
     /**
      * 【米粒面值配置】
@@ -333,7 +345,7 @@ public interface ApiService {
 
     /**
      * 根据条件查询【交易流水】列表
-     *
+     * <p>
      * 充值：购买米粒、充值卡或电子券充值
      * 收入：系统赠送、系统退款
      * 支出：购买商品、购买配送卡、购买礼品卡
@@ -375,6 +387,7 @@ public interface ApiService {
 
     /**
      * 获取可购买礼品卡列表
+     *
      * @return
      */
     @POST(HttpRequest.giftCard)
@@ -383,6 +396,7 @@ public interface ApiService {
 
     /**
      * 附近地址
+     *
      * @return
      */
     @POST(HttpRequest.nearByBuilding)
@@ -391,6 +405,7 @@ public interface ApiService {
 
     /**
      * 优惠券列表
+     *
      * @return
      */
     @POST(HttpRequest.couponList)
@@ -398,16 +413,16 @@ public interface ApiService {
 
 
     /**
-     *
      * 用户配送卡列表
+     *
      * @return
      */
     @POST(HttpRequest.distributionCard)
     Observable<BaseResult<PeiSongCardBean>> distributionCard();
 
     /**
-     *
      * 获取可购买配送卡列表
+     *
      * @return
      */
     @POST(HttpRequest.distributionCardOnSale)
@@ -416,6 +431,7 @@ public interface ApiService {
 
     /**
      * 优惠券列表
+     *
      * @return
      */
     @POST(HttpRequest.buyCard)
@@ -423,6 +439,7 @@ public interface ApiService {
 
     /**
      * 查询会员积分信息
+     *
      * @return
      */
     @POST(HttpRequest.getUserPoints)
@@ -430,6 +447,7 @@ public interface ApiService {
 
     /**
      * 会员签到
+     *
      * @return
      */
     @POST(HttpRequest.userSignIn)
@@ -437,6 +455,7 @@ public interface ApiService {
 
     /**
      * 获取活动信息
+     *
      * @return
      */
     @POST(HttpRequest.getSignInMessage)
@@ -444,6 +463,7 @@ public interface ApiService {
 
     /**
      * 注销账户发送验证码
+     *
      * @Path("mobile") String mobile
      */
     @POST(HttpRequest.sendSmsCode)
@@ -451,13 +471,16 @@ public interface ApiService {
 
     /**
      * 注销账号
+     *
      * @return
      */
     @POST(HttpRequest.closeAccount)
     Observable<BaseResult<Object>> closeAccount(@Body RequestBody info);
+
     /**
      * 获取指定位置的banner，
      * 【app-index-top：APP首页顶部banner；app-index-middle：APP首页中部banner；app-my：APP我的banner】
+     *
      * @return
      */
     @POST(HttpRequest.getBanner)
@@ -466,6 +489,7 @@ public interface ApiService {
 
     /**
      * 新增店铺订单评价
+     *
      * @return
      */
     @POST(HttpRequest.commentCreate)
@@ -473,15 +497,34 @@ public interface ApiService {
 
     /**
      * 根据条件查询店铺订单评价列表
+     *
      * @return
      */
     @POST(HttpRequest.commentQueryList)
-    Observable<BaseResult<List<Object>>> commentQueryList(@Body RequestBody info);
+    Observable<BaseResult<CommentWrapBean>> commentQueryList(@Body RequestBody info, @Query("pageNum") int pageNum, @Query("pageSize") int pageSize);
 
     /**
      * 获取积分记录
+     *
      * @return
      */
     @POST(HttpRequest.pointsRecord)
     Observable<BaseResult<List<PointDetailBen>>> pointsRecord();
+
+
+    /**
+     * 根据订单ID订单评价
+     */
+    @POST(HttpRequest.queryCommentByOrder)
+    Observable<BaseResult<CommentBean>> queryCommentByOrder(@Path("orderId") Integer orderId);
+
+
+
+    /**
+     * 获取积分记录
+     *
+     * @return
+     */
+    @POST(HttpRequest.myOrderComment)
+    Observable<BaseResult<CommentWrapBean>> myOrderComment(@Body RequestBody info);
 }

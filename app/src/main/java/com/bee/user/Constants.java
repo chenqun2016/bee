@@ -66,7 +66,7 @@ public class Constants {
 
     //TODO
     public static final String TYPE_ORDER_TK = "S";//待评价
-    public static final String TYPE_ORDER_PJ = "SS";//退款
+    public static final String TYPE_ORDER_PJ = "PJ";//退款
 
 //    ALL->全部；WAIT_PAY->待支付；RECEIVED->已收货；WAIT_COMMENT->待评价；REFUNDED->退款
 

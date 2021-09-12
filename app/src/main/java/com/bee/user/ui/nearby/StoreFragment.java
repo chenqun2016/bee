@@ -274,7 +274,7 @@ public class StoreFragment extends BaseFragment {
 
                     Intent intent = new Intent(mContext, FoodActivity.class);
                     intent.putExtra("skuId",bean.skuId);
-
+                    intent.putExtra("storeId",Integer.parseInt(storeId));
                     StoreEvent storeEvent = new StoreEvent();
                     storeEvent.type = StoreEvent.TYPE_START_ACTIVITY;
                     storeEvent.intent = intent;

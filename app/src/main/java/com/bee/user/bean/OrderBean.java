@@ -27,19 +27,19 @@ public class OrderBean implements MultiItemEntity, Serializable {
     }
 
     public String getOrderItemType(){
-        return status;
+        return statusReal;
     }
 
     public int id;
-    public Object storeId;
+    public int storeId;
     public Object storeName;
     public Object deliveryTime;
     public String status;
+    public String statusReal;
     public String statusMark;
     public int totalAmount;
     public int productNumber;
     public List<OrderItemBean> productList;
-
 
 
     public static class  OrderItemBean implements  Serializable {

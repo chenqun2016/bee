@@ -94,6 +94,10 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
 
 
         switch (bean.getOrderItemType()) {
+            default:
+                type.setText(CommonUtil.getOrderTypeName(bean.getOrderItemType()));
+                type.setTextColor(type.getResources().getColor(R.color.color_7C7877));
+                break;
 
             case Constants.TYPE_ORDER_OMJ://商家正在备货
                 tv_zailaiyidan.setText("联系商家");
@@ -169,7 +173,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 tv_pinglun.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        OrderCommentActivity. newInstance(mContext,bean.id);
+                        OrderCommentActivity. newInstance(mContext,bean.id,bean.storeId);
                     }
                 });
                 break;
@@ -190,7 +194,7 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 tv_pinglun.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        OrderCommentActivity.newInstance(mContext,bean.id);
+                        OrderCommentActivity.newInstance(mContext,bean.id,bean.storeId);
                     }
                 });
                 break;

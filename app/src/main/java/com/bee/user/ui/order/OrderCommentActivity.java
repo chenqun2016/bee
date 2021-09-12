@@ -1,5 +1,6 @@
 package com.bee.user.ui.order;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.PicassoEngine;
 import com.bee.user.R;
+import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.DictByTypeBean;
+import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.UploadImageBean;
 import com.bee.user.params.CommentParams;
@@ -99,21 +102,28 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
     @BindView(R.id.tv_paizhao)
     TextView tv_paizhao;
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.rc_view)
     RecyclerView rc_view;
 
+    OrderCommentFoodAdapter orderCommentFoodAdapter;
     TagsOrderCommentAdapter<DictByTypeBean> tagsAdapter;
-
-    public static void newInstance(Context context, int id) {
+    int id;
+    int storeId;
+    boolean isNewComment;
+    public static void newInstance(Context context, int id,int storeId) {
         Intent intent = new Intent(context, OrderCommentActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("storeId", storeId);
         context.startActivity(intent);
     }
 
-    public static void newInstance(Context context, int id, OrderDetailBean orderDetailBean) {
+    public static void newInstance(Context context, int id,int storeId, OrderDetailBean orderDetailBean,boolean isNewComment) {
         Intent intent = new Intent(context, OrderCommentActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("storeId", storeId);
         intent.putExtra("orderDetailBean", (Serializable) orderDetailBean);
+        intent.putExtra("isNewComment", isNewComment);
         context.startActivity(intent);
     }
 
@@ -150,9 +160,10 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
 
     //提交评论
     private void toSubmitComment() {
+
         CommentParams commentParams = new CommentParams();
         commentParams.content = et_content.getText().toString();
-        commentParams.orderId = getIntent().getIntExtra("id", 0);
+        commentParams.orderId = id;
         commentParams.isAnonymous = cb_1.isChecked() ? 1 : 0;
         commentParams.star = (int) ratin1.getRating();
         StringBuilder builder = new StringBuilder();
@@ -160,7 +171,22 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
             builder.append(s + ",");
         }
         commentParams.pics = builder.toString();
+        commentParams.storeId = storeId;
 
+        List<CommentParams.DetailsBean> details = new ArrayList<>();
+
+        List<FoodBean> data = orderCommentFoodAdapter.getData();
+        for(FoodBean bean : data){
+            if(bean.commentType == -1){
+                continue;
+            }
+            CommentParams.DetailsBean detailsBean = new CommentParams.DetailsBean();
+            detailsBean.commentObjId = bean.id;
+            detailsBean.commentObj = bean.productName;
+            detailsBean.give = bean.commentType;
+            details.add(detailsBean);
+        }
+        commentParams.details = details;
 
         Api.getClient(HttpRequest.baseUrl_eva).commentCreate(Api.getRequestBody(commentParams))
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
@@ -267,9 +293,13 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
 
     @Override
     public void initViews() {
+        Intent intent = getIntent();
+        id = intent .getIntExtra("id", 0);
+        storeId  =  intent .getIntExtra("storeId", 0);
+        isNewComment = intent.getBooleanExtra("isNewComment",true);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
-        OrderCommentFoodAdapter orderCommentFoodAdapter = new OrderCommentFoodAdapter();
+        orderCommentFoodAdapter = new OrderCommentFoodAdapter();
         recyclerview.setAdapter(orderCommentFoodAdapter);
 
         try {
@@ -324,6 +354,30 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
         toDictByType();
 
         initImage();
+
+        if(!isNewComment){
+            getCommentData();
+        }
+    }
+
+    private void getCommentData() {
+        Api.getClient(HttpRequest.baseUrl_eva).queryCommentByOrder(id).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<CommentBean>() {
+                    @Override
+                    public void onSuccess(CommentBean bean) {
+                        if(null != bean && null != bean.eva && null != bean.details){
+                            et_content.setText(bean.eva.content);
+                            cb_1.setChecked(bean.eva.isAnonymous == 1);
+                            ratin1.setNumStars(bean.eva.star);
+                            String pics = bean.eva.pics;
+                            String[] picss = pics.split(",");
+
+                            List<?> details1 = bean.details;
+                        }
+
+                    }
+                });
     }
 
     private GridImageAdapter gridImageAdapter;

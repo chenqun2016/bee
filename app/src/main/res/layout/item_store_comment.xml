@@ -50,6 +50,7 @@
         android:textSize="11sp"/>
 
     <TextView
+        android:id="@+id/tv_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/tv_name"
@@ -83,6 +84,7 @@
         android:layout_height="100dp"/>
 
     <LinearLayout
+        android:id="@+id/ll_store_reply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -101,6 +103,7 @@
             android:textColor="@color/color_282525"/>
 
         <TextView
+            android:id="@+id/tv_store_reply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="亲爱的顾客，感谢您的好评，我们将再接再厉提供更好的

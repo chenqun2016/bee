@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class FoodBean implements Serializable {
     public  boolean isSelected = false;
 
+    public int commentType = -1;
 
 
     public Integer id;

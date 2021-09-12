@@ -23,7 +23,6 @@ import com.bee.base.AppGlobals;
 import com.bee.user.R;
 import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.FoodBean;
-import com.bee.user.bean.ImageBean;
 import com.bee.user.bean.OrderBean;
 import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderGridviewItemBean;
@@ -50,8 +49,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -61,6 +62,23 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+import static com.bee.user.Constants.TYPE_ORDER_DPS;
+import static com.bee.user.Constants.TYPE_ORDER_GPS;
+import static com.bee.user.Constants.TYPE_ORDER_HPS;
+import static com.bee.user.Constants.TYPE_ORDER_JMJ;
+import static com.bee.user.Constants.TYPE_ORDER_OC;
+import static com.bee.user.Constants.TYPE_ORDER_OF;
+import static com.bee.user.Constants.TYPE_ORDER_OFP;
+import static com.bee.user.Constants.TYPE_ORDER_OMJ;
+import static com.bee.user.Constants.TYPE_ORDER_OPS;
+import static com.bee.user.Constants.TYPE_ORDER_PJ;
+import static com.bee.user.Constants.TYPE_ORDER_QPS;
+import static com.bee.user.Constants.TYPE_ORDER_SPS;
+import static com.bee.user.Constants.TYPE_ORDER_SS;
+import static com.bee.user.Constants.TYPE_ORDER_TK;
+import static com.bee.user.Constants.TYPE_ORDER_WMJ;
+import static com.bee.user.Constants.TYPE_ORDER_WP;
+import static com.bee.user.Constants.TYPE_ORDER_WPS;
 import static com.bee.user.bean.DictByTypeBean.TYPE_REFUND_REASON;
 
 /**
@@ -97,17 +115,13 @@ public class CommonUtil {
     }
 
     //评论图片
-    public static void initCommentAdapter(RecyclerView images) {
+    public static void initCommentAdapter(RecyclerView images,String[] list) {
+        if(null == list || list.length==0){
+            return;
+        }
         images.setLayoutManager(new LinearLayoutManager(images.getContext(),LinearLayoutManager.HORIZONTAL,false));
-        ArrayList<ImageBean> imageBeans = new ArrayList<>();
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        imageBeans.add(new ImageBean());
-        CommentImagesAdapter commentImagesAdapter = new CommentImagesAdapter(imageBeans);
+        List<String> strings = Arrays.asList(list);
+        CommentImagesAdapter commentImagesAdapter = new CommentImagesAdapter(strings);
         images.setAdapter(commentImagesAdapter);
 
         commentImagesAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -115,13 +129,11 @@ public class CommonUtil {
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
 
                 Intent intent = new Intent(images.getContext(), ImagesActivity.class);
-                intent.putExtra("datas",imageBeans);
+                intent.putExtra("datas", (Serializable) strings);
+                intent.putExtra("position", position);
                 images.getContext().startActivity(intent);
             }
         });
-
-
-
     }
 
     //订单跟踪
@@ -162,7 +174,7 @@ public class CommonUtil {
                     activity. startActivity(OrderingActivity.newIntent(activity,0,new ArrayList<>(),new ArrayList<>()));
                     break;
                 case OrderGridviewItemBean.TYPE_comment://评价得积分
-                    OrderCommentActivity.newInstance(activity,id,orderDetailBean);
+                    OrderCommentActivity.newInstance(activity,id,orderDetailBean.storeId,orderDetailBean,true);
                     break;
                 case OrderGridviewItemBean.TYPE_shouhou://申请售后
                     intent = new Intent(activity, ShouHouActivity.class);
@@ -550,5 +562,69 @@ public class CommonUtil {
             e.printStackTrace();
             return false;
         }
+    }
+
+
+    /**
+     public static final String TYPE_ORDER_SS = "SS";//订单提交成功
+     public static final String TYPE_ORDER_OFP = "OFP";//订单已支付
+     public static final String TYPE_ORDER_WMJ = "WMJ";//商家待接单
+     public static final String TYPE_ORDER_JMJ = "JMJ";//商家分拣完成
+     public static final String TYPE_ORDER_WPS = "WPS";//配送员待接单
+     public static final String TYPE_ORDER_OPS = "OPS";//配送员已接单
+     public static final String TYPE_ORDER_QPS = "QPS";//配送员取货中
+     public static final String TYPE_ORDER_GPS = "GPS";//配送员已到店
+     public static final String TYPE_ORDER_HPS = "HPS";//配送员已取货
+     public static final String TYPE_ORDER_OF = "OF";//订单已完成
+
+     public static final String TYPE_ORDER_WP = "WP";//订单待支付
+     public static final String TYPE_ORDER_DPS = "DPS";//商品已送达
+     public static final String TYPE_ORDER_OMJ = "OMJ";//商家已接单
+     public static final String TYPE_ORDER_SPS = "SPS";//配送员送货中
+     public static final String TYPE_ORDER_OC = "OC";//订单已取消
+
+     //TODO
+     public static final String TYPE_ORDER_TK = "S";//待评价
+     public static final String TYPE_ORDER_PJ = "SS";//退款
+     */
+    public static String getOrderTypeName(String orderItemType) {
+        switch (orderItemType){
+            case TYPE_ORDER_SS:
+                return "订单提交成功";
+            case TYPE_ORDER_OFP:
+                return "订单已支付";
+            case TYPE_ORDER_WMJ:
+                return "商家待接单";
+            case TYPE_ORDER_JMJ:
+                return "商家分拣完成";
+            case TYPE_ORDER_WPS:
+                return "配送员待接单";
+            case TYPE_ORDER_OPS:
+                return "配送员已接单";
+            case TYPE_ORDER_QPS:
+                return "配送员取货中";
+            case TYPE_ORDER_GPS:
+                return "配送员已到店";
+            case TYPE_ORDER_HPS:
+                return "配送员已取货";
+            case TYPE_ORDER_OF:
+                return "订单已完成";
+            case TYPE_ORDER_WP:
+                return "订单待支付";
+            case TYPE_ORDER_DPS:
+                return "商品已送达";
+            case TYPE_ORDER_OMJ:
+                return "商家已接单";
+            case TYPE_ORDER_SPS:
+                return "配送员送货中";
+
+            case TYPE_ORDER_OC:
+                return "订单已取消";
+            case TYPE_ORDER_TK:
+                return "待评价";
+            case TYPE_ORDER_PJ:
+                return "退款";
+        }
+        return "";
     }
 }

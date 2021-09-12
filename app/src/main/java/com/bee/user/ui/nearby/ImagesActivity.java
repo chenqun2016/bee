@@ -6,10 +6,7 @@ import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
-import com.bee.user.bean.BannerBean;
-import com.bee.user.bean.ImageBean;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.home.BannerImageHolder;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
@@ -17,8 +14,6 @@ import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bigkoo.convenientbanner.listener.OnPageChangeListener;
 import com.gyf.immersionbar.ImmersionBar;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -47,8 +42,8 @@ public class ImagesActivity extends BaseActivity {
     public void initViews() {
         base_pre_content.setBackgroundResource(R.color.transparent);
         Intent intent = getIntent();
-        List<ImageBean> datas = (List<ImageBean>)intent.getSerializableExtra("datas");
-
+        List<String> datas = (List<String>)intent.getSerializableExtra("datas");
+        int position = intent.getIntExtra("position", 0);
         banner2.setPages(new CBViewHolderCreator() {
             @Override
             public Holder createHolder(View itemView) {
@@ -79,6 +74,12 @@ public class ImagesActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int index) {
+            }
+        });
+        banner2.post(new Runnable() {
+            @Override
+            public void run() {
+                banner2.setCurrentItem(position,false);
             }
         });
     }

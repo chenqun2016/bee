@@ -16,6 +16,7 @@ public class CommentParams {
     public Integer orderId;
     public String pics;
     public Integer star;
+    public Integer storeId;
 
     public static class DetailsBean {
         public String commentObj;

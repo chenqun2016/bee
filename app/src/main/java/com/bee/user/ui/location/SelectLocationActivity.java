@@ -1,7 +1,9 @@
 package com.bee.user.ui.location;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -10,10 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.DingWeiBean;
-import com.bee.user.event.LocationChangedEvent;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -24,21 +28,19 @@ import com.bee.user.ui.search.SearchLocationActivity;
 import com.bee.user.ui.xiadan.ChooseAddressActivity;
 import com.bee.user.ui.xiadan.NewAddressActivity;
 import com.bee.user.utils.CommonUtil;
+import com.bee.user.utils.LogUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.zaaach.citypicker.CityPicker;
-import com.zaaach.citypicker.model.LocateState;
-import com.zaaach.citypicker.model.LocatedCity;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -75,10 +77,13 @@ public class SelectLocationActivity extends BaseActivity {
     LinearLayout ll_kepeisong;
 
     @OnClick({R.id.tv_right, R.id.tv_select, R.id.tv_location,
-            R.id.tv_reLocation, R.id.tv_more_locatino, R.id.tv_more})
+            R.id.tv_reLocation, R.id.tv_more_locatino, R.id.tv_more,R.id.tv_location_area})
     public void onClick(View view) {
         switch (view.getId()) {
-
+            case R.id.tv_location_area://当前定位
+                EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_reset_Location_from_SelectLocationActivity));
+                finish();
+                break;
             case R.id.tv_right://管理
                 startActivityForResult(new Intent(this, ChooseAddressActivity.class),REQUEST_CODE_CHOOSEADDRESS_ACTIVITY_Secectlocation);
                 break;
@@ -88,8 +93,7 @@ public class SelectLocationActivity extends BaseActivity {
 //                showCityPicker();
                 break;
             case R.id.tv_reLocation://重新定位
-                EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_reLocation));
-
+                mLocationClient.startLocation();
                 tv_location_area.setText("定位中.");
                 break;
 
@@ -130,19 +134,24 @@ public class SelectLocationActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
     ChooseAddressAdapter2 chooseAddressAdapter;
     DingWeiAdapter2 dingWeiAdapter;
 
     @Override
     public void initViews() {
-        EventBus.getDefault().register(this);
 
         AMapLocation location = SPUtils.geTinstance().getLocation();
         if(null != location){
             tv_location.setText(location.getCity());
             tv_location_area.setText(location.getPoiName());
+
+            ll_kepeisong.setVisibility(View.VISIBLE);
+            recyclerview2.setVisibility(View.VISIBLE);
+            getNearByBuilding(location);
+        }else{
+            ll_kepeisong.setVisibility(View.GONE);
+            recyclerview2.setVisibility(View.GONE);
         }
 
         recyclerview1.setLayoutManager(new LinearLayoutManager(this));
@@ -152,7 +161,7 @@ public class SelectLocationActivity extends BaseActivity {
             public void onItemClick(@NonNull @NotNull BaseQuickAdapter<?, ?> adapter, @NonNull @NotNull View view, int position) {
                 AddressBean addressBean = chooseAddressAdapter.getData().get(position);
                 MainEvent mainEvent = new MainEvent(TYPE_reset_Location);
-                mainEvent.addressBean = addressBean;
+                mainEvent.locationInfo = new MainEvent.LocationInfo(addressBean.name,addressBean.latitude,addressBean.longitude);
                 EventBus.getDefault().post(mainEvent);
                 finish();
             }
@@ -161,11 +170,57 @@ public class SelectLocationActivity extends BaseActivity {
 
         recyclerview2.setLayoutManager(new LinearLayoutManager(this));
         dingWeiAdapter = new DingWeiAdapter2();
+        dingWeiAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull @NotNull BaseQuickAdapter<?, ?> adapter, @NonNull @NotNull View view, int position) {
+                if(dingWeiAdapter.current != position){
+                    int pre = dingWeiAdapter.current;
+                    dingWeiAdapter.notifyItemChanged(pre);
+                }
+                dingWeiAdapter.current = position;
+                dingWeiAdapter.notifyItemChanged(position);
+                DingWeiBean bean = dingWeiAdapter.getData().get(position);
+                MainEvent mainEvent = new MainEvent(TYPE_reset_Location);
+                mainEvent.locationInfo = new MainEvent.LocationInfo(bean.name,bean.latitude,bean.longitude);
+                EventBus.getDefault().post(mainEvent);
+                finish();
+            }
+        });
         recyclerview2.setAdapter(dingWeiAdapter);
-        ll_kepeisong.setVisibility(View.GONE);
-        recyclerview2.setVisibility(View.GONE);
+
+
+        initLocations();
         getAddress();
+
     }
+
+
+    private void getNearByBuilding(AMapLocation location) {
+        Map<String,String> map = new HashMap();
+
+//        map.put("longitude", location.getLongitude()+"");
+//        map.put("latitude", location.getLatitude()+"");
+
+        map.put("longitude", "121.518689");
+        map.put("latitude", "31.240972");
+
+        Api.getClient(HttpRequest.baseUrl_shop)
+                .nearByBuilding(Api.getRequestBody(map))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<DingWeiBean>>() {
+                    @Override
+                    public void onSuccess(List<DingWeiBean> beans) {
+                        dingWeiAdapter.setNewInstance(beans);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
+    }
+
     private void getAddress() {
         Api.getClient(HttpRequest.baseUrl_member).listAddress().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -179,48 +234,59 @@ public class SelectLocationActivity extends BaseActivity {
                 });
     }
 
-//    public void showCityPicker() {
-//        List<HotCity> hotCities = new ArrayList<>();
-//        hotCities.add(new HotCity("北京", "北京", "101010100"));
-//        hotCities.add(new HotCity("上海", "上海", "101020100"));
-//        hotCities.add(new HotCity("广州", "广东", "101280101"));
-//        hotCities.add(new HotCity("深圳", "广东", "101280601"));
-//        hotCities.add(new HotCity("杭州", "浙江", "101210101"));
-//
-//
-//        CityPicker.from(this)
-//                .enableAnimation(true)
-//                .setAnimationStyle(R.style.DefaultCityPickerAnimation)
-//                .setLocatedCity(null)
-//                .setHotCities(hotCities)
-//                .setOnPickListener(new OnPickListener() {
-//                    @Override
-//                    public void onPick(int position, City data) {
-//                        tv_location.setText(data.getName());
-//                        Toast.makeText(
-//                                SelectLocationActivity.this,
-//                                String.format("点击的数据：%s，%s", data.getName(), data.getCode()),
-//                                Toast.LENGTH_SHORT)
-//                                .show();
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//                        Toast.makeText(SelectLocationActivity.this, "取消选择", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onLocate() {
-//                        LogUtil.d("onLocate");
-//
-//                        EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_reLocation));
-//
-//                    }
-//                })
-//                .show();
-//    }
 
+    private AMapLocationClient mLocationClient;
+    //声明定位回调监听器
+    //异步获取定位结果
+    private AMapLocationListener mAMapLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation amapLocation) {
+
+            if (amapLocation != null) {
+                if (amapLocation.getErrorCode() == 0) {
+                    //可在其中解析amapLocation获取相应内容。
+                    LogUtil.d("location==" + amapLocation.toStr());
+                    SPUtils.geTinstance().setLocation(amapLocation);
+
+                    tv_location_area.setText( amapLocation.getPoiName() );
+                } else {
+                    //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
+                    Log.e("AmapError", "location Error, ErrCode:"
+                            + amapLocation.getErrorCode() + ", errInfo:"
+                            + amapLocation.getErrorInfo());
+                }
+            }
+            closeLoadingDialog();
+        }
+    };
+
+
+    private void initLocations() {
+
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+//设置定位回调监听
+        mLocationClient.setLocationListener(mAMapLocationListener);
+
+        AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为AMapLocationMode.Hight_Accuracy，高精度模式。
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+
+        //设置定位间隔,单位毫秒,默认为2000ms，最低1000ms。
+//        mLocationOption.setInterval(1000);
+
+        //获取一次定位结果：
+//该方法默认为false。
+        mLocationOption.setOnceLocation(true);
+        //获取最近3s内精度最高的一次定位结果：
+//设置setOnceLocationLatest(boolean b)接口为true，启动定位时SDK会返回最近3s内精度最高的一次定位结果。如果设置其为true，setOnceLocation(boolean b)接口也会被设置为true，反之不会，默认为false。
+        mLocationOption.setOnceLocationLatest(true);
+
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+//        mLocationClient.startLocation();
+
+    }
 
     public static class ChooseAddressAdapter2 extends BaseQuickAdapter<AddressBean, BaseViewHolder> {
         public ChooseAddressAdapter2() {
@@ -237,32 +303,35 @@ public class SelectLocationActivity extends BaseActivity {
             tv_address.setText(addressBean.detailAddress+"");
             tv_tag.setText(CommonUtil.getLocationTag(addressBean.tag));
             tv_address2.setText(addressBean.houseNumber+"");
-            tv_name.setText(addressBean.name+"");
+            tv_name.setText(addressBean.name+""+addressBean.phoneNumber);
 
             baseViewHolder.findView(R.id.imageview).setVisibility(View.INVISIBLE);
         }
     }
 
     public static class DingWeiAdapter2 extends BaseQuickAdapter<DingWeiBean, BaseViewHolder> {
+        public int current = -1;
+
         public DingWeiAdapter2() {
             super(R.layout.item_dingwei2);
         }
 
         @Override
-        protected void convert(@NotNull BaseViewHolder baseViewHolder, DingWeiBean dingWeiBean) {
+        protected void convert(@NotNull BaseViewHolder holder, DingWeiBean dingWeiBean) {
+            ImageView image = holder.getView(R.id.image);
 
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLocationChangedEvent(LocationChangedEvent event) {
-        AMapLocation amapLocation = SPUtils.geTinstance().getLocation();
-        if (null != amapLocation) {
-            if (amapLocation.getErrorCode() == 0) {
-//                tv_location_area.setText( amapLocation.getStreet() + amapLocation.getStreetNum());
-                tv_location_area.setText( amapLocation.getPoiName() );
-                CityPicker.from(SelectLocationActivity.this).locateComplete(new LocatedCity(amapLocation.getCity(), amapLocation.getProvince(), amapLocation.getAdCode()), LocateState.SUCCESS);
+            if(current == holder.getAbsoluteAdapterPosition()){
+                image.setImageResource(R.drawable.icon_dingwei_cheng);
+            }else{
+                image.setImageResource(R.drawable.icon_circle_grey);
             }
+            TextView tv_name = holder.getView(R.id.tv_name);
+            TextView tv_dizhi = holder.getView(R.id.tv_dizhi);
+
+            tv_name.setText(dingWeiBean.name);
+            tv_dizhi.setText(dingWeiBean.address);
         }
     }
+
+
 }

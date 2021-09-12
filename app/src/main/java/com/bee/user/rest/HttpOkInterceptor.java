@@ -1,31 +1,17 @@
 package com.bee.user.rest;
 
-import android.text.TextUtils;
-import android.util.Base64;
-
-import com.bee.user.Constants;
-import com.bee.user.utils.Base64Utils;
 import com.bee.user.utils.DeviceUtils;
-import com.bee.user.utils.EncryptUtils;
-import com.bee.user.utils.LogUtil;
 import com.bee.user.utils.NetWorkUtil;
 import com.bee.user.utils.sputils.SPUtils;
-import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.FormBody;
 import okhttp3.Interceptor;
-import okhttp3.MediaType;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
-import okio.Buffer;
 
 /**
  * Created by chenqun on 2018/1/29.
@@ -61,6 +47,10 @@ public class HttpOkInterceptor implements Interceptor {
                 .addHeader("support", URLEncoder.encode(NetWorkUtil.getNetworkOperatorName())+" ") // 运营商（移动、联通、电信...）
                 .addHeader("appVersion", DeviceUtils.getAppVersionName()+"");// app版本
 
+        if(null !=  SPUtils.geTinstance().getLocation()){
+            builder.addHeader("latitude",SPUtils.geTinstance().getLocation().getLatitude()+"");
+            builder.addHeader("longitude",SPUtils.geTinstance().getLocation().getLongitude()+"");
+        }
         Map<String, String> hashMap = new HashMap<>();
 
         //添加实体 公共参数

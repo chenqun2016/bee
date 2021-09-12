@@ -73,6 +73,6 @@ public class TradeListEntity extends BaseCEntity<TradeRecordBean> {
         tv_integral_count.setText(CommonUtil.getNomalMoneyType(item.orderAmount));
 
         TextView tv_integral_title = helper.findView(R.id.tv_integral_title);
-        tv_integral_title.setText(CommonUtil.getBizTypeStr(item.bizType));
+        tv_integral_title.setText(item.bizTypeDesc);
     }
 }

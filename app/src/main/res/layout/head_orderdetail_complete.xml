@@ -38,21 +38,5 @@
     </LinearLayout>
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_round10dp_white"
-        android:orientation="vertical"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="15dp"
-        android:paddingTop="15dp"
-        android:textColor="@color/color_282525"
-        android:textSize="13sp"
-        android:drawableRight="@drawable/icon_link"
-        android:text="我的评价"/>
 
 </LinearLayout>
