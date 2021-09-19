@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_F5F5F5"
+    android:orientation="vertical">
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bg_white_grey"
+        android:background="@drawable/bg_gradient_white_grey" />
+
+    <ImageButton
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@color/transparent"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/icon_back_anse" />
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="订单评价"
+        android:textColor="@color/color_282626"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_title"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_round10dp_white"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="20dp">
+
+
+                <ImageView
+                    android:id="@+id/iv_goods_img"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/food2"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/iv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="精品海鲜捞面"
+                    android:textColor="@color/color_282626"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_goods_img"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/iv_pinfen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="综合评分4.9"
+                    android:textColor="@color/color_7B7777"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_goods_img"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_name" />
+
+
+                <TextView
+                    android:id="@+id/ratin_text11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:text="商家"
+                    android:textColor="@color/color_282525"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_pinfen" />
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/ratin1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:maxWidth="20dp"
+                    android:maxHeight="20dp"
+                    android:rating="4"
+                    app:layout_constraintBottom_toBottomOf="@+id/ratin_text11"
+                    app:layout_constraintLeft_toRightOf="@+id/ratin_text11"
+                    app:layout_constraintTop_toTopOf="@id/ratin_text11"
+                    app:mrb_progressBackgroundTint="@color/color_8D99AE"
+                    app:mrb_progressTint="@color/color_FF564A"
+                    app:mrb_secondaryProgressTint="@color/white" />
+
+                <TextView
+                    android:id="@+id/ratin_text22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="包装"
+                    android:textColor="@color/color_282626"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toLeftOf="@+id/ratin_text11"
+                    app:layout_constraintTop_toBottomOf="@+id/ratin_text11" />
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/ratin2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:maxWidth="20dp"
+                    android:maxHeight="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ratin_text22"
+                    app:layout_constraintLeft_toRightOf="@+id/ratin_text22"
+                    app:layout_constraintTop_toTopOf="@id/ratin_text22"
+                    app:mrb_progressBackgroundTint="@color/color_8D99AE"
+                    app:mrb_progressTint="@color/color_FF564A"
+                    app:mrb_secondaryProgressTint="@color/white" />
+
+                <TextView
+                    android:id="@+id/ratin_text33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="味道"
+                    android:textColor="@color/color_282626"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toLeftOf="@+id/ratin_text22"
+                    app:layout_constraintTop_toBottomOf="@+id/ratin_text22" />
+
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/ratin3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:maxWidth="20dp"
+                    android:maxHeight="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ratin_text33"
+                    app:layout_constraintLeft_toRightOf="@+id/ratin_text33"
+                    app:layout_constraintTop_toTopOf="@id/ratin_text33"
+                    app:mrb_progressBackgroundTint="@color/color_8D99AE"
+                    app:mrb_progressTint="@color/color_FF564A"
+                    app:mrb_secondaryProgressTint="@color/white" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_round10dp_white"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="20dp">
+
+
+                <TextView
+                    android:id="@+id/niming2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="已对配送员匿名"
+                    android:textColor="@color/color_3C3838"
+                    android:textSize="12sp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/iv_people_img"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/icon_kuaidiyuan"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/iv_people_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="张三丰"
+                    android:textColor="@color/color_282626"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_people_img"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_people_pinfen"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_people_img"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_people_name" />
+
+
+                <TextView
+                    android:id="@+id/tv_people_pinfen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="综合评分4.9"
+                    android:textColor="@color/color_7B7777"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_people_img"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_people_pinfen" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="配送速度很快，菜品完整"
+                    android:textColor="@color/color_282525"
+                    android:textSize="14sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_people_pinfen" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_round10dp_white"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="20dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_round10dp_white"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="20dp">
+
+
+                <TextView
+                    android:id="@+id/et_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:gravity="start"
+                    android:maxLength="500"
+                    android:padding="10dp"
+                    android:text="菜品味道好，包装大气美观，明天接着点"
+                    android:textColor="@color/color_272525"
+                    android:textSize="15sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rc_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/et_content"
+                    android:layout_marginBottom="6dp"
+                    android:numColumns="3"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:verticalSpacing="2dp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/ll_store_reply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rc_view"
+                    android:background="@drawable/bg_round5dp_grey"
+                    android:orientation="vertical"
+                    android:padding="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="商家回复"
+                        android:textColor="@color/color_282525"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_store_reply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text=""
+                        android:textColor="@color/color_282525"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

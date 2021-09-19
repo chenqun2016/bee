@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.PicassoEngine;
+import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.DictByTypeBean;
@@ -34,6 +36,7 @@ import com.bee.user.ui.adapter.GridImageAdapter;
 import com.bee.user.ui.adapter.OrderCommentFoodAdapter;
 import com.bee.user.ui.adapter.TagsOrderCommentAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
+import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.MyExecutors;
 import com.bee.user.widget.FlowTagLayout;
 import com.luck.picture.lib.PictureSelector;
@@ -41,10 +44,12 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.luck.picture.lib.style.PictureParameterStyle;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,6 +70,13 @@ import static com.bee.user.bean.DictByTypeBean.TYPE_ORDER_APPRAISE;
  */
 public class OrderCommentActivity extends BaseActivity implements GridImageAdapter.onAddPicClickListener {
 
+    public static final int TYPE_NEW_COMMENT = 0;
+    public static final int TYPE_RE_COMMENT = 1;
+    public static final int TYPE_NO_COMMENT = 2;
+
+
+    String[] starDes = {"非常差", "差", "一般", "满意", "超赞"};
+
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
@@ -82,9 +94,17 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
     @BindView(R.id.tv_tijiao)
     TextView tv_tijiao;
 
-
+    @BindView(R.id.iv_pinfen)
+    TextView iv_pinfen;
     @BindView(R.id.et_content)
     EditText et_content;
+
+    @BindView(R.id.ratin_text1)
+    TextView ratin_text1;
+    @BindView(R.id.ratin_text2)
+    TextView ratin_text2;
+    @BindView(R.id.ratin_text3)
+    TextView ratin_text3;
 
     @BindView(R.id.tv_num)
     TextView tv_num;
@@ -116,20 +136,14 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
     TagsOrderCommentAdapter<DictByTypeBean> tagsAdapter;
     int id;
     int storeId;
-    boolean isNewComment;
-    public static void newInstance(Context context, int id,int storeId) {
-        Intent intent = new Intent(context, OrderCommentActivity.class);
-        intent.putExtra("id", id);
-        intent.putExtra("storeId", storeId);
-        context.startActivity(intent);
-    }
+    int type;
 
-    public static void newInstance(Context context, int id,int storeId, OrderDetailBean orderDetailBean,boolean isNewComment) {
+    public static void newInstance(Context context, int id, int storeId, OrderDetailBean orderDetailBean, int type) {
         Intent intent = new Intent(context, OrderCommentActivity.class);
         intent.putExtra("id", id);
         intent.putExtra("storeId", storeId);
         intent.putExtra("orderDetailBean", (Serializable) orderDetailBean);
-        intent.putExtra("isNewComment", isNewComment);
+        intent.putExtra("type", type);
         context.startActivity(intent);
     }
 
@@ -196,8 +210,8 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
         detailsBean2.give = ratin2.getRating();
         detailsBean2.commentType = 1;
         details.add(detailsBean2);
-        for(FoodBean bean : data){
-            if(bean.commentType == -1){
+        for (FoodBean bean : data) {
+            if (bean.commentType == -1) {
                 continue;
             }
             CommentParams.DetailsBean detailsBean = new CommentParams.DetailsBean();
@@ -315,9 +329,9 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
     @Override
     public void initViews() {
         Intent intent = getIntent();
-        id = intent .getIntExtra("id", 0);
-        storeId  =  intent .getIntExtra("storeId", 0);
-        isNewComment = intent.getBooleanExtra("isNewComment",true);
+        id = intent.getIntExtra("id", 0);
+        storeId = intent.getIntExtra("storeId", 0);
+        type = intent.getIntExtra("type", 0);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
 
         orderCommentFoodAdapter = new OrderCommentFoodAdapter();
@@ -372,11 +386,29 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
         tv_num.setText(msp1);
 
 
+        ratin1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                ratin_text1.setText(starDes[(int) (rating == 0 ? 0 : rating - 1)]);
+            }
+        });
+        ratin2.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                ratin_text2.setText(starDes[(int) (rating == 0 ? 0 : rating - 1)]);
+            }
+        });
+        ratin3.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                ratin_text3.setText(starDes[(int) (rating == 0 ? 0 : rating - 1)]);
+            }
+        });
         toDictByType();
 
         initImage();
 
-        if(!isNewComment){
+        if (type == TYPE_RE_COMMENT || type == TYPE_NO_COMMENT) {
             getCommentData();
         }
     }
@@ -387,18 +419,54 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
                 .subscribe(new BaseSubscriber<CommentBean>() {
                     @Override
                     public void onSuccess(CommentBean bean) {
-                        if(null != bean && null != bean.eva && null != bean.details){
-                            et_content.setText(bean.eva.content);
-                            cb_1.setChecked(bean.eva.isAnonymous == 1);
-                            ratin1.setNumStars(bean.eva.star);
-                            String pics = bean.eva.pics;
-                            String[] picss = pics.split(",");
-
-                            List<?> details1 = bean.details;
-                        }
-
+                        setCommentData(bean);
                     }
                 });
+    }
+
+    private void setCommentData(CommentBean bean) {
+        if (null != bean && null != bean.eva && null != bean.details) {
+            CommentBean.EvaBean eva = bean.eva;
+            et_content.setText(eva.content);
+            Picasso.with(iv_goods_img.getContext())
+                    .load(eva.icon)
+                    .fit()
+                    .transform(new PicassoRoundTransform(DisplayUtil.dip2px(iv_goods_img.getContext(), 10), 0, PicassoRoundTransform.CornerType.ALL))
+                    .into(iv_goods_img);
+            cb_1.setChecked(bean.eva.isAnonymous != 0);
+            iv_name.setText(eva.storeName);
+            iv_pinfen.setText("综合评分" + eva.star.toString());
+            ratin1.setRating(eva.star);
+            ratin_text1.setText(starDes[eva.star - 1]);
+            List<FoodBean> data = new ArrayList<>();
+            for (CommentBean.Detail detail : bean.details) {
+                if (detail.commentType == 1) {
+                    if (detail.commentObjId == 1) {
+                        ratin2.setRating(detail.give);
+                        ratin_text2.setText(starDes[detail.give - 1]);
+                    } else if (detail.commentObjId == 2) {
+                        ratin3.setRating(detail.give);
+                        ratin_text3.setText(starDes[detail.give - 1]);
+                    }
+                } else {
+                    FoodBean foodBean = new FoodBean();
+                    foodBean.productName = detail.commentObj;
+                    foodBean.commentType = detail.give;
+                    data.add(foodBean);
+                }
+            }
+            orderCommentFoodAdapter.setNewInstance(data);
+            String pics = eva.pics;
+            String[] picss = pics.split(",");
+
+            List<String> strings = Arrays.asList(picss);
+            if (strings.size() > 0) {
+                rc_view.setVisibility(View.VISIBLE);
+//                gridImageAdapter.setList(strings);
+            } else {
+                rc_view.setVisibility(View.GONE);
+            }
+        }
     }
 
     private GridImageAdapter gridImageAdapter;

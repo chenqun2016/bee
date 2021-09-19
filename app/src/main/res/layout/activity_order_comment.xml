@@ -121,7 +121,6 @@
                     android:layout_marginTop="30dp"
                     android:maxWidth="25dp"
                     android:maxHeight="25dp"
-                    android:rating="4"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_pinfen"
@@ -133,7 +132,7 @@
                     android:id="@+id/ratin_text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="超赞"
+                    android:text=""
                     android:textColor="@color/color_FF564A"
                     android:textSize="12sp"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -147,7 +146,6 @@
                     android:layout_marginTop="10dp"
                     android:maxWidth="14dp"
                     android:maxHeight="14dp"
-                    android:rating="4"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ratin_text1"
@@ -166,9 +164,10 @@
                     app:layout_constraintTop_toTopOf="@+id/ratin2" />
 
                 <TextView
+                    android:id="@+id/ratin_text2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="一般"
+                    android:text=""
                     android:textColor="@color/FF6200"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/ratin2"
@@ -183,7 +182,6 @@
                     android:layout_marginTop="6dp"
                     android:maxWidth="14dp"
                     android:maxHeight="14dp"
-                    android:rating="4"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/ratin2"
@@ -202,9 +200,10 @@
                     app:layout_constraintTop_toTopOf="@+id/ratin3" />
 
                 <TextView
+                    android:id="@+id/ratin_text3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="一般"
+                    android:text=""
                     android:textColor="@color/FF6200"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="@+id/ratin3"

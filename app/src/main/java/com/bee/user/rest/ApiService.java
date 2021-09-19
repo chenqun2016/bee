@@ -520,7 +520,11 @@ public interface ApiService {
     @POST(HttpRequest.queryCommentByOrder)
     Observable<BaseResult<CommentBean>> queryCommentByOrder(@Path("orderId") Integer orderId);
 
-
+    /**
+     * 根据订单ID订单评价
+     */
+    @POST(HttpRequest.queryCommentById)
+    Observable<BaseResult<CommentBean>> queryCommentById(@Path("id") Integer id);
 
     /**
      * 获取积分记录

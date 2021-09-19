@@ -140,7 +140,7 @@ public class MyCommentActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
 //                OrderCommentActivity.newInstance(mContext,);
-                    sl_content.getContext().startActivity(new Intent(sl_content.getContext(), OrderCommentActivity.class));
+                    MyCommentDetailActivity.newInstance(sl_content.getContext(),commentBean.id);
                 }
             });
             helper.findView(R.id.tv_delete).setOnClickListener(new View.OnClickListener() {

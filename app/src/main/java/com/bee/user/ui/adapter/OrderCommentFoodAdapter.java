@@ -23,19 +23,20 @@ public class OrderCommentFoodAdapter extends BaseQuickAdapter<FoodBean, BaseView
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, FoodBean bean) {
         TextView view = baseViewHolder.findView(R.id.tv_name);
-        view.setText(bean.productName+"");
+        view.setText(bean.productName + "");
 
         RadioGroupPlus rgp = baseViewHolder.findView(R.id.rgp);
         rgp.setOnCheckedChangeListener(new RadioGroupPlus.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroupPlus group, int checkedId) {
-                if(checkedId == R.id.rb_1){
+                if (checkedId == R.id.rb_1) {
                     bean.commentType = 0;
                 }
-                if(checkedId == R.id.rb_2){
+                if (checkedId == R.id.rb_2) {
                     bean.commentType = 1;
                 }
             }
         });
+        rgp.check(bean.commentType == 0 ? R.id.rb_1 : R.id.rb_2);
     }
 }

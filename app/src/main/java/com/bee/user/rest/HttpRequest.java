@@ -193,6 +193,9 @@ public class HttpRequest {
     //根据订单ID订单评价
     public static final String queryCommentByOrder = "evaShopStoreOrder/queryByOrder/{orderId}";
 
+    //根据订单ID订单评价
+    public static final String queryCommentById = "evaShopStoreOrder/queryById/{id}";
+
     //查询我的评价
     public static final String myOrderComment = "evaShopStoreOrder/myOrderComment";
 

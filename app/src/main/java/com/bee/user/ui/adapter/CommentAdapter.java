@@ -53,12 +53,14 @@ public class CommentAdapter extends BaseQuickAdapter<CommentBean, BaseViewHolder
 
         //TODO
         ImageView touxiang = helper.findView(R.id.touxiang);
-        Picasso.with(touxiang.getContext()).load(R.drawable.icon_touxiang).into(touxiang);
+        Picasso.with(touxiang.getContext()).load(commentBean.eva.icon).into(touxiang);
         ImageView dengji = helper.findView(R.id.dengji);
         TextView tv_comment = helper.findView(R.id.tv_comment);
         tv_comment.setText(commentBean.eva.isAnonymous == 1 ? "赞了该商品" : "踩了该商品");
         LinearLayout ll_store_reply = helper.findView(R.id.ll_store_reply);
+        ll_store_reply.setVisibility(TextUtils.isEmpty(commentBean.eva.replyContent) ? View.GONE : View.VISIBLE);
         TextView tv_store_reply = helper.findView(R.id.tv_store_reply);
+        tv_store_reply.setText(commentBean.eva.replyContent);
     }
 
 

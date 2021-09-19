@@ -180,7 +180,7 @@ public class OrderDetailActivity extends BaseActivity  implements AMap.OnMapLoad
                             headComment.findViewById(R.id.tv_my_comment).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    OrderCommentActivity.newInstance(OrderDetailActivity.this,id,orderDetailBean.storeId,orderDetailBean,false);
+                                    OrderCommentActivity.newInstance(OrderDetailActivity.this,id,orderDetailBean.storeId,orderDetailBean,OrderCommentActivity.TYPE_RE_COMMENT);
                                 }
                             });
                             orderingAdapter.addHeaderView(headComment);

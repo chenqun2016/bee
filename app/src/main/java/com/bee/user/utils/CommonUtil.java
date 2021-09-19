@@ -174,7 +174,7 @@ public class CommonUtil {
                     activity. startActivity(OrderingActivity.newIntent(activity,0,new ArrayList<>(),new ArrayList<>()));
                     break;
                 case OrderGridviewItemBean.TYPE_comment://评价得积分
-                    OrderCommentActivity.newInstance(activity,id,orderDetailBean.storeId,orderDetailBean,true);
+                    OrderCommentActivity.newInstance(activity,id,orderDetailBean.storeId,orderDetailBean,OrderCommentActivity.TYPE_NEW_COMMENT);
                     break;
                 case OrderGridviewItemBean.TYPE_shouhou://申请售后
                     intent = new Intent(activity, ShouHouActivity.class);
