@@ -16,6 +16,7 @@ import com.bee.user.bean.FoodDetailBean;
 import com.bee.user.bean.GiftcardBean;
 import com.bee.user.bean.HelpTypeBean;
 import com.bee.user.bean.HelpTypeItemBean;
+import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.MiLiChongzhiBean;
 import com.bee.user.bean.MyCommentWrapBean;
 import com.bee.user.bean.MyMiLiBean;
@@ -559,4 +560,14 @@ public interface ApiService {
      */
     @POST(HttpRequest.queryListBySkuId)
     Observable<BaseResult<CommentWrapBean>> queryListBySkuId(@Query("skuId") String skuId,@Query("pageNum") int pageNum, @Query("pageSize") int pageSize);
+
+
+    /**
+     * 获取为您推荐商品 (header需设置经纬度（longitude，latitude）)，网关api-shop
+     * app-sys-shop-store/index/recommand
+     * @return
+     */
+    @POST(HttpRequest.homeRecommand)
+    Observable<BaseResult<List<HomeBean>>> homeRecommand();
+
 }

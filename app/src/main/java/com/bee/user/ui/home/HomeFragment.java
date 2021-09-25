@@ -24,6 +24,9 @@ import com.bee.user.bean.HomeGridview2Bean;
 import com.bee.user.entity.LunchEntity;
 import com.bee.user.entity.NearbyEntity;
 import com.bee.user.event.MainEvent;
+import com.bee.user.rest.Api;
+import com.bee.user.rest.BaseSubscriber;
+import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.CRecyclerViewActivity;
 import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.adapter.HomeGridview2Adapter;
@@ -51,6 +54,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -76,7 +81,7 @@ public class HomeFragment extends BaseFragment {
 
     private ConvenientBanner mBanner;
 
-
+    private HomeAdapter homeAdapter;
 
     private List<BannerBean> bannerList = new ArrayList<>();//banner数据
     private List<BannerBean> bannerList3 = new ArrayList<>();//banner3数据
@@ -214,7 +219,7 @@ public class HomeFragment extends BaseFragment {
         initHeaderView3(headerView3);
 
 
-        HomeAdapter homeAdapter = new HomeAdapter();
+        homeAdapter = new HomeAdapter();
         homeAdapter.addHeaderView(headerViewBanner);
         homeAdapter.addHeaderView(headerView2);
         homeAdapter.addHeaderView(headerView3);
@@ -223,17 +228,33 @@ public class HomeFragment extends BaseFragment {
         homeAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                startActivity(new Intent(getContext(), FoodActivity.class));
+                HomeBean bean = (HomeBean) adapter.getData().get(position);
+                Intent intent = new Intent(getContext(), FoodActivity.class);
+                intent.putExtra("skuId",bean.skuId);
+                intent.putExtra("storeId",bean.storeId);
+                startActivity(intent);
             }
         });
 
-        ArrayList<HomeBean> homeBeans = new ArrayList<>();
-        homeBeans.add(new HomeBean());
-        homeBeans.add(new HomeBean());
-        homeBeans.add(new HomeBean());
-        homeBeans.add(new HomeBean());
-        homeBeans.add(new HomeBean());
-        homeAdapter.setNewInstance(homeBeans);
+        getTuijian();
+    }
+
+    private void getTuijian() {
+        Api.getClient(HttpRequest.baseUrl_shop).homeRecommand().
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<HomeBean>>() {
+                    @Override
+                    public void onSuccess(List<HomeBean> data) {
+                        homeAdapter.setNewInstance(data);
+
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 
     ConvenientBanner banner3;

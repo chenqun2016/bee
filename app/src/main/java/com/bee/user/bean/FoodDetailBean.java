@@ -10,8 +10,8 @@ public class FoodDetailBean {
     public Integer skuId;
     public String skuCode;
     public String skuName;
-    public Integer orginPrice;
-    public Integer price;
+    public int orginPrice;
+    public int price;
     public Object packingFee;
     public Integer stock;
     public Integer lowStock;
@@ -20,7 +20,7 @@ public class FoodDetailBean {
     public String sp3;
     public String sp4;
     public Object spData;
-    public Integer sale;
+    public int sale;
     public String pic;
     public Integer newStatus;
     public Integer recommandStatus;

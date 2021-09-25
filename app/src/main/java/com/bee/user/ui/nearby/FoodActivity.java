@@ -1,6 +1,7 @@
 package com.bee.user.ui.nearby;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,6 @@ import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.CommentWrapBean;
 import com.bee.user.bean.FoodDetailBean;
-import com.bee.user.bean.StoreBean;
 import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -27,7 +27,6 @@ import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.CommentAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.home.BannerImageHolder;
-import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.utils.LogUtil;
@@ -82,6 +81,11 @@ public class FoodActivity extends BaseActivity {
     TextView tv_food_title;
     @BindView(R.id.tv_selled)
     TextView tv_selled;
+
+    @BindView(R.id.tv_money)
+    TextView tv_money;
+    @BindView(R.id.tv_money_past)
+    TextView tv_money_past;
 
 
     @BindView(R.id.iv_icon)
@@ -166,11 +170,11 @@ public class FoodActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-        skuId  = getIntent().getIntExtra("skuId",0);
+        skuId = getIntent().getIntExtra("skuId", 0);
         storeId = getIntent().getIntExtra("storeId", 0);
 
         View iv_back2 = findViewById(R.id.iv_back2);
-        if(null != iv_back2){
+        if (null != iv_back2) {
             iv_back2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -190,12 +194,12 @@ public class FoodActivity extends BaseActivity {
         TextView tv_text1 = view1.findViewById(R.id.tv_text);
         tv_text1.setText("商品");
         tabLayout.addTab(tabLayout.newTab().setCustomView(view1));
-         view1 = View.inflate(this, R.layout.item_food_tab, null);
-         tv_text1 = view1.findViewById(R.id.tv_text);
+        view1 = View.inflate(this, R.layout.item_food_tab, null);
+        tv_text1 = view1.findViewById(R.id.tv_text);
         tv_text1.setText("评价");
         tabLayout.addTab(tabLayout.newTab().setCustomView(view1));
-         view1 = View.inflate(this, R.layout.item_food_tab, null);
-         tv_text1 = view1.findViewById(R.id.tv_text);
+        view1 = View.inflate(this, R.layout.item_food_tab, null);
+        tv_text1 = view1.findViewById(R.id.tv_text);
         tv_text1.setText("详情");
         tabLayout.addTab(tabLayout.newTab().setCustomView(view1));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -264,23 +268,23 @@ public class FoodActivity extends BaseActivity {
         getComments();
         initScroll();
         getDatas();
+
     }
 
-    FoodDetailBean mBeans ;
+    FoodDetailBean mBeans;
 
     private void getDatas() {
-        Intent intent = getIntent();
-
-
         Api.getClient(HttpRequest.baseUrl_goods).productDetail(skuId)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<FoodDetailBean>() {
                     @Override
                     public void onSuccess(FoodDetailBean beans) {
-                        mBeans  = beans;
+                        mBeans = beans;
                         initBanner2();
                         initBanner();
+
+                        getStoreDetail();
                     }
 
                     @Override
@@ -294,13 +298,24 @@ public class FoodActivity extends BaseActivity {
      * 刷新
      */
     private void getComments() {
-        Api.getClient(HttpRequest.baseUrl_eva).queryListBySkuId(skuId+"", 1, LoadmoreUtils.PAGE_SIZE)
+        Api.getClient(HttpRequest.baseUrl_eva).queryListBySkuId(skuId + "", 1, LoadmoreUtils.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<CommentWrapBean>() {
                     @Override
                     public void onSuccess(CommentWrapBean beans) {
-                        mAdapter.setNewInstance(beans.records);
+                        mAdapter.setNewInstance(beans.records.size()>2?beans.records.subList(0,1):beans.records);
+
+                        tv_food_comment.setText("商品评价("+beans.records.size()+")");
+                        tv_food_comment.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(FoodActivity.this, CommentActivity.class);
+                                intent.putExtra("storeId", storeId);
+                                intent.putExtra("skuId", skuId);
+                                startActivity(intent);
+                            }
+                        });
                     }
 
                     @Override
@@ -398,47 +413,56 @@ public class FoodActivity extends BaseActivity {
 
 
     private void initBanner2() {
+        tv_money_past.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);  // 设置中划线并加清晰
+        tv_money_past.setText("¥"+mBeans.orginPrice+"");
+        tv_money.setText(mBeans.price+"");
         tv_food_title.setText(mBeans.skuName);
-        tv_selled.setText("已售"+mBeans.sale);
+        tv_selled.setText("已售" + mBeans.sale);
 
 
-        StoreDetailBean data = (StoreDetailBean) getIntent().getSerializableExtra("data");
-        tv_title.setText(data.getName()+"");
-        if(!TextUtils.isEmpty(data.getDistance())){
-            tv_distance.setText(data.getDistance() + "公里");
-        }
-        if(!TextUtils.isEmpty(data.getDuration())){
-            tv_time.setText("大约" + data.getDuration() + "分钟");
-        }
-        if(!TextUtils.isEmpty(data.getMonthSalesCount())){
-            tv_sells.setText("月销" + data.getMonthSalesCount());
-        }
 
-        Picasso.with(this)
-                .load(data.getLogoUrl())
-                .fit()
-                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this, 5), 0, PicassoRoundTransform.CornerType.ALL))
-                .into(iv_icon);
+    }
 
+    private void getStoreDetail() {
+        Api.getClient(HttpRequest.baseUrl_shop).shop_getDetail(storeId + "").subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<StoreDetailBean>() {
+                    @Override
+                    public void onSuccess(StoreDetailBean data) {
 
-        List<StoreBean.StoreTag> list = new ArrayList<>();
-        list.add(new StoreBean.StoreTag(mBeans.sp1,0));
-        list.add(new StoreBean.StoreTag(mBeans.sp2,0));
-        list.add(new StoreBean.StoreTag(mBeans.sp3,2));
-        list.add(new StoreBean.StoreTag(mBeans.sp4,2));
+                        if (null != data) {
+                            tv_title.setText(data.getName() + "");
+                            if (!TextUtils.isEmpty(data.getDistance())) {
+                                tv_distance.setText(data.getDistance() + "公里");
+                            }
+                            if (!TextUtils.isEmpty(data.getDuration())) {
+                                tv_time.setText("大约" + data.getDuration() + "分钟");
+                            }
+                            if (!TextUtils.isEmpty(data.getMonthSalesCount())) {
+                                tv_sells.setText("月销" + data.getMonthSalesCount());
+                            }
 
-        CommonUtil.initTAGViews(ll_mark,list);
+                            Picasso.with(FoodActivity.this)
+                                    .load(data.getLogoUrl())
+                                    .fit()
+                                    .transform(new PicassoRoundTransform(DisplayUtil.dip2px(FoodActivity.this, 5), 0, PicassoRoundTransform.CornerType.ALL))
+                                    .into(iv_icon);
+                        }
 
+//                        List<StoreBean.StoreTag> list = new ArrayList<>();
+//                        list.add(new StoreBean.StoreTag(mBeans.sp1, 0));
+//                        list.add(new StoreBean.StoreTag(mBeans.sp2, 0));
+//                        list.add(new StoreBean.StoreTag(mBeans.sp3, 2));
+//                        list.add(new StoreBean.StoreTag(mBeans.sp4, 2));
+//
+//                        CommonUtil.initTAGViews(ll_mark, list);
+                    }
 
-        tv_food_comment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(FoodActivity.this, CommentActivity.class);
-                intent.putExtra("storeId",storeId);
-                intent.putExtra("skuId",skuId);
-                startActivity(intent);
-            }
-        });
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 
 
