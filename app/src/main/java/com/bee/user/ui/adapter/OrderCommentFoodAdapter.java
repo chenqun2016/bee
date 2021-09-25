@@ -38,5 +38,9 @@ public class OrderCommentFoodAdapter extends BaseQuickAdapter<FoodBean, BaseView
             }
         });
         rgp.check(bean.commentType == 0 ? R.id.rb_1 : R.id.rb_2);
+        rgp.setEnabled(false);
+
+        baseViewHolder.findView(R.id.rb_1).setEnabled(false);
+        baseViewHolder.findView(R.id.rb_2).setEnabled(false);
     }
 }

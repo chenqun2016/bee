@@ -435,7 +435,7 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
                     .into(iv_goods_img);
             cb_1.setChecked(bean.eva.isAnonymous != 0);
             iv_name.setText(eva.storeName);
-            iv_pinfen.setText("综合评分" + eva.star.toString());
+            iv_pinfen.setText("综合评分" + eva.star);
             ratin1.setRating(eva.star);
             ratin_text1.setText(starDes[eva.star - 1]);
             List<FoodBean> data = new ArrayList<>();

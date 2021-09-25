@@ -146,7 +146,7 @@ public class MyCommentDetailActivity extends BaseActivity {
             iv_name.setText(eva.storeName);
             ll_store_reply.setVisibility(TextUtils.isEmpty(eva.replyContent) ? View.GONE : View.VISIBLE);
             tv_store_reply.setText(eva.replyContent + "");
-            iv_pinfen.setText("综合评分" + eva.star.toString());
+            iv_pinfen.setText("综合评分" + eva.star);
             ratin1.setRating(eva.star);
 
             List<FoodBean> data = new ArrayList<>();
@@ -166,15 +166,19 @@ public class MyCommentDetailActivity extends BaseActivity {
             }
             orderCommentFoodAdapter.setNewInstance(data);
             String pics = eva.pics;
-            String[] picss = pics.split(",");
-
-            List<String> strings = Arrays.asList(picss);
-            if (strings.size() > 0) {
-                rc_view.setVisibility(View.VISIBLE);
-                gridImageAdapter.setList(strings);
-            } else {
+            if(!TextUtils.isEmpty(pics)){
+                String[] picss = pics.split(",");
+                List<String> strings = Arrays.asList(picss);
+                if (strings.size() > 0) {
+                    rc_view.setVisibility(View.VISIBLE);
+                    gridImageAdapter.setList(strings);
+                } else {
+                    rc_view.setVisibility(View.GONE);
+                }
+            }else{
                 rc_view.setVisibility(View.GONE);
             }
+
         }
     }
 

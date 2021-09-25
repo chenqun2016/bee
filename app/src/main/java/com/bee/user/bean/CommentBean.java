@@ -15,18 +15,18 @@ public class CommentBean {
     public static class EvaBean {
         public String replyContent;
         public String storeName;
-        public Integer id;
-        public Integer orderId;
-        public Integer storeId;
-        public Integer memberId;
+        public int id;
+        public int orderId;
+        public int storeId;
+        public int memberId;
         public String username;
-        public Integer star;
+        public int star;
         public String memberIp;
         public String content;
-        public Integer isAnonymous;
+        public int isAnonymous;
         public String pics;
-        public Integer delFlag;
-        public Integer createBy;
+        public int delFlag;
+        public int createBy;
         public String createName;
         public Date createTime;
         public Object updateBy;
@@ -36,15 +36,15 @@ public class CommentBean {
     }
 
     public static class Detail {
-        public Integer id;
-        public Integer shopOrderCommentId;
+        public int id;
+        public int shopOrderCommentId;
         public Object star;
-        public Integer commentObjId;
+        public int commentObjId;
         public String commentObj;
-        public Integer delFlag;
-        public Integer commentType;
-        public Integer give;
-        public Integer createBy;
+        public int delFlag;
+        public int commentType;
+        public int give;
+        public int createBy;
         public String createName;
         public String createTime;
         public Object updateBy;
