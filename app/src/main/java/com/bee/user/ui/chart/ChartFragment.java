@@ -278,6 +278,7 @@ public class ChartFragment extends BaseFragment {
         adapter     = new ChartAdapter();
 
         recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerview.setHasFixedSize(false);
         recyclerview.setAdapter(adapter);
 
         adapter.addChildClickViewIds(R.id.tv_clear, R.id.tv_store);

@@ -219,7 +219,7 @@ public interface ApiService {
     /**
      * 删除购物项
      */
-    @GET(HttpRequest.deleteCartItem)
+    @POST(HttpRequest.deleteCartItem)
     Observable<BaseResult<String>> deleteCartItem(@Query("cartItemIds") List<Integer> cartItemIds);
 
     /**

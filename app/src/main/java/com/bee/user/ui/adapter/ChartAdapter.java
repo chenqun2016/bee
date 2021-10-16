@@ -51,7 +51,7 @@ public class ChartAdapter extends BaseQuickAdapter<List<ChartBean>, BaseViewHold
 
         RecyclerView recyclerview = holder.findView(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(recyclerview.getContext()));
-        recyclerview.setHasFixedSize(true);
+        recyclerview.setHasFixedSize(false);
         ChartFoodItemAdapter chartFoodItemAdapter = new ChartFoodItemAdapter(storeBean);
         recyclerview.setAdapter(chartFoodItemAdapter);
 

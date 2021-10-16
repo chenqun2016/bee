@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -89,19 +90,41 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
             @Override
             public void onRemoveListener(int num) {
                 foodBean.setQuantity(num);
-                Api.getClient(HttpRequest.baseUrl_member).updateQuantity(foodBean.getId()+"",num+"").
-                        subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new BaseSubscriber<String>() {
-                            @Override
-                            public void onSuccess(String s) {
-                            }
+                if(num == 0){
+                    ArrayList<Integer> ids = new ArrayList<>();
+                    ids .add(foodBean.getId());
+                    Api.getClient(HttpRequest.baseUrl_member).deleteCartItem(ids).
+                            subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new BaseSubscriber<String>() {
+                                @Override
+                                public void onSuccess(String s) {
+                                    if(null != getData() && null != foodBean){
+                                        getData().remove(foodBean);
+                                        notifyItemRemoved(getData().indexOf(foodBean));
+                                    }
+                                }
 
-                            @Override
-                            public void onFail(String fail) {
-                                super.onFail(fail);
-                            }
-                        });
+                                @Override
+                                public void onFail(String fail) {
+                                    super.onFail(fail);
+                                }
+                            });
+                }else{
+                    Api.getClient(HttpRequest.baseUrl_member).updateQuantity(foodBean.getId()+"",num+"").
+                            subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new BaseSubscriber<String>() {
+                                @Override
+                                public void onSuccess(String s) {
+                                }
+
+                                @Override
+                                public void onFail(String fail) {
+                                    super.onFail(fail);
+                                }
+                            });
+                }
             }
         });
 
