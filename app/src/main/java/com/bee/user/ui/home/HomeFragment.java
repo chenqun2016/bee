@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.amap.api.location.AMapLocation;
 import com.bee.user.Constants;
@@ -56,6 +56,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+
+import static androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL;
 
 /**
  * 创建人：进京赶考
@@ -223,7 +225,7 @@ public class HomeFragment extends BaseFragment {
         homeAdapter.addHeaderView(headerViewBanner);
         homeAdapter.addHeaderView(headerView2);
         homeAdapter.addHeaderView(headerView3);
-        recyclerview.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerview.setLayoutManager(new StaggeredGridLayoutManager( 2, VERTICAL));
         recyclerview.setAdapter(homeAdapter);
         homeAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
             @Override

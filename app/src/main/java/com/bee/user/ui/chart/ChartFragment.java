@@ -14,11 +14,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bee.user.BeeApplication;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
@@ -37,6 +39,7 @@ import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LoadmoreUtils;
+import com.bee.user.utils.LogUtil;
 import com.bee.user.utils.NetWorkUtil;
 import com.bee.user.utils.ToastUtil;
 import com.bee.user.widget.ChartNoDataDrawerView;
@@ -205,6 +208,16 @@ public class ChartFragment extends BaseFragment {
 
 
     private void initViews() {
+        BeeApplication.appVMStore().chartData.observe(this,new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                if(null != integer){
+                    totalMoney += integer;
+                    LogUtil.d("totalMoney = "+totalMoney);
+                    tv_heji_money.setText("¥"+totalMoney);
+                }
+            }
+        });
         ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
         layoutParams.height = ImmersionBar.getStatusBarHeight(this);
 
@@ -323,11 +336,22 @@ public class ChartFragment extends BaseFragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 for (List<ChartBean> beans : adapter.getData()){
-                    for(ChartBean bean :beans){
-                        bean.selectedAll = b;
+                    if(beans.size()>0){
+                        beans.get(0).selectedAll = b;
                     }
                 }
                 adapter.notifyDataSetChanged();
+
+                LogUtil.d("totalMoney = 0");
+                totalMoney = 0;
+                if(b){
+                    for (List<ChartBean> beans : adapter.getData()){
+                        for(ChartBean  bean : beans){
+                            totalMoney += bean.getPrice()*bean.getQuantity();
+                        }
+                    }
+                }
+                tv_heji_money.setText("¥"+totalMoney);
             }
         });
 
@@ -359,6 +383,8 @@ public class ChartFragment extends BaseFragment {
                             ll_nodata.setVisibility(View.GONE);
                             ll_havedata.setVisibility(View.VISIBLE);
 
+                            totalMoney = 0;
+                            tv_heji_money.setText("¥"+totalMoney);
                             caculate(beans);
                         }else{
                             ll_nonet.setVisibility(View.GONE);
@@ -482,10 +508,6 @@ public class ChartFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onChartFragmentEvent(ChartFragmentEvent event) {
         switch (event.type){
-            case ChartFragmentEvent.TYPE_MONEY:
-                totalMoney += event.money;
-                tv_heji_money.setText("¥"+totalMoney);
-                break;
             case ChartFragmentEvent.TYPE_REFLUSH:
                 loadmoreUtils.reSetPageInfo();
                 getAddress();

@@ -12,7 +12,6 @@ public class ChartBean implements Serializable {
 
     public boolean selectedAll = false;
 
-
     //1 可以配送，0 不可配送
     public int distributionStatus;
     private int id;

@@ -35,8 +35,8 @@ public class HomeAdapter extends BaseQuickAdapter<HomeBean,BaseViewHolder> {
 
         TextView tv_title = baseViewHolder.findView(R.id.tv_title);
         tv_title.setText(bean.productName);
-//        TextView tv_content = baseViewHolder.findView(R.id.tv_content);
-//        tv_content.setText(bean.productName);
+        TextView tv_content = baseViewHolder.findView(R.id.tv_content);
+        tv_content.setText(bean.description);
 
         TextView tv_money = baseViewHolder.findView(R.id.tv_money);
         tv_money.setText(bean.price+"");

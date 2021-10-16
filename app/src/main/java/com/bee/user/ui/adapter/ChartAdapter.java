@@ -14,6 +14,7 @@ import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
+import com.bee.user.utils.LogUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -48,28 +49,28 @@ public class ChartAdapter extends BaseQuickAdapter<List<ChartBean>, BaseViewHold
         TextView tv_store = holder.findView(R.id.tv_store);
         tv_store.setText(chartBean.getStoreName()+"");
 
-
         RecyclerView recyclerview = holder.findView(R.id.recyclerview);
-
         recyclerview.setLayoutManager(new LinearLayoutManager(recyclerview.getContext()));
-
-
+        recyclerview.setHasFixedSize(true);
         ChartFoodItemAdapter chartFoodItemAdapter = new ChartFoodItemAdapter(storeBean);
         recyclerview.setAdapter(chartFoodItemAdapter);
 
-
         CheckBox cb_1 = holder.findView(R.id.cb_1);
-        cb_1.setChecked(chartBean.selectedAll);
-        cb_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                for (ChartBean bean : storeBean){
-                    bean.isSelected = b;
+        if (cb_1 != null) {
+            cb_1.setChecked(chartBean.selectedAll);
+            LogUtil.d("isChecked1 ==" +  cb_1.isChecked());
+            cb_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    chartBean.selectedAll = b;
+                    for (ChartBean bean : storeBean){
+                        bean.isSelected = b;
+                    }
+                    chartFoodItemAdapter.notifyDataSetChanged();
+                    LogUtil.d("onCheckedChanged1 ==" + b);
                 }
-                chartFoodItemAdapter.notifyDataSetChanged();
-            }
-        });
-
+            });
+        }
         holder.findView(R.id.tv_clear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

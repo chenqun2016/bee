@@ -30,4 +30,6 @@ public class HomeBean {
     public String tags;
 //    标签，多个用半角逗号分隔
 
+    public String description;
+
 }

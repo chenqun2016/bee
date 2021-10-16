@@ -6,20 +6,20 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bee.user.BeeApplication;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.ChartBean;
-import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.AddRemoveView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.squareup.picasso.Picasso;
 
-import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,7 +37,6 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
     public ChartFoodItemAdapter(@Nullable List<ChartBean> data) {
         super(R.layout.item_chart_food, data);
     }
-
     @Override
     protected void convert(@NotNull BaseViewHolder holder, ChartBean foodBean) {
         ImageView iv_goods_img = holder.findView(R.id.iv_goods_img);
@@ -104,25 +103,30 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
                             }
                         });
             }
-
-
         });
 
-        CheckBox cb_1 = holder.findView(R.id.cb_1);
-        cb_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                foodBean.isSelected = isChecked;
-                int totalMoney = 0;
-                if(isChecked){
-                    totalMoney += foodBean.getPrice()*foodBean.getQuantity();
-                }else{
-                    totalMoney -= foodBean.getPrice()*foodBean.getQuantity();
+        CheckBox cb_1 = holder.findView(R.id.cb_1_item);
+        if (cb_1 != null) {
+            cb_1.setChecked(foodBean.isSelected);
+            LogUtil.d("isChecked2 ==" +  cb_1.isChecked());
+            cb_1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    LogUtil.d("onCheckedChanged2 ==" + isChecked);
+                    foodBean.isSelected = isChecked;
+                    int totalMoney = 0;
+                    if(isChecked){
+                        totalMoney += foodBean.getPrice()*foodBean.getQuantity();
+                    }else{
+                        totalMoney -= foodBean.getPrice()*foodBean.getQuantity();
+                    }
+                    LogUtil.d("totalmoney ==" + totalMoney);
+                    BeeApplication.appVMStore().chartData.setValue(totalMoney);
+//                    EventBus.getDefault().post(new ChartFragmentEvent(ChartFragmentEvent.TYPE_MONEY,totalMoney));
                 }
-                EventBus.getDefault().post(new ChartFragmentEvent(ChartFragmentEvent.TYPE_MONEY,totalMoney));
-            }
-        });
-
-        cb_1.setChecked(foodBean.isSelected);
+            });
+        }
     }
+
+
 }

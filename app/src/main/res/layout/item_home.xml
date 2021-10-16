@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="173dp"
         android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:src="@drawable/food" />
 
     <TextView
@@ -23,8 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_image"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
+        android:textStyle="bold"
         android:text="精品海鲜捞面"
         android:textColor="@color/color_282525"
         android:textSize="15sp" />
@@ -54,6 +55,7 @@
         android:paddingBottom="2dp"
         android:paddingTop="2dp"
         android:textSize="10sp"
+        android:visibility="gone"
         android:textColor="@color/color_FF6200"
         android:orientation="horizontal" />
 

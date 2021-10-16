@@ -7,9 +7,11 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 import androidx.multidex.MultiDex;
-import cn.jpush.android.api.JPushInterface;
 
 import com.bee.user.utils.LogUtil;
+import com.bee.user.vm.AppViewModelStore;
+
+import cn.jpush.android.api.JPushInterface;
 
 public class BeeApplication extends Application {
     private static BeeApplication mInstance;
@@ -26,6 +28,11 @@ public class BeeApplication extends Application {
 
     public void setIsInBackground(boolean b) {
         mBackground = b;
+    }
+
+    private static AppViewModelStore appViewModelStore;
+    public static AppViewModelStore appVMStore() {
+        return appViewModelStore;
     }
 
     @Override
@@ -71,7 +78,7 @@ public class BeeApplication extends Application {
         super.onCreate();
         try {
             mInstance = this;
-
+            appViewModelStore = new AppViewModelStore(this);
             initBugly();
 
             //***********设置字体不随系统变化**********************
