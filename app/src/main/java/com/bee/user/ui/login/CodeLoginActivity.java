@@ -192,7 +192,7 @@ public class CodeLoginActivity extends BaseActivity {
             tv_xieyi.setHighlightColor(Color.TRANSPARENT);
             tv_xieyi.setText(msp);
         } catch (Exception e) {
-            LogUtil.d(e.getMessage());
+            e.printStackTrace();
         }
 
 

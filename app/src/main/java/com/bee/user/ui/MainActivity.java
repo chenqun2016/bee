@@ -106,12 +106,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
         EventBus.getDefault().register(this);
 
-
+        mineFragment = new MineFragment();
         fragments = new ArrayList<>();
         fragments.add(HomeFragment.newInstance(0));
         fragments.add(NearbyFragment.newInstance());
         fragments.add(new ChartFragment());
-        mineFragment = new MineFragment();
         fragments.add(mineFragment);
 
         MainAdapter myAdapter = new MainAdapter(getSupportFragmentManager(), fragments);
@@ -125,7 +124,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         onPageSelected(0);
 
 
-        initLogins();
+//        if(!SPUtils.geTinstance().isLogin()){
+            initLogins();
+//        }
         initLocations();
         getAppUpdateInfo();
     }
@@ -383,29 +384,27 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         });
 
 //        预取号
-        if (!SPUtils.geTinstance().isLogin()) {
-            mAlicomAuthHelper.accelerateLoginPage(5000, new PreLoginResultListener() {
-                @Override
-                public void onTokenSuccess(final String vendor) {
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            LogUtil.e(vendor + "预取号成功！");
-                        }
-                    });
-                }
+        mAlicomAuthHelper.accelerateLoginPage(5000, new PreLoginResultListener() {
+            @Override
+            public void onTokenSuccess(final String vendor) {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LogUtil.e(vendor + "预取号成功！");
+                    }
+                });
+            }
 
-                @Override
-                public void onTokenFailed(final String vendor, final String ret) {
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            LogUtil.e(vendor + "预取号失败:\n" + ret);
-                        }
-                    });
-                }
-            });
-        }
+            @Override
+            public void onTokenFailed(final String vendor, final String ret) {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LogUtil.e(vendor + "预取号失败:\n" + ret);
+                    }
+                });
+            }
+        });
     }
 
     private void configLoginTokenPort() {

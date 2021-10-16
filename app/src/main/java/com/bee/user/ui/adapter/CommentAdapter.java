@@ -8,9 +8,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.CommentBean;
 import com.bee.user.utils.CommonUtil;
+import com.bee.user.utils.DisplayUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -53,7 +55,10 @@ public class CommentAdapter extends BaseQuickAdapter<CommentBean, BaseViewHolder
 
         //TODO
         ImageView touxiang = helper.findView(R.id.touxiang);
-        Picasso.with(touxiang.getContext()).load(commentBean.eva.icon).into(touxiang);
+        Picasso.with(touxiang.getContext())
+                .load(commentBean.eva.icon)
+                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(touxiang.getContext(), 50), 0, PicassoRoundTransform.CornerType.ALL))
+                .into(touxiang);
         ImageView dengji = helper.findView(R.id.dengji);
         TextView tv_comment = helper.findView(R.id.tv_comment);
         tv_comment.setText(commentBean.eva.isAnonymous == 1 ? "赞了该商品" : "踩了该商品");

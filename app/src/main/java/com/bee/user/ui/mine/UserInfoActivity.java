@@ -318,7 +318,7 @@ public class UserInfoActivity extends BaseActivity {
             nowDate =Constants. sdfLong3.format(date);
             return nowDate;
         } catch (Exception e) {
-            System.out.println("Error at getDate:" + e.getMessage());
+            e.printStackTrace();
             return "";
         }
     }

@@ -327,7 +327,7 @@ public class StoreFragment extends BaseFragment {
 
 
                 TextView iv_goods_detail = holder.getView(R.id.iv_goods_detail);
-                iv_goods_detail.setText("");
+                iv_goods_detail.setText(bean.description);
                 TextView iv_goods_comment = holder.getView(R.id.iv_goods_comment);
                 iv_goods_comment.setText("剩余100份  月售" + bean.sale);
 

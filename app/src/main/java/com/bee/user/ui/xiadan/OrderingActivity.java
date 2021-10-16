@@ -425,7 +425,7 @@ public class OrderingActivity extends BaseActivity {
             bottomSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet)
                     .setBackgroundResource(android.R.color.transparent);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
         bottomSheetDialog.show();

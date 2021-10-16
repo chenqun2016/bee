@@ -2,7 +2,6 @@ package com.bee.user.ui.login;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -11,11 +10,8 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.utils.LogUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -82,7 +78,7 @@ public class LoginActivity extends BaseActivity {
             tv_xieyi.setHighlightColor(Color.TRANSPARENT);
             tv_xieyi.setText(msp);
         } catch (Exception e) {
-            LogUtil.d(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

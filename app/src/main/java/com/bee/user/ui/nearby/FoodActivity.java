@@ -316,7 +316,8 @@ public class FoodActivity extends BaseActivity {
         settings.setJavaScriptEnabled(true);// 支持js功能
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setDomStorageEnabled(true);//H5使用了在浏览器本地存储功能就必须加这句
-        iv_des.loadUrl(url);
+        settings.setUseWideViewPort(true);
+        iv_des.loadDataWithBaseURL(null,url,"text/html","utf-8",null);
     }
 
     /**

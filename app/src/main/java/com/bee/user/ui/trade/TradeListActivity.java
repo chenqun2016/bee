@@ -378,7 +378,7 @@ public class TradeListActivity extends BaseActivity {
             nowDate = Constants.sdfLong2.format(date);
             return nowDate;
         } catch (Exception e) {
-            System.out.println("Error at getDate:" + e.getMessage());
+            e.printStackTrace();
             return "";
         }
     }

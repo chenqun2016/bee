@@ -199,7 +199,7 @@ public class DragDialogLayout extends LinearLayout {
         try {
             shouldIntercept = mDragHelper.shouldInterceptTouchEvent(ev);
         }
-        catch (Exception e) {}
+        catch (Exception e) {e.printStackTrace();}
         int action = ev.getActionMasked();
 
         if (action == MotionEvent.ACTION_DOWN) {

@@ -57,7 +57,7 @@
         app:layout_constraintLeft_toRightOf="@+id/touxiang"
         android:text="服务  超赞  味道  一般  包装  超赞  配送  超赞"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="6dp"
         android:textColor="@color/color_7C7877"
         android:textSize="12sp"/>
 
