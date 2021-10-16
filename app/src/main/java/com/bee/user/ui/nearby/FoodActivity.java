@@ -5,6 +5,8 @@ import android.graphics.Paint;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -113,6 +115,10 @@ public class FoodActivity extends BaseActivity {
 
     @BindView(R.id.ll_foot)
     LinearLayout ll_foot;
+
+
+    @BindView(R.id.iv_des)
+    WebView iv_des;
 
     String[] titles = new String[]{"商品", "评价", "详情"};
     int storeId;
@@ -283,7 +289,12 @@ public class FoodActivity extends BaseActivity {
                         mBeans = beans;
                         initBanner2();
                         initBanner();
-
+                        if(!TextUtils.isEmpty(beans.detailDesc)){
+                            ll_foot.setVisibility(View.VISIBLE);
+                            setWebView(beans.detailDesc);
+                        }else{
+                            ll_foot.setVisibility(View.GONE);
+                        }
                         getStoreDetail();
                     }
 
@@ -292,6 +303,20 @@ public class FoodActivity extends BaseActivity {
                         super.onFail(fail);
                     }
                 });
+    }
+
+    private void setWebView(String url) {
+        WebSettings settings = iv_des.getSettings();
+        if (getIntent().getBooleanExtra("scale", false)) {
+            settings.setBuiltInZoomControls(true);// 显示缩放按钮(wap网页不支持)
+        }
+        settings.setUseWideViewPort(true);// 支持双击缩放(wap网页不支持)
+        settings.setLoadWithOverviewMode(true);
+        settings.setSavePassword(false);
+        settings.setJavaScriptEnabled(true);// 支持js功能
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        settings.setDomStorageEnabled(true);//H5使用了在浏览器本地存储功能就必须加这句
+        iv_des.loadUrl(url);
     }
 
     /**
