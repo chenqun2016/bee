@@ -234,6 +234,7 @@
     </FrameLayout>
 
     <View
+        android:id="@+id/line_food_comment"
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/color_F5F5F5"/>

@@ -318,28 +318,28 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                         mCanOneKeyLogin = false;
 
                     }
-
-                    try {
-                        if ("600008".equals(code)) {
-                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "开启移动网络后重试");
-                        } else if ("600002".equals(code)) {
-                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "唤起授权页失败,切换到其他登录方式");
-                        } else if ("600005".equals(code)) {
-                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "手机终端不安全,切换到其他登录方式");
-                        } else if ("600007".equals(code)) {
-                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "未检测到sim卡,切换到其他登录方式");
-                        } else if ("600011".equals(code)) {
-                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "获取token失败,切换到其他登录方式");
-                        } else if ("600015".equals(code)) {
-                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "接口超时,切换到其他登录方式");
-                        } else if ("600021".equals(code)) {
-                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "点击登录时检测到运营商已切换,切换到其他登录方式");
-                        } else if (code.startsWith("6")) {
-                            ToastUtil.ToastShort(MainActivity.this, "code==" + code);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+//
+//                    try {
+//                        if ("600008".equals(code)) {
+//                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "开启移动网络后重试");
+//                        } else if ("600002".equals(code)) {
+//                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "唤起授权页失败,切换到其他登录方式");
+//                        } else if ("600005".equals(code)) {
+//                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "手机终端不安全,切换到其他登录方式");
+//                        } else if ("600007".equals(code)) {
+//                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "未检测到sim卡,切换到其他登录方式");
+//                        } else if ("600011".equals(code)) {
+//                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "获取token失败,切换到其他登录方式");
+//                        } else if ("600015".equals(code)) {
+//                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "接口超时,切换到其他登录方式");
+//                        } else if ("600021".equals(code)) {
+//                            ToastUtil.ToastShort(MainActivity.this, "code==" + code + "点击登录时检测到运营商已切换,切换到其他登录方式");
+//                        } else if (code.startsWith("6")) {
+//                            ToastUtil.ToastShort(MainActivity.this, "code==" + code);
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
                 }
 
 

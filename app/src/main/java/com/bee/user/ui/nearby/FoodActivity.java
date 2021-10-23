@@ -108,6 +108,9 @@ public class FoodActivity extends BaseActivity {
 
     @BindView(R.id.tv_food_comment)
     TextView tv_food_comment;
+    @BindView(R.id.line_food_comment)
+    View line_food_comment;
+
     @BindView(R.id.banner2)
     ConvenientBanner banner2;
     @BindView(R.id.tv_index)
@@ -377,7 +380,7 @@ public class FoodActivity extends BaseActivity {
                                 tabLayout.selectTab(tabLayout.getTabAt(0));
                             }
 
-                        } else if (totalScrollY >= (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) - DisplayUtil.dip2px(FoodActivity.this, 50)) {
+                        } else if (totalScrollY >= detailPoint) {
                             if (tabLayout.getSelectedTabPosition() != 2) {
                                 tabLayout.selectTab(tabLayout.getTabAt(2));
                             }

@@ -57,7 +57,7 @@ public class CommentAdapter extends BaseQuickAdapter<CommentBean, BaseViewHolder
         ImageView touxiang = helper.findView(R.id.touxiang);
         Picasso.with(touxiang.getContext())
                 .load(commentBean.eva.icon)
-                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(touxiang.getContext(), 50), 0, PicassoRoundTransform.CornerType.ALL))
+                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(getContext(),100),0, PicassoRoundTransform.CornerType.ALL))
                 .into(touxiang);
         ImageView dengji = helper.findView(R.id.dengji);
         TextView tv_comment = helper.findView(R.id.tv_comment);
