@@ -385,7 +385,7 @@ public class StoreActivity extends BaseActivity {
                                 }));
 
                             }
-                            Observable.merge(observables)
+                            Observable.concat(observables)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new BaseSubscriber<List<StoreFoodItem2Bean>>() {
@@ -592,6 +592,7 @@ public class StoreActivity extends BaseActivity {
         }
 
         if (total > 0) {
+            tv_xuangou_tag.setVisibility(View.VISIBLE);
             tv_xuangou_tag.setText(total + "");
             tv_heji.setText("合计");
             tv_heji_money_pre.setVisibility(View.VISIBLE);
@@ -602,7 +603,7 @@ public class StoreActivity extends BaseActivity {
             tv_confirm.setEnabled(true);
             cl_qujiesuan.setEnabled(true);
         } else {
-            tv_xuangou_tag.setText(total + "");
+            tv_xuangou_tag.setVisibility(View.GONE);
             tv_heji.setText("未选购商品");
             tv_heji_money_pre.setVisibility(View.INVISIBLE);
             tv_heji_money.setVisibility(View.INVISIBLE);

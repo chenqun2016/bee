@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bee.user.R;
+import com.bee.user.utils.DisplayUtil;
 import com.github.florent37.viewanimator.ViewAnimator;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -69,7 +70,7 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
         tv_num.setVisibility(GONE);
     }
 
-    public void initAnimalView(ViewGroup parent,View  end){
+    public void initAnimalView(ViewGroup parent, View end) {
         this.parent = parent;
         this.end = end;
     }
@@ -91,8 +92,8 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
                 if (null != mOnNumChangedListener) {
                     mOnNumChangedListener.onAddListener(num);
                 }
-                if(null != parent && null != end){
-                    doChartAnimal(getContext(),iv_add,parent,end);
+                if (null != parent && null != end) {
+                    doChartAnimal(getContext(), iv_add, parent, end);
                 }
 
                 break;
@@ -136,6 +137,7 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
 
     public interface OnNumChangedListener {
         void onAddListener(int num);
+
         void onRemoveListener(int num);
     }
 
@@ -171,8 +173,8 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
         int endLoc[] = new int[2];
         end.getLocationInWindow(endLoc);
 
-        int childWidth = child.getMeasuredWidth()/2;
-        int endWidth = end.getMeasuredWidth()/2;
+        int childWidth = child.getMeasuredWidth() / 2;
+        int endWidth = end.getMeasuredWidth() / 2;
 
 //        三、正式开始计算动画开始/结束的坐标
         //开始掉落的起始点：起始点-父布局起始点
@@ -190,7 +192,13 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
         path.moveTo(startX, startY);
         //使用二次萨贝尔曲线：注意第一个起始坐标越大，贝塞尔曲线的横向距离就会越大，一般按照下面的式子取即可
 //        path.quadTo(toX, startY, toX, toY);
-        path.cubicTo(((startX+toX)/2+startX)/2,startY-(toY-startY)/3,toX, startY, toX, toY);
+        float x1 = ((startX + toX) / 2 + startX) / 2;
+        float y = (toY - startY) / 3;
+        if(y < DisplayUtil.dip2px(context,100)){
+            y = DisplayUtil.dip2px(context,100);
+        }
+        float y1 = startY - y;
+        path.cubicTo(x1, y1, toX, startY, toX, toY);
         //mPathMeasure用来计算贝塞尔曲线的曲线长度和贝塞尔曲线中间插值的坐标，
         // 如果是true，path会形成一个闭环
         PathMeasure mPathMeasure = new PathMeasure(path, false);

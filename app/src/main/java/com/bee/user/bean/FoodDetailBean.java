@@ -31,4 +31,6 @@ public class FoodDetailBean {
     public Object feightTemplateId;
     public Integer storeId;
     public Integer productId;
+    public int cartQuantity;
+    public Integer cartItemId;
 }
