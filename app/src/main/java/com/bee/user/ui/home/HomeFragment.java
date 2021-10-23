@@ -28,6 +28,7 @@ import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.CRecyclerViewActivity;
+import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.adapter.HomeGridview2Adapter;
 import com.bee.user.ui.adapter.HomeGridviewAdapter;
@@ -222,6 +223,8 @@ public class HomeFragment extends BaseFragment {
 
 
         homeAdapter = new HomeAdapter();
+        MainActivity activity = (MainActivity) getActivity();
+        homeAdapter.setAddChartAnimatorView(activity.fl_content,activity.getAddChartAnimatorEndView());
         homeAdapter.addHeaderView(headerViewBanner);
         homeAdapter.addHeaderView(headerView2);
         homeAdapter.addHeaderView(headerView3);

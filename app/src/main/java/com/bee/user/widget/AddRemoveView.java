@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bee.user.R;
@@ -149,14 +148,14 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
      * @param parent  全局父布局
      * @param end     锚点view
      */
-    public void doChartAnimal(Context context, ImageView child, ViewGroup parent, View end) {
+    public static void doChartAnimal(Context context, ImageView child, ViewGroup parent, View end) {
         float[] mCurrentPosition = new float[2];
 //      一、创造出执行动画的主题---imageview
         //代码new一个imageview，图片资源是上面的imageview的图片
         // (这个图片就是执行动画的图片，从开始位置出发，经过一个抛物线（贝塞尔曲线），移动到end的位置)
         final ImageView goods = new ImageView(context);
         goods.setImageDrawable(child.getDrawable());
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
         parent.addView(goods, params);
 
 //        二、计算动画开始/结束点的坐标的准备工作
@@ -172,6 +171,8 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
         int endLoc[] = new int[2];
         end.getLocationInWindow(endLoc);
 
+        int childWidth = child.getMeasuredWidth()/2;
+        int endWidth = end.getMeasuredWidth()/2;
 
 //        三、正式开始计算动画开始/结束的坐标
         //开始掉落的起始点：起始点-父布局起始点
@@ -179,7 +180,7 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
         float startY = startLoc[1] - parentLocation[1];
 
         //掉落后的终点坐标：
-        float toX = endLoc[0] - parentLocation[0];
+        float toX = endLoc[0] - parentLocation[0] + endWidth - childWidth;
         float toY = endLoc[1] - parentLocation[1];
 
 //        四、计算中间动画的插值坐标（贝塞尔曲线）（其实就是用贝塞尔曲线来完成起终点的过程）

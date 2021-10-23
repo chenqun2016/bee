@@ -10,6 +10,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -86,6 +87,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     IconTabPageIndicator mIndicator;
     @BindView(R.id.view_pager)
     CustomViewPager mViewPager;
+
+    @BindView(R.id.fl_content)
+    public FrameLayout fl_content;
 
     private ArrayList<Fragment> fragments;
     private boolean mCanOneKeyLogin = true;
@@ -668,5 +672,9 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
             default:
                 break;
         }
+    }
+
+    public View getAddChartAnimatorEndView(){
+        return mIndicator.mTabLayout.getChildAt(2);
     }
 }

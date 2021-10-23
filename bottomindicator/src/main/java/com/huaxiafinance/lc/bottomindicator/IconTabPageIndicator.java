@@ -1,9 +1,7 @@
 package com.huaxiafinance.lc.bottomindicator;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
@@ -106,7 +104,7 @@ public class IconTabPageIndicator extends LinearLayout implements PageIndicator 
         }
     };
 
-    private final LinearLayout mTabLayout;
+    public final LinearLayout mTabLayout;
 
     private CustomViewPager mViewPager;
     private ViewPager.OnPageChangeListener mListener;

@@ -267,7 +267,7 @@ public class StoreFragment extends BaseFragment {
             try {
                 StoreFoodItem2Bean bean = item.info.getBean();
 
-                ((TextView) holder.getView(R.id.iv_goods_name)).setText(item.info.getTitle() + "");
+                ((TextView) holder.getView(R.id.iv_goods_name)).setText(bean.subTitle);
 //            Picasso.with(mContext).load(item.info.getImgUrl()).into((ImageView) holder.getView(R.id.iv_goods_img));
                 View view = holder.getView(R.id.iv_goods_item);
                 view.setOnClickListener(v -> {

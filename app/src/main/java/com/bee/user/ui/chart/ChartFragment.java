@@ -272,6 +272,10 @@ public class ChartFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         ll_products.resetSize();
+        if(isChartDataDurty){
+            loadmoreUtils.reSetPageInfo();
+            getAddress();
+        }
     }
 
     private void initDatas() {
@@ -506,14 +510,15 @@ public class ChartFragment extends BaseFragment {
         homeAdapter.setNewInstance(homeBeans);
     }
     private int totalMoney;
+
+    private boolean isChartDataDurty = false;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onChartFragmentEvent(ChartFragmentEvent event) {
         switch (event.type){
             case ChartFragmentEvent.TYPE_REFLUSH:
-                loadmoreUtils.reSetPageInfo();
-                getAddress();
+                isChartDataDurty = true;
                 break;
         }
-
     }
+
 }
