@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bee.user.Constants;
 import com.bee.user.PicassoRoundTransform;
@@ -69,7 +70,8 @@ import static com.bee.user.Constants.RESULT_CODE_USERINFO;
 public class MineFragment extends BaseFragment {
 
     Unbinder bind;
-
+    @BindView(R.id.swipe_refresh_layout)
+    public SwipeRefreshLayout swipe_refresh_layout;
     @BindView(R.id.buy_card)
     ConvenientBanner banner;
 
@@ -205,11 +207,13 @@ public class MineFragment extends BaseFragment {
                          msp.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                         tv_1.setText(msp);
+                        endSwipeRefreshLayout();
                     }
 
                     @Override
                     public void onFail(String fail) {
                         super.onFail(fail);
+                        endSwipeRefreshLayout();
                     }
                 });
     }
@@ -238,6 +242,8 @@ public class MineFragment extends BaseFragment {
     }
 
     private void initViews() {
+        initSwipeRefreshLayout(swipe_refresh_layout);
+
         BannerUtils.initBanner(banner,bannerList);
 
         ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.amap.api.location.AMapLocation;
 import com.bee.user.Constants;
@@ -68,6 +69,9 @@ import static androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL;
 public class HomeFragment extends BaseFragment {
     private Unbinder unbinder;
 
+    @BindView(R.id.swipe_refresh_layout)
+    public SwipeRefreshLayout swipe_refresh_layout;
+
     @BindView(R.id.appbar)
     public AppBarLayout appbar;
 
@@ -106,6 +110,7 @@ public class HomeFragment extends BaseFragment {
 
         BannerUtils.getBannerDatas(Constants.BANNER_TYPE_HOME_TOP,mBanner,bannerList);
         BannerUtils.getBannerDatas(Constants.BANNER_TYPE_HOME_MIDELE,banner3,bannerList3);
+        getTuijian();
     }
 
 
@@ -210,6 +215,8 @@ public class HomeFragment extends BaseFragment {
                     appbar.setBackground(background);
                 }
 
+                //滑动冲突
+                swipe_refresh_layout.setEnabled(verticalOffset >= 0);
             }
         });
 
@@ -222,6 +229,7 @@ public class HomeFragment extends BaseFragment {
         initHeaderView3(headerView3);
 
 
+        initSwipeRefreshLayout(swipe_refresh_layout);
         homeAdapter = new HomeAdapter();
         MainActivity activity = (MainActivity) getActivity();
         homeAdapter.setAddChartAnimatorView(activity.fl_content,activity.getAddChartAnimatorEndView());
@@ -240,8 +248,6 @@ public class HomeFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-
-        getTuijian();
     }
 
     private void getTuijian() {
@@ -252,11 +258,12 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     public void onSuccess(List<HomeBean> data) {
                         homeAdapter.setNewInstance(data);
-
+                        endSwipeRefreshLayout();
                     }
 
                     @Override
                     public void onFail(String fail) {
+                        endSwipeRefreshLayout();
                         super.onFail(fail);
                     }
                 });

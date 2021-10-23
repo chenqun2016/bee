@@ -5,7 +5,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bee.user.R;
 import com.huaxiafinance.www.crecyclerview.cindicatorview.LazyFragment;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,5 +25,23 @@ abstract  public class BaseFragment extends LazyFragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         ButterKnife.bind(this,view);
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    SwipeRefreshLayout swipeRefreshLayout;
+    protected void initSwipeRefreshLayout(SwipeRefreshLayout swipeRefreshLayout){
+        this.swipeRefreshLayout = swipeRefreshLayout;
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorPrimaryDark);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getDatas();
+            }
+        });
+    }
+    protected void endSwipeRefreshLayout(){
+        if(null != swipeRefreshLayout && swipeRefreshLayout.isRefreshing()){
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
 }
