@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class FoodTypeBean {
 
+    public int selected = 0;
     public  String  title;
     public List<String> lists;
 }

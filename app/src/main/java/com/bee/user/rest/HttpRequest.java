@@ -37,9 +37,9 @@ public class HttpRequest {
     //APP获取【店铺类目】列表
     public static final String shop_queryProductList = "app-sys-industry-category-shop/queryAppIndustryList/{storeId}";
     //查询指定店铺分类对应的商品列表
-    public static final String findShopProducts = "auth/shop/findShopProducts";
+    public static final String findShopProducts = "auth/shop/shopProductsQuery";
     //查询指定店铺商品SKU详情
-    public static final String productDetail = "auth/shop/productDetail/{skuId}";
+    public static final String productDetail = "auth/shop/productDetailById/{shopProductId}";
     //获取店铺可选配送时间列表
     public static final String caculateTime = "pms/appFeight/caculate/{shopId}";
     //获取默认收货地址

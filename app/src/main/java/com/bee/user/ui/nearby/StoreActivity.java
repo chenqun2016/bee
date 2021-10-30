@@ -57,6 +57,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -375,8 +376,8 @@ public class StoreActivity extends BaseActivity {
                                     @Override
                                     public BaseResult<List<StoreFoodItem2Bean>> apply(BaseResult<List<StoreFoodItem2Bean>> listBaseResult) throws Throwable {
                                         List<StoreFoodItem2Bean> data = listBaseResult.getData();
-                                        if(null != data){
-                                            for(StoreFoodItem2Bean bean1 :data){
+                                        if (null != data) {
+                                            for (StoreFoodItem2Bean bean1 : data) {
                                                 bean1.name = bean.getName();
                                             }
                                         }
@@ -428,19 +429,20 @@ public class StoreActivity extends BaseActivity {
         CommonUtil.initTAGViews(ll_mark);
 
         tv_title.setText(storeDetailBean.getName());
-        if(!TextUtils.isEmpty(storeDetailBean.getDistance())){
+        if (!TextUtils.isEmpty(storeDetailBean.getDistance())) {
             tv_distance.setText(storeDetailBean.getDistance() + "公里");
         }
-        if(!TextUtils.isEmpty(storeDetailBean.getDuration())){
+        if (!TextUtils.isEmpty(storeDetailBean.getDuration())) {
             tv_time.setText("大约" + storeDetailBean.getDuration() + "分钟");
         }
-        if(!TextUtils.isEmpty(storeDetailBean.getMonthSalesCount())){
+        if (!TextUtils.isEmpty(storeDetailBean.getMonthSalesCount())) {
             tv_sells.setText("月销" + storeDetailBean.getMonthSalesCount());
         }
     }
 
 
-    private void showChooseTypeDialog() {
+    private void showChooseTypeDialog(AddChartEvent event) {
+        AddChartBean bean = event.addChartBean;
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(R.layout.dialog_store_bottom_choose);
         bottomSheetDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
@@ -451,36 +453,85 @@ public class StoreActivity extends BaseActivity {
                 }
             }
         });
+        TextView iv_goods_name = bottomSheetDialog.findViewById(R.id.iv_goods_name);
+        iv_goods_name.setText(bean.data.subTitle);
+        TextView iv_goods_detail = bottomSheetDialog.findViewById(R.id.iv_goods_detail);
+        iv_goods_detail.setText(bean.data.description);
+        TextView iv_goods_comment = bottomSheetDialog.findViewById(R.id.iv_goods_comment);
+        iv_goods_comment.setText("剩余" + bean.data.stock + "份  月售" + bean.data.sale);
+        TextView iv_goods_price = bottomSheetDialog.findViewById(R.id.iv_goods_price);
+        iv_goods_price.setText("¥" + bean.data.price);
+        TextView iv_goods_price_past = bottomSheetDialog.findViewById(R.id.iv_goods_price_past);
+        if (null != bean.data.originalPrice) {
+            iv_goods_price_past.setVisibility(View.VISIBLE);
+        } else {
+            iv_goods_price_past.setVisibility(View.GONE);
+        }
+        iv_goods_price_past.setText("¥" + bean.data.originalPrice);
+
+
+        ImageView iv_goods_img = bottomSheetDialog.findViewById(R.id.iv_goods_img);
+        Picasso.with(iv_goods_img.getContext())
+                .load(bean.data.pic)
+                .fit()
+                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(iv_goods_img.getContext(), 5), 0, PicassoRoundTransform.CornerType.ALL))
+                .into(iv_goods_img);
         RecyclerView recyclerview = bottomSheetDialog.findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         FoodChooseTypeAdapter foodChooseTypeAdapter = new FoodChooseTypeAdapter();
         recyclerview.setAdapter(foodChooseTypeAdapter);
 
-        List<String> dataSource = new ArrayList<>();
-        dataSource.add("热");
-        dataSource.add("温热");
-        dataSource.add("多冰");
-        dataSource.add("少冰");
-        dataSource.add("去冰");
-        FoodTypeBean foodTypeBean = new FoodTypeBean();
-        foodTypeBean.title = "温度";
-        foodTypeBean.lists = dataSource;
-
         List<FoodTypeBean> datas = new ArrayList<>();
-        datas.add(foodTypeBean);
-        datas.add(foodTypeBean);
+
+        String title1 = "规格";
+        //添加规格
+        if (bean.data.skuList.size() > 1) {
+            List<String> dataSource = new ArrayList<>();
+            for (StoreFoodItem2Bean.SkuListBean name : bean.data.skuList) {
+                dataSource.add(name.skuName);
+            }
+            FoodTypeBean foodTypeBean = new FoodTypeBean();
+            foodTypeBean.title = title1;
+            foodTypeBean.lists = dataSource;
+            datas.add(foodTypeBean);
+        }
+
+        //添加标签
+        for (StoreFoodItem2Bean.AttributeListBean bean1 : bean.data.attributeList) {
+            List<String> tags = new ArrayList<>();
+            tags.addAll(Arrays.asList(bean1.inputList.split(",")));
+            FoodTypeBean tagsBean = new FoodTypeBean();
+            tagsBean.title = bean1.name;
+            tagsBean.lists = tags;
+            datas.add(tagsBean);
+        }
+
 
         foodChooseTypeAdapter.setNewInstance(datas);
 
 
         bottomSheetDialog.findViewById(R.id.iv_goods_add).setVisibility(View.GONE);
-        bottomSheetDialog.findViewById(R.id.iv_goods_comment).setVisibility(View.GONE);
+//        bottomSheetDialog.findViewById(R.id.iv_goods_comment).setVisibility(View.GONE);
         try {
             bottomSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet)
                     .setBackgroundResource(android.R.color.transparent);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        bottomSheetDialog.findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+                List<FoodTypeBean> data = foodChooseTypeAdapter.getData();
+                //有规格的情况，设置skuid
+                if(title1.equals(data.get(0).title)){
+                    event.addChartBean.skuId = event.addChartBean.data.skuList.get(data.get(0).selected).skuId;
+
+                }
+                event.type = 1;
+                onAddChartEvent(event);
+            }
+        });
 
         bottomSheetDialog.show();
     }
@@ -495,7 +546,7 @@ public class StoreActivity extends BaseActivity {
                 fragment = StoreFragment.newInstance(DisplayUtil.getWindowHeight(this) - app_barbar.getMeasuredHeight(), id);
                 break;
             case 1:
-                fragment = new CommentFragment(id,0);
+                fragment = new CommentFragment(id, 0);
                 break;
             case 2:
                 fragment = new StoreDesFragment();
@@ -511,13 +562,13 @@ public class StoreActivity extends BaseActivity {
             event.intent.putExtra("data", storeDetailBean);
             startActivity(event.intent);
         } else {
-            showChooseTypeDialog();
+
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCloseEvent(CloseEvent event) {
-        if(event.type == CloseEvent.TYPE_PAY){
+        if (event.type == CloseEvent.TYPE_PAY) {
             finish();
         }
     }
@@ -525,15 +576,14 @@ public class StoreActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onAddChartEvent(AddChartEvent event) {
-        if(1 == event.type){
+        if (1 == event.type) {
 
             AddChartBean addChartBean = event.addChartBean;
             Map<String, String> map = new HashMap<>();
             map.put("num", "1");
             map.put("skuId", addChartBean.skuId + "");
             map.put("storeId", addChartBean.storeId + "");
-//        map.put("skuId", "1032");//"16     1030,1032"  "1077 1078  1079    9"
-//        map.put("storeId", "16");
+            map.put("attributes", "标签,1");
             Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
                     subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                     .observeOn(AndroidSchedulers.mainThread())
@@ -556,9 +606,9 @@ public class StoreActivity extends BaseActivity {
                             super.onFail(fail);
                         }
                     });
-        }else{
+        } else if (0 == event.type) {
             AddChartBean addChartBean = event.addChartBean;
-            Api.getClient(HttpRequest.baseUrl_member).updateQuantity(addChartBean.cartItemId+"",addChartBean.num+"").
+            Api.getClient(HttpRequest.baseUrl_member).updateQuantity(addChartBean.cartItemId + "", addChartBean.num + "").
                     subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new BaseSubscriber<String>() {
@@ -577,6 +627,8 @@ public class StoreActivity extends BaseActivity {
                             super.onFail(fail);
                         }
                     });
+        } else if (2 == event.type) {
+            showChooseTypeDialog(event);
         }
 
     }
@@ -637,6 +689,6 @@ public class StoreActivity extends BaseActivity {
 
 
     public void setAddChartView(AddRemoveView iv_goods_add) {
-        iv_goods_add.initAnimalView(fl_content,image_xuangou);
+        iv_goods_add.initAnimalView(fl_content, image_xuangou);
     }
 }

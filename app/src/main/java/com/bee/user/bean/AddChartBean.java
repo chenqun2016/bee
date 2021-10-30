@@ -15,6 +15,7 @@ public class AddChartBean implements Serializable {
     public  int storeId;//店铺Id
     public  int cartItemId;//购物车id
     public  BigDecimal money;
+    public  StoreFoodItem2Bean data;
 
     public AddChartBean( int num, int skuId, int storeId, BigDecimal money,int cartItemId) {
         this.num = num;
@@ -22,5 +23,14 @@ public class AddChartBean implements Serializable {
         this.storeId = storeId;
         this.money = money;
         this.cartItemId = cartItemId;
+    }
+
+    public AddChartBean( int num, int skuId, int storeId, BigDecimal money,int cartItemId,StoreFoodItem2Bean data) {
+        this.num = num;
+        this.skuId = skuId;
+        this.storeId = storeId;
+        this.money = money;
+        this.cartItemId = cartItemId;
+        this.data = data;
     }
 }

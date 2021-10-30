@@ -91,7 +91,7 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
         iv_goods_add.setNum(foodBean.getQuantity());
         iv_goods_add.setOnNumChangedListener(new AddRemoveView.OnNumChangedListener() {
             @Override
-            public void onAddListener(int num) {
+            public boolean onAddListener(int num) {
                 foodBean.setQuantity(num);
                 if(cb_1.isChecked()) {
                     BeeApplication.appVMStore().chartData.postValue(foodBean.getPrice());
@@ -109,6 +109,7 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
                                 super.onFail(fail);
                             }
                         });
+                return  true;
 
             }
 

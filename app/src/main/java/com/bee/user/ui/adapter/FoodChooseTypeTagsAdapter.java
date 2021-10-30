@@ -55,6 +55,9 @@ public class FoodChooseTypeTagsAdapter<T> extends BaseAdapter implements FlowTag
         if (t instanceof DictByTypeBean) {
             textView.setText(((DictByTypeBean) t).getDictValue());
         }
+        if (t instanceof String) {
+            textView.setText((String) t);
+        }
         return view;
     }
 

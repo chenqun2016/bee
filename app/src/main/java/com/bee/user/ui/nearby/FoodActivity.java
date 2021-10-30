@@ -156,7 +156,7 @@ public class FoodActivity extends BaseActivity {
     String[] titles = new String[]{"商品", "评价", "详情"};
     int storeId;
     int skuId;
-
+    int shopProductId;
     @OnClick({R.id.view1, R.id.view2, R.id.view3, R.id.tv_sure, R.id.tv_add_to_chart,R.id.iv_chart})
     public void onClick(View view) {
         scrollview.stopNestedScroll();
@@ -206,6 +206,7 @@ public class FoodActivity extends BaseActivity {
                 map.put("num", "1");
                 map.put("skuId", mBeans.skuId + "");
                 map.put("storeId", mBeans.storeId + "");
+                map.put("attributes", "标签");
                 Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
                         subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                         .observeOn(AndroidSchedulers.mainThread())
@@ -245,6 +246,7 @@ public class FoodActivity extends BaseActivity {
     public void initViews() {
         skuId = getIntent().getIntExtra("skuId", 0);
         storeId = getIntent().getIntExtra("storeId", 0);
+        shopProductId = getIntent().getIntExtra("shopProductId", 0);
 
         chart_bottom_dialog_view.initDatas(DisplayUtil.getWindowHeight(this));
 
@@ -350,7 +352,7 @@ public class FoodActivity extends BaseActivity {
     FoodDetailBean mBeans;
 
     private void getDatas() {
-        Api.getClient(HttpRequest.baseUrl_goods).productDetail(skuId)
+        Api.getClient(HttpRequest.baseUrl_goods).productDetail(shopProductId)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<FoodDetailBean>() {
@@ -378,7 +380,11 @@ public class FoodActivity extends BaseActivity {
                         chartBean.setSp2(beans.sp2);
                         chartBean.setSp3(beans.sp3);
                         chartBean.setStoreId(beans.storeId);
-                        chartBean.setId(beans.cartItemId);
+                        try{
+                            chartBean.setId(beans.cartItemId);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                         chartBean.setProductId(beans.productId);
                         chartBean.setProductSkuId(beans.skuId);
                         objects.add(chartBean);

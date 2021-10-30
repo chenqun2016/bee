@@ -32,4 +32,7 @@ public class HomeBean {
 
     public String description;
 
+
+
+    public int shopProductId;
 }

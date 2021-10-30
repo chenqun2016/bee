@@ -4,17 +4,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bee.user.R;
-import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.FoodTypeBean;
 import com.bee.user.widget.FlowTagLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 创建人：进京赶考
@@ -42,7 +37,7 @@ public class FoodChooseTypeAdapter extends BaseQuickAdapter<FoodTypeBean, BaseVi
         tags.setOnTagClickListener(new FlowTagLayout.OnTagClickListener() {
             @Override
             public void onItemClick(FlowTagLayout parent, View view, int position) {
-
+                foodBean.selected = position;
 //                String string = et_content.getText().toString();
 //                string += " "+((String) parent.getAdapter().getItem(position));
 //                et_content.setText(string);

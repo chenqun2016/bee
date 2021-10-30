@@ -14,7 +14,7 @@ public class ChartBean implements Serializable {
 
     //1 可以配送，0 不可配送
     public int distributionStatus;
-    private int id;
+    private Integer id;
     private Integer productId;
     private Integer productSkuId;
     private Integer memberId;

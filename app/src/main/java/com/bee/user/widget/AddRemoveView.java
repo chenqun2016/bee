@@ -90,10 +90,10 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
 
                 tv_num.setText(num + "");
                 if (null != mOnNumChangedListener) {
-                    mOnNumChangedListener.onAddListener(num);
-                }
-                if (null != parent && null != end) {
-                    doChartAnimal(getContext(), iv_add, parent, end);
+                    boolean doAnimal = mOnNumChangedListener.onAddListener(num);
+                    if (doAnimal && null != parent && null != end) {
+                        doChartAnimal(getContext(), iv_add, parent, end);
+                    }
                 }
 
                 break;
@@ -136,7 +136,7 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
     }
 
     public interface OnNumChangedListener {
-        void onAddListener(int num);
+        boolean onAddListener(int num);
 
         void onRemoveListener(int num);
     }

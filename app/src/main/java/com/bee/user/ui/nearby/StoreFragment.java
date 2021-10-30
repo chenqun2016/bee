@@ -25,7 +25,6 @@ import com.bee.user.event.AddChartEvent;
 import com.bee.user.event.StoreEvent;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.utils.DisplayUtil;
-import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.AddRemoveView;
 import com.kunminx.linkage.LinkageRecyclerView;
 import com.kunminx.linkage.adapter.viewholder.LinkagePrimaryViewHolder;
@@ -72,7 +71,7 @@ public class StoreFragment extends BaseFragment {
         return fragment;
     }
 
-    private  List<StoreFoodItem2Bean> mDatas = new ArrayList();
+    private List<StoreFoodItem2Bean> mDatas = new ArrayList();
 
     static String storeId = "";
 
@@ -83,17 +82,17 @@ public class StoreFragment extends BaseFragment {
     }
 
     private void setViews() {
-        if (null == mDatas || mDatas.size()==0) {
+        if (null == mDatas || mDatas.size() == 0) {
             return;
         }
         List<ElemeGroupedItem> mEDatas = new ArrayList();
         for (int i = 0; i < mDatas.size(); i++) {
             StoreFoodItem2Bean bean = mDatas.get(i);
 
-            if(i != 0 && TextUtils.isEmpty(mDatas.get(i - 1).name)){
+            if (i != 0 && TextUtils.isEmpty(mDatas.get(i - 1).name)) {
                 mDatas.get(i - 1).name = "";
             }
-            if(TextUtils.isEmpty(bean.name)){
+            if (TextUtils.isEmpty(bean.name)) {
                 bean.name = "";
             }
 
@@ -102,8 +101,8 @@ public class StoreFragment extends BaseFragment {
                 mEDatas.add(elemeGroupedItem);
             }
 
-            ElemeGroupedItem.ItemInfo itemInfo = new ElemeGroupedItem.ItemInfo(bean.skuName, bean.name, bean);
-            if(!TextUtils.isEmpty(bean.cartQuantity)){
+            ElemeGroupedItem.ItemInfo itemInfo = new ElemeGroupedItem.ItemInfo(bean.subTitle, bean.name, bean);
+            if (!TextUtils.isEmpty(bean.cartQuantity)) {
                 itemInfo.num = Integer.parseInt(bean.cartQuantity);
             }
 
@@ -150,8 +149,6 @@ public class StoreFragment extends BaseFragment {
 //        elemeSecondaryAdapterConfig.setContext(BeeApplication.getInstance());
 //        linkage.init(items,new StoreFragment.ElemePrimaryAdapterConfig(),elemeSecondaryAdapterConfig );
     }
-
-
 
 
     public void setFoodDatas(List<StoreFoodItem2Bean> datas) {
@@ -273,8 +270,9 @@ public class StoreFragment extends BaseFragment {
                 view.setOnClickListener(v -> {
 
                     Intent intent = new Intent(mContext, FoodActivity.class);
-                    intent.putExtra("skuId",bean.skuId);
-                    intent.putExtra("storeId",Integer.parseInt(storeId));
+                    intent.putExtra("shopProductId", bean.shopProductId);
+                    intent.putExtra("storeId", Integer.parseInt(storeId));
+                    intent.putExtra("skuId", bean.skuId);
                     StoreEvent storeEvent = new StoreEvent();
                     storeEvent.type = StoreEvent.TYPE_START_ACTIVITY;
                     storeEvent.intent = intent;
@@ -289,23 +287,29 @@ public class StoreFragment extends BaseFragment {
                 activity.setAddChartView(iv_goods_add);
                 iv_goods_add.setOnNumChangedListener(new AddRemoveView.OnNumChangedListener() {
                     @Override
-                    public void onAddListener(int num) {
+                    public boolean onAddListener(int num) {
                         StoreFoodItem2Bean bean = item.info.getBean();
-                        int id = 0;
-                        if (null != SPUtils.geTinstance().getUserInfo()) {
-                            id = SPUtils.geTinstance().getUserInfo().id;
-                        }
 
-                        AddChartBean addChartBean = new AddChartBean(num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price),bean.cartItemId);
-                        AddChartEvent addChartEvent = new AddChartEvent(addChartBean,1);
-                        EventBus.getDefault().post(addChartEvent);
+                        AddChartBean addChartBean = new AddChartBean(num, bean.skuList.get(0).skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), bean.cartItemId == null ? 0 : bean.cartItemId, bean);
+                        //有标签
+                        if ((item.info.getBean().attributeList != null && item.info.getBean().attributeList.size() > 0)
+                                || (item.info.getBean().skuList != null && item.info.getBean().skuList.size() > 1)) {
+
+                            AddChartEvent addChartEvent = new AddChartEvent(addChartBean, 2);
+                            EventBus.getDefault().post(addChartEvent);
+                            return false;
+                        } else {
+                            AddChartEvent addChartEvent = new AddChartEvent(addChartBean, 1);
+                            EventBus.getDefault().post(addChartEvent);
+                            return true;
+                        }
                     }
 
                     @Override
                     public void onRemoveListener(int num) {
                         StoreFoodItem2Bean bean = item.info.getBean();
-                        AddChartBean addChartBean = new AddChartBean(num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price),bean.cartItemId);
-                        AddChartEvent addChartEvent = new AddChartEvent(addChartBean,0);
+                        AddChartBean addChartBean = new AddChartBean(num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), bean.cartItemId == null ? 0 : bean.cartItemId);
+                        AddChartEvent addChartEvent = new AddChartEvent(addChartBean, 0);
                         EventBus.getDefault().post(addChartEvent);
                     }
                 });
@@ -313,29 +317,43 @@ public class StoreFragment extends BaseFragment {
                 TextView tv_choosetype = holder.getView(R.id.tv_choosetype);
                 tv_choosetype.setOnClickListener(v -> {
 
-                    EventBus.getDefault().post(new StoreEvent());
+                    AddChartBean addChartBean = new AddChartBean(1, bean.skuList.get(0).skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), bean.cartItemId == null ? 0 : bean.cartItemId, bean);
+                    AddChartEvent addChartEvent = new AddChartEvent(addChartBean, 2);
+                    EventBus.getDefault().post(addChartEvent);
                 });
 
-//                if ((holder.getLayoutPosition() % 2) == 0) {
-//                    iv_goods_add.setVisibility(View.GONE);
-//                    tv_choosetype.setVisibility(View.VISIBLE);
-//                } else {
+                ///有选中的情况 不显示选规格
+                if (item.info.num > 0) {
                     iv_goods_add.setVisibility(View.VISIBLE);
                     tv_choosetype.setVisibility(View.GONE);
-//                }
+                } else {
 
+                    //有标签 显示 选规格
+                    if ((item.info.getBean().attributeList != null && item.info.getBean().attributeList.size() > 0)
+                            || (item.info.getBean().skuList != null && item.info.getBean().skuList.size() > 1)) {
+                        iv_goods_add.setVisibility(View.GONE);
+                        tv_choosetype.setVisibility(View.VISIBLE);
+                    } else {
+                        iv_goods_add.setVisibility(View.VISIBLE);
+                        tv_choosetype.setVisibility(View.GONE);
+                    }
+                }
 
 
                 TextView iv_goods_detail = holder.getView(R.id.iv_goods_detail);
                 iv_goods_detail.setText(bean.description);
                 TextView iv_goods_comment = holder.getView(R.id.iv_goods_comment);
-                iv_goods_comment.setText("剩余100份  月售" + bean.sale);
+                iv_goods_comment.setText("剩余" + bean.stock + "份  月售" + bean.sale);
 
                 TextView iv_goods_price = holder.getView(R.id.iv_goods_price);
                 iv_goods_price.setText("¥" + bean.price);
                 TextView iv_goods_price_past = holder.getView(R.id.iv_goods_price_past);
-                iv_goods_price_past.setText("¥" + bean.price);
-
+                if (null != bean.originalPrice) {
+                    iv_goods_price_past.setVisibility(View.VISIBLE);
+                } else {
+                    iv_goods_price_past.setVisibility(View.GONE);
+                }
+                iv_goods_price_past.setText("¥" + bean.originalPrice);
 
                 ImageView iv_goods_img = holder.getView(R.id.iv_goods_img);
 

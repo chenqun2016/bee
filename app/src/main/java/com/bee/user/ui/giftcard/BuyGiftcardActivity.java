@@ -122,11 +122,12 @@ public class BuyGiftcardActivity extends BaseActivity {
         iv_goods_add.setNum(1);
         iv_goods_add.setOnNumChangedListener(new AddRemoveView.OnNumChangedListener() {
             @Override
-            public void onAddListener(int num) {
+            public boolean onAddListener(int num) {
                 if(null != mCurrentBean){
                     tv_heji_money.setText(mCurrentBean.faceValue * num +"");
                     tv_youhui_value.setText(mCurrentBean.freeValue * num+"");
                 }
+                return  true;
             }
 
             @Override

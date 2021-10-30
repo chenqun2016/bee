@@ -71,6 +71,7 @@ public class HomeAdapter extends BaseQuickAdapter<HomeBean,BaseViewHolder> {
                 map.put("num", "1");
                 map.put("skuId", bean.skuId + "");
                 map.put("storeId", bean.storeId + "");
+                map.put("attributes", "标签");
                 Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
                         subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                         .observeOn(AndroidSchedulers.mainThread())

@@ -364,7 +364,7 @@ public class OrderingActivity extends BaseActivity {
 
         iv_goods_add.setOnNumChangedListener(new AddRemoveView.OnNumChangedListener() {
             @Override
-            public void onAddListener(int num) {
+            public boolean onAddListener(int num) {
                 if (0 == num) {
                     tv_pay.setBackgroundResource(R.drawable.btn_gradient_grey_round);
                     tv_pay.setEnabled(false);
@@ -380,7 +380,7 @@ public class OrderingActivity extends BaseActivity {
 
                     tv_tigongcanju.setText(num + "双");
                 }
-
+                return  true;
             }
 
             @Override

@@ -1,47 +1,76 @@
 package com.bee.user.bean;
 
+import java.util.List;
+
 /**
  * 创建人：进京赶考
  * 创建时间：2021/05/08  15：30
  * 描述：
  */
 public class StoreFoodItem2Bean {
-
-    public int cartItemId;
-    public String cartQuantity;
-    public int skuId;
-    public String skuName;
-    public String sp1;
-    public String sp2;
-    public String sp3;
-    public String sp4;
-    public String spData;
-    public int feightTemplateId;
-    public int productAttributeCategoryId;
-    public String pic;
-    public int newStatus;
-    public int recommandStatus;
-    public int sale;
-    public int price;
-    public Object originalPrice;
-    public Object packingFee;
-    public int giftGrowth;
-    public int giftPoint;
-    public Object usePointLimit;
-    public String subTitle;
-    public String description;
-    public int stock;
-    public int lowStock;
-    public String unit;
-    public int weight;
-    public int previewStatus;
-    public String serviceIds;
-    public String detailTitle;
-    public String detailDesc;
-    public Object productId;
-    public int shopProductId;
-    public int shopProductCategoryId;
-    public String shopProductCategoryName;
-    public String showStatus;
     public String name;
+    public List<AttributeListBean> attributeList;
+    public Integer cartItemId;
+    public String cartQuantity;
+    public String description;
+    public String endTime;
+    public Integer endTimeSecond;
+    public Integer flashSaleGoodsId;
+    public Integer flashSaleStatus;
+    public String pic;
+    public int price;
+    public Integer originalPrice;
+    public Integer productAttributeCategoryId;
+    public Integer productId;
+    public int sale;
+    public String salePrice;
+    public Integer shopProductCategoryId;
+    public String shopProductCategoryName;
+    public int shopProductId;
+    public int skuId;
+    public List<SkuListBean> skuList;
+    public String skuName;
+    public String startTime;
+    public Integer stock;
+    public String subTitle;
+    public String unit;
+    public Integer weight;
+
+    public static class AttributeListBean {
+        public String createTime;
+        public Integer filterType;
+        public Integer handAddStatus;
+        public Integer id;
+        public String inputList;
+        public Integer inputType;
+        public String name;
+        public Integer productAttributeCategoryId;
+        public Integer relatedStatus;
+        public Integer searchType;
+        public Integer selectType;
+        public Integer sort;
+        public Integer status;
+        public Integer type;
+    }
+
+    public static class SkuListBean {
+        public Integer cartItemId;
+        public Integer cartQuantity;
+        public String endTime;
+        public Integer endTimeSecond;
+        public Integer flashSaleGoodsId;
+        public Integer flashSaleStatus;
+        public Integer orginPrice;
+        public Integer packingFee;
+        public Integer price;
+        public Integer productId;
+        public String salePrice;
+        public Integer shopProductId;
+        public String skuCode;
+        public Integer skuId;
+        public String skuName;
+        public Integer skuStockId;
+        public String startTime;
+        public Integer stock;
+    }
 }

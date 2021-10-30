@@ -243,8 +243,9 @@ public class HomeFragment extends BaseFragment {
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 HomeBean bean = (HomeBean) adapter.getData().get(position);
                 Intent intent = new Intent(getContext(), FoodActivity.class);
-                intent.putExtra("skuId",bean.skuId);
+                intent.putExtra("shopProductId", bean.shopProductId);
                 intent.putExtra("storeId",bean.storeId);
+                intent.putExtra("skuId",bean.skuId);
                 startActivity(intent);
             }
         });

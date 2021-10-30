@@ -9,7 +9,7 @@ import com.bee.user.bean.AddChartBean;
  */
 public class AddChartEvent {
     public  AddChartBean addChartBean;
-    //1是加，0是减
+    //1是加，0是减，2选规格
     public int type;
     public AddChartEvent(AddChartBean addChartBean,int type) {
         this.addChartBean = addChartBean;

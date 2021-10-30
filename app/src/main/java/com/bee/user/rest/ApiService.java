@@ -149,7 +149,7 @@ public interface ApiService {
      * 查询指定店铺分类对应的商品列表
      */
     @POST(HttpRequest.productDetail)
-    Observable<BaseResult<FoodDetailBean>> productDetail(@Path("skuId") Integer skuId);
+    Observable<BaseResult<FoodDetailBean>> productDetail(@Path("shopProductId") Integer shopProductId);
 
 
     /**
