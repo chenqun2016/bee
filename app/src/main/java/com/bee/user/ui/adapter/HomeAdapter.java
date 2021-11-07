@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.AddCartBean;
+import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.rest.Api;
@@ -75,9 +75,9 @@ public class HomeAdapter extends BaseQuickAdapter<HomeBean,BaseViewHolder> {
                 Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
                         subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new BaseSubscriber<AddCartBean>() {
+                        .subscribe(new BaseSubscriber<ChartBean>() {
                             @Override
-                            public void onSuccess(AddCartBean userBean) {
+                            public void onSuccess(ChartBean userBean) {
                                 EventBus.getDefault().post(new ChartFragmentEvent(ChartFragmentEvent.TYPE_REFLUSH));
                             }
 

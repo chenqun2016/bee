@@ -20,7 +20,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.AddCartBean;
 import com.bee.user.bean.AddChartBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.FoodTypeBean;
@@ -177,7 +176,8 @@ public class StoreActivity extends BaseActivity {
                 startActivity(OrderingActivity.newIntent(this, 2, intss, storeIds));
                 break;
             case R.id.cl_qujiesuan:
-                chart_bottom_dialog_view.showSelectedDialog();
+
+                showSelectedDialog(null, null);
                 break;
 
             case R.id.tv_dingwei:
@@ -190,6 +190,16 @@ public class StoreActivity extends BaseActivity {
                 startActivity(new Intent(this, SearchFoodActivity.class));
                 break;
         }
+
+    }
+
+    private void showSelectedDialog(AddChartBean addChartBean, OnAddChartListener listener) {
+        List<ChartBean> list = new ArrayList<>();
+        for (AddChartBean bean : hashMap.values()) {
+            list.add(bean.data);
+        }
+        chart_bottom_dialog_view.reflushAdapter(list);
+        chart_bottom_dialog_view.showSelectedDialog();
 
     }
 
@@ -224,7 +234,69 @@ public class StoreActivity extends BaseActivity {
         mFragments = new Fragment[titles.length];
 
         chart_bottom_dialog_view.initDatas(DisplayUtil.getWindowHeight(this));
+        chart_bottom_dialog_view.setChartBottomDialogListener(new ChartBottomDialogView.ChartBottomDialogListener() {
+            @Override
+            public void onClear() {
+                List<String> ints = new ArrayList<String>();
+                ints.add(id + "");
+                Api.getClient(HttpRequest.baseUrl_member).clearCartInfo(ints).
+                        subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<String>() {
+                            @Override
+                            public void onSuccess(String s) {
+                                hashMap.clear();
+                                resetView();
+                                getChartDatas();
+                            }
 
+                            @Override
+                            public void onFail(String fail) {
+                                super.onFail(fail);
+                            }
+                        });
+            }
+
+            @Override
+            public void onAdd(int num, AddRemoveView iv_goods_add,ChartBean foodBean) {
+                AddChartBean addChartBean = new AddChartBean(false,num, foodBean.getProductSkuId(), foodBean.getStoreId(), foodBean.getPrice(), foodBean.getId(), null,null);
+                AddChartEvent  addChartEvent = new AddChartEvent(addChartBean, 1);
+                doAddChartEvent(addChartEvent, new OnAddChartListener() {
+                    @Override
+                    public void onSuccess() {
+                        iv_goods_add.setNum(iv_goods_add.getNum() + 1);
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onRemove(int num, AddRemoveView iv_goods_add,ChartBean foodBean) {
+                AddChartBean addChartBean = new AddChartBean(false,num, foodBean.getProductSkuId(), foodBean.getStoreId(), foodBean.getPrice(), foodBean.getId(), null,null);
+                AddChartEvent  addChartEvent = new AddChartEvent(addChartBean, 0);
+                doAddChartEvent(addChartEvent, new OnAddChartListener() {
+                    @Override
+                    public void onSuccess() {
+                        iv_goods_add.setNum(iv_goods_add.getNum() -1);
+                        if (iv_goods_add.getNum() <= 0 ) {
+//                            AddChartBean addChartBean1 = hashMap.get(foodBean.getProductSkuId());
+//                            chart_bottom_dialog_view.selectedFoodAdapter.getData().remove(addChartBean1.data);
+//                            chart_bottom_dialog_view.selectedFoodAdapter.notifyItemRemoved(chart_bottom_dialog_view.selectedFoodAdapter.getData().indexOf(addChartBean1.data));
+                            hashMap.remove(foodBean.getProductSkuId());
+                        }
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+                });
+            }
+        });
 
         ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
         layoutParams.height = ImmersionBar.getStatusBarHeight(this);
@@ -323,6 +395,10 @@ public class StoreActivity extends BaseActivity {
                         super.onFail(fail);
                     }
                 });
+        getChartDatas();
+    }
+
+    private void getChartDatas() {
         //TODO
         List<String> integers = new ArrayList<>();
         integers.add(id);
@@ -333,11 +409,11 @@ public class StoreActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<List<ChartBean>>() {
                     @Override
                     public void onSuccess(List<ChartBean> beans) {
-                        chart_bottom_dialog_view.reflushAdapter(beans);
+
                         for (ChartBean bean : beans) {
                             if (bean.getQuantity() > 0) {
-                                AddChartBean addCartBean = new AddChartBean(bean.getQuantity(), bean.getProductSkuId(), bean.getStoreId(), BigDecimal.valueOf(bean.getPrice()), bean.getId());
-                                hashMap.put(bean.getProductSkuId() + "", addCartBean);
+                                AddChartBean ChartBean = new AddChartBean(false, bean.getQuantity(), bean.getProductSkuId(), bean.getStoreId(), bean.getPrice(), bean.getId(), bean, null);
+                                hashMap.put(bean.getProductSkuId() + "", ChartBean);
                             } else {
                                 hashMap.remove(bean.getProductSkuId() + "");
                             }
@@ -441,7 +517,7 @@ public class StoreActivity extends BaseActivity {
     }
 
 
-    private void showChooseTypeDialog(AddChartEvent event) {
+    private void showChooseTypeDialog(AddChartEvent event, OnAddChartListener listener) {
         AddChartBean bean = event.addChartBean;
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         bottomSheetDialog.setContentView(R.layout.dialog_store_bottom_choose);
@@ -454,25 +530,25 @@ public class StoreActivity extends BaseActivity {
             }
         });
         TextView iv_goods_name = bottomSheetDialog.findViewById(R.id.iv_goods_name);
-        iv_goods_name.setText(bean.data.subTitle);
+        iv_goods_name.setText(bean.data2.subTitle);
         TextView iv_goods_detail = bottomSheetDialog.findViewById(R.id.iv_goods_detail);
-        iv_goods_detail.setText(bean.data.description);
+        iv_goods_detail.setText(bean.data2.description);
         TextView iv_goods_comment = bottomSheetDialog.findViewById(R.id.iv_goods_comment);
-        iv_goods_comment.setText("剩余" + bean.data.stock + "份  月售" + bean.data.sale);
+        iv_goods_comment.setText("剩余" + bean.data2.stock + "份  月售" + bean.data2.sale);
         TextView iv_goods_price = bottomSheetDialog.findViewById(R.id.iv_goods_price);
-        iv_goods_price.setText("¥" + bean.data.price);
+        iv_goods_price.setText("¥" + bean.data2.price);
         TextView iv_goods_price_past = bottomSheetDialog.findViewById(R.id.iv_goods_price_past);
-        if (null != bean.data.originalPrice) {
+        if (null != bean.data2.originalPrice) {
             iv_goods_price_past.setVisibility(View.VISIBLE);
         } else {
             iv_goods_price_past.setVisibility(View.GONE);
         }
-        iv_goods_price_past.setText("¥" + bean.data.originalPrice);
+        iv_goods_price_past.setText("¥" + bean.data2.originalPrice);
 
 
         ImageView iv_goods_img = bottomSheetDialog.findViewById(R.id.iv_goods_img);
         Picasso.with(iv_goods_img.getContext())
-                .load(bean.data.pic)
+                .load(bean.data2.pic)
                 .fit()
                 .transform(new PicassoRoundTransform(DisplayUtil.dip2px(iv_goods_img.getContext(), 5), 0, PicassoRoundTransform.CornerType.ALL))
                 .into(iv_goods_img);
@@ -485,9 +561,9 @@ public class StoreActivity extends BaseActivity {
 
         String title1 = "规格";
         //添加规格
-        if (bean.data.skuList.size() > 1) {
+        if (bean.data2.skuList.size() > 1) {
             List<String> dataSource = new ArrayList<>();
-            for (StoreFoodItem2Bean.SkuListBean name : bean.data.skuList) {
+            for (StoreFoodItem2Bean.SkuListBean name : bean.data2.skuList) {
                 dataSource.add(name.skuName);
             }
             FoodTypeBean foodTypeBean = new FoodTypeBean();
@@ -497,7 +573,7 @@ public class StoreActivity extends BaseActivity {
         }
 
         //添加标签
-        for (StoreFoodItem2Bean.AttributeListBean bean1 : bean.data.attributeList) {
+        for (StoreFoodItem2Bean.AttributeListBean bean1 : bean.data2.attributeList) {
             List<String> tags = new ArrayList<>();
             tags.addAll(Arrays.asList(bean1.inputList.split(",")));
             FoodTypeBean tagsBean = new FoodTypeBean();
@@ -524,12 +600,19 @@ public class StoreActivity extends BaseActivity {
                 bottomSheetDialog.dismiss();
                 List<FoodTypeBean> data = foodChooseTypeAdapter.getData();
                 //有规格的情况，设置skuid
-                if(title1.equals(data.get(0).title)){
-                    event.addChartBean.skuId = event.addChartBean.data.skuList.get(data.get(0).selected).skuId;
+                if (title1.equals(data.get(0).title)) {
+                    event.addChartBean.skuId = event.addChartBean.data2.skuList.get(data.get(0).selected).skuId;
 
                 }
                 event.type = 1;
-                onAddChartEvent(event);
+//                onAddChartEvent(event);
+                StringBuilder tags = new StringBuilder();
+                for (FoodTypeBean bean : data) {
+                    tags.append(bean.lists.get(bean.selected));
+                    tags.append(",");
+                }
+                event.addChartBean.tags = tags.toString();
+                doAddChartEvent(event, listener);
             }
         });
 
@@ -574,8 +657,13 @@ public class StoreActivity extends BaseActivity {
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onAddChartEvent(AddChartEvent event) {
+    public interface OnAddChartListener {
+        void onSuccess();
+
+        void onFail();
+    }
+
+    public void doAddChartEvent(AddChartEvent event, OnAddChartListener listener) {
         if (1 == event.type) {
 
             AddChartBean addChartBean = event.addChartBean;
@@ -583,31 +671,74 @@ public class StoreActivity extends BaseActivity {
             map.put("num", "1");
             map.put("skuId", addChartBean.skuId + "");
             map.put("storeId", addChartBean.storeId + "");
-            map.put("attributes", "标签,1");
+            if (!TextUtils.isEmpty(event.addChartBean.tags)) {
+                map.put("attributes", event.addChartBean.tags);
+            }
             Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
                     subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new BaseSubscriber<AddCartBean>() {
+                    .subscribe(new BaseSubscriber<ChartBean>() {
                         @Override
-                        public void onSuccess(AddCartBean userBean) {
+                        public void onSuccess(ChartBean userBean) {
+                            addChartBean.data = userBean;
                             isChanged = true;
                             //添加购物车id
                             addChartBean.cartItemId = userBean.getId();
-                            if (addChartBean.num > 0) {
-                                hashMap.put(addChartBean.skuId + "", addChartBean);
-                            } else {
-                                hashMap.remove(addChartBean.skuId + "");
-                            }
+                            hashMap.put(addChartBean.skuId + "", addChartBean);
                             resetView();
+                            if (null != listener) {
+                                listener.onSuccess();
+                            }
                         }
 
                         @Override
                         public void onFail(String fail) {
                             super.onFail(fail);
+                            if (null != listener) {
+                                listener.onFail();
+                            }
                         }
                     });
         } else if (0 == event.type) {
             AddChartBean addChartBean = event.addChartBean;
+            if (addChartBean.isTagStyle) {
+                showSelectedDialog(addChartBean, listener);
+            } else {
+                doRemoveChart(addChartBean, listener);
+            }
+
+
+        } else if (2 == event.type) {
+            showChooseTypeDialog(event, listener);
+        }
+    }
+
+    private void doRemoveChart(AddChartBean addChartBean, OnAddChartListener listener) {
+        if (addChartBean.num <= 0) {
+            ArrayList<Integer> ids = new ArrayList<>();
+            ids.add(addChartBean.cartItemId);
+            Api.getClient(HttpRequest.baseUrl_member).deleteCartItem(ids).
+                    subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseSubscriber<String>() {
+                        @Override
+                        public void onSuccess(String s) {
+                            hashMap.remove(addChartBean.skuId + "");
+                            resetView();
+                            if (null != listener) {
+                                listener.onSuccess();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(String fail) {
+                            super.onFail(fail);
+                            if (null != listener) {
+                                listener.onFail();
+                            }
+                        }
+                    });
+        } else {
             Api.getClient(HttpRequest.baseUrl_member).updateQuantity(addChartBean.cartItemId + "", addChartBean.num + "").
                     subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                     .observeOn(AndroidSchedulers.mainThread())
@@ -615,22 +746,33 @@ public class StoreActivity extends BaseActivity {
                         @Override
                         public void onSuccess(String s) {
                             if (addChartBean.num > 0) {
-                                hashMap.put(addChartBean.skuId + "", addChartBean);
+                                AddChartBean old = hashMap.get(addChartBean.skuId + "");
+                                old.num = addChartBean.num;
+                                old.skuId = addChartBean.skuId;
+                                old.storeId = addChartBean.storeId;
+                                old.cartItemId = addChartBean.cartItemId;
+                                old.money = addChartBean.money;
+                                old.data.setQuantity(old.num);
+                                old.data2 = addChartBean.data2;
+                                hashMap.put(addChartBean.skuId + "", old);
                             } else {
                                 hashMap.remove(addChartBean.skuId + "");
                             }
                             resetView();
+                            if (null != listener) {
+                                listener.onSuccess();
+                            }
                         }
 
                         @Override
                         public void onFail(String fail) {
                             super.onFail(fail);
+                            if (null != listener) {
+                                listener.onFail();
+                            }
                         }
                     });
-        } else if (2 == event.type) {
-            showChooseTypeDialog(event);
         }
-
     }
 
     private void resetView() {

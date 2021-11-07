@@ -384,8 +384,15 @@ public class OrderingActivity extends BaseActivity {
             }
 
             @Override
-            public void onRemoveListener(int num) {
+            public boolean onRemoveListener(int num) {
+                if (0 == num) {
+                    tv_pay.setBackgroundResource(R.drawable.btn_gradient_grey_round);
+                    tv_pay.setEnabled(false);
+                    ll_xuyao.setBackgroundResource(R.drawable.btn_stroke5dp_ccc);
 
+                    tv_tigongcanju.setText("");
+                }
+                return true;
             }
 
         });

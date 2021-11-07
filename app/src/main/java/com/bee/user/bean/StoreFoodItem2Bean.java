@@ -54,7 +54,7 @@ public class StoreFoodItem2Bean {
     }
 
     public static class SkuListBean {
-        public Integer cartItemId;
+        public int cartItemId;
         public Integer cartQuantity;
         public String endTime;
         public Integer endTimeSecond;

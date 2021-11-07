@@ -1,6 +1,5 @@
 package com.bee.user.rest;
 
-import com.bee.user.bean.AddCartBean;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.AppUpdateInfoBean;
 import com.bee.user.bean.BannerBean;
@@ -172,7 +171,7 @@ public interface ApiService {
      * 添加至购物车
      */
     @POST(HttpRequest.addToCart)
-    Observable<BaseResult<AddCartBean>> addToCart(@Body RequestBody info);
+    Observable<BaseResult<ChartBean>> addToCart(@Body RequestBody info);
 
     /**
      * 确认单信息

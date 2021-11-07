@@ -477,7 +477,7 @@ private int heightSelected;
         foodBeans.add(new ChartBean());
         foodBeans.add(new ChartBean());
 
-        SelectedFoodAdapter selectedFoodAdapter = new SelectedFoodAdapter(foodBeans);
+        SelectedFoodAdapter selectedFoodAdapter = new SelectedFoodAdapter(foodBeans,null);
         recyclerview.setAdapter(selectedFoodAdapter);
         selectedFoodAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override

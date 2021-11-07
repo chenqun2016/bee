@@ -30,7 +30,7 @@ public class ChartUnavalabeRecyclerviewAdapter extends BaseQuickAdapter<ChartBea
         View ll_title = baseViewHolder.findView(R.id.ll_title);
         TextView tv_store = baseViewHolder.findView(R.id.tv_store);
         int itemPosition = getItemPosition(chartBean);
-        if(itemPosition == 0 || !getItem(itemPosition - 1).getStoreId().equals(chartBean.getStoreId())){
+        if(itemPosition == 0 || getItem(itemPosition - 1).getStoreId() ==(chartBean.getStoreId())){
             view_line.setVisibility(View.VISIBLE);
             ll_title.setVisibility(View.VISIBLE);
             tv_store.setText(chartBean.getStoreName());
@@ -38,8 +38,6 @@ public class ChartUnavalabeRecyclerviewAdapter extends BaseQuickAdapter<ChartBea
             view_line.setVisibility(View.GONE);
             ll_title.setVisibility(View.GONE);
         }
-
-
 
 
         TextView iv_goods_name = baseViewHolder.findView(R.id.iv_goods_name);
@@ -57,7 +55,7 @@ public class ChartUnavalabeRecyclerviewAdapter extends BaseQuickAdapter<ChartBea
                 .into(iv_goods_img);
         TextView iv_goods_detail = baseViewHolder.findView(R.id.iv_goods_detail);
         TextView iv_goods_price = baseViewHolder.findView(R.id.iv_goods_price);
-        iv_goods_price.setText(chartBean.getPrice()+"");
+        iv_goods_price.setText(chartBean.getPrice().intValue()+"");
         TextView iv_goods_num = baseViewHolder.findView(R.id.iv_goods_num);
         iv_goods_num.setText(""+chartBean.getQuantity());
     }

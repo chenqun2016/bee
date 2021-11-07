@@ -352,7 +352,7 @@ public class ChartFragment extends BaseFragment {
                 if(b){
                     for (List<ChartBean> beans : adapter.getData()){
                         for(ChartBean  bean : beans){
-                            totalMoney += bean.getPrice()*bean.getQuantity();
+                            totalMoney += bean.getPrice().intValue()*bean.getQuantity();
                         }
                     }
                 }

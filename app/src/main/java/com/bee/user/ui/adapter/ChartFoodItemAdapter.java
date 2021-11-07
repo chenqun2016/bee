@@ -1,5 +1,6 @@
 package com.bee.user.ui.adapter;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -58,12 +59,15 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
         holder.findView(R.id.iv_goods_comment).setVisibility(View.INVISIBLE);
 
         TextView iv_goods_detail = holder.findView(R.id.iv_goods_detail);
-        iv_goods_detail.setText(foodBean.getSp1() + "/" + foodBean.getSp2() + "/" + foodBean.getSp3());
+        if(!TextUtils.isEmpty(foodBean.attributes)){
+            String s =  foodBean.attributes.replaceAll(",", "/");
+            iv_goods_detail.setText(s);
+        }
 
         TextView iv_goods_price = holder.findView(R.id.iv_goods_price);
         AddRemoveView iv_goods_add = holder.findView(R.id.iv_goods_add);
 
-        iv_goods_price.setText(foodBean.getPrice() + "");
+        iv_goods_price.setText(foodBean.getPrice().intValue() + "");
         iv_goods_price_past.setText(foodBean.getPrice() + "");
 
         CheckBox cb_1 = holder.findView(R.id.cb_1_item);
@@ -77,9 +81,9 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
                     foodBean.isSelected = isChecked;
                     int totalMoney = 0;
                     if (isChecked) {
-                        totalMoney += foodBean.getPrice() * foodBean.getQuantity();
+                        totalMoney += foodBean.getPrice().intValue() * foodBean.getQuantity();
                     } else {
-                        totalMoney -= foodBean.getPrice() * foodBean.getQuantity();
+                        totalMoney -= foodBean.getPrice().intValue() * foodBean.getQuantity();
                     }
                     LogUtil.d("totalmoney ==" + totalMoney);
                     BeeApplication.appVMStore().chartData.setValue(totalMoney);
@@ -94,7 +98,7 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
             public boolean onAddListener(int num) {
                 foodBean.setQuantity(num);
                 if(cb_1.isChecked()) {
-                    BeeApplication.appVMStore().chartData.postValue(foodBean.getPrice());
+                    BeeApplication.appVMStore().chartData.postValue(foodBean.getPrice().intValue());
                 }
                 Api.getClient(HttpRequest.baseUrl_member).updateQuantity(foodBean.getId() + "", num + "").
                         subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
@@ -114,10 +118,10 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
             }
 
             @Override
-            public void onRemoveListener(int num) {
+            public boolean onRemoveListener(int num) {
                 foodBean.setQuantity(num);
                 if(cb_1.isChecked()) {
-                    BeeApplication.appVMStore().chartData.postValue(-foodBean.getPrice());
+                    BeeApplication.appVMStore().chartData.postValue(-foodBean.getPrice().intValue());
                 }
                 if (num == 0) {
                     ArrayList<Integer> ids = new ArrayList<>();
@@ -154,6 +158,7 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
                                 }
                             });
                 }
+                return true;
             }
         });
     }

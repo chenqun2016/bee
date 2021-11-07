@@ -279,7 +279,7 @@ public class StoreFragment extends BaseFragment {
                     EventBus.getDefault().post(storeEvent);
 
                 });
-
+                TextView tv_choosetype = holder.getView(R.id.tv_choosetype);
                 AddRemoveView iv_goods_add = holder.getView(R.id.iv_goods_add);
                 iv_goods_add.setNum(item.info.num);
 
@@ -290,36 +290,77 @@ public class StoreFragment extends BaseFragment {
                     public boolean onAddListener(int num) {
                         StoreFoodItem2Bean bean = item.info.getBean();
 
-                        AddChartBean addChartBean = new AddChartBean(num, bean.skuList.get(0).skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), bean.cartItemId == null ? 0 : bean.cartItemId, bean);
+                        AddChartBean addChartBean = new AddChartBean(isTagStyle(item),num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null||bean.skuList.size()<=0) ? 0 : bean.skuList.get(0).cartItemId, null,bean);
+                        AddChartEvent addChartEvent;
                         //有标签
-                        if ((item.info.getBean().attributeList != null && item.info.getBean().attributeList.size() > 0)
-                                || (item.info.getBean().skuList != null && item.info.getBean().skuList.size() > 1)) {
+                        if (isTagStyle(item)) {
 
-                            AddChartEvent addChartEvent = new AddChartEvent(addChartBean, 2);
-                            EventBus.getDefault().post(addChartEvent);
-                            return false;
+                            addChartEvent = new AddChartEvent(addChartBean, 2);
                         } else {
-                            AddChartEvent addChartEvent = new AddChartEvent(addChartBean, 1);
-                            EventBus.getDefault().post(addChartEvent);
-                            return true;
+                            addChartEvent = new AddChartEvent(addChartBean, 1);
                         }
+
+                        if (null != activity) {
+                            activity.doAddChartEvent(addChartEvent, new StoreActivity.OnAddChartListener() {
+                                @Override
+                                public void onSuccess() {
+                                    iv_goods_add.setVisibility(View.VISIBLE);
+                                    tv_choosetype.setVisibility(View.GONE);
+                                    iv_goods_add.setNum(iv_goods_add.getNum() + 1);
+                                }
+
+                                @Override
+                                public void onFail() {
+                                }
+                            });
+                        }
+                        return false;
                     }
 
                     @Override
-                    public void onRemoveListener(int num) {
+                    public boolean onRemoveListener(int num) {
                         StoreFoodItem2Bean bean = item.info.getBean();
-                        AddChartBean addChartBean = new AddChartBean(num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), bean.cartItemId == null ? 0 : bean.cartItemId);
+                        AddChartBean addChartBean = new AddChartBean(isTagStyle(item),num , bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null||bean.skuList.size()<=0) ? 0 : bean.skuList.get(0).cartItemId, null,bean);
                         AddChartEvent addChartEvent = new AddChartEvent(addChartBean, 0);
-                        EventBus.getDefault().post(addChartEvent);
+//                        EventBus.getDefault().post(addChartEvent);
+                        activity.doAddChartEvent(addChartEvent, new StoreActivity.OnAddChartListener() {
+                            @Override
+                            public void onSuccess() {
+                                iv_goods_add.setNum(iv_goods_add.getNum() - 1);
+                                if (iv_goods_add.getNum() <= 0 && isTagStyle(item)) {
+                                    iv_goods_add.setVisibility(View.GONE);
+                                    tv_choosetype.setVisibility(View.VISIBLE);
+                                }
+                            }
+
+                            @Override
+                            public void onFail() {
+
+                            }
+                        });
+                        return false;
                     }
                 });
 
-                TextView tv_choosetype = holder.getView(R.id.tv_choosetype);
+
                 tv_choosetype.setOnClickListener(v -> {
 
-                    AddChartBean addChartBean = new AddChartBean(1, bean.skuList.get(0).skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), bean.cartItemId == null ? 0 : bean.cartItemId, bean);
+                    AddChartBean addChartBean = new AddChartBean(isTagStyle(item),1, bean.skuList.get(0).skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null||bean.skuList.size()<=0) ? 0 : bean.skuList.get(0).cartItemId,  null,bean);
                     AddChartEvent addChartEvent = new AddChartEvent(addChartBean, 2);
-                    EventBus.getDefault().post(addChartEvent);
+//                    EventBus.getDefault().post(addChartEvent);
+                    activity.doAddChartEvent(addChartEvent, new StoreActivity.OnAddChartListener() {
+                        @Override
+                        public void onSuccess() {
+                            iv_goods_add.setVisibility(View.VISIBLE);
+                            tv_choosetype.setVisibility(View.GONE);
+                            iv_goods_add.setNum(iv_goods_add.getNum() + 1);
+                        }
+
+                        @Override
+                        public void onFail() {
+
+                        }
+                    });
                 });
 
                 ///有选中的情况 不显示选规格
@@ -381,5 +422,10 @@ public class StoreFragment extends BaseFragment {
                                            BaseGroupedItem<ElemeGroupedItem.ItemInfo> item) {
 
         }
+    }
+
+    private boolean isTagStyle(BaseGroupedItem<ElemeGroupedItem.ItemInfo> item) {
+        return (item.info.getBean().attributeList != null && item.info.getBean().attributeList.size() > 0)
+                || (item.info.getBean().skuList != null && item.info.getBean().skuList.size() > 1);
     }
 }

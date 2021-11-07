@@ -35,8 +35,7 @@ public class ChartBottomDialogView extends FrameLayout {
     private int heightSelected;
 
     ViewGroup.LayoutParams params;
-
-
+    private ChartBottomDialogListener listener;
 
     public ChartBottomDialogView(@NonNull Context context) {
         this(context, null);
@@ -60,7 +59,8 @@ public class ChartBottomDialogView extends FrameLayout {
         initSelectedFoodDialog();
     }
 
-    SelectedFoodAdapter selectedFoodAdapter;
+    public SelectedFoodAdapter selectedFoodAdapter;
+
     private void initSelectedFoodDialog() {
         view_background.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +72,9 @@ public class ChartBottomDialogView extends FrameLayout {
         findViewById(R.id.clean).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (null != listener) {
+                    listener.onClear();
+                }
                 close();
             }
         });
@@ -96,7 +99,7 @@ public class ChartBottomDialogView extends FrameLayout {
         foodBeans.add(new ChartBean());
         foodBeans.add(new ChartBean());
 
-        selectedFoodAdapter  = new SelectedFoodAdapter(foodBeans);
+        selectedFoodAdapter = new SelectedFoodAdapter(foodBeans, listener);
         recyclerview.setAdapter(selectedFoodAdapter);
         selectedFoodAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -109,7 +112,7 @@ public class ChartBottomDialogView extends FrameLayout {
 
     }
 
-    public void reflushAdapter(List<ChartBean> beans){
+    public void reflushAdapter(List<ChartBean> beans) {
         selectedFoodAdapter.setNewInstance(beans);
     }
 
@@ -138,7 +141,7 @@ public class ChartBottomDialogView extends FrameLayout {
 
     public void showSelectedDialog() {
         List<ChartBean> data = selectedFoodAdapter.getData();
-        if(null == data || data.size()==0){
+        if (null == data || data.size() == 0) {
             return;
         }
         if (!isShow) {
@@ -147,8 +150,6 @@ public class ChartBottomDialogView extends FrameLayout {
         } else {
             close();
         }
-
-
     }
 
     private ValueAnimator showAnimation;
@@ -182,8 +183,6 @@ public class ChartBottomDialogView extends FrameLayout {
             });
         }
         alphaAnimation1.start();
-
-
 
 
         if (null != closeAnimation && closeAnimation.isRunning()) {
@@ -280,7 +279,6 @@ public class ChartBottomDialogView extends FrameLayout {
         alphaAnimation2.start();
 
 
-
         if (null != showAnimation && showAnimation.isRunning()) {
             showAnimation.end();
         }
@@ -290,4 +288,18 @@ public class ChartBottomDialogView extends FrameLayout {
         view_selected.setVisibility(visible);
     }
 
+    public void setChartBottomDialogListener(ChartBottomDialogListener listener) {
+        this.listener = listener;
+        if(null != selectedFoodAdapter){
+            selectedFoodAdapter.listener = listener;
+        }
+    }
+
+    public interface ChartBottomDialogListener {
+        void onClear();
+
+        void onAdd(int num, AddRemoveView iv_goods_add,ChartBean foodBean);
+
+        void onRemove(int num, AddRemoveView iv_goods_add,ChartBean foodBean);
+    }
 }

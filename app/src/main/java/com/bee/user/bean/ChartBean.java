@@ -1,6 +1,7 @@
 package com.bee.user.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * 创建人：进京赶考
@@ -20,7 +21,7 @@ public class ChartBean implements Serializable {
     private Integer memberId;
     private String memberNickname;
     private int quantity;
-    private Integer price;
+    private BigDecimal price;
     private Double packingFee;
     private Integer buildingAreaId;
     private String buildingAreaName;
@@ -30,16 +31,20 @@ public class ChartBean implements Serializable {
     private Object productAttr;
     private String productPic;
     private String productName;
-    private Object productSubTitle;
+    private String productSubTitle;
     private String productSkuCode;
     private Integer productCategoryId;
     private String productBrand;
     private String productSn;
-    private Integer storeId;
+    private int storeId;
     private String storeName;
     private String createDate;
     private String modifyDate;
     private Integer deleteStatus;
+    public BigDecimal marketPrice = BigDecimal.valueOf(0);
+    public String attributes;
+
+
 
     public int getId() {
         return id;
@@ -89,11 +94,11 @@ public class ChartBean implements Serializable {
         this.quantity = quantity;
     }
 
-    public Integer getPrice() {
-        return price;
+    public BigDecimal getPrice() {
+        return price == null?BigDecimal.valueOf(0):price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -169,11 +174,11 @@ public class ChartBean implements Serializable {
         this.productName = productName;
     }
 
-    public Object getProductSubTitle() {
+    public String getProductSubTitle() {
         return productSubTitle;
     }
 
-    public void setProductSubTitle(Object productSubTitle) {
+    public void setProductSubTitle(String productSubTitle) {
         this.productSubTitle = productSubTitle;
     }
 
@@ -209,11 +214,11 @@ public class ChartBean implements Serializable {
         this.productSn = productSn;
     }
 
-    public Integer getStoreId() {
+    public int getStoreId() {
         return storeId;
     }
 
-    public void setStoreId(Integer storeId) {
+    public void setStoreId(int storeId) {
         this.storeId = storeId;
     }
 

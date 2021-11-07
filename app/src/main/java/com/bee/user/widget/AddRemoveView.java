@@ -86,13 +86,15 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
                     iv_remove.setVisibility(VISIBLE);
                     tv_num.setVisibility(VISIBLE);
                 }
-                num += 1;
 
-                tv_num.setText(num + "");
                 if (null != mOnNumChangedListener) {
-                    boolean doAnimal = mOnNumChangedListener.onAddListener(num);
-                    if (doAnimal && null != parent && null != end) {
-                        doChartAnimal(getContext(), iv_add, parent, end);
+                    boolean doAnimal = mOnNumChangedListener.onAddListener(num+1);
+                    if(doAnimal){
+                        num += 1;
+                        tv_num.setText(num + "");
+                        if ( null != parent && null != end) {
+                            doChartAnimal(getContext(), iv_add, parent, end);
+                        }
                     }
                 }
 
@@ -102,14 +104,16 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
                 if (num <= min) {
                     break;
                 }
-                num -= 1;
-                if (num == 0) {
-                    iv_remove.setVisibility(GONE);
-                    tv_num.setVisibility(GONE);
-                }
-                tv_num.setText(num + "");
                 if (null != mOnNumChangedListener) {
-                    mOnNumChangedListener.onRemoveListener(num);
+                   boolean autoRemo =  mOnNumChangedListener.onRemoveListener(num-1);
+                   if(autoRemo){
+                       num -= 1;
+                       if (num == 0) {
+                           iv_remove.setVisibility(GONE);
+                           tv_num.setVisibility(GONE);
+                       }
+                       tv_num.setText(num + "");
+                   }
                 }
                 break;
         }
@@ -138,7 +142,7 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
     public interface OnNumChangedListener {
         boolean onAddListener(int num);
 
-        void onRemoveListener(int num);
+        boolean onRemoveListener(int num);
     }
 
 

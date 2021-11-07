@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.AddCartBean;
 import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.CommentWrapBean;
@@ -46,6 +45,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -210,9 +210,9 @@ public class FoodActivity extends BaseActivity {
                 Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
                         subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new BaseSubscriber<AddCartBean>() {
+                        .subscribe(new BaseSubscriber<ChartBean>() {
                             @Override
-                            public void onSuccess(AddCartBean userBean) {
+                            public void onSuccess(ChartBean userBean) {
                                 setCartQuantity(userBean.getQuantity());
                                 mBeans.cartQuantity = userBean.getQuantity();
                             }
@@ -374,7 +374,7 @@ public class FoodActivity extends BaseActivity {
                         ArrayList<ChartBean> objects = new ArrayList<>();
                         ChartBean chartBean = new ChartBean();
                         chartBean.setProductName(beans.skuName);
-                        chartBean.setPrice(beans.price);
+                        chartBean.setPrice(BigDecimal.valueOf(beans.price));
                         chartBean.setQuantity(beans.cartQuantity);
                         chartBean.setSp1(beans.sp1);
                         chartBean.setSp2(beans.sp2);
@@ -544,7 +544,7 @@ public class FoodActivity extends BaseActivity {
         tv_money_past.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);  // 设置中划线并加清晰
         tv_money_past.setText("¥" + mBeans.orginPrice + "");
         tv_money.setText(mBeans.price + "");
-        tv_food_title.setText(mBeans.skuName);
+        tv_food_title.setText(mBeans.subTitle);
         tv_selled.setText("已售" + mBeans.sale);
 
 

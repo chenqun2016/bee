@@ -11,6 +11,8 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * 创建人：进京赶考
  * 创建时间：2020/09/18  20：55
@@ -33,7 +35,12 @@ public class FoodChooseTypeAdapter extends BaseQuickAdapter<FoodTypeBean, BaseVi
 
         tags.setTagCheckedMode(FlowTagLayout.FLOW_TAG_CHECKED_SINGLE);
         tags.setAdapter(tagsAdapter);
-
+        tags.setOnTagSelectListener(new FlowTagLayout.OnTagSelectListener() {
+            @Override
+            public void onItemSelect(FlowTagLayout parent, List<Integer> selectedList) {
+                foodBean.selected = selectedList.get(0);
+            }
+        });
         tags.setOnTagClickListener(new FlowTagLayout.OnTagClickListener() {
             @Override
             public void onItemClick(FlowTagLayout parent, View view, int position) {

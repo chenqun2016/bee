@@ -131,8 +131,8 @@ public class BuyGiftcardActivity extends BaseActivity {
             }
 
             @Override
-            public void onRemoveListener(int num) {
-
+            public boolean onRemoveListener(int num) {
+                return true;
             }
 
         });
