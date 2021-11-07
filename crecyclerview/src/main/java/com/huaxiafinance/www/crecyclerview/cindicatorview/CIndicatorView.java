@@ -96,8 +96,8 @@ public class CIndicatorView extends FrameLayout {
      *                  Fragment 中嵌套 Fragment 会出现问题的解决方案
      * @return
      */
-    public CIndicatorView initDatas(List<Fragment> fragments, String[] titles, FragmentManager manager) {
-        mViewpager.setAdapter(new FragmentAdapter(manager, fragments, Arrays.asList(titles)));
+    public CIndicatorView initDatas(List<Fragment> fragments, List<String> titles, FragmentManager manager) {
+        mViewpager.setAdapter(new FragmentAdapter(manager, fragments, titles));
         mViewpager.setOffscreenPageLimit(Math.min(fragments.size() - 1, pageLimits));
         mIndicator.setViewPager(mViewpager);
         return this;

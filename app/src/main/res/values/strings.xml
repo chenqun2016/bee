@@ -12,4 +12,5 @@
     <string name="tv_login_pass_set">已设置</string>
     <string name="tv_lianxuqiandao">连续签到%s天</string>
     <string name="tv_sign_inform">已连续签到%s天，领取</string>
+    <string name="tv_remain_bumber">剩%s</string>
 </resources>

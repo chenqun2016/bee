@@ -57,19 +57,19 @@ public class MiaoshaActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-       // initGoodsTimeSection();
+        initGoodsTimeSection();
         ViewGroup.LayoutParams layoutParams = statusheight.getLayoutParams();
         layoutParams.height = ImmersionBar.getStatusBarHeight(this);
         statusheight.setLayoutParams(layoutParams);
 
 
-        fragments.add(MiaoshaFragment.newInstance(0));
+        /*fragments.add(MiaoshaFragment.newInstance(0));
         fragments.add(MiaoshaFragment.newInstance(1));
         fragments.add(MiaoshaFragment.newInstance(2));
         fragments.add(MiaoshaFragment.newInstance(3));
         cindicator.initDatas(fragments, str, getSupportFragmentManager());
         cindicator.getIndicator().setItemUnderHeight(0);
-        cindicator.getIndicator().setTabUnderHeight(0);
+        cindicator.getIndicator().setTabUnderHeight(0);*/
        /* cindicator.getIndicator().setItemUnderHeight(0);
         cindicator.getIndicator().setTabUnderHeight(0);*/
     }
@@ -87,7 +87,7 @@ public class MiaoshaActivity extends BaseActivity {
                         if(!ObjectUtils.isEmpty(data)) {
                             for (TimeSectionBean bean : data){
                                 int status = bean.getStatus();//0:进行中 1:未开始 2:已结束
-                                fragments.add(MiaoshaFragment.newInstance(status));
+                                fragments.add(MiaoshaFragment.newInstance(bean.getId()));
                                 switch (status) {
                                     case 0:
                                         timeList.add(bean.getName()+"/抢购中");
@@ -100,19 +100,9 @@ public class MiaoshaActivity extends BaseActivity {
                                         break;
                                 }
                             }
-   /*                         timeList.add("19:00/即将开始");
-                            timeList.add("20:00/即将开始");
-                            timeList.add("21:00/即将开始");
-                            timeList.add("22:00/即将开始");
-                            timeList.add("23:00/即将开始");
-                            fragments.add(MiaoshaFragment.newInstance(1));
-                            fragments.add(MiaoshaFragment.newInstance(2));
-                            fragments.add(MiaoshaFragment.newInstance(2));
-                            fragments.add(MiaoshaFragment.newInstance(2));
-                            fragments.add(MiaoshaFragment.newInstance(2));*/
-                          //  cindicator.initDatas(fragments, timeList, getSupportFragmentManager());
-                /*            cindicator.getIndicator().setItemUnderHeight(0);
-                            cindicator.getIndicator().setTabUnderHeight(0);*/
+                            cindicator.initDatas(fragments, timeList, getSupportFragmentManager());
+                            cindicator.getIndicator().setItemUnderHeight(0);
+                            cindicator.getIndicator().setTabUnderHeight(0);
                         }
                     }
 

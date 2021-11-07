@@ -14,12 +14,14 @@ import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.DingWeiBean;
 import com.bee.user.bean.FoodDetailBean;
 import com.bee.user.bean.GiftcardBean;
+import com.bee.user.bean.GoodsBySectionBean;
 import com.bee.user.bean.HelpTypeBean;
 import com.bee.user.bean.HelpTypeItemBean;
 import com.bee.user.bean.HomeBean;
 import com.bee.user.bean.MiLiChongzhiBean;
 import com.bee.user.bean.MyCommentWrapBean;
 import com.bee.user.bean.MyMiLiBean;
+import com.bee.user.bean.NewsBean;
 import com.bee.user.bean.OrderDetailBean;
 import com.bee.user.bean.OrderListBean;
 import com.bee.user.bean.OrderingBean;
@@ -569,5 +571,22 @@ public interface ApiService {
      */
     @POST(HttpRequest.homeRecommand)
     Observable<BaseResult<List<HomeBean>>> homeRecommand();
+
+
+    /**
+     * 消息中心类型
+     *
+     * @return
+     */
+    @POST(HttpRequest.getPlatFormMessage)
+    Observable<BaseResult<List<NewsBean>>> getPlatFormMessage(@Body RequestBody info);
+
+    /**
+     * 消息中心类型
+     *
+     * @return
+     */
+    @POST(HttpRequest.getGoodsBySection)
+    Observable<BaseResult<GoodsBySectionBean>> getGoodsBySection(@Body RequestBody info);
 
 }

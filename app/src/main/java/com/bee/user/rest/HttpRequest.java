@@ -210,4 +210,10 @@ public class HttpRequest {
     //首页推荐
     public static final String homeRecommand= "app-sys-shop-store/index/recommand";
 
+    //消息中心类型
+    public static final String getPlatFormMessage = "pushMessage/getPlatFormMessage";
+
+    //秒杀列表页数据
+    public static final String getGoodsBySection = "app-sys-shop-store/getGoodsBySection";
+
 }
