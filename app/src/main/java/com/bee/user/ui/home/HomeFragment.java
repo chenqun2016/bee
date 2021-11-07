@@ -35,13 +35,16 @@ import com.bee.user.ui.adapter.HomeGridview2Adapter;
 import com.bee.user.ui.adapter.HomeGridviewAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.location.SelectLocationActivity;
+import com.bee.user.ui.mine.AcountSafeActivity;
 import com.bee.user.ui.nearby.FoodActivity;
 import com.bee.user.ui.search.SearchActivity;
 import com.bee.user.utils.BannerUtils;
 import com.bee.user.utils.LogUtil;
+import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.MyGridView;
 import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -128,7 +131,11 @@ public class HomeFragment extends BaseFragment {
                 startActivity(new Intent(getContext(), SearchActivity.class));
                 break;
             case R.id.iv_msg:
-                startActivity(new Intent(getContext(), NewsActivity.class));
+                if(!ObjectUtils.isEmpty(SPUtils.geTinstance().getUserInfo())) {
+                    startActivity(new Intent(getActivity(), NewsActivity.class));
+                }else {
+                    EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_login));
+                }
                 break;
             case R.id.ll_tongzhi:
 //                if(null != SPUtils.geTinstance().getLocation()){

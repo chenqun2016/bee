@@ -41,9 +41,11 @@ import com.bee.user.ui.xiadan.ChooseAddressActivity;
 import com.bee.user.utils.BannerUtils;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.MyGridView;
 import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 
@@ -108,7 +110,11 @@ public class MineFragment extends BaseFragment {
 
         switch (view.getId()){
             case R.id.iv_msg:
-                startActivity(new Intent(getContext(), NewsActivity.class));
+                if(!ObjectUtils.isEmpty(SPUtils.geTinstance().getUserInfo())) {
+                    startActivity(new Intent(getActivity(), NewsActivity.class));
+                }else {
+                    EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_login));
+                }
                 break;
             case R.id.tv_icon:
             case R.id.tv_name:
