@@ -18,6 +18,7 @@ public class AddChartBean implements Serializable {
     public  ChartBean data;
     public  StoreFoodItem2Bean data2;
    public  String tags;
+   public int indexForList;
 
 
     public AddChartBean(boolean isTagStyle ,int num, int skuId, int storeId, BigDecimal money,int cartItemId,ChartBean data,StoreFoodItem2Bean data2) {

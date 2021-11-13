@@ -169,6 +169,9 @@ public class DragDialogLayout extends LinearLayout {
 
 
     private void animTopOrBottom(View releasedChild, float yvel) {
+        if (null != nextPageListener) {
+            nextPageListener.onAnimTopOrBottom();
+        }
         int finalTop = mTop; // 默认是粘到最顶端
        if (releasedChild == childView){
             // 拖动第二个view松手
@@ -229,5 +232,6 @@ public class DragDialogLayout extends LinearLayout {
 
     public interface ShowNextPageNotifier {
         void onDragNext();
+        void onAnimTopOrBottom();
     }
 }

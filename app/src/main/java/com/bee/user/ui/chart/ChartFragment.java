@@ -383,7 +383,7 @@ public class ChartFragment extends BaseFragment {
                     @Override
                     public void onSuccess(List<ChartBean> beans) {
 
-                        if(beans!= null && beans.size()>0 && beans.get(0).distributionStatus == 0){
+                        if(beans!= null && beans.size()>0 && beans.get(0).distributionStatus != 0){
                             ll_nonet.setVisibility(View.GONE);
                             ll_nodata.setVisibility(View.GONE);
                             ll_havedata.setVisibility(View.VISIBLE);

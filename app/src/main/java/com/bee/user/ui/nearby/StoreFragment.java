@@ -25,6 +25,7 @@ import com.bee.user.event.AddChartEvent;
 import com.bee.user.event.StoreEvent;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.AddRemoveView;
 import com.kunminx.linkage.LinkageRecyclerView;
 import com.kunminx.linkage.adapter.viewholder.LinkagePrimaryViewHolder;
@@ -40,6 +41,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -81,13 +83,14 @@ public class StoreFragment extends BaseFragment {
 
     }
 
-    private void setViews() {
+    private void setViews(HashMap<String, AddChartBean> map) {
         if (null == mDatas || mDatas.size() == 0) {
             return;
         }
         List<ElemeGroupedItem> mEDatas = new ArrayList();
         for (int i = 0; i < mDatas.size(); i++) {
             StoreFoodItem2Bean bean = mDatas.get(i);
+
 
             if (i != 0 && TextUtils.isEmpty(mDatas.get(i - 1).name)) {
                 mDatas.get(i - 1).name = "";
@@ -102,17 +105,47 @@ public class StoreFragment extends BaseFragment {
             }
 
             ElemeGroupedItem.ItemInfo itemInfo = new ElemeGroupedItem.ItemInfo(bean.subTitle, bean.name, bean);
-            if (!TextUtils.isEmpty(bean.cartQuantity)) {
-                itemInfo.num = Integer.parseInt(bean.cartQuantity);
-            }
+            itemInfo.num = bean.cartQuantity;
 
 
             mEDatas.add(new ElemeGroupedItem(itemInfo));
+
+
+            //购物车商品 和  商品列表商品关联
+            for (StoreFoodItem2Bean.SkuListBean skuBean : bean.skuList) {
+                if (null != map && map.containsKey(skuBean.skuId + "")) {
+                    AddChartBean addChartBean = map.get(skuBean.skuId + "");
+                    if (null != addChartBean) {
+                        addChartBean.indexForList = mEDatas.size() - 1;
+                    }
+                }
+            }
         }
 
         ElemeSecondaryAdapterConfig elemeSecondaryAdapterConfig = new ElemeSecondaryAdapterConfig();
         elemeSecondaryAdapterConfig.setContext(BeeApplication.getInstance());
         linkage.init(mEDatas, new StoreFragment.ElemePrimaryAdapterConfig(), elemeSecondaryAdapterConfig);
+
+    }
+
+    public void notifyReflush(int index, int quantity) {
+        LogUtil.d("notifyReflush == " + index + "/num==" + quantity);
+        BaseGroupedItem<ElemeGroupedItem.ItemInfo> item = (BaseGroupedItem<ElemeGroupedItem.ItemInfo>) linkage.getSecondaryAdapter().getItems().get(index);
+        if (0 == quantity) {
+            item.info.getBean().cartQuantity = quantity;
+            item.info.num = quantity;
+        } else {
+            item.info.getBean().cartQuantity += quantity;
+            if (item.info.getBean().cartQuantity < 0) {
+                item.info.getBean().cartQuantity = 0;
+            }
+            item.info.num += quantity;
+            if (item.info.num < 0) {
+                item.info.num = 0;
+            }
+        }
+
+        linkage.getSecondaryAdapter().notifyItemChanged(index);
     }
 
     @Override
@@ -151,9 +184,9 @@ public class StoreFragment extends BaseFragment {
     }
 
 
-    public void setFoodDatas(List<StoreFoodItem2Bean> datas) {
+    public void setFoodDatas(List<StoreFoodItem2Bean> datas, HashMap<String, AddChartBean> map) {
         mDatas = datas;
-        setViews();
+        setViews(map);
     }
 
 
@@ -290,7 +323,8 @@ public class StoreFragment extends BaseFragment {
                     public boolean onAddListener(int num) {
                         StoreFoodItem2Bean bean = item.info.getBean();
 
-                        AddChartBean addChartBean = new AddChartBean(isTagStyle(item),num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null||bean.skuList.size()<=0) ? 0 : bean.skuList.get(0).cartItemId, null,bean);
+                        AddChartBean addChartBean = new AddChartBean(isTagStyle(item), num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null || bean.skuList.size() <= 0) ? 0 : bean.skuList.get(0).cartItemId, null, bean);
+                        addChartBean.indexForList = holder.getAbsoluteAdapterPosition();
                         AddChartEvent addChartEvent;
                         //有标签
                         if (isTagStyle(item)) {
@@ -306,7 +340,7 @@ public class StoreFragment extends BaseFragment {
                                 public void onSuccess() {
                                     iv_goods_add.setVisibility(View.VISIBLE);
                                     tv_choosetype.setVisibility(View.GONE);
-                                    iv_goods_add.setNum(iv_goods_add.getNum() + 1);
+//                                    iv_goods_add.setNum(iv_goods_add.getNum() + 1);
                                 }
 
                                 @Override
@@ -320,13 +354,14 @@ public class StoreFragment extends BaseFragment {
                     @Override
                     public boolean onRemoveListener(int num) {
                         StoreFoodItem2Bean bean = item.info.getBean();
-                        AddChartBean addChartBean = new AddChartBean(isTagStyle(item),num , bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null||bean.skuList.size()<=0) ? 0 : bean.skuList.get(0).cartItemId, null,bean);
+                        AddChartBean addChartBean = new AddChartBean(isTagStyle(item), num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null || bean.skuList.size() <= 0) ? 0 : bean.skuList.get(0).cartItemId, null, bean);
+                        addChartBean.indexForList = holder.getAbsoluteAdapterPosition();
                         AddChartEvent addChartEvent = new AddChartEvent(addChartBean, 0);
 //                        EventBus.getDefault().post(addChartEvent);
                         activity.doAddChartEvent(addChartEvent, new StoreActivity.OnAddChartListener() {
                             @Override
                             public void onSuccess() {
-                                iv_goods_add.setNum(iv_goods_add.getNum() - 1);
+//                                iv_goods_add.setNum(iv_goods_add.getNum() - 1);
                                 if (iv_goods_add.getNum() <= 0 && isTagStyle(item)) {
                                     iv_goods_add.setVisibility(View.GONE);
                                     tv_choosetype.setVisibility(View.VISIBLE);
@@ -345,7 +380,8 @@ public class StoreFragment extends BaseFragment {
 
                 tv_choosetype.setOnClickListener(v -> {
 
-                    AddChartBean addChartBean = new AddChartBean(isTagStyle(item),1, bean.skuList.get(0).skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null||bean.skuList.size()<=0) ? 0 : bean.skuList.get(0).cartItemId,  null,bean);
+                    AddChartBean addChartBean = new AddChartBean(isTagStyle(item), 1, bean.skuList.get(0).skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null || bean.skuList.size() <= 0) ? 0 : bean.skuList.get(0).cartItemId, null, bean);
+                    addChartBean.indexForList = holder.getAbsoluteAdapterPosition();
                     AddChartEvent addChartEvent = new AddChartEvent(addChartBean, 2);
 //                    EventBus.getDefault().post(addChartEvent);
                     activity.doAddChartEvent(addChartEvent, new StoreActivity.OnAddChartListener() {
@@ -353,7 +389,7 @@ public class StoreFragment extends BaseFragment {
                         public void onSuccess() {
                             iv_goods_add.setVisibility(View.VISIBLE);
                             tv_choosetype.setVisibility(View.GONE);
-                            iv_goods_add.setNum(iv_goods_add.getNum() + 1);
+//                            iv_goods_add.setNum(iv_goods_add.getNum() + 1);
                         }
 
                         @Override

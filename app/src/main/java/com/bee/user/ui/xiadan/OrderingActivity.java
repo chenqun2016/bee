@@ -505,9 +505,12 @@ public class OrderingActivity extends BaseActivity {
                     public void onSuccess(OrderingBean userBean) {
                         PayParams payParams = new PayParams();
                         List<Integer> ins = new ArrayList<>();
-                        for(OrderingBean.OrderListBean bean : userBean.orderList){
-                            ins.add(bean.id);
+                        if(null != userBean && null != userBean.orderList){
+                            for(OrderingBean.OrderListBean bean : userBean.orderList){
+                                ins.add(bean.id);
+                            }
                         }
+
                         payParams.orderIds = ins;
                         startActivity( PayActivity.newIntent(OrderingActivity.this,payParams,totalMoney));
                         closeLoadingDialog();

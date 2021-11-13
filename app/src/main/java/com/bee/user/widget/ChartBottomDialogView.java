@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.R;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.ui.adapter.SelectedFoodAdapter;
+import com.bee.user.utils.LogUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 
@@ -87,8 +88,12 @@ public class ChartBottomDialogView extends FrameLayout {
 
                 params.height = 0;
                 view_selected.setLayoutParams(params);
+                isShow = false;
+            }
 
-                isShow = !isShow;
+            @Override
+            public void onAnimTopOrBottom() {
+//                isShow = !isShow;
             }
         });
 
@@ -144,6 +149,8 @@ public class ChartBottomDialogView extends FrameLayout {
         if (null == data || data.size() == 0) {
             return;
         }
+        LogUtil.d("isShow == "+isShow);
+        view_selected.clearAnimation();
         if (!isShow) {
             show();
 
@@ -159,76 +166,87 @@ public class ChartBottomDialogView extends FrameLayout {
 
 
     public void show() {
-        if (null != alphaAnimation2 && alphaAnimation2.isRunning()) {
-            alphaAnimation2.end();
+        if(!isShow){
+            if (null != alphaAnimation2 && alphaAnimation2.isRunning()) {
+                alphaAnimation2.end();
+            }
+
+            view_background.setVisibility(View.VISIBLE);
+            ViewGroup.LayoutParams layoutParams = view_background.getLayoutParams();
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            view_background.setLayoutParams(layoutParams);
+
+            if (null == alphaAnimation1) {
+                alphaAnimation1 = ValueAnimator.ofFloat(0, 1);
+                alphaAnimation1.setDuration(300);
+                alphaAnimation1.setInterpolator(new LinearInterpolator());
+                alphaAnimation1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        view_background.setAlpha((Float) valueAnimator.getAnimatedValue());
+                    }
+                });
+            }
+            alphaAnimation1.start();
+
+
+            if (null != closeAnimation && closeAnimation.isRunning()) {
+                closeAnimation.end();
+            }
+
+            if (null == showAnimation) {
+                showAnimation = ValueAnimator.ofInt(0, heightSelected);
+                showAnimation.setDuration(300);
+                showAnimation.setInterpolator(new LinearInterpolator());
+                showAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        params.height = (int) valueAnimator.getAnimatedValue();
+                        view_selected.setLayoutParams(params);
+                    }
+                });
+            }
+            if(!showAnimation.isRunning()){
+                showAnimation.start();
+            }
+            isShow = true;
         }
 
-        view_background.setVisibility(View.VISIBLE);
-        ViewGroup.LayoutParams layoutParams = view_background.getLayoutParams();
-        layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
-        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        view_background.setLayoutParams(layoutParams);
-
-        if (null == alphaAnimation1) {
-            alphaAnimation1 = ValueAnimator.ofFloat(0, 1);
-            alphaAnimation1.setDuration(300);
-            alphaAnimation1.setInterpolator(new LinearInterpolator());
-            alphaAnimation1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
 
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    view_background.setAlpha((Float) valueAnimator.getAnimatedValue());
-                }
-            });
-        }
-        alphaAnimation1.start();
-
-
-        if (null != closeAnimation && closeAnimation.isRunning()) {
-            closeAnimation.end();
-        }
-
-        if (null == showAnimation) {
-            showAnimation = ValueAnimator.ofInt(0, heightSelected);
-            showAnimation.setDuration(300);
-            showAnimation.setInterpolator(new LinearInterpolator());
-            showAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    params.height = (int) valueAnimator.getAnimatedValue();
-                    view_selected.setLayoutParams(params);
-                }
-            });
-        }
-        showAnimation.start();
-
-        isShow = !isShow;
     }
 
     public void close() {
-        closeOhter();
+        if(isShow){
+            closeOhter();
 
 
-        if (null == closeAnimation) {
-            closeAnimation = ValueAnimator.ofInt(heightSelected, 0);
-            closeAnimation.setDuration(300);
-            closeAnimation.setInterpolator(new LinearInterpolator());
-            closeAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            if (null == closeAnimation) {
+                closeAnimation = ValueAnimator.ofInt(heightSelected, 0);
+                closeAnimation.setDuration(300);
+                closeAnimation.setInterpolator(new LinearInterpolator());
+                closeAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    params.height = (int) valueAnimator.getAnimatedValue();
-                    view_selected.setLayoutParams(params);
-                }
-            });
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        params.height = (int) valueAnimator.getAnimatedValue();
+                        view_selected.setLayoutParams(params);
+                    }
+                });
+            }
+
+            if(!closeAnimation.isRunning()){
+                closeAnimation.start();
+            }
+
+            isShow = false;
         }
 
-        closeAnimation.start();
-
-        isShow = !isShow;
     }
 
     private void closeOhter() {

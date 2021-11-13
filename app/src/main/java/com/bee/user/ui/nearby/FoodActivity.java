@@ -23,11 +23,16 @@ import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.CommentWrapBean;
 import com.bee.user.bean.FoodDetailBean;
+import com.bee.user.bean.FoodTypeBean;
 import com.bee.user.bean.StoreDetailBean;
+import com.bee.user.bean.StoreFoodItem2Bean;
+import com.bee.user.event.ChartFragmentEvent;
+import com.bee.user.event.CloseEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.CommentAdapter;
+import com.bee.user.ui.adapter.FoodChooseTypeAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.ui.home.BannerImageHolder;
 import com.bee.user.ui.xiadan.OrderingActivity;
@@ -41,13 +46,20 @@ import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
 import com.bigkoo.convenientbanner.listener.OnPageChangeListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -153,11 +165,33 @@ public class FoodActivity extends BaseActivity {
     @BindView(R.id.chart_bottom_dialog_view)
     ChartBottomDialogView chart_bottom_dialog_view;
 
+    //只要有改变就刷新购物车数据
+    private boolean isChanged = false;
+
+    CommentAdapter mAdapter;
+
+    //banner 计数
+    private int totalPage = 0;
+
+    //购物车
+    private HashMap<String, ChartBean> hashMap = new LinkedHashMap<>();
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        if (isChanged) {
+            EventBus.getDefault().post(new ChartFragmentEvent(ChartFragmentEvent.TYPE_REFLUSH));
+        }
+    }
+
+
     String[] titles = new String[]{"商品", "评价", "详情"};
     int storeId;
     int skuId;
     int shopProductId;
-    @OnClick({R.id.view1, R.id.view2, R.id.view3, R.id.tv_sure, R.id.tv_add_to_chart,R.id.iv_chart})
+
+    @OnClick({R.id.view1, R.id.view2, R.id.view3, R.id.tv_sure, R.id.tv_add_to_chart, R.id.iv_chart})
     public void onClick(View view) {
         scrollview.stopNestedScroll();
 
@@ -170,6 +204,9 @@ public class FoodActivity extends BaseActivity {
 
         switch (view.getId()) {
             case R.id.iv_chart:
+                List<ChartBean> list = new ArrayList<>();
+                list.addAll(hashMap.values());
+                chart_bottom_dialog_view.reflushAdapter(list);
                 chart_bottom_dialog_view.showSelectedDialog();
                 break;
             case R.id.view1:
@@ -192,45 +229,103 @@ public class FoodActivity extends BaseActivity {
 //                }
                 break;
             case R.id.tv_sure:
-                if (null != mBeans && null != mBeans.cartItemId) {
+                if (null != hashMap && hashMap.size()>0) {
                     ArrayList<Integer> intss = new ArrayList<>();
                     ArrayList<Integer> storeIds = new ArrayList<>();
-                    intss.add(mBeans.cartItemId);
-                    storeIds.add(mBeans.storeId);
-                    startActivity(OrderingActivity.newIntent(FoodActivity.this, 1, intss, storeIds));
+
+                    for (ChartBean bean : hashMap.values()) {
+                        intss.add(bean.getId());
+                        if (!storeIds.contains(bean.getStoreId())) {
+                            storeIds.add(bean.getStoreId());
+                        }
+                    }
+                    startActivity(OrderingActivity.newIntent(this, 2, intss, storeIds));
                 }
+
                 break;
             case R.id.tv_add_to_chart:
-                AddRemoveView.doChartAnimal(this, iv_add, cl_content, iv_chart);
-                Map<String, String> map = new HashMap<>();
-                map.put("num", "1");
-                map.put("skuId", mBeans.skuId + "");
-                map.put("storeId", mBeans.storeId + "");
-                map.put("attributes", "标签");
-                Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
-                        subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new BaseSubscriber<ChartBean>() {
-                            @Override
-                            public void onSuccess(ChartBean userBean) {
-                                setCartQuantity(userBean.getQuantity());
-                                mBeans.cartQuantity = userBean.getQuantity();
-                            }
+                if (isTagStyle()) {
+                    showChooseTypeDialog();
+                } else {
+                    doAddToChart(mBeans.skuId + "", "",true,null);
+                }
 
-                            @Override
-                            public void onFail(String fail) {
-                                super.onFail(fail);
-                            }
-                        });
                 break;
         }
     }
 
-    CommentAdapter mAdapter;
+    private void doAddToChart(String skuId, String tags,boolean animal,AddRemoveView iv_goods_add) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("num", "1");
+        map.put("skuId", skuId);
+        map.put("storeId", mBeans.storeId + "");
+        map.put("attributes", tags);
+        Api.getClient(HttpRequest.baseUrl_member).addToCart(Api.getRequestBody(map)).
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<ChartBean>() {
+                    @Override
+                    public void onSuccess(ChartBean cartBean) {
+                        if(null != iv_goods_add){
+                            iv_goods_add.setNum(iv_goods_add.getNum() + 1);
+                        }
+                        if(animal){
+                            AddRemoveView.doChartAnimal(FoodActivity.this, iv_add, cl_content, iv_chart);
+                        }
+                        isChanged = true;
+                        //添加购物车id
+                        hashMap.put(cartBean.getProductSkuId() + "", cartBean);
+                        List<ChartBean> list = new ArrayList<>();
+                        list.addAll(hashMap.values());
 
 
-    //banner 计数
-    private int totalPage = 0;
+//                        if(null != chart_bottom_dialog_view && null != chart_bottom_dialog_view.selectedFoodAdapter) {
+//                            chart_bottom_dialog_view.selectedFoodAdapter.getData();
+//                            if (chart_bottom_dialog_view.selectedFoodAdapter.getData().size() != list.size()) {
+//
+//                            }
+//                        }
+                        chart_bottom_dialog_view.reflushAdapter(list);
+                        chart_bottom_dialog_view.selectedFoodAdapter.notifyDataSetChanged();
+
+                        setCartQuantity();
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
+    }
+
+
+    private void getChartDatas() {
+        List<String> integers = new ArrayList<>();
+        integers.add(mBeans.storeId + "");
+        Api.getClient(HttpRequest.baseUrl_member).getCart(0L, integers)
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<ChartBean>>() {
+                    @Override
+                    public void onSuccess(List<ChartBean> beans) {
+
+                        for (ChartBean bean : beans) {
+                            if (bean.getQuantity() > 0) {
+                                hashMap.put(bean.getProductSkuId() + "", bean);
+                            } else {
+                                hashMap.remove(bean.getProductSkuId() + "");
+                            }
+                        }
+                        setCartQuantity();
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
+    }
 
     @Override
     protected void initImmersionBar() {
@@ -244,12 +339,90 @@ public class FoodActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        EventBus.getDefault().register(this);
         skuId = getIntent().getIntExtra("skuId", 0);
         storeId = getIntent().getIntExtra("storeId", 0);
         shopProductId = getIntent().getIntExtra("shopProductId", 0);
 
         chart_bottom_dialog_view.initDatas(DisplayUtil.getWindowHeight(this));
+        chart_bottom_dialog_view.setChartBottomDialogListener(new ChartBottomDialogView.ChartBottomDialogListener() {
+            @Override
+            public void onClear() {
+                List<String> ints = new ArrayList<String>();
+                ints.add(mBeans.storeId + "");
+                Api.getClient(HttpRequest.baseUrl_member).clearCartInfo(ints).
+                        subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseSubscriber<String>() {
+                            @Override
+                            public void onSuccess(String s) {
 
+                                hashMap.clear();
+                                setCartQuantity();
+                                getChartDatas();
+                                chart_bottom_dialog_view.close();
+                            }
+
+                            @Override
+                            public void onFail(String fail) {
+                                super.onFail(fail);
+                            }
+                        });
+            }
+
+            @Override
+            public void onAdd(int num, AddRemoveView iv_goods_add, ChartBean foodBean) {
+                doAddToChart(foodBean.getProductSkuId() + "", foodBean.attributes,false,iv_goods_add);
+            }
+
+            @Override
+            public void onRemove(int num, AddRemoveView iv_goods_add, ChartBean foodBean) {
+                if (num <= 0) {
+                    ArrayList<Integer> ids = new ArrayList<>();
+                    ids.add(foodBean.getId());
+                    Api.getClient(HttpRequest.baseUrl_member).deleteCartItem(ids).
+                            subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new BaseSubscriber<String>() {
+                                @Override
+                                public void onSuccess(String s) {
+                                    hashMap.remove(foodBean.getProductSkuId() + "");
+
+                                    onChartItemRemove(num,iv_goods_add,foodBean);
+
+                                }
+
+                                @Override
+                                public void onFail(String fail) {
+                                    super.onFail(fail);
+
+                                }
+                            });
+                } else {
+                    Api.getClient(HttpRequest.baseUrl_member).updateQuantity(foodBean.getId() + "", num + "").
+                            subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new BaseSubscriber<String>() {
+                                @Override
+                                public void onSuccess(String s) {
+                                    ChartBean old = hashMap.get(foodBean.getProductSkuId() + "");
+                                    old.setQuantity(num);
+                                    hashMap.put(foodBean.getProductSkuId() + "", old);
+
+                                    onChartItemRemove(num,iv_goods_add,foodBean);
+
+                                }
+
+                                @Override
+                                public void onFail(String fail) {
+                                    super.onFail(fail);
+
+                                }
+                            });
+                }
+
+            }
+        });
 
         View iv_back2 = findViewById(R.id.iv_back2);
         if (null != iv_back2) {
@@ -349,6 +522,22 @@ public class FoodActivity extends BaseActivity {
 
     }
 
+    private void onChartItemRemove(int num,AddRemoveView iv_goods_add,ChartBean foodBean) {
+
+        iv_goods_add.setNum(iv_goods_add.getNum() - 1);
+        if (num <= 0 && null != foodBean) {
+            hashMap.remove(foodBean.getProductSkuId());
+            int index = chart_bottom_dialog_view.selectedFoodAdapter.getData().indexOf(foodBean);
+            chart_bottom_dialog_view.selectedFoodAdapter.getData().remove(foodBean);
+            chart_bottom_dialog_view.selectedFoodAdapter.notifyItemRemoved(index);
+
+            if (chart_bottom_dialog_view.selectedFoodAdapter.getData().size() <= 0) {
+                chart_bottom_dialog_view.close();
+            }
+        }
+        setCartQuantity();
+    }
+
     FoodDetailBean mBeans;
 
     private void getDatas() {
@@ -369,26 +558,26 @@ public class FoodActivity extends BaseActivity {
                         }
                         getStoreDetail();
 
-                        setCartQuantity(mBeans.cartQuantity);
-
                         ArrayList<ChartBean> objects = new ArrayList<>();
                         ChartBean chartBean = new ChartBean();
                         chartBean.setProductName(beans.skuName);
                         chartBean.setPrice(BigDecimal.valueOf(beans.price));
                         chartBean.setQuantity(beans.cartQuantity);
-                        chartBean.setSp1(beans.sp1);
-                        chartBean.setSp2(beans.sp2);
-                        chartBean.setSp3(beans.sp3);
+//                        chartBean.setSp1(beans.sp1);
+//                        chartBean.setSp2(beans.sp2);
+//                        chartBean.setSp3(beans.sp3);
                         chartBean.setStoreId(beans.storeId);
-                        try{
-                            chartBean.setId(beans.cartItemId);
-                        }catch (Exception e){
+                        try {
+                            chartBean.setId(beans.cartItemId == null ? 0 : beans.cartItemId);
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         chartBean.setProductId(beans.productId);
                         chartBean.setProductSkuId(beans.skuId);
                         objects.add(chartBean);
                         chart_bottom_dialog_view.reflushAdapter(objects);
+
+                        getChartDatas();
                     }
 
                     @Override
@@ -398,10 +587,18 @@ public class FoodActivity extends BaseActivity {
                 });
     }
 
-    private void setCartQuantity(int num) {
-        if (mBeans.cartQuantity > 0) {
-            tv_xuangou_tag.setText(num + "");
-            tv_xuangou_tag.setVisibility(View.VISIBLE);
+    private void setCartQuantity() {
+        if (hashMap.size() > 0) {
+            int num = 0;
+            for(ChartBean bean :hashMap.values()){
+                num += bean.getQuantity();
+            }
+            if(num > 0){
+                tv_xuangou_tag.setText(num + "");
+                tv_xuangou_tag.setVisibility(View.VISIBLE);
+            }else{
+                tv_xuangou_tag.setVisibility(View.GONE);
+            }
         } else {
             tv_xuangou_tag.setVisibility(View.GONE);
         }
@@ -542,7 +739,7 @@ public class FoodActivity extends BaseActivity {
 
     private void initBanner2() {
         tv_money_past.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);  // 设置中划线并加清晰
-        tv_money_past.setText("¥" + mBeans.orginPrice + "");
+        tv_money_past.setText("¥" + mBeans.originalPrice + "");
         tv_money.setText(mBeans.price + "");
         tv_food_title.setText(mBeans.subTitle);
         tv_selled.setText("已售" + mBeans.sale);
@@ -650,35 +847,116 @@ public class FoodActivity extends BaseActivity {
 
     }
 
-//    private void showChooseTypeDialog(){
-//        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-//        bottomSheetDialog.setContentView(R.layout.dialog_store_bottom_choose);
-//        bottomSheetDialog.findViewById(R.id.iv_goods_add).setVisibility(View.GONE);
-//        bottomSheetDialog.findViewById(R.id.iv_goods_comment).setVisibility(View.GONE);
-//        try {
-//            bottomSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet)
-//                    .setBackgroundResource(android.R.color.transparent);
-//        }catch (Exception e){
-//
-//        }
-//        bottomSheetDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (bottomSheetDialog.isShowing()) {
-//                    bottomSheetDialog.dismiss();
-//                }
-//            }
-//        });
-//        bottomSheetDialog.findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (bottomSheetDialog.isShowing()) {
-//                    bottomSheetDialog.dismiss();
-//                }
-//            }
-//        });
-//
-//        bottomSheetDialog.show();
-//    }
 
+    private void showChooseTypeDialog() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(R.layout.dialog_store_bottom_choose);
+        bottomSheetDialog.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (bottomSheetDialog.isShowing()) {
+                    bottomSheetDialog.dismiss();
+                }
+            }
+        });
+        TextView iv_goods_name = bottomSheetDialog.findViewById(R.id.iv_goods_name);
+        iv_goods_name.setText(mBeans.subTitle);
+        TextView iv_goods_detail = bottomSheetDialog.findViewById(R.id.iv_goods_detail);
+        iv_goods_detail.setText(mBeans.description);
+        TextView iv_goods_comment = bottomSheetDialog.findViewById(R.id.iv_goods_comment);
+        iv_goods_comment.setText("剩余" + mBeans.stock + "份  月售" + mBeans.sale);
+        TextView iv_goods_price = bottomSheetDialog.findViewById(R.id.iv_goods_price);
+        iv_goods_price.setText("¥" + mBeans.price);
+        TextView iv_goods_price_past = bottomSheetDialog.findViewById(R.id.iv_goods_price_past);
+        if (null != mBeans.originalPrice) {
+            iv_goods_price_past.setVisibility(View.VISIBLE);
+        } else {
+            iv_goods_price_past.setVisibility(View.GONE);
+        }
+        iv_goods_price_past.setText("¥" + mBeans.originalPrice);
+
+
+        ImageView iv_goods_img = bottomSheetDialog.findViewById(R.id.iv_goods_img);
+        Picasso.with(iv_goods_img.getContext())
+                .load(mBeans.pic)
+                .fit()
+                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(iv_goods_img.getContext(), 5), 0, PicassoRoundTransform.CornerType.ALL))
+                .into(iv_goods_img);
+        RecyclerView recyclerview = bottomSheetDialog.findViewById(R.id.recyclerview);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        FoodChooseTypeAdapter foodChooseTypeAdapter = new FoodChooseTypeAdapter();
+        recyclerview.setAdapter(foodChooseTypeAdapter);
+
+        List<FoodTypeBean> datas = new ArrayList<>();
+
+        String title1 = "规格";
+        //添加规格
+        if (mBeans.skuList.size() > 1) {
+            List<String> dataSource = new ArrayList<>();
+            for (StoreFoodItem2Bean.SkuListBean name : mBeans.skuList) {
+                dataSource.add(name.skuName);
+            }
+            FoodTypeBean foodTypeBean = new FoodTypeBean();
+            foodTypeBean.title = title1;
+            foodTypeBean.lists = dataSource;
+            datas.add(foodTypeBean);
+        }
+
+        //添加标签
+        for (StoreFoodItem2Bean.AttributeListBean bean1 : mBeans.attributeList) {
+            List<String> tags = new ArrayList<>();
+            tags.addAll(Arrays.asList(bean1.inputList.split(",")));
+            FoodTypeBean tagsBean = new FoodTypeBean();
+            tagsBean.title = bean1.name;
+            tagsBean.lists = tags;
+            datas.add(tagsBean);
+        }
+
+
+        foodChooseTypeAdapter.setNewInstance(datas);
+
+
+        bottomSheetDialog.findViewById(R.id.iv_goods_add).setVisibility(View.GONE);
+//        bottomSheetDialog.findViewById(R.id.iv_goods_comment).setVisibility(View.GONE);
+        try {
+            bottomSheetDialog.getWindow().findViewById(R.id.design_bottom_sheet)
+                    .setBackgroundResource(android.R.color.transparent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        bottomSheetDialog.findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+                List<FoodTypeBean> data = foodChooseTypeAdapter.getData();
+                //有规格的情况，设置skuid
+                int skuId = 0;
+                if (title1.equals(data.get(0).title)) {
+                    skuId = mBeans.skuList.get(data.get(0).selected).skuId;
+                }
+                StringBuilder tags = new StringBuilder();
+                for (FoodTypeBean bean : data) {
+                    tags.append(bean.lists.get(bean.selected));
+                    tags.append(",");
+                }
+
+                doAddToChart(skuId + "", tags.toString(),true,null);
+
+            }
+        });
+
+        bottomSheetDialog.show();
+    }
+
+    private boolean isTagStyle() {
+        return (mBeans.attributeList != null && mBeans.attributeList.size() > 0)
+                || (mBeans.skuList != null && mBeans.skuList.size() > 1);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCloseEvent(CloseEvent event) {
+        if (event.type == CloseEvent.TYPE_PAY) {
+            finish();
+        }
+    }
 }

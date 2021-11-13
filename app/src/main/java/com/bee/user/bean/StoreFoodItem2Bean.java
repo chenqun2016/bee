@@ -11,7 +11,7 @@ public class StoreFoodItem2Bean {
     public String name;
     public List<AttributeListBean> attributeList;
     public Integer cartItemId;
-    public String cartQuantity;
+    public int cartQuantity;
     public String description;
     public String endTime;
     public Integer endTimeSecond;

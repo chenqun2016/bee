@@ -245,6 +245,10 @@ public class StoreActivity extends BaseActivity {
                         .subscribe(new BaseSubscriber<String>() {
                             @Override
                             public void onSuccess(String s) {
+                                StoreFragment fragment = (StoreFragment) mFragments[0];
+                                for(AddChartBean bean :hashMap.values()){
+                                    fragment.notifyReflush(bean.indexForList,0);
+                                }
                                 hashMap.clear();
                                 resetView();
                                 getChartDatas();
@@ -259,7 +263,9 @@ public class StoreActivity extends BaseActivity {
 
             @Override
             public void onAdd(int num, AddRemoveView iv_goods_add,ChartBean foodBean) {
-                AddChartBean addChartBean = new AddChartBean(false,num, foodBean.getProductSkuId(), foodBean.getStoreId(), foodBean.getPrice(), foodBean.getId(), null,null);
+                AddChartBean addChartBean = hashMap.get(foodBean.getProductSkuId() + "");
+                addChartBean.isTagStyle = false;
+                addChartBean.num = num;
                 AddChartEvent  addChartEvent = new AddChartEvent(addChartBean, 1);
                 doAddChartEvent(addChartEvent, new OnAddChartListener() {
                     @Override
@@ -276,17 +282,22 @@ public class StoreActivity extends BaseActivity {
 
             @Override
             public void onRemove(int num, AddRemoveView iv_goods_add,ChartBean foodBean) {
-                AddChartBean addChartBean = new AddChartBean(false,num, foodBean.getProductSkuId(), foodBean.getStoreId(), foodBean.getPrice(), foodBean.getId(), null,null);
+                AddChartBean addChartBean = hashMap.get(foodBean.getProductSkuId() + "");
+                addChartBean.isTagStyle = false;
+                addChartBean.num = num;
                 AddChartEvent  addChartEvent = new AddChartEvent(addChartBean, 0);
                 doAddChartEvent(addChartEvent, new OnAddChartListener() {
                     @Override
                     public void onSuccess() {
                         iv_goods_add.setNum(iv_goods_add.getNum() -1);
-                        if (iv_goods_add.getNum() <= 0 ) {
-//                            AddChartBean addChartBean1 = hashMap.get(foodBean.getProductSkuId());
-//                            chart_bottom_dialog_view.selectedFoodAdapter.getData().remove(addChartBean1.data);
-//                            chart_bottom_dialog_view.selectedFoodAdapter.notifyItemRemoved(chart_bottom_dialog_view.selectedFoodAdapter.getData().indexOf(addChartBean1.data));
+                        if (iv_goods_add.getNum() <= 0 && null != foodBean) {
+                            int indexOf = chart_bottom_dialog_view.selectedFoodAdapter.getData().indexOf(foodBean);
+                            chart_bottom_dialog_view.selectedFoodAdapter.getData().remove(foodBean);
+                            chart_bottom_dialog_view.selectedFoodAdapter.notifyItemRemoved(indexOf);
                             hashMap.remove(foodBean.getProductSkuId());
+                            if(chart_bottom_dialog_view.selectedFoodAdapter.getData() == null || chart_bottom_dialog_view.selectedFoodAdapter.getData().size()<=0){
+                                chart_bottom_dialog_view.close();
+                            }
                         }
                     }
 
@@ -471,7 +482,7 @@ public class StoreActivity extends BaseActivity {
                                         public void onComplete() {
                                             super.onComplete();
                                             StoreFragment fragment = (StoreFragment) mFragments[0];
-                                            fragment.setFoodDatas(mDatas);
+                                            fragment.setFoodDatas(mDatas,hashMap);
                                         }
 
                                         @Override
@@ -689,6 +700,8 @@ public class StoreActivity extends BaseActivity {
                             if (null != listener) {
                                 listener.onSuccess();
                             }
+                            StoreFragment fragment = (StoreFragment) mFragments[0];
+                            fragment.notifyReflush(addChartBean.indexForList,1);
                         }
 
                         @Override
@@ -728,6 +741,8 @@ public class StoreActivity extends BaseActivity {
                             if (null != listener) {
                                 listener.onSuccess();
                             }
+                            StoreFragment fragment = (StoreFragment) mFragments[0];
+                            fragment.notifyReflush(addChartBean.indexForList,0);
                         }
 
                         @Override
@@ -762,6 +777,8 @@ public class StoreActivity extends BaseActivity {
                             if (null != listener) {
                                 listener.onSuccess();
                             }
+                            StoreFragment fragment = (StoreFragment) mFragments[0];
+                            fragment.notifyReflush(addChartBean.indexForList,-1);
                         }
 
                         @Override

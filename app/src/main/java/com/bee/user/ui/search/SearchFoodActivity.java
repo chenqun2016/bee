@@ -467,6 +467,11 @@ private int heightSelected;
 
                 isShow = !isShow;
             }
+
+            @Override
+            public void onAnimTopOrBottom() {
+
+            }
         });
 
         RecyclerView recyclerview = findViewById(R.id.recyclerview);
