@@ -41,7 +41,6 @@ import com.bee.user.ui.xiadan.ChooseAddressActivity;
 import com.bee.user.utils.BannerUtils;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
-import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.MyGridView;
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -194,6 +193,8 @@ public class MineFragment extends BaseFragment {
     protected void getDatas() {
         if(SPUtils.geTinstance().isLogin()){
             getMiLiDatas();
+        }else{
+            endSwipeRefreshLayout();
         }
     }
 
