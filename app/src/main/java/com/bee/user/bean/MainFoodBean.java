@@ -5,7 +5,7 @@ package com.bee.user.bean;
  * 创建时间：2020/08/23  20：50
  * 描述：
  */
-public class HomeBean {
+public class MainFoodBean {
     public String distance;
 //    配送距离
 
@@ -19,6 +19,7 @@ public class HomeBean {
 //    价格
 
     public String productName;
+    public String subTitle;
 //    产品名称
 
     public int skuId;

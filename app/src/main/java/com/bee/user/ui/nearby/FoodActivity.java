@@ -1,5 +1,6 @@
 package com.bee.user.ui.nearby;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.text.TextUtils;
@@ -175,6 +176,15 @@ public class FoodActivity extends BaseActivity {
 
     //购物车
     private HashMap<String, ChartBean> hashMap = new LinkedHashMap<>();
+
+
+    public static void newInstance(Context context, int shopProductId, int storeId, int skuId) {
+        Intent intent = new Intent(context, FoodActivity.class);
+        intent.putExtra("shopProductId", shopProductId);
+        intent.putExtra("storeId",storeId);
+        intent.putExtra("skuId",skuId);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onDestroy() {

@@ -25,7 +25,7 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.ChartBean;
-import com.bee.user.bean.HomeBean;
+import com.bee.user.bean.MainFoodBean;
 import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
@@ -501,12 +501,12 @@ public class ChartFragment extends BaseFragment {
             }
         });
 
-        ArrayList<HomeBean> homeBeans = new ArrayList<>();
-        homeBeans.add(new HomeBean());
-        homeBeans.add(new HomeBean());
-        homeBeans.add(new HomeBean());
-        homeBeans.add(new HomeBean());
-        homeBeans.add(new HomeBean());
+        ArrayList<MainFoodBean> homeBeans = new ArrayList<>();
+        homeBeans.add(new MainFoodBean());
+        homeBeans.add(new MainFoodBean());
+        homeBeans.add(new MainFoodBean());
+        homeBeans.add(new MainFoodBean());
+        homeBeans.add(new MainFoodBean());
         homeAdapter.setNewInstance(homeBeans);
     }
     private int totalMoney;

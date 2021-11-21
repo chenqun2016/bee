@@ -111,15 +111,18 @@ public class StoreFragment extends BaseFragment {
             mEDatas.add(new ElemeGroupedItem(itemInfo));
 
 
-            //购物车商品 和  商品列表商品关联
-            for (StoreFoodItem2Bean.SkuListBean skuBean : bean.skuList) {
-                if (null != map && map.containsKey(skuBean.skuId + "")) {
-                    AddChartBean addChartBean = map.get(skuBean.skuId + "");
-                    if (null != addChartBean) {
-                        addChartBean.indexForList = mEDatas.size() - 1;
+            if(null != bean.skuList){
+                //购物车商品 和  商品列表商品关联
+                for (StoreFoodItem2Bean.SkuListBean skuBean : bean.skuList) {
+                    if (null != map && map.containsKey(skuBean.skuId + "")) {
+                        AddChartBean addChartBean = map.get(skuBean.skuId + "");
+                        if (null != addChartBean) {
+                            addChartBean.indexForList = mEDatas.size() - 1;
+                        }
                     }
                 }
             }
+
         }
 
         ElemeSecondaryAdapterConfig elemeSecondaryAdapterConfig = new ElemeSecondaryAdapterConfig();

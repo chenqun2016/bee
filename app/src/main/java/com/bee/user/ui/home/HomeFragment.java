@@ -20,7 +20,8 @@ import com.amap.api.location.AMapLocation;
 import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
-import com.bee.user.bean.HomeBean;
+import com.bee.user.bean.MainFoodBean;
+import com.bee.user.bean.HomeCatogoryBean;
 import com.bee.user.bean.HomeGridview2Bean;
 import com.bee.user.entity.LunchEntity;
 import com.bee.user.entity.NearbyEntity;
@@ -35,12 +36,10 @@ import com.bee.user.ui.adapter.HomeGridview2Adapter;
 import com.bee.user.ui.adapter.HomeGridviewAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.location.SelectLocationActivity;
-import com.bee.user.ui.mine.AcountSafeActivity;
 import com.bee.user.ui.nearby.FoodActivity;
 import com.bee.user.ui.search.SearchActivity;
 import com.bee.user.utils.BannerUtils;
 import com.bee.user.utils.LogUtil;
-import com.bee.user.utils.ToastUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.MyGridView;
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -52,6 +51,7 @@ import com.gyf.immersionbar.ImmersionBar;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,7 +96,7 @@ public class HomeFragment extends BaseFragment {
     private List<BannerBean> bannerList = new ArrayList<>();//banner数据
     private List<BannerBean> bannerList3 = new ArrayList<>();//banner3数据
     private DingweiDialog dingweiDialog;
-
+    private HomeGridviewAdapter homeCatogoryAdapter;
 
 
     public static HomeFragment newInstance(int arg) {
@@ -114,9 +114,25 @@ public class HomeFragment extends BaseFragment {
         BannerUtils.getBannerDatas(Constants.BANNER_TYPE_HOME_TOP,mBanner,bannerList);
         BannerUtils.getBannerDatas(Constants.BANNER_TYPE_HOME_MIDELE,banner3,bannerList3);
         getTuijian();
+        getIndexCatogory();
     }
 
+    private void getIndexCatogory() {
+        Api.getClient(HttpRequest.baseUrl_goods).indexCatogory().
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<HomeCatogoryBean>>() {
+                    @Override
+                    public void onSuccess(List<HomeCatogoryBean> data) {
+                        homeCatogoryAdapter.setNewInstance(data);
+                    }
 
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
+    }
 
 
     @OnClick({R.id.ll_tongzhi, R.id.iv_msg, R.id.ll_search, R.id.tv_dingwei})
@@ -248,12 +264,8 @@ public class HomeFragment extends BaseFragment {
         homeAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                HomeBean bean = (HomeBean) adapter.getData().get(position);
-                Intent intent = new Intent(getContext(), FoodActivity.class);
-                intent.putExtra("shopProductId", bean.shopProductId);
-                intent.putExtra("storeId",bean.storeId);
-                intent.putExtra("skuId",bean.skuId);
-                startActivity(intent);
+                MainFoodBean bean = (MainFoodBean) adapter.getData().get(position);
+                FoodActivity.newInstance(getContext(),bean.shopProductId,bean.storeId,bean.skuId);
             }
         });
     }
@@ -262,9 +274,9 @@ public class HomeFragment extends BaseFragment {
         Api.getClient(HttpRequest.baseUrl_shop).homeRecommand().
                 subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<List<HomeBean>>() {
+                .subscribe(new BaseSubscriber<List<MainFoodBean>>() {
                     @Override
-                    public void onSuccess(List<HomeBean> data) {
+                    public void onSuccess(List<MainFoodBean> data) {
                         homeAdapter.setNewInstance(data);
                         endSwipeRefreshLayout();
                     }
@@ -344,16 +356,16 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void initHeaderView2(View headerView2) {
-        MyGridView gridview = headerView2.findViewById(R.id.gridview);
-        HomeGridviewAdapter homeGridviewAdapter = new HomeGridviewAdapter(getActivity());
-        gridview.setAdapter(homeGridviewAdapter);
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        MyGridView homeCatogory = headerView2.findViewById(R.id.gridview);
+        homeCatogoryAdapter = new HomeGridviewAdapter(getActivity());
+        homeCatogory.setAdapter(homeCatogoryAdapter);
+        homeCatogory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
                 Intent intent = new Intent(getContext(), FoodByTypeActivity.class);
-                intent.putExtra("title", homeGridviewAdapter.strs[i]);
-                intent.putExtra("type", i);
+                intent.putExtra("title", homeCatogoryAdapter.getDatas().get(i).name);
+                intent.putExtra("index", i);
+                intent.putExtra("data", (Serializable) homeCatogoryAdapter.getDatas());
                 startActivity(intent);
             }
         });

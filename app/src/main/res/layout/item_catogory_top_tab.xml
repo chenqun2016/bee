@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:paddingTop="12dp"
-    android:paddingBottom="12dp">
+    android:paddingTop="25dp"
+    android:paddingRight="20dp"
+    android:paddingLeft="20dp"
+    android:paddingBottom="0dp">
 
 
     <ImageView
         android:id="@+id/iv_image"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="5dp"
         android:scaleType="fitXY"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/icon_meishi"/>
@@ -19,8 +23,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="4dp"
         android:text="美食广场"
-        android:textColor="@color/color_282525"
+        android:textColor="@color/color_3B3838"
         android:textSize="13sp"/>
 </LinearLayout>

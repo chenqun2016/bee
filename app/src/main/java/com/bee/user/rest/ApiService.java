@@ -3,6 +3,7 @@ package com.bee.user.rest;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.AppUpdateInfoBean;
 import com.bee.user.bean.BannerBean;
+import com.bee.user.bean.CatogoryBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
@@ -16,7 +17,8 @@ import com.bee.user.bean.GiftcardBean;
 import com.bee.user.bean.GoodsBySectionBean;
 import com.bee.user.bean.HelpTypeBean;
 import com.bee.user.bean.HelpTypeItemBean;
-import com.bee.user.bean.HomeBean;
+import com.bee.user.bean.HomeCatogoryBean;
+import com.bee.user.bean.MainFoodBean;
 import com.bee.user.bean.MiLiChongzhiBean;
 import com.bee.user.bean.MyCommentWrapBean;
 import com.bee.user.bean.MyMiLiBean;
@@ -569,9 +571,21 @@ public interface ApiService {
      * @return
      */
     @POST(HttpRequest.homeRecommand)
-    Observable<BaseResult<List<HomeBean>>> homeRecommand();
+    Observable<BaseResult<List<MainFoodBean>>> homeRecommand();
 
+    /**
+     * 首页分类
+     * @return
+     */
+    @POST(HttpRequest.indexCatogory)
+    Observable<BaseResult<List<HomeCatogoryBean>>> indexCatogory();
 
+    /**
+     * 根据分类获取商品
+     * @return
+     */
+    @POST(HttpRequest.getGoodsByCatogory)
+    Observable<BaseResult<CatogoryBean>> getGoodsByCatogory(@Body RequestBody info);
     /**
      * 消息中心类型
      *

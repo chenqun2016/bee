@@ -216,4 +216,8 @@ public class HttpRequest {
     //秒杀列表页数据
     public static final String getGoodsBySection = "app-sys-shop-store/getGoodsBySection";
 
+    //首页分类
+    public static final String indexCatogory= "auth/shop/indexCatogory";
+    //根据分类获取商品
+    public static final String getGoodsByCatogory= "auth/shop/getGoodsByCatogory";
 }
