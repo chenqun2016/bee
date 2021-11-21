@@ -1,5 +1,7 @@
 package com.bee.user.bean;
 
+import java.util.List;
+
 /**
  * 创建人：进京赶考
  * 创建时间：2020/08/23  20：50
@@ -22,6 +24,7 @@ public class MainFoodBean {
     public String subTitle;
 //    产品名称
 
+    public List<StoreFoodItem2Bean.SkuListBean> skuList;
     public int skuId;
 //    店铺商品skuId
 

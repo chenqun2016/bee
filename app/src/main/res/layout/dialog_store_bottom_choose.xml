@@ -3,18 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="30dp"
-    android:paddingTop="20dp"
+    android:paddingTop="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_topround20dp_white">
 
-    <ImageView
-        android:id="@+id/close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:src="@drawable/icon_guanbi"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
 
     <include layout="@layout/item_store_food"
         android:id="@+id/item_food"
@@ -44,4 +36,14 @@
         app:layout_constraintTop_toBottomOf="@+id/recyclerview"
         app:layout_constraintLeft_toLeftOf="parent"
         android:textColor="@color/white"/>
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:src="@drawable/icon_guanbi"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

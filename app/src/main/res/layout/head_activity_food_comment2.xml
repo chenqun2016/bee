@@ -1,228 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:id="@+id/ll_head2"
+    android:layout_marginTop="-40dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_miaosha"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="90dp">
+        android:layout_height="100dp">
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="100dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ditu"/>
+            android:src="@drawable/bg_food_miaosha"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_miaosha"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginLeft="10dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/xianshimiaosha"/>
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_miaosha"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:src="@drawable/xianshimiaosha"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:id="@+id/tv_money_pre2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="75dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="27dp"
+            android:text="¥"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:layout_marginTop="26dp"
-            android:text="¥"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tv_money2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toRightOf="@+id/tv_money_pre2"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="23sp"
             android:layout_marginTop="16dp"
-            android:text="10"/>
+            android:text="10"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/tv_money_pre2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_money_pre3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:text="/份"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_marginTop="27dp"
+            app:layout_constraintLeft_toRightOf="@+id/tv_money2"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/tv_money_past2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="75dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_money_pre2"
+            android:layout_marginTop="27dp"
+            android:layout_marginLeft="6dp"
+            android:text="¥10"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:text="¥10"/>
+            app:layout_constraintLeft_toRightOf="@+id/tv_money_pre3"
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
         <TextView
             android:id="@+id/tv_shengyu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="距结束还剩"
-            android:textSize="13sp"
-            android:textColor="@color/color_282525"
-            android:layout_marginTop="25dp"
-            android:layout_marginRight="35dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="24dp"
+            android:text="距秒杀结束"
+            android:textStyle="bold"
+            android:textColor="@color/color_FF5050"
+            android:textSize="12sp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="2dp"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="@+id/tv_shengyu"
             app:layout_constraintTop_toBottomOf="@+id/tv_shengyu">
 
             <TextView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/bg_round2dp_red"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/bg_round4dp_red"
+                android:gravity="center"
                 android:text="00"
                 android:textColor="@color/white"
-                android:textSize="13sp"
-                android:gravity="center"/>
+                android:textSize="10sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=":"
-                android:textSize="13sp"
-                android:textColor="@color/color_FF5050"/>
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:paddingBottom="2dp"
+                android:textColor="@color/color_FF5050"
+                android:textSize="15sp" />
+
             <TextView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/bg_round2dp_red"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/bg_round4dp_red"
+                android:gravity="center"
                 android:text="00"
                 android:textColor="@color/white"
-                android:textSize="13sp"
-                android:gravity="center"/>
+                android:textSize="10sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=":"
-                android:textSize="13sp"
-                android:textColor="@color/color_FF5050"/>
+                android:paddingBottom="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:textColor="@color/color_FF5050"
+                android:textSize="15sp" />
 
             <TextView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/bg_round2dp_red"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/bg_round4dp_red"
+                android:gravity="center"
                 android:text="00"
                 android:textColor="@color/white"
-                android:textSize="13sp"
-                android:gravity="center"/>
+                android:textSize="10sp" />
 
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_detail"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cl_miaosha"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/bg_round10dp_white"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:paddingTop="10dp"
-        android:paddingBottom="15dp"
-        android:layout_height="wrap_content">
+        android:paddingRight="10dp"
+        android:paddingBottom="15dp">
 
-                    <TextView
-                        android:id="@+id/tv_money_pre"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:textColor="@color/color_FF5050"
-                        android:textSize="12sp"
-                        android:layout_marginTop="6dp"
-                        android:text="¥"/>
-                    <TextView
-                        android:id="@+id/tv_money"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintLeft_toRightOf="@+id/tv_money_pre"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:textColor="@color/color_FF5050"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:text="10"/>
+        <TextView
+            android:id="@+id/tv_money_pre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="¥"
+            android:textColor="@color/color_FF5050"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/tv_money_past"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@+id/tv_money_pre"
-                        app:layout_constraintLeft_toRightOf="@+id/tv_money"
-                        android:layout_marginLeft="8dp"
-                        android:textColor="@color/color_ccc"
-                        android:textSize="11sp"
-                        android:text="¥10"/>
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textColor="@color/color_FF5050"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/tv_money_pre"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_money_past"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="¥10"
+            android:textColor="@color/color_ccc"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_money_pre"
+            app:layout_constraintLeft_toRightOf="@+id/tv_money" />
 
         <TextView
             android:id="@+id/tv_food_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_money_pre"
             android:layout_marginTop="6dp"
+            android:text="人气至尊豪华鳗鱼组合套餐"
             android:textColor="@color/color_282626"
-            android:textStyle="bold"
             android:textSize="15sp"
-            android:text="人气至尊豪华鳗鱼组合套餐"/>
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_money_pre" />
+
         <TextView
             android:id="@+id/tv_selled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_food_title"
             android:layout_marginTop="6dp"
+            android:text="已售10,000"
             android:textColor="@color/color_7C7877"
-            android:textStyle="bold"
             android:textSize="12sp"
-            android:text="已售10,000"/>
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_food_title" />
 
         <TextView
             android:id="@+id/tv_choosetype"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="6dp"
-            android:visibility="gone"
             android:background="@drawable/btn_gradient_yellow_round"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:paddingRight="20dp"
             android:paddingLeft="20dp"
-            android:paddingBottom="8dp"
             android:paddingTop="8dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="8dp"
+            android:text="选规格"
+            android:textColor="@color/white"
             android:textSize="17sp"
-            android:text="选规格"/>
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/color_F5F5F5"/>
+
     <FrameLayout
+        android:id="@+id/fl_store"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/bg_round10dp_white"
         android:paddingTop="20dp"
         android:paddingBottom="20dp">
 
@@ -233,24 +270,58 @@
 
     </FrameLayout>
 
-    <View
-        android:id="@+id/line_food_comment"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fl_store"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/color_F5F5F5"/>
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/bg_round10dp_white"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_food_comment"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textSize="17sp"
-        android:textColor="@color/color_282626"
-        android:textStyle="bold"
-        android:paddingTop="20dp"
-        android:paddingBottom="10dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dp"
-        android:drawableRight="@drawable/icon_link"
-        android:paddingRight="10dp"
-        android:text="商品评价"/>
-</LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_food_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:text="商品评价"
+            android:textColor="@color/color_282626"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_food_comment2"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:drawableRight="@drawable/icon_link"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:text=""
+            android:textColor="@color/color_7B7777"
+            android:textSize="12sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_food_comment"
+            app:layout_constraintTop_toTopOf="@+id/tv_food_comment" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_food_comment" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

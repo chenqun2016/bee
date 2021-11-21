@@ -91,6 +91,9 @@ public class StoreListBean {
         public String brandName;
         public String monthSalesCount;
         public String distance;
+        public String distanceStr;
+        public String saleStr;
+        public float star;
         public String duration;
         public String status;
         public Object permissionCategoryList;

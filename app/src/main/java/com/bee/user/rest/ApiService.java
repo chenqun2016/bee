@@ -133,7 +133,7 @@ public interface ApiService {
     /**
      * 获取APP【店铺商家】详情
      */
-    @GET(HttpRequest.shop_getDetail)
+    @POST(HttpRequest.shop_getDetail)
     Observable<BaseResult<StoreDetailBean>> shop_getDetail(@Path("id") String id);
 
     /**

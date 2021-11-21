@@ -104,8 +104,8 @@ public class FoodActivity extends BaseActivity {
     TabLayout tabLayout;
 
 
-    @BindView(R.id.ll_head2)
-    LinearLayout ll_head2;
+//    @BindView(R.id.ll_head2)
+//    ConstraintLayout ll_head2;
 
     @BindView(R.id.tv_food_title)
     TextView tv_food_title;
@@ -134,10 +134,8 @@ public class FoodActivity extends BaseActivity {
     LinearLayout ll_mark;
 
 
-    @BindView(R.id.tv_food_comment)
-    TextView tv_food_comment;
-    @BindView(R.id.line_food_comment)
-    View line_food_comment;
+    @BindView(R.id.tv_food_comment2)
+    TextView tv_food_comment2;
 
     @BindView(R.id.banner2)
     ConvenientBanner banner2;
@@ -529,7 +527,7 @@ public class FoodActivity extends BaseActivity {
         getComments();
         initScroll();
         getDatas();
-
+        tv_money_past.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
     }
 
     private void onChartItemRemove(int num,AddRemoveView iv_goods_add,ChartBean foodBean) {
@@ -640,17 +638,21 @@ public class FoodActivity extends BaseActivity {
                     @Override
                     public void onSuccess(CommentWrapBean beans) {
                         mAdapter.setNewInstance(beans.records.size() > 2 ? beans.records.subList(0, 1) : beans.records);
+                        if(beans.records==null || beans.records.size()==0){
+                            tv_food_comment2.setText("暂无评价");
+                        }else{
+                            tv_food_comment2.setText(beans.records.size()+"条评价");
+                            tv_food_comment2.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(FoodActivity.this, CommentActivity.class);
+                                    intent.putExtra("storeId", storeId);
+                                    intent.putExtra("skuId", skuId);
+                                    startActivity(intent);
+                                }
+                            });
+                        }
 
-                        tv_food_comment.setText("商品评价(" + beans.records.size() + ")");
-                        tv_food_comment.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(FoodActivity.this, CommentActivity.class);
-                                intent.putExtra("storeId", storeId);
-                                intent.putExtra("skuId", skuId);
-                                startActivity(intent);
-                            }
-                        });
                     }
 
                     @Override
@@ -765,19 +767,19 @@ public class FoodActivity extends BaseActivity {
                     public void onSuccess(StoreDetailBean data) {
 
                         if (null != data) {
-                            tv_title.setText(data.getName() + "");
-                            if (!TextUtils.isEmpty(data.getDistance())) {
-                                tv_distance.setText(data.getDistance() + "公里");
+                            tv_title.setText(data.name + "");
+                            if (!TextUtils.isEmpty(data.distanceStr)) {
+                                tv_distance.setText(data.distanceStr);
                             }
-                            if (!TextUtils.isEmpty(data.getDuration())) {
-                                tv_time.setText("大约" + data.getDuration() + "分钟");
-                            }
-                            if (!TextUtils.isEmpty(data.getMonthSalesCount())) {
-                                tv_sells.setText("月销" + data.getMonthSalesCount());
+//                            if (!TextUtils.isEmpty(data.getDuration())) {
+//                                tv_time.setText("大约" + data.getDuration() + "分钟");
+//                            }
+                            if (!TextUtils.isEmpty(data.saleStr)) {
+                                tv_sells.setText("月销" + data.saleStr);
                             }
 
                             Picasso.with(FoodActivity.this)
-                                    .load(data.getLogoUrl())
+                                    .load(data.logoUrl)
                                     .fit()
                                     .transform(new PicassoRoundTransform(DisplayUtil.dip2px(FoodActivity.this, 5), 0, PicassoRoundTransform.CornerType.ALL))
                                     .into(iv_icon);

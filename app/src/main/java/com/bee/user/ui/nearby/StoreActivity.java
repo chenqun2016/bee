@@ -500,31 +500,47 @@ public class StoreActivity extends BaseActivity {
                 });
     }
 
-    private void setViews(StoreDetailBean storeDetailBean) {
+    private void setViews(StoreDetailBean data) {
+
+//        Picasso.with(this)
+//                .load(storeDetailBean.getLogoUrl())
+//                .fit()
+//                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this, 5), 0, PicassoRoundTransform.CornerType.ALL))
+//                .into(iv_icon);
+//
+//        tv_title.setText(storeDetailBean.getName());
+//        if (!TextUtils.isEmpty(storeDetailBean.getDistance())) {
+//            tv_distance.setText(storeDetailBean.getDistance() + "公里");
+//        }
+//        if (!TextUtils.isEmpty(storeDetailBean.getDuration())) {
+//            tv_time.setText("大约" + storeDetailBean.getDuration() + "分钟");
+//        }
+//        if (!TextUtils.isEmpty(storeDetailBean.getMonthSalesCount())) {
+//            tv_sells.setText("月销" + storeDetailBean.getMonthSalesCount());
+//        }
 
         Picasso.with(this)
-                .load(storeDetailBean.getLogoUrl())
-                .fit()
-                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this, 5), 0, PicassoRoundTransform.CornerType.ALL))
-                .into(iv_icon);
-
-        Picasso.with(this)
-                .load(storeDetailBean.getAppBackgroundUrl())
+                .load(data.appBackgroudUrl)
                 .fit()
                 .error(R.drawable.bg_chengse)
                 .into(tv_store_bg);
         CommonUtil.initTAGViews(ll_mark);
 
-        tv_title.setText(storeDetailBean.getName());
-        if (!TextUtils.isEmpty(storeDetailBean.getDistance())) {
-            tv_distance.setText(storeDetailBean.getDistance() + "公里");
+        tv_title.setText(data.name + "");
+        if (!TextUtils.isEmpty(data.distanceStr)) {
+            tv_distance.setText(data.distanceStr);
         }
-        if (!TextUtils.isEmpty(storeDetailBean.getDuration())) {
-            tv_time.setText("大约" + storeDetailBean.getDuration() + "分钟");
+//                            if (!TextUtils.isEmpty(data.getDuration())) {
+//                                tv_time.setText("大约" + data.getDuration() + "分钟");
+//                            }
+        if (!TextUtils.isEmpty(data.saleStr)) {
+            tv_sells.setText("月销" + data.saleStr);
         }
-        if (!TextUtils.isEmpty(storeDetailBean.getMonthSalesCount())) {
-            tv_sells.setText("月销" + storeDetailBean.getMonthSalesCount());
-        }
+        Picasso.with(this)
+                .load(data.logoUrl)
+                .fit()
+                .transform(new PicassoRoundTransform(DisplayUtil.dip2px(this, 5), 0, PicassoRoundTransform.CornerType.ALL))
+                .into(iv_icon);
     }
 
 
@@ -543,9 +559,10 @@ public class StoreActivity extends BaseActivity {
         TextView iv_goods_name = bottomSheetDialog.findViewById(R.id.iv_goods_name);
         iv_goods_name.setText(bean.data2.subTitle);
         TextView iv_goods_detail = bottomSheetDialog.findViewById(R.id.iv_goods_detail);
-        iv_goods_detail.setText(bean.data2.description);
-        TextView iv_goods_comment = bottomSheetDialog.findViewById(R.id.iv_goods_comment);
-        iv_goods_comment.setText("剩余" + bean.data2.stock + "份  月售" + bean.data2.sale);
+//        iv_goods_detail.setText(bean.data2.description);
+
+//        TextView iv_goods_comment = bottomSheetDialog.findViewById(R.id.iv_goods_comment);
+//        iv_goods_comment.setText("剩余" + bean.data2.stock + "份  月售" + bean.data2.sale);
         TextView iv_goods_price = bottomSheetDialog.findViewById(R.id.iv_goods_price);
         iv_goods_price.setText("¥" + bean.data2.price);
         TextView iv_goods_price_past = bottomSheetDialog.findViewById(R.id.iv_goods_price_past);
@@ -595,7 +612,13 @@ public class StoreActivity extends BaseActivity {
 
 
         foodChooseTypeAdapter.setNewInstance(datas);
-
+        foodChooseTypeAdapter.setOnItemCheckedListener(new FoodChooseTypeAdapter.OnItemCheckedListener() {
+            @Override
+            public void onItemChecked(int index, String content) {
+                setSelectedParams(foodChooseTypeAdapter.getData(),iv_goods_detail);
+            }
+        });
+        setSelectedParams(foodChooseTypeAdapter.getData(),iv_goods_detail);
 
         bottomSheetDialog.findViewById(R.id.iv_goods_add).setVisibility(View.GONE);
 //        bottomSheetDialog.findViewById(R.id.iv_goods_comment).setVisibility(View.GONE);
@@ -628,6 +651,19 @@ public class StoreActivity extends BaseActivity {
         });
 
         bottomSheetDialog.show();
+    }
+
+    private void setSelectedParams(List<FoodTypeBean> data, TextView iv_goods_detail) {
+        StringBuilder builder = new StringBuilder();
+        for(FoodTypeBean foodTypeBean :data){
+            int indexOf = data.indexOf(foodTypeBean);
+            if(0 == indexOf){
+                builder.append(foodTypeBean.lists.get(foodTypeBean.selected));
+            }else{
+                builder.append("/"+foodTypeBean.lists.get(foodTypeBean.selected));
+            }
+        }
+        iv_goods_detail.setText("已选：+"+builder.toString());
     }
 
     private Fragment createFragments(Integer index) {

@@ -20,6 +20,8 @@ import java.util.List;
  */
 public class FoodChooseTypeAdapter extends BaseQuickAdapter<FoodTypeBean, BaseViewHolder> {
 
+    private OnItemCheckedListener mListener;
+
     public FoodChooseTypeAdapter( ) {
         super(R.layout.item_store_food_type);
     }
@@ -39,6 +41,9 @@ public class FoodChooseTypeAdapter extends BaseQuickAdapter<FoodTypeBean, BaseVi
             @Override
             public void onItemSelect(FlowTagLayout parent, List<Integer> selectedList) {
                 foodBean.selected = selectedList.get(0);
+                if(null != mListener){
+                    mListener.onItemChecked(baseViewHolder.getLayoutPosition(),foodBean.lists.get(foodBean.selected));
+                }
             }
         });
         tags.setOnTagClickListener(new FlowTagLayout.OnTagClickListener() {
@@ -55,5 +60,12 @@ public class FoodChooseTypeAdapter extends BaseQuickAdapter<FoodTypeBean, BaseVi
 
         tagsAdapter.onlyAddAll(foodBean.lists);
 
+    }
+
+    public void setOnItemCheckedListener(OnItemCheckedListener listener){
+        this.mListener = listener;
+    }
+    public interface OnItemCheckedListener{
+        void onItemChecked(int index,String content);
     }
 }

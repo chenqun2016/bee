@@ -170,20 +170,20 @@ public class NearbyFragment extends BaseFragment {
             TextView tv_point = helper.getView(R.id.tv_point);
             tv_point.setText("");
             TextView tv_distance = helper.getView(R.id.tv_distance);
-            if(!TextUtils.isEmpty(bean.distance)){
-                tv_distance.setText(bean.distance+"");
+            if(!TextUtils.isEmpty(bean.distanceStr)){
+                tv_distance.setText(bean.distanceStr+"");
             }
 
             TextView tv_time = helper.getView(R.id.tv_time);
-
-            if(!TextUtils.isEmpty(bean.duration)){
-                tv_time.setText(bean.duration+"");
-            }
+            tv_time.setVisibility(View.GONE);
+//            if(!TextUtils.isEmpty(bean.duration)){
+//                tv_time.setText(bean.duration+"");
+//            }
 
             TextView tv_sells = helper.getView(R.id.tv_sells);
 
-            if(!TextUtils.isEmpty(bean.monthSalesCount)){
-                tv_sells.setText(bean.monthSalesCount+"");
+            if(!TextUtils.isEmpty(bean.saleStr)){
+                tv_sells.setText(bean.saleStr+"");
             }
 
 
