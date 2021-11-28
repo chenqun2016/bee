@@ -29,6 +29,7 @@ import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.event.CloseEvent;
+import com.bee.user.params.AddFavoritesParams;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -199,7 +200,7 @@ public class FoodActivity extends BaseActivity {
     int skuId;
     int shopProductId;
 
-    @OnClick({R.id.view1, R.id.view2, R.id.view3, R.id.tv_sure, R.id.tv_add_to_chart, R.id.iv_chart})
+    @OnClick({R.id.view1, R.id.view2, R.id.view3, R.id.tv_sure, R.id.tv_add_to_chart, R.id.iv_chart,R.id.iv_share})
     public void onClick(View view) {
         scrollview.stopNestedScroll();
 
@@ -259,7 +260,31 @@ public class FoodActivity extends BaseActivity {
                 }
 
                 break;
+            case R.id.iv_share:
+                toShoucang();
+                break;
         }
+    }
+
+    private void toShoucang() {
+        AddFavoritesParams params = new AddFavoritesParams();
+        params.setFavoritesType("GOOD");
+        params.setBizId(shopProductId);
+        Api.getClient(HttpRequest.baseUrl_member).addFavorites(Api.getRequestBody(params)).
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<Object>() {
+                    @Override
+                    public void onSuccess(Object o) {
+
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+
+                    }
+                });
     }
 
     private void doAddToChart(String skuId, String tags,boolean animal,AddRemoveView iv_goods_add) {

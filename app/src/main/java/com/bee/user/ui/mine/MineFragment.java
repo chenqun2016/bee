@@ -323,6 +323,8 @@ public class MineFragment extends BaseFragment {
                         startActivity(intent);
                         break;
                     case 8:
+                        intent = new Intent(getContext(),CollectionStoreActivity.class);
+                        startActivity(intent);
                         break;
                     case 9:
                         intent = new Intent(getContext(),HelpCenterActivity.class);

@@ -22,6 +22,7 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.AddChartBean;
 import com.bee.user.bean.ChartBean;
+import com.bee.user.bean.CollectionStoreBean;
 import com.bee.user.bean.FoodTypeBean;
 import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
@@ -30,6 +31,8 @@ import com.bee.user.event.AddChartEvent;
 import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.event.CloseEvent;
 import com.bee.user.event.StoreEvent;
+import com.bee.user.params.AddFavoritesParams;
+import com.bee.user.params.CollectionStoreParams;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -39,6 +42,7 @@ import com.bee.user.ui.search.SearchFoodActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.AddRemoveView;
 import com.bee.user.widget.ChartBottomDialogView;
@@ -158,7 +162,7 @@ public class StoreActivity extends BaseActivity {
     private HashMap<String, AddChartBean> hashMap = new LinkedHashMap<>();
 
     @OnClick({R.id.tv_confirm, R.id.cl_qujiesuan, R.id.tv_dingwei,
-            R.id.tv_search_1, R.id.iv_search})
+            R.id.tv_search_1, R.id.iv_search,R.id.iv_shoucang})
     public void onClick(View view) {
         switch (view.getId()) {
 
@@ -189,8 +193,32 @@ public class StoreActivity extends BaseActivity {
             case R.id.tv_search_1:
                 startActivity(new Intent(this, SearchFoodActivity.class));
                 break;
+            case R.id.iv_shoucang:
+                toShoucang();
+                break;
         }
 
+    }
+
+    private void toShoucang() {
+        AddFavoritesParams params = new AddFavoritesParams();
+        params.setFavoritesType("SHOP");
+        params.setBizId(Integer.parseInt(id));
+        Api.getClient(HttpRequest.baseUrl_member).addFavorites(Api.getRequestBody(params)).
+                subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<Object>() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        iv_shoucang.setImageResource(R.drawable.icon_shoucang_1);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+
+                    }
+                });
     }
 
     private void showSelectedDialog(AddChartBean addChartBean, OnAddChartListener listener) {
