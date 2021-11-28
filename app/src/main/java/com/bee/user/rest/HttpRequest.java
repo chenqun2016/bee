@@ -220,4 +220,16 @@ public class HttpRequest {
     public static final String indexCatogory= "auth/shop/indexCatogory";
     //根据分类获取商品
     public static final String getGoodsByCatogory= "auth/shop/getGoodsByCatogory";
+
+    //获取会员收藏信息
+    public static final String getMemberFavorites = "memberFavorites/getMemberFavorites";
+
+    //添加会员收藏
+    public static final String addFavorites = "memberFavorites/addFavorites";
+
+    //置顶或者取消置顶
+    public static final String upAndDownFavorites = "memberFavorites/upAndDownFavorites";
+
+    //取消会员收藏
+    public static final String cancleFavorites = "memberFavorites/cancleFavorites";
 }

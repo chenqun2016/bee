@@ -7,6 +7,7 @@ import com.bee.user.bean.CatogoryBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.ChooseTimeBean;
 import com.bee.user.bean.CityBean;
+import com.bee.user.bean.CollectionStoreBean;
 import com.bee.user.bean.CommentBean;
 import com.bee.user.bean.CommentWrapBean;
 import com.bee.user.bean.CouponBean;
@@ -600,5 +601,37 @@ public interface ApiService {
      */
     @POST(HttpRequest.getGoodsBySection)
     Observable<BaseResult<GoodsBySectionBean>> getGoodsBySection(@Body RequestBody info);
+
+    /**
+     * 获取会员收藏信息
+     *
+     * @return
+     */
+    @POST(HttpRequest.getMemberFavorites)
+    Observable<BaseResult<CollectionStoreBean>> getMemberFavorites(@Body RequestBody info);
+
+    /**
+     * 添加会员收藏
+     *
+     * @return
+     */
+    @POST(HttpRequest.addFavorites)
+    Observable<BaseResult<Object>> addFavorites(@Body RequestBody info);
+
+    /**
+     * 置顶或者取消置顶
+     *
+     * @return
+     */
+    @POST(HttpRequest.upAndDownFavorites)
+    Observable<BaseResult<Object>> upAndDownFavorites(@Body RequestBody info);
+
+    /**
+     * 取消会员收藏
+     *
+     * @return
+     */
+    @POST(HttpRequest.cancleFavorites)
+    Observable<BaseResult<Object>> cancleFavorites(@Body RequestBody info);
 
 }

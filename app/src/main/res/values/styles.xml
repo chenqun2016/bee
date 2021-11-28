@@ -132,6 +132,9 @@
     <style name="TabTextSize" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
         <item name="android:textSize">13sp</item>
     </style>
+    <style name="TabTitleTextSize" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">18sp</item>
+    </style>
 
     <style name="MyDialogStyle">
         <item name="android:windowBackground">@android:color/transparent</item>

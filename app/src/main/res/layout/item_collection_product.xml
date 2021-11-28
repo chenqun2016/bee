@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.huaxiafinance.www.crecyclerview.swipedellayout.SwipeMenuLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        app:ios="false"
+        app:leftSwipe="true"
+        app:swipeEnable="true">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sl_content">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_round10dp_white">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/food2" />
+
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@+id/icon"
+                    android:text="美食烘培店(陆家嘴店)"
+                    android:textColor="@color/color_282525"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_inform"
+                    android:layout_width="170dp"
+                    android:layout_height="17dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_below="@id/tv_name"
+                    android:layout_toRightOf="@+id/icon"
+                    android:text="暖心升级10头鲍，带上金色螺肉"
+                    android:textColor="#ff777777"
+                    android:textSize="12sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ratin"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/icon"
+                    android:text="￥19.8"
+                    android:textColor="#ffff0000"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    />
+            </RelativeLayout>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="#FFCF0F"
+            android:gravity="center"
+            android:text="取消关注"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/tv_top"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="#ff5050"
+            android:gravity="center"
+            android:text="置顶店铺"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </com.huaxiafinance.www.crecyclerview.swipedellayout.SwipeMenuLayout>
+</FrameLayout>
