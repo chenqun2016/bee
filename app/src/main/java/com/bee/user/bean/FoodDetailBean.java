@@ -12,9 +12,9 @@ public class FoodDetailBean {
     public Integer skuId;
     public String skuName;
     public String pic;
-    public Integer sale;
-    public Integer price;
-    public Integer originalPrice;
+    public int sale;
+    public float price;
+    public Float originalPrice;
     public String subTitle;
     public String description;
     public Object distance;
@@ -35,9 +35,9 @@ public class FoodDetailBean {
     public Integer flashSaleStatus;
     public Integer flashSaleGoodsId;
     public Integer salePrice;
-    public Integer startTime;
-    public Integer endTime;
-    public Integer endTimeSecond;
+    public String startTime;
+    public String endTime;
+    public long endTimeSecond;
     public List<StoreFoodItem2Bean.AttributeListBean> attributeList;
     public List<StoreFoodItem2Bean.SkuListBean> skuList;
     public Integer newStatus;

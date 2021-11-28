@@ -27,6 +27,8 @@ public class StoreFoodItem2Bean {
     public Integer shopProductCategoryId;
     public String shopProductCategoryName;
     public int shopProductId;
+    public int storeId;
+    //    所属店铺
     public int skuId;
     public List<SkuListBean> skuList;
     public String skuName;
@@ -35,6 +37,7 @@ public class StoreFoodItem2Bean {
     public String subTitle;
     public String unit;
     public Integer weight;
+    public String tags;
 
     public static class AttributeListBean {
         public String createTime;
@@ -55,22 +58,22 @@ public class StoreFoodItem2Bean {
 
     public static class SkuListBean {
         public int cartItemId;
-        public Integer cartQuantity;
+        public int cartQuantity;
         public String endTime;
-        public Integer endTimeSecond;
-        public Integer flashSaleGoodsId;
-        public Integer flashSaleStatus;
-        public Integer orginPrice;
-        public Integer packingFee;
-        public Integer price;
-        public Integer productId;
+        public int endTimeSecond;
+        public int flashSaleGoodsId;
+        public int flashSaleStatus;
+        public int orginPrice;
+        public int packingFee;
+        public int price;
+        public int productId;
         public String salePrice;
-        public Integer shopProductId;
+        public int shopProductId;
         public String skuCode;
-        public Integer skuId;
+        public int skuId;
         public String skuName;
-        public Integer skuStockId;
+        public int skuStockId;
         public String startTime;
-        public Integer stock;
+        public int stock;
     }
 }

@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bee.user.R;
 import com.bee.user.bean.CatogoryBean;
 import com.bee.user.bean.HomeCatogoryBean;
-import com.bee.user.bean.MainFoodBean;
+import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.params.HomeCatogoryParams;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -106,7 +106,7 @@ public class FoodByTypeActivity extends BaseActivity {
         homeAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull @NotNull BaseQuickAdapter<?, ?> adapter, @NonNull @NotNull View view, int position) {
-                MainFoodBean bean = homeAdapter.getData().get(position);
+                StoreFoodItem2Bean bean = homeAdapter.getData().get(position);
                 FoodActivity.newInstance(FoodByTypeActivity.this, bean.shopProductId, bean.storeId, bean.skuId);
             }
         });

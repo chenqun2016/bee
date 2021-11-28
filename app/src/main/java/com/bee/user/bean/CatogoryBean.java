@@ -13,7 +13,7 @@ public class CatogoryBean {
     public Integer code;
     public Integer count;
     public Integer current;
-    public List<MainFoodBean> data;
+    public List<StoreFoodItem2Bean> data;
     public Integer pages;
     public Integer size;
     public Integer total;

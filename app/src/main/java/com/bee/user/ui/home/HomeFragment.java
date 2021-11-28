@@ -20,9 +20,9 @@ import com.amap.api.location.AMapLocation;
 import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
-import com.bee.user.bean.MainFoodBean;
 import com.bee.user.bean.HomeCatogoryBean;
 import com.bee.user.bean.HomeGridview2Bean;
+import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.entity.LunchEntity;
 import com.bee.user.entity.NearbyEntity;
 import com.bee.user.event.MainEvent;
@@ -264,7 +264,7 @@ public class HomeFragment extends BaseFragment {
         homeAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                MainFoodBean bean = (MainFoodBean) adapter.getData().get(position);
+                StoreFoodItem2Bean bean = (StoreFoodItem2Bean) adapter.getData().get(position);
                 FoodActivity.newInstance(getContext(),bean.shopProductId,bean.storeId,bean.skuId);
             }
         });
@@ -274,9 +274,9 @@ public class HomeFragment extends BaseFragment {
         Api.getClient(HttpRequest.baseUrl_shop).homeRecommand().
                 subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<List<MainFoodBean>>() {
+                .subscribe(new BaseSubscriber<List<StoreFoodItem2Bean>>() {
                     @Override
-                    public void onSuccess(List<MainFoodBean> data) {
+                    public void onSuccess(List<StoreFoodItem2Bean> data) {
                         homeAdapter.setNewInstance(data);
                         endSwipeRefreshLayout();
                     }

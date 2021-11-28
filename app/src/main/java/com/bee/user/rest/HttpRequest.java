@@ -208,7 +208,7 @@ public class HttpRequest {
     public static final String queryListBySkuId = "evaShopStoreOrder/queryListBySkuId";
 
     //首页推荐
-    public static final String homeRecommand= "app-sys-shop-store/index/recommand";
+    public static final String homeRecommand= "app-sys-shop-store/index/recommand2";
 
     //消息中心类型
     public static final String getPlatFormMessage = "pushMessage/getPlatFormMessage";

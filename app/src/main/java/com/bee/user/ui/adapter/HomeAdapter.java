@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.MainFoodBean;
+import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.utils.DisplayUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
@@ -22,13 +22,13 @@ import org.jetbrains.annotations.NotNull;
  * 创建时间：2020/08/23  20：48
  * 描述：
  */
-public class HomeAdapter extends BaseQuickAdapter<MainFoodBean,BaseViewHolder> implements LoadMoreModule {
+public class HomeAdapter extends BaseQuickAdapter<StoreFoodItem2Bean,BaseViewHolder> implements LoadMoreModule {
     public HomeAdapter() {
         super(R.layout.item_home);
     }
 
     @Override
-    protected void convert(@NotNull BaseViewHolder baseViewHolder, MainFoodBean bean) {
+    protected void convert(@NotNull BaseViewHolder baseViewHolder, StoreFoodItem2Bean bean) {
         ImageView iv_image = baseViewHolder.findView(R.id.iv_image);
         Picasso.with(iv_image.getContext())
                 .load(bean.pic)
@@ -36,7 +36,7 @@ public class HomeAdapter extends BaseQuickAdapter<MainFoodBean,BaseViewHolder> i
                 .into(iv_image);
 
         TextView tv_title = baseViewHolder.findView(R.id.tv_title);
-        tv_title.setText(bean.productName==null?bean.subTitle:bean.productName);
+        tv_title.setText(bean.subTitle);
         TextView tv_content = baseViewHolder.findView(R.id.tv_content);
         tv_content.setText(bean.description);
 

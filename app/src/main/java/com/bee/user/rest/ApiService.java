@@ -18,7 +18,6 @@ import com.bee.user.bean.GoodsBySectionBean;
 import com.bee.user.bean.HelpTypeBean;
 import com.bee.user.bean.HelpTypeItemBean;
 import com.bee.user.bean.HomeCatogoryBean;
-import com.bee.user.bean.MainFoodBean;
 import com.bee.user.bean.MiLiChongzhiBean;
 import com.bee.user.bean.MyCommentWrapBean;
 import com.bee.user.bean.MyMiLiBean;
@@ -571,7 +570,7 @@ public interface ApiService {
      * @return
      */
     @POST(HttpRequest.homeRecommand)
-    Observable<BaseResult<List<MainFoodBean>>> homeRecommand();
+    Observable<BaseResult<List<StoreFoodItem2Bean>>> homeRecommand();
 
     /**
      * 首页分类

@@ -83,7 +83,7 @@ public class StoreFragment extends BaseFragment {
 
     }
 
-    private void setViews(HashMap<String, AddChartBean> map) {
+    private void setViews() {
         if (null == mDatas || mDatas.size() == 0) {
             return;
         }
@@ -114,8 +114,8 @@ public class StoreFragment extends BaseFragment {
             if(null != bean.skuList){
                 //购物车商品 和  商品列表商品关联
                 for (StoreFoodItem2Bean.SkuListBean skuBean : bean.skuList) {
-                    if (null != map && map.containsKey(skuBean.skuId + "")) {
-                        AddChartBean addChartBean = map.get(skuBean.skuId + "");
+                    if (null != mMap && mMap.containsKey(skuBean.skuId + "")) {
+                        AddChartBean addChartBean = mMap.get(skuBean.skuId + "");
                         if (null != addChartBean) {
                             addChartBean.indexForList = mEDatas.size() - 1;
                         }
@@ -127,8 +127,9 @@ public class StoreFragment extends BaseFragment {
 
         ElemeSecondaryAdapterConfig elemeSecondaryAdapterConfig = new ElemeSecondaryAdapterConfig();
         elemeSecondaryAdapterConfig.setContext(BeeApplication.getInstance());
-        linkage.init(mEDatas, new StoreFragment.ElemePrimaryAdapterConfig(), elemeSecondaryAdapterConfig);
-
+        if(null != linkage){
+            linkage.init(mEDatas, new StoreFragment.ElemePrimaryAdapterConfig(), elemeSecondaryAdapterConfig);
+        }
     }
 
     public void notifyReflush(int index, int quantity) {
@@ -184,12 +185,15 @@ public class StoreFragment extends BaseFragment {
 //        ElemeSecondaryAdapterConfig elemeSecondaryAdapterConfig = new ElemeSecondaryAdapterConfig();
 //        elemeSecondaryAdapterConfig.setContext(BeeApplication.getInstance());
 //        linkage.init(items,new StoreFragment.ElemePrimaryAdapterConfig(),elemeSecondaryAdapterConfig );
+
+        setViews();
     }
 
-
+    HashMap<String, AddChartBean> mMap;
     public void setFoodDatas(List<StoreFoodItem2Bean> datas, HashMap<String, AddChartBean> map) {
+        mMap = map;
         mDatas = datas;
-        setViews(map);
+        setViews();
     }
 
 

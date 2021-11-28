@@ -14,8 +14,10 @@
     <color name="color_000">#000000</color>
 
     <color name="color_FF7066">#FF7066</color>
+    <color name="color_888888">#888888</color>
+    <color name="color_d8d8d8">#d8d8d8</color>
 
-
+    <color name="color_222222">#222222</color>
     <color name="color_282626">#282626</color>
     <color name="color_ccc">#CCCCCC</color>
     <color name="color_eee">#EEEEEE</color>

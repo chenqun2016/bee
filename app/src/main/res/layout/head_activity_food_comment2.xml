@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_head2"
     android:layout_marginTop="-40dp"
@@ -7,12 +7,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_miaosha"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="100dp">
 
         <ImageView
@@ -106,6 +104,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_shengyu">
 
             <TextView
+                android:id="@+id/tv_hour"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:background="@drawable/bg_round4dp_red"
@@ -125,6 +124,7 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tv_min"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:background="@drawable/bg_round4dp_red"
@@ -144,6 +144,7 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tv_sec"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:background="@drawable/bg_round4dp_red"
@@ -160,9 +161,6 @@
         android:id="@+id/cl_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cl_miaosha"
-        android:layout_marginTop="60dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/bg_round10dp_white"
@@ -210,8 +208,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="人气至尊豪华鳗鱼组合套餐"
-            android:textColor="@color/color_282626"
-            android:textSize="15sp"
+            android:textColor="@color/color_222222"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_money_pre" />
@@ -221,12 +219,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="已售10,000"
+            android:text="已售0"
             android:textColor="@color/color_7C7877"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_food_title" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_choosetype"
@@ -246,22 +244,92 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
+        <TextView
+            android:id="@+id/tv_food_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="暖心升级10头鲍，带着金色的螺肉，配上爽滑的珍菇"
+            android:textColor="@color/color_7C7877"
+            android:textSize="12sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_food_title" />
+
+        <TextView
+            android:id="@+id/tv_food_des1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="自营品牌"
+            android:textColor="@color/color_888888"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/icon_food_des1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_food_detail" />
+
+        <View
+            android:id="@+id/tv_food_des1_line"
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/color_d8d8d8"
+            app:layout_constraintLeft_toRightOf="@+id/tv_food_des1"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_food_des1"
+            app:layout_constraintTop_toTopOf="@+id/tv_food_des1"/>
+
+        <TextView
+            android:id="@+id/tv_food_des2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="安全放心"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/color_888888"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/icon_food_des2"
+            app:layout_constraintLeft_toRightOf="@+id/tv_food_des1_line"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_food_des1_line"
+            app:layout_constraintTop_toTopOf="@+id/tv_food_des1_line"/>
+
+        <View
+            android:id="@+id/tv_food_des2_line"
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="10dp"
+            android:background="@color/color_d8d8d8"
+            app:layout_constraintLeft_toRightOf="@+id/tv_food_des2"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_food_des2"
+            app:layout_constraintTop_toTopOf="@+id/tv_food_des2"/>
+
+        <TextView
+            android:id="@+id/tv_food_des3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="最快19分钟"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/color_888888"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:drawablePadding="5dp"
+            android:drawableLeft="@drawable/icon_food_des3"
+            app:layout_constraintLeft_toRightOf="@+id/tv_food_des2_line"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_food_des2_line"
+            app:layout_constraintTop_toTopOf="@+id/tv_food_des2_line"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <FrameLayout
         android:id="@+id/fl_store"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cl_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/bg_round10dp_white"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp">
+        android:background="@drawable/bg_round10dp_white">
 
         <include
             layout="@layout/item_store"
@@ -271,8 +339,6 @@
     </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fl_store"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -324,4 +390,4 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_food_comment" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
