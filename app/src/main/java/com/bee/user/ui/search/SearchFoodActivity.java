@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.ChartBean;
-import com.bee.user.bean.MainFoodBean;
 import com.bee.user.event.MainEvent;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.adapter.HomeAdapter;
@@ -273,13 +272,7 @@ public class SearchFoodActivity extends BaseActivity {
             }
         });
 
-        ArrayList<MainFoodBean> homeBeans = new ArrayList<>();
-        homeBeans.add(new MainFoodBean());
-        homeBeans.add(new MainFoodBean());
-        homeBeans.add(new MainFoodBean());
-        homeBeans.add(new MainFoodBean());
-        homeBeans.add(new MainFoodBean());
-        homeAdapter.setNewInstance(homeBeans);
+        homeAdapter.setNewInstance(new ArrayList<>());
     }
 
 

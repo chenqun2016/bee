@@ -13,6 +13,8 @@ public class ChartBean implements Serializable {
 
     public boolean selectedAll = false;
 
+    //秒杀商品数据id，添加秒杀商品时需要填
+    public String flashSaleGoodsId;
     //1 可以配送，0 不可配送
     public int distributionStatus;
     private Integer id;
@@ -43,6 +45,7 @@ public class ChartBean implements Serializable {
     private Integer deleteStatus;
     public BigDecimal marketPrice = BigDecimal.valueOf(0);
     public String attributes;
+
 
 
 

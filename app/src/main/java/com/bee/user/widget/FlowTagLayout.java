@@ -33,6 +33,11 @@ public class FlowTagLayout extends ViewGroup {
      * FlowLayout support multi-select
      */
     public static final int FLOW_TAG_CHECKED_MULTI = 2;
+    /**
+     * FlowLayout support single-select
+     * 必须选中一个
+     */
+    public static final int FLOW_TAG_CHECKED_SINGLE2 = 3;
 
     /**
      * Should be used by subclasses to listen to changes in the dataset
@@ -220,7 +225,7 @@ public class FlowTagLayout extends ViewGroup {
             if (mAdapter instanceof OnInitSelectedPosition) {
                 boolean isSelected = ((OnInitSelectedPosition) mAdapter).isSelectedPosition(i);
                 //判断一下模式
-                if (mTagCheckMode == FLOW_TAG_CHECKED_SINGLE) {
+                if (mTagCheckMode == FLOW_TAG_CHECKED_SINGLE || mTagCheckMode == FLOW_TAG_CHECKED_SINGLE2) {
                     //单选只有第一个起作用
                     if (isSelected && !isSetted) {
                         mCheckedTagArray.put(i, true);
@@ -250,6 +255,27 @@ public class FlowTagLayout extends ViewGroup {
                             if (mOnTagSelectListener != null) {
                                 mOnTagSelectListener.onItemSelect(FlowTagLayout.this, new ArrayList<Integer>());
                             }
+                            return;
+                        }
+
+                        for (int k = 0; k < mAdapter.getCount(); k++) {
+                            mCheckedTagArray.put(k, false);
+                            getChildAt(k).setSelected(false);
+                        }
+                        mCheckedTagArray.put(j, true);
+                        childView.setSelected(true);
+
+                        if (mOnTagSelectListener != null) {
+                            mOnTagSelectListener.onItemSelect(FlowTagLayout.this, Arrays.asList(j));
+                        }
+                    }else if (mTagCheckMode == FLOW_TAG_CHECKED_SINGLE2) {
+                        //判断状态
+                        if (mCheckedTagArray.get(j)) {
+//                            mCheckedTagArray.put(j, false);
+//                            childView.setSelected(false);
+//                            if (mOnTagSelectListener != null) {
+//                                mOnTagSelectListener.onItemSelect(FlowTagLayout.this, new ArrayList<Integer>());
+//                            }
                             return;
                         }
 

@@ -592,15 +592,14 @@ public class StoreActivity extends BaseActivity {
 //        TextView iv_goods_comment = bottomSheetDialog.findViewById(R.id.iv_goods_comment);
 //        iv_goods_comment.setText("剩余" + bean.data2.stock + "份  月售" + bean.data2.sale);
         TextView iv_goods_price = bottomSheetDialog.findViewById(R.id.iv_goods_price);
-        iv_goods_price.setText("¥" + bean.data2.price);
+        iv_goods_price.setText("¥" + bean.data2.skuList.get(0).price);
         TextView iv_goods_price_past = bottomSheetDialog.findViewById(R.id.iv_goods_price_past);
-        if (null != bean.data2.originalPrice) {
+        if ( bean.data2.skuList.get(0).orginPrice >0) {
             iv_goods_price_past.setVisibility(View.VISIBLE);
         } else {
             iv_goods_price_past.setVisibility(View.GONE);
         }
-        iv_goods_price_past.setText("¥" + bean.data2.originalPrice);
-
+        iv_goods_price_past.setText("¥" + bean.data2.skuList.get(0).orginPrice);
 
         ImageView iv_goods_img = bottomSheetDialog.findViewById(R.id.iv_goods_img);
         Picasso.with(iv_goods_img.getContext())
@@ -644,6 +643,13 @@ public class StoreActivity extends BaseActivity {
             @Override
             public void onItemChecked(int index, String content) {
                 setSelectedParams(foodChooseTypeAdapter.getData(),iv_goods_detail);
+                iv_goods_price.setText("¥" + bean.data2.skuList.get(index).price);
+                if (bean.data2.skuList.get(index).orginPrice>0) {
+                    iv_goods_price_past.setVisibility(View.VISIBLE);
+                } else {
+                    iv_goods_price_past.setVisibility(View.GONE);
+                }
+                iv_goods_price_past.setText("¥" + bean.data2.skuList.get(index).orginPrice);
             }
         });
         setSelectedParams(foodChooseTypeAdapter.getData(),iv_goods_detail);

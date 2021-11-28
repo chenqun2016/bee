@@ -121,9 +121,11 @@ public class CommentFragment extends BaseFragment {
         tags.setOnTagSelectListener(new FlowTagLayout.OnTagSelectListener() {
             @Override
             public void onItemSelect(FlowTagLayout parent, List<Integer> selectedList) {
-                Integer integer = selectedList.get(0);
-                currentTag = dataSource.get(integer);
-                loadmoreUtils.refresh(mAdapter);
+                if(selectedList.size()>0){
+                    Integer integer = selectedList.get(0);
+                    currentTag = dataSource.get(integer);
+                    loadmoreUtils.refresh(mAdapter);
+                }
             }
         });
     }

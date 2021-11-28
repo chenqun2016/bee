@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bee.user.R;
-import com.bee.user.bean.MainFoodBean;
 import com.bee.user.bean.OrderBean;
 import com.bee.user.bean.OrderListBean;
 import com.bee.user.event.MainEvent;
@@ -173,13 +172,7 @@ public class OrderListFragment extends BaseFragment implements View.OnClickListe
     private void getRecommend() {
         recyclerview.setVisibility(View.GONE);
         rvRecommend.setVisibility(View.VISIBLE);
-        ArrayList<MainFoodBean> homeBeans = new ArrayList<>();
-        homeBeans.add(new MainFoodBean());
-        homeBeans.add(new MainFoodBean());
-        homeBeans.add(new MainFoodBean());
-        homeBeans.add(new MainFoodBean());
-        homeBeans.add(new MainFoodBean());
-        homeAdapter.setList(homeBeans);
+        homeAdapter.setList(new ArrayList<>());
     }
 
     /**
