@@ -32,6 +32,7 @@ import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.event.CloseEvent;
+import com.bee.user.params.AddFavoritesParams;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -286,7 +287,6 @@ public class FoodActivity extends BaseActivity {
         }
     }
 
-    private void doAddToChart(String skuId, String tags,boolean animal,AddRemoveView iv_goods_add,String flashSaleGoodsId) {
     private void toShoucang() {
         AddFavoritesParams params = new AddFavoritesParams();
         params.setFavoritesType("GOOD");
@@ -308,7 +308,7 @@ public class FoodActivity extends BaseActivity {
                 });
     }
 
-    private void doAddToChart(String skuId, String tags,boolean animal,AddRemoveView iv_goods_add) {
+    private void doAddToChart(String skuId, String tags,boolean animal,AddRemoveView iv_goods_add,String flashSaleGoodsId) {
 
         Map<String, String> map = new HashMap<>();
         map.put("num", "1");
