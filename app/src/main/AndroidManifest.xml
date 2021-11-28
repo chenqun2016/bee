@@ -90,7 +90,8 @@
         <activity android:name=".ui.mine.ConfirmCancelAccountActivity"/>
         <activity android:name=".ui.CRecyclerViewActivity" />
         <activity android:name=".ui.home.MiaoshaActivity" />
-        <activity android:name=".ui.nearby.StoreActivity" />
+        <activity android:name=".ui.nearby.StoreActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".ui.nearby.DingWeiActivity" />
         <activity
             android:name=".ui.nearby.FoodActivity"

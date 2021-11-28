@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@+id/iv_icon"
+        android:textColor="@color/color_282525"/>
+
+
+
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/mrb"
+        style="@style/Widget.MaterialRatingBar.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="13dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="4dp"
+        android:rating="4.8"
+        app:mrb_progressTint="@color/color_FF6100"
+        app:mrb_secondaryProgressTint="@color/color_E9E9E9"
+        android:layout_below="@+id/tv_title"
+        android:layout_toRightOf="@+id/iv_icon"/>
+
+    <TextView
+        android:id="@+id/tv_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="12sp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/color_FF5050"
+        android:layout_below="@+id/tv_title"
+        android:layout_toRightOf="@+id/mrb"/>
+
+
+    <TextView
+        android:id="@+id/tv_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginTop="4dp"
+        android:textSize="12sp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/color_7C7877"
+        android:layout_below="@+id/mrb"
+        android:layout_toRightOf="@+id/iv_icon"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginTop="4dp"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/color_7C7877"
+        android:layout_below="@+id/mrb"
+        android:layout_toRightOf="@+id/tv_distance"/>
+    <TextView
+        android:id="@+id/tv_sells"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginTop="4dp"
+        android:textSize="12sp"
+        android:layout_marginLeft="6dp"
+        android:textColor="@color/color_7C7877"
+        android:layout_below="@+id/mrb"
+        android:layout_toRightOf="@+id/tv_time"/>
+
+
+</RelativeLayout>

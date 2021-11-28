@@ -332,7 +332,7 @@
         android:background="@drawable/bg_round10dp_white">
 
         <include
-            layout="@layout/item_store"
+            layout="@layout/item_store2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

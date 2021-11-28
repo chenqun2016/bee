@@ -534,7 +534,7 @@ public class StoreActivity extends BaseActivity {
 //                                tv_time.setText("大约" + data.getDuration() + "分钟");
 //                            }
         if (!TextUtils.isEmpty(data.saleStr)) {
-            tv_sells.setText("月销" + data.saleStr);
+            tv_sells.setText("" + data.saleStr);
         }
         Picasso.with(this)
                 .load(data.logoUrl)

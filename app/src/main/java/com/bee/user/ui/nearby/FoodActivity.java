@@ -70,6 +70,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 /**
  * 创建人：进京赶考
@@ -136,14 +137,14 @@ public class FoodActivity extends BaseActivity {
     TextView tv_title;
     @BindView(R.id.tv_point)
     TextView tv_point;
+    @BindView(R.id.mrb)
+    MaterialRatingBar mrb;
     @BindView(R.id.tv_distance)
     TextView tv_distance;
     @BindView(R.id.tv_time)
     TextView tv_time;
     @BindView(R.id.tv_sells)
     TextView tv_sells;
-    @BindView(R.id.ll_mark)
-    LinearLayout ll_mark;
 
 
     @BindView(R.id.tv_food_comment2)
@@ -874,6 +875,8 @@ public class FoodActivity extends BaseActivity {
                     public void onSuccess(StoreDetailBean data) {
 
                         if (null != data) {
+                            mrb.setRating(data.star);
+                            tv_point.setText(data.star+"分");
                             tv_title.setText(data.name + "");
                             if (!TextUtils.isEmpty(data.distanceStr)) {
                                 tv_distance.setText(data.distanceStr);
@@ -882,7 +885,7 @@ public class FoodActivity extends BaseActivity {
 //                                tv_time.setText("大约" + data.getDuration() + "分钟");
 //                            }
                             if (!TextUtils.isEmpty(data.saleStr)) {
-                                tv_sells.setText("月销" + data.saleStr);
+                                tv_sells.setText("" + data.saleStr);
                             }
 
                             Picasso.with(FoodActivity.this)
