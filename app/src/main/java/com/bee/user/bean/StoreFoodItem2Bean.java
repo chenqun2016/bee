@@ -10,7 +10,7 @@ import java.util.List;
 public class StoreFoodItem2Bean {
     public String name;
     public List<AttributeListBean> attributeList;
-    public Integer cartItemId;
+    public int cartItemId;
     public int cartQuantity;
     public String description;
     public String endTime;

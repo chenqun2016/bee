@@ -2,6 +2,7 @@ package com.bee.user.ui.nearby;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,6 +27,7 @@ import com.bee.user.event.StoreEvent;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LogUtil;
+import com.bee.user.utils.UIUtils;
 import com.bee.user.widget.AddRemoveView;
 import com.kunminx.linkage.LinkageRecyclerView;
 import com.kunminx.linkage.adapter.viewholder.LinkagePrimaryViewHolder;
@@ -330,11 +332,11 @@ public class StoreFragment extends BaseFragment {
                     public boolean onAddListener(int num) {
                         StoreFoodItem2Bean bean = item.info.getBean();
 
-                        AddChartBean addChartBean = new AddChartBean(isTagStyle(item), num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null || bean.skuList.size() <= 0) ? 0 : bean.skuList.get(0).cartItemId, null, bean);
+                        AddChartBean addChartBean = new AddChartBean(UIUtils.isTagStyle(item), num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null || bean.skuList.size() <= 0) ? 0 : bean.skuList.get(0).cartItemId, null, bean);
                         addChartBean.indexForList = holder.getAbsoluteAdapterPosition();
                         AddChartEvent addChartEvent;
                         //有标签
-                        if (isTagStyle(item)) {
+                        if (UIUtils.isTagStyle(item)) {
 
                             addChartEvent = new AddChartEvent(addChartBean, 2);
                         } else {
@@ -361,7 +363,7 @@ public class StoreFragment extends BaseFragment {
                     @Override
                     public boolean onRemoveListener(int num) {
                         StoreFoodItem2Bean bean = item.info.getBean();
-                        AddChartBean addChartBean = new AddChartBean(isTagStyle(item), num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null || bean.skuList.size() <= 0) ? 0 : bean.skuList.get(0).cartItemId, null, bean);
+                        AddChartBean addChartBean = new AddChartBean(UIUtils.isTagStyle(item), num, bean.skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null || bean.skuList.size() <= 0) ? 0 : bean.skuList.get(0).cartItemId, null, bean);
                         addChartBean.indexForList = holder.getAbsoluteAdapterPosition();
                         AddChartEvent addChartEvent = new AddChartEvent(addChartBean, 0);
 //                        EventBus.getDefault().post(addChartEvent);
@@ -369,7 +371,7 @@ public class StoreFragment extends BaseFragment {
                             @Override
                             public void onSuccess() {
 //                                iv_goods_add.setNum(iv_goods_add.getNum() - 1);
-                                if (iv_goods_add.getNum() <= 0 && isTagStyle(item)) {
+                                if (iv_goods_add.getNum() <= 0 && UIUtils.isTagStyle(item)) {
                                     iv_goods_add.setVisibility(View.GONE);
                                     tv_choosetype.setVisibility(View.VISIBLE);
                                 }
@@ -387,7 +389,7 @@ public class StoreFragment extends BaseFragment {
 
                 tv_choosetype.setOnClickListener(v -> {
 
-                    AddChartBean addChartBean = new AddChartBean(isTagStyle(item), 1, bean.skuList.get(0).skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null || bean.skuList.size() <= 0) ? 0 : bean.skuList.get(0).cartItemId, null, bean);
+                    AddChartBean addChartBean = new AddChartBean(UIUtils.isTagStyle(item), 1, bean.skuList.get(0).skuId, Integer.parseInt(storeId), BigDecimal.valueOf(bean.price), (bean.skuList == null || bean.skuList.size() <= 0) ? 0 : bean.skuList.get(0).cartItemId, null, bean);
                     addChartBean.indexForList = holder.getAbsoluteAdapterPosition();
                     AddChartEvent addChartEvent = new AddChartEvent(addChartBean, 2);
 //                    EventBus.getDefault().post(addChartEvent);
@@ -432,6 +434,7 @@ public class StoreFragment extends BaseFragment {
                 TextView iv_goods_price = holder.getView(R.id.iv_goods_price);
                 iv_goods_price.setText("¥" + bean.price);
                 TextView iv_goods_price_past = holder.getView(R.id.iv_goods_price_past);
+                iv_goods_price_past.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG );
                 if (null != bean.originalPrice) {
                     iv_goods_price_past.setVisibility(View.VISIBLE);
                 } else {
@@ -467,8 +470,5 @@ public class StoreFragment extends BaseFragment {
         }
     }
 
-    private boolean isTagStyle(BaseGroupedItem<ElemeGroupedItem.ItemInfo> item) {
-        return (item.info.getBean().attributeList != null && item.info.getBean().attributeList.size() > 0)
-                || (item.info.getBean().skuList != null && item.info.getBean().skuList.size() > 1);
-    }
+
 }

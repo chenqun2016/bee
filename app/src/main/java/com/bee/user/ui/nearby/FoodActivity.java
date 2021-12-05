@@ -606,6 +606,7 @@ public class FoodActivity extends BaseActivity {
                     @Override
                     public void onSuccess(FoodDetailBean beans) {
                         mBeans = beans;
+                        storeId = beans.storeId;
                         setFoodDetail(beans);
 
                         initBanner();
@@ -1062,15 +1063,17 @@ public class FoodActivity extends BaseActivity {
         foodChooseTypeAdapter.setNewInstance(datas);
         foodChooseTypeAdapter.setOnItemCheckedListener(new FoodChooseTypeAdapter.OnItemCheckedListener() {
             @Override
-            public void onItemChecked(int index, String content) {
-                setSelectedParams(foodChooseTypeAdapter.getData(),iv_goods_detail);
-                iv_goods_price.setText("¥" + mBeans.skuList.get(index).price);
-                if (mBeans.skuList.get(index).orginPrice>0) {
-                    iv_goods_price_past.setVisibility(View.VISIBLE);
-                } else {
-                    iv_goods_price_past.setVisibility(View.GONE);
+            public void onItemChecked(int position ,int index, String content) {
+                setSelectedParams(foodChooseTypeAdapter.getData(), iv_goods_detail);
+                if(position == 0) {
+                    iv_goods_price.setText("¥" + mBeans.skuList.get(index).price);
+                    if (mBeans.skuList.get(index).orginPrice > 0) {
+                        iv_goods_price_past.setVisibility(View.VISIBLE);
+                    } else {
+                        iv_goods_price_past.setVisibility(View.GONE);
+                    }
+                    iv_goods_price_past.setText("¥" + mBeans.skuList.get(index).orginPrice);
                 }
-                iv_goods_price_past.setText("¥" + mBeans.skuList.get(index).orginPrice);
             }
         });
         setSelectedParams(foodChooseTypeAdapter.getData(),iv_goods_detail);

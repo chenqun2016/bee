@@ -92,5 +92,20 @@
         android:layout_alignParentRight="true"
         android:src="@drawable/icon_gouwuche" />
 
-
+    <TextView
+        android:id="@+id/tv_chart_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_chart_jiaobiao"
+        android:gravity="center"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:layout_alignBottom="@+id/iv_chart"
+        android:layout_marginBottom="21dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="2dp"
+        android:layout_alignParentRight="true"
+        android:text="×0"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
 </RelativeLayout>
