@@ -6,7 +6,7 @@
 
     <com.huaxiafinance.www.crecyclerview.swipedellayout.SwipeMenuLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:clickable="true"
         app:ios="false"
@@ -22,15 +22,15 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="100dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/bg_round10dp_white">
 
                 <ImageView
                     android:id="@+id/icon"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/food2" />
@@ -41,11 +41,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="14dp"
                     android:layout_toRightOf="@+id/icon"
                     android:text="美食烘培店(陆家嘴店)"
                     android:textColor="@color/color_282525"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -53,6 +53,7 @@
                     android:layout_width="170dp"
                     android:layout_height="17dp"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginTop="2dp"
                     android:layout_below="@id/tv_name"
                     android:layout_toRightOf="@+id/icon"
                     android:text="暖心升级10头鲍，带上金色螺肉"
@@ -64,9 +65,9 @@
                     android:id="@+id/tv_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/ratin"
+                    android:layout_below="@+id/tv_inform"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="4dp"
                     android:layout_toRightOf="@+id/icon"
                     android:text="￥19.8"
                     android:textColor="#ffff0000"
@@ -79,7 +80,7 @@
         <TextView
             android:id="@+id/tv_delete"
             android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:background="#FFCF0F"
             android:gravity="center"
             android:text="取消关注"
@@ -88,7 +89,7 @@
         <TextView
             android:id="@+id/tv_top"
             android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:background="#ff5050"
             android:gravity="center"
             android:text="置顶店铺"

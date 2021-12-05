@@ -19,6 +19,7 @@ import com.bee.user.bean.GoodsBySectionBean;
 import com.bee.user.bean.HelpTypeBean;
 import com.bee.user.bean.HelpTypeItemBean;
 import com.bee.user.bean.HomeCatogoryBean;
+import com.bee.user.bean.MemberCenterBean;
 import com.bee.user.bean.MiLiChongzhiBean;
 import com.bee.user.bean.MyCommentWrapBean;
 import com.bee.user.bean.MyMiLiBean;
@@ -633,5 +634,13 @@ public interface ApiService {
      */
     @POST(HttpRequest.cancleFavorites)
     Observable<BaseResult<Object>> cancleFavorites(@Body RequestBody info);
+
+    /**
+     * 获取会员等级权益信息
+     *
+     * @return
+     */
+    @POST(HttpRequest.getMemberLevelMessage)
+    Observable<BaseResult<MemberCenterBean>> getMemberLevelMessage();
 
 }

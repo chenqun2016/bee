@@ -232,4 +232,7 @@ public class HttpRequest {
 
     //取消会员收藏
     public static final String cancleFavorites = "memberFavorites/cancleFavorites";
+
+    //获取会员等级权益信息
+    public static final String getMemberLevelMessage = "memberIdentity/getMemberLevelMessage";
 }

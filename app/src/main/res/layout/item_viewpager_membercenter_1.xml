@@ -35,13 +35,13 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="6dp"
         android:paddingRight="6dp"
-        android:gravity="right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="土蜂会员"
+        android:gravity="right|center_vertical"
+        android:layout_width="69dp"
+        android:layout_height="13dp"
+        android:text=""
         android:textColor="@color/white"
-        android:textSize="11sp"
-        android:background="@drawable/huiyuan_lvfeng"/>
+        android:textSize="10sp"
+        />
 
 
 

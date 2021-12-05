@@ -83,6 +83,8 @@ public class UserBean {
     public Boolean accountNonLocked;
     public Boolean credentialsNonExpired;
     public String payPasswordFlag;
+    public String levelIcon;
+    public String levelName;
 
 
 

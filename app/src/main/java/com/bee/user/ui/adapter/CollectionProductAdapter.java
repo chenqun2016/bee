@@ -29,15 +29,13 @@ public class CollectionProductAdapter extends BaseQuickAdapter<CollectionStoreBe
     @Override
     protected void convert(@NotNull BaseViewHolder helper, CollectionStoreBean.RecordBean recordBean) {
         ImageView icon = helper.getView(R.id.icon);
-        MaterialRatingBar materialRatingBar =  helper.getView(R.id.ratin);
         Picasso.with(icon.getContext())
                 .load(recordBean.getPictureUrl())
                 .fit()
                 .transform(new PicassoRoundTransform(DisplayUtil.dip2px(icon.getContext(), 10), 0, PicassoRoundTransform.CornerType.ALL))
                 .into(icon);
-        materialRatingBar.setRating(recordBean.getScore());
         helper.setText(R.id.tv_name,recordBean.getName())
-                .setText(R.id.tv_inform,recordBean.getArriveDistance())
+                .setText(R.id.tv_inform,recordBean.getDesc())
                 .setText(R.id.tv_amount,"￥"+recordBean.getPrice());
     }
 

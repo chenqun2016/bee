@@ -1,10 +1,10 @@
 package com.bee.user.ui.mine.membercenter;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,23 +12,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bee.user.R;
-import com.bee.user.bean.PeiSongCardBean;
-import com.bee.user.bean.TeQuanBean;
-import com.bee.user.ui.adapter.BuyCardAdapter;
+import com.bee.user.bean.MemberCenterBean;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.bee.user.utils.DisplayUtil;
-import com.bee.user.utils.LogUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.gyf.immersionbar.ImmersionBar;
-import com.gyf.immersionbar.OnKeyboardListener;
-
+import com.squareup.picasso.Picasso;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -40,9 +35,19 @@ import butterknife.BindView;
 public class TeQuanActivity extends BaseActivity {
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
-
-
+    @BindView(R.id.tv_condition)
+    TextView tvCondition;
+    @BindView(R.id.tv_equity_introduction)
+    TextView tvEquityIntroduction;
     private int windowWidth;
+
+    public static void start(Activity activity, List<MemberCenterBean.PrivilegeVOBean> privilegeVOList) {
+        Intent intent = new Intent(activity, TeQuanActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("privilegeVOList", (Serializable) privilegeVOList);
+        intent.putExtras(bundle);
+        activity.startActivity(intent);
+    }
 
     @Override
     protected void initImmersionBar() {
@@ -61,8 +66,9 @@ public class TeQuanActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-
-
+        List<MemberCenterBean.PrivilegeVOBean> privilegeVOList = (List<MemberCenterBean.PrivilegeVOBean>) getIntent().getSerializableExtra("privilegeVOList");
+        tvCondition.setText(privilegeVOList.get(0).getGetConditions());
+        tvEquityIntroduction.setText(privilegeVOList.get(0).getPrivilegeDesc().replace("\\n","\n"));
 
         windowWidth = DisplayUtil.getWindowWidth(this);
 
@@ -75,20 +81,14 @@ public class TeQuanActivity extends BaseActivity {
                 if( adapter.current  != position){
                     adapter.current = position;
                     adapter.notifyDataSetChanged();
+                    tvCondition.setText(privilegeVOList.get(position).getGetConditions());
+                    tvEquityIntroduction.setText(privilegeVOList.get(position).getPrivilegeDesc().replace("\\n","\n"));
                 }
             }
         });
-
-
         recyclerview.setAdapter(adapter);
 
-
-        ArrayList<TeQuanBean> objects = new ArrayList<>();
-        objects.add(new TeQuanBean(R.drawable.tequan_1,"充值赠送"));
-        objects.add(new TeQuanBean(R.drawable.tequan_2,"生日礼包"));
-        objects.add(new TeQuanBean(R.drawable.tequan_3,"极速退款"));
-        objects.add(new TeQuanBean(R.drawable.tequan_4,"领取优惠"));
-        adapter.setNewInstance(objects);
+        adapter.setNewInstance(privilegeVOList);
 
         adapter.current = 0;
         adapter.notifyDataSetChanged();
@@ -97,7 +97,7 @@ public class TeQuanActivity extends BaseActivity {
 
 
 
-    public class TeQuanAdapter extends BaseQuickAdapter<TeQuanBean, BaseViewHolder> {
+    public class TeQuanAdapter extends BaseQuickAdapter<MemberCenterBean.PrivilegeVOBean, BaseViewHolder> {
 
         public int current  = -1;
         int windowWidth;
@@ -109,17 +109,18 @@ public class TeQuanActivity extends BaseActivity {
         }
 
         @Override
-        protected void convert(@NotNull BaseViewHolder baseViewHolder, TeQuanBean bean) {
+        protected void convert(@NotNull BaseViewHolder baseViewHolder, MemberCenterBean.PrivilegeVOBean bean) {
             LinearLayout ll_content = baseViewHolder.getView(R.id.ll_content);
             ViewGroup.LayoutParams layoutParams = ll_content.getLayoutParams();
             layoutParams.width = windowWidth/4;
 
-
             ImageView iv_image = baseViewHolder.getView(R.id.iv_image);
             TextView tv_text = baseViewHolder.getView(R.id.tv_text);
-
-            iv_image.setImageResource(bean.getResouse());
-            tv_text.setText(bean.getText());
+            Picasso.with(iv_image.getContext())
+                    .load(bean.getPrivilegeICon())
+                    .fit()
+                    .into(iv_image);
+            tv_text.setText(bean.getPrivilegeName());
 
             int layoutPosition = baseViewHolder.getLayoutPosition();
             if(current == layoutPosition){
