@@ -22,7 +22,6 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.AddChartBean;
 import com.bee.user.bean.ChartBean;
-import com.bee.user.bean.CollectionStoreBean;
 import com.bee.user.bean.FoodTypeBean;
 import com.bee.user.bean.StoreDetailBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
@@ -32,7 +31,6 @@ import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.event.CloseEvent;
 import com.bee.user.event.StoreEvent;
 import com.bee.user.params.AddFavoritesParams;
-import com.bee.user.params.CollectionStoreParams;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -42,7 +40,6 @@ import com.bee.user.ui.search.SearchFoodActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.DisplayUtil;
-import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.widget.AddRemoveView;
 import com.bee.user.widget.ChartBottomDialogView;
@@ -641,15 +638,17 @@ public class StoreActivity extends BaseActivity {
         foodChooseTypeAdapter.setNewInstance(datas);
         foodChooseTypeAdapter.setOnItemCheckedListener(new FoodChooseTypeAdapter.OnItemCheckedListener() {
             @Override
-            public void onItemChecked(int index, String content) {
-                setSelectedParams(foodChooseTypeAdapter.getData(),iv_goods_detail);
-                iv_goods_price.setText("¥" + bean.data2.skuList.get(index).price);
-                if (bean.data2.skuList.get(index).orginPrice>0) {
-                    iv_goods_price_past.setVisibility(View.VISIBLE);
-                } else {
-                    iv_goods_price_past.setVisibility(View.GONE);
+            public void onItemChecked(int position ,int index, String content) {
+                setSelectedParams(foodChooseTypeAdapter.getData(), iv_goods_detail);
+                if(position == 0) {
+                    iv_goods_price.setText("¥" + bean.data2.skuList.get(index).price);
+                    if (bean.data2.skuList.get(index).orginPrice > 0) {
+                        iv_goods_price_past.setVisibility(View.VISIBLE);
+                    } else {
+                        iv_goods_price_past.setVisibility(View.GONE);
+                    }
+                    iv_goods_price_past.setText("¥" + bean.data2.skuList.get(index).orginPrice);
                 }
-                iv_goods_price_past.setText("¥" + bean.data2.skuList.get(index).orginPrice);
             }
         });
         setSelectedParams(foodChooseTypeAdapter.getData(),iv_goods_detail);

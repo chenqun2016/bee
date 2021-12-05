@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bee.user.R;
 import com.bee.user.bean.CatogoryBean;
@@ -101,7 +101,8 @@ public class FoodByTypeActivity extends BaseActivity {
         toolbar_title.setText(title + "");
 
         homeAdapter = new HomeAdapter();
-        recyclerview.setLayoutManager(new GridLayoutManager(this, 2));
+//        recyclerview.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerview.setLayoutManager(new StaggeredGridLayoutManager( 2, StaggeredGridLayoutManager.VERTICAL));
         recyclerview.setAdapter(homeAdapter);
         homeAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override

@@ -40,10 +40,10 @@ public class FoodChooseTypeAdapter extends BaseQuickAdapter<FoodTypeBean, BaseVi
         tags.setOnTagSelectListener(new FlowTagLayout.OnTagSelectListener() {
             @Override
             public void onItemSelect(FlowTagLayout parent, List<Integer> selectedList) {
-                if(selectedList.size()>0){
+                if( selectedList.size()>0){
                     foodBean.selected = selectedList.get(0);
-                    if(null != mListener){
-                        mListener.onItemChecked(selectedList.get(0),foodBean.lists.get(foodBean.selected));
+                    if( null != mListener){
+                        mListener.onItemChecked(baseViewHolder.getLayoutPosition(),selectedList.get(0),foodBean.lists.get(foodBean.selected));
                     }
                 }
             }
@@ -68,6 +68,6 @@ public class FoodChooseTypeAdapter extends BaseQuickAdapter<FoodTypeBean, BaseVi
         this.mListener = listener;
     }
     public interface OnItemCheckedListener{
-        void onItemChecked(int index,String content);
+        void onItemChecked(int position ,int index,String content);
     }
 }

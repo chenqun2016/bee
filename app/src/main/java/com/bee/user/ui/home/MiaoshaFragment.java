@@ -1,6 +1,5 @@
 package com.bee.user.ui.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+
 import com.bee.user.R;
-import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.GoodsBySectionBean;
 import com.bee.user.params.GetGoodsBySectionParams;
@@ -27,13 +21,20 @@ import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.GoodsBySectionAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.nearby.FoodActivity;
-import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.utils.LoadmoreUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
+
 import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  * 创建人：进京赶考
@@ -138,9 +139,10 @@ public class MiaoshaFragment extends BaseFragment implements OnItemClickListener
     public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
         List<GoodsBySectionBean.RecordBean> data = goodsBySectionAdapter.getData();
         GoodsBySectionBean.RecordBean recordBean = data.get(position);
-        Intent intent = new Intent(getContext(), FoodActivity.class);
-        intent.putExtra("shopProductId", recordBean.getShopProductId());
-        intent.putExtra("skuId",recordBean.getSkuId());
-        startActivity(intent);
+//        Intent intent = new Intent(getContext(), FoodActivity.class);
+//        intent.putExtra("shopProductId", recordBean.getShopProductId());
+//        intent.putExtra("skuId",recordBean.getSkuId());
+//        startActivity(intent);
+        FoodActivity.newInstance(getContext(),recordBean.getShopProductId(),0,(int)recordBean.getSkuId());
     }
 }

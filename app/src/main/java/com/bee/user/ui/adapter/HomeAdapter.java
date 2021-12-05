@@ -8,14 +8,21 @@ import android.widget.TextView;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
+import com.bee.user.bean.AddChartBean;
 import com.bee.user.bean.StoreFoodItem2Bean;
+import com.bee.user.event.AddChartEvent;
+import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.utils.DisplayUtil;
+import com.bee.user.utils.UIUtils;
+import com.bee.user.widget.AddRemoveView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.math.BigDecimal;
 
 /**
  * 创建人：进京赶考
@@ -50,11 +57,17 @@ public class HomeAdapter extends BaseQuickAdapter<StoreFoodItem2Bean,BaseViewHol
         }else{
             tv_tag.setVisibility(View.GONE);
         }
-
-//        ImageView iv_chart = baseViewHolder.findView(R.id.iv_chart);
-//        iv_chart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+        TextView tv_chart_num = baseViewHolder.findView(R.id.tv_chart_num);
+        if(bean.cartQuantity >0){
+            tv_chart_num.setVisibility(View.VISIBLE);
+            tv_chart_num.setText("×"+bean.cartQuantity);
+        }else{
+            tv_chart_num.setVisibility(View.GONE);
+        }
+        ImageView iv_chart = baseViewHolder.findView(R.id.iv_chart);
+        iv_chart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //                Map<String, String> map = new HashMap<>();
 //                map.put("num", "1");
 //                map.put("skuId", bean.skuId + "");
@@ -74,12 +87,28 @@ public class HomeAdapter extends BaseQuickAdapter<StoreFoodItem2Bean,BaseViewHol
 //                                super.onFail(fail);
 //                            }
 //                        });
-//
-//                if(null != mParent && null != mEnd){
-//                    AddRemoveView.doChartAnimal(iv_chart.getContext(),iv_chart,mParent,mEnd);
-//                }
-//            }
-//        });
+
+                AddChartBean ChartBean = new AddChartBean(UIUtils.isTagStyle(bean), 1, bean.skuId, bean.storeId, BigDecimal.valueOf(bean.price), bean.cartItemId, null, bean);
+                AddChartEvent addChartEvent = new AddChartEvent(ChartBean, 1);
+                UIUtils.showChooseTypeDialog(iv_image.getContext(),addChartEvent, new StoreActivity.OnAddChartListener() {
+                    @Override
+                    public void onSuccess() {
+                        if(null != mParent && null != mEnd){
+                            AddRemoveView.doChartAnimal(iv_chart.getContext(),iv_chart,mParent,mEnd);
+                        }
+                        bean.cartQuantity++;
+                        tv_chart_num.setText(bean.cartQuantity + "");
+                        tv_chart_num.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onFail() {
+
+                    }
+                });
+
+            }
+        });
 
     }
 
