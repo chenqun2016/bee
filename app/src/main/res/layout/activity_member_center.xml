@@ -70,15 +70,14 @@
 
 
             <LinearLayout
+                android:id="@+id/ll_privage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
                 android:layout_marginTop="22dp"
-                android:layout_marginRight="18dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
+               <!-- <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableTop="@drawable/icon_chongzhi_lvfeng"
@@ -131,7 +130,7 @@
                     android:text="领取优惠"
                     android:textStyle="bold"
                     android:textColor="@color/color_3B3838"
-                    android:textSize="12sp" />
+                    android:textSize="12sp" />-->
 
             </LinearLayout>
 
@@ -169,7 +168,8 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginRight="15dp"
                 android:lineSpacingExtra="10dp"
-                android:text="1、会员当前米粒到达升级门槛时，新等级将自动生效，可取升级礼包及等级相关特权。\n2、当会员米粒消耗时，会员等级将自动降级，相关特权也将进行变动。"
+                android:text="1、新注册用户默认为“蜂蛹会员”。
+\n2、如何升级会员等级。\n用户90天累计消费米粒到达升级门槛时，将自动升级等级，升级后可领取相关权益。\n3、成长值计算规则。\na.会员等级有效期为90天,若用户升级,新等级有效期从升级当天开始重新计算。\nb.若您没有在有效期内升级,新等级有效期会在次日重新计算并变更为新的会员等级。新会员等级按照上个有效期内获取的成长值计算。\n4、会员等级变更规则。\na.会员等级有效期为90天,若用户升级,新等级有效期从升级当天开始重新计算。\nb.若您没有在有效期内升级,新等级有效期会在次日重新计算并变更为新的会员等级。新会员等级按照上个有效期内获取的成长值计算。"
                 android:textColor="@color/color_7C7877"
                 android:textSize="12sp" />
 

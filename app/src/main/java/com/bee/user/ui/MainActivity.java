@@ -133,6 +133,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 //        }
         initLocations();
         getAppUpdateInfo();
+        onLogin();
     }
 
     /**
@@ -275,8 +276,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                                             @Override
                                             public void onSuccess(String token) {
                                                 SPUtils.geTinstance().setLoginCache(null);
-
-                                                onLogin(token);//TODO
+                                                SPUtils.geTinstance().setToken(token);
+                                                onLogin();//TODO
                                             }
                                         });
 
@@ -635,9 +636,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     }
 
-    private void onLogin(String token) {
-        SPUtils.geTinstance().setToken(token);
-
+    private void onLogin() {
         Api.getClient(HttpRequest.baseUrl_member).getUserInfo()
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
@@ -667,7 +666,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
                 mineFragment.setUserDatas();
                 break;
             case ReflushEvent.TYPE_REFLUSH_LOGIN:
-                onLogin(event.data);
+                SPUtils.geTinstance().setToken(event.data);
+                onLogin();
                 break;
             default:
                 break;

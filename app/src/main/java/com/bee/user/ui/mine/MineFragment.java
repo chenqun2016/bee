@@ -1,7 +1,10 @@
 package com.bee.user.ui.mine;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -47,6 +50,7 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -99,12 +103,15 @@ public class MineFragment extends BaseFragment {
 
     @BindView(R.id.gridview)
     MyGridView gridview;
+
+    @BindView(R.id.huiyuan)
+    TextView huiyuan;
     private List<BannerBean> bannerList = new ArrayList<>();//banner3数据
 
     @OnClick({R.id.tv_icon,R.id.tv_name,R.id.tv_des,R.id.iv_msg,
             R.id.tv_order_list, R.id.tv_daizhifu, R.id.tv_daishouhuo, R.id.tv_daipingjia, R.id.tv_shouhou,
     R.id.tv_1,R.id.tv_2,R.id.tv_3,R.id.tv_4
-            })
+            ,R.id.huiyuan})
     public void onClick(View view){
 
         switch (view.getId()){
@@ -123,6 +130,7 @@ public class MineFragment extends BaseFragment {
                     EventBus.getDefault().post(new MainEvent(MainEvent.TYPE_login));
                 }
                 break;
+            case R.id.huiyuan:
             case R.id.tv_des:
                 if(SPUtils.geTinstance().isLogin()){
                    startActivity(new Intent(getContext(),MemberCenterActivity.class));
@@ -349,15 +357,37 @@ public class MineFragment extends BaseFragment {
 
     public void setUserDatas() {
         if(SPUtils.geTinstance().isLogin() && null != SPUtils.geTinstance().getUserInfo()){
+            huiyuan.setVisibility(View.VISIBLE);
+            tv_des.setVisibility(View.GONE);
             UserBean userInfo = SPUtils.geTinstance().getUserInfo();
             tv_name.setText(userInfo.nickname);
-            tv_des.setText(userInfo.memberLevelName+"");
+            huiyuan.setText(userInfo.levelName);
             Picasso.with(getContext())
                     .load(userInfo.icon)
                     .fit()
                     .transform(new PicassoRoundTransform(DisplayUtil.dip2px(getContext(),100),0, PicassoRoundTransform.CornerType.ALL))
                     .into(tv_icon);
+            Target target = new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
+                    //替换背景
+                    huiyuan.setBackgroundDrawable(new BitmapDrawable(getResources(), bitmap));
+                }
+
+                @Override
+                public void onBitmapFailed(Drawable drawable) {
+
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable drawable) {
+
+                }
+            };
+            Picasso.with(getActivity()).load(userInfo.levelIcon).into(target);
         }else{
+            huiyuan.setVisibility(View.GONE);
+            tv_des.setVisibility(View.VISIBLE);
             tv_name.setText("立即登陆");
             tv_des.setText("省多少你说了算");
             Picasso.with(getContext())
