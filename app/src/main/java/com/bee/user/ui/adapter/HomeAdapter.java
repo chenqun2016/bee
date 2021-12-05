@@ -99,6 +99,10 @@ public class HomeAdapter extends BaseQuickAdapter<StoreFoodItem2Bean,BaseViewHol
                         bean.cartQuantity++;
                         tv_chart_num.setText(bean.cartQuantity + "");
                         tv_chart_num.setVisibility(View.VISIBLE);
+
+                        if(null != listener){
+                            listener.onAddChart();
+                        }
                     }
 
                     @Override
@@ -117,5 +121,17 @@ public class HomeAdapter extends BaseQuickAdapter<StoreFoodItem2Bean,BaseViewHol
     public void setAddChartAnimatorView(ViewGroup parent,View end) {
         mParent = parent;
         mEnd = end;
+    }
+
+
+
+    private OnAddChartListener listener ;
+
+    public void setListener(OnAddChartListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnAddChartListener {
+        void onAddChart();
     }
 }
