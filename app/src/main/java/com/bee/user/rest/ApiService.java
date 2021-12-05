@@ -562,7 +562,7 @@ public interface ApiService {
      * @return
      */
     @POST(HttpRequest.queryListBySkuId)
-    Observable<BaseResult<CommentWrapBean>> queryListBySkuId(@Query("skuId") String skuId,@Query("pageNum") int pageNum, @Query("pageSize") int pageSize);
+    Observable<BaseResult<CommentWrapBean>> queryListBySkuId(@Query("shopProductId") String shopProductId,@Query("pageNum") int pageNum, @Query("pageSize") int pageSize);
 
 
     /**

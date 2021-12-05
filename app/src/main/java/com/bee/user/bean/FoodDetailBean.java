@@ -26,7 +26,7 @@ public class FoodDetailBean {
     public Object weight;
     public Integer storeId;
     public Integer productId;
-    public Integer shopProductId;
+    public int shopProductId;
     public Integer shopProductCategoryId;
     public String shopProductCategoryName;
     public Integer productAttributeCategoryId;

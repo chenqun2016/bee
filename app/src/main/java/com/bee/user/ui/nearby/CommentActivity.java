@@ -18,6 +18,8 @@ public class CommentActivity extends BaseActivity {
 
     int storeId;
     int skuId;
+    int shopProductId;
+
 
     @Override
     protected void initImmersionBar() {
@@ -34,11 +36,12 @@ public class CommentActivity extends BaseActivity {
     public void initViews() {
         skuId  = getIntent().getIntExtra("skuId",0);
         storeId = getIntent().getIntExtra("storeId", 0);
+        shopProductId = getIntent().getIntExtra("shopProductId", 0);
 
 
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         supportFragmentManager.beginTransaction()
-                .replace(R.id.fl_content,  new CommentFragment(skuId+"",1))
+                .replace(R.id.fl_content,  new CommentFragment(shopProductId,storeId+"",1))
                 .commitAllowingStateLoss();
     }
 }

@@ -205,7 +205,7 @@ public class HttpRequest {
     //删除店铺订单评价信息
     public static final String myOrderCommentDelete = "evaShopStoreOrder/delete/{id}";
 
-    public static final String queryListBySkuId = "evaShopStoreOrder/queryListBySkuId";
+    public static final String queryListBySkuId = "evaShopStoreOrder/queryListByShopProductId";
 
     //首页推荐
     public static final String homeRecommand= "app-sys-shop-store/index/recommand2";

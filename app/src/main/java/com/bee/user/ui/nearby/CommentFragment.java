@@ -38,7 +38,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * 描述：
  */
 public class CommentFragment extends BaseFragment {
-
+    private  int shopProductId = 0;
     private final String storeId;
     @BindView(R.id.tags)
     FlowTagLayout tags;
@@ -57,9 +57,10 @@ public class CommentFragment extends BaseFragment {
     //1:商品评价列表。 0：店铺评价列表
     int type = 0;
 
-    public CommentFragment(String id, int type) {
+    public CommentFragment(int shopProductId,String storeId, int type) {
         super();
-        this.storeId = id;
+        this.shopProductId = shopProductId;
+        this.storeId = storeId;
         this.type = type;
     }
 
@@ -178,7 +179,7 @@ public class CommentFragment extends BaseFragment {
      * 刷新
      */
     private void getComments2(int page) {
-        Api.getClient(HttpRequest.baseUrl_eva).queryListBySkuId(storeId, page, LoadmoreUtils.PAGE_SIZE)
+        Api.getClient(HttpRequest.baseUrl_eva).queryListBySkuId(shopProductId+"", page, LoadmoreUtils.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<CommentWrapBean>() {

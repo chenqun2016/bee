@@ -126,6 +126,7 @@ public class FoodByTypeActivity extends BaseActivity {
                 topTabsAdapter.currentPosition = position;
                 topTabsAdapter.notifyItemChanged(prePosition);
                 topTabsAdapter.notifyItemChanged(position);
+
                 getFoodDatas(1);
             }
         });
@@ -279,6 +280,9 @@ public class FoodByTypeActivity extends BaseActivity {
                 .subscribe(new BaseSubscriber<CatogoryBean>() {
                     @Override
                     public void onSuccess(CatogoryBean data) {
+                        if(page == 1){
+                            loadmoreUtils.reSetPageInfo();
+                        }
                         loadmoreUtils.onSuccess(homeAdapter,data.data);
                     }
 
