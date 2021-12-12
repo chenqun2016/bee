@@ -1,37 +1,27 @@
 package com.bee.user.ui;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
-
 import com.bee.user.R;
-import com.bee.user.bean.FoodBean;
 import com.bee.user.bean.GoodsBySectionBean;
-import com.bee.user.bean.MemberCenterBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.adapter.LunchAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.mine.membercenter.MemberCenterActivity;
+import com.bee.user.ui.nearby.FoodActivity;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.gyf.immersionbar.ImmersionBar;
-import com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
@@ -54,7 +44,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * intent.putExtra("loadmore",false);
  * getContext().startActivity(intent);
  */
-public class CRecyclerViewActivity extends BaseActivity {
+public class CRecyclerViewActivity extends BaseActivity implements OnItemClickListener {
     @BindView(R.id.statusheight)
     View statusheight;
 
@@ -87,81 +77,11 @@ public class CRecyclerViewActivity extends BaseActivity {
             case "销量排行榜":
             case "精选午餐":
                 lunchAdapter = new LunchAdapter();
+                lunchAdapter.setOnItemClickListener(this);
                 recyclerView.setAdapter(lunchAdapter);
                 getLunchInform(title);
                 break;
         }
-       /* ViewGroup.LayoutParams layoutParams = statusheight.getLayoutParams();
-        layoutParams.height = ImmersionBar.getStatusBarHeight(this);
-        statusheight.setLayoutParams(layoutParams);
-
-        try {
-
-            Intent intent = getIntent();
-
-            String title = intent.getStringExtra("title");
-            String entity = intent.getStringExtra("entity");
-            int row = intent.getIntExtra("row",8);
-            boolean loadmore = intent.getBooleanExtra("loadmore",true);
-            intent.removeExtra("title");
-            intent.removeExtra("entity");
-            intent.removeExtra("loadmore");
-            intent.removeExtra("row");
-            toolbar_title.setText(title+"");
-
-            if (TextUtils.isEmpty(entity)) {
-                finish();
-                return;
-            }
-
-            Class<?> aClass = Class.forName( entity);
-
-            crecyclerview.setView(aClass);
-            if(null != intent.getExtras()){
-                Set<String> keys = intent.getExtras().keySet();
-                if (null != keys) {
-                    for (String str : keys) {
-                        crecyclerview.setParams(str, intent.getStringExtra(str));
-                    }
-                }
-            }
-            crecyclerview.setRow(row);
-            crecyclerview.setCanLoadMore(loadmore);
-
-            crecyclerview.start();
-
-
-            ArrayList foodBeans = new ArrayList();
-            ParameterizedType genericSuperclass = (ParameterizedType) aClass.getGenericSuperclass();
-            Class c = (Class) genericSuperclass.getActualTypeArguments()[0];
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-            foodBeans.add(c.newInstance());
-
-
-            crecyclerview.getBaseAdapter().setList(foodBeans);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }*/
 
     }
 
@@ -203,4 +123,10 @@ public class CRecyclerViewActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+        List<GoodsBySectionBean.RecordBean> data = lunchAdapter.getData();
+        GoodsBySectionBean.RecordBean recordBean = data.get(position);
+        FoodActivity.newInstance(this,recordBean.getShopProductId(),0,(int)recordBean.getSkuId());
+    }
 }

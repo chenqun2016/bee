@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -20,11 +22,12 @@ import com.amap.api.location.AMapLocation;
 import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
+import com.bee.user.bean.FirstBean;
+import com.bee.user.bean.GoodsBySectionBean;
 import com.bee.user.bean.HomeCatogoryBean;
 import com.bee.user.bean.HomeGridview2Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.entity.LunchEntity;
-import com.bee.user.entity.NearbyEntity;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
@@ -32,8 +35,8 @@ import com.bee.user.rest.HttpRequest;
 import com.bee.user.ui.CRecyclerViewActivity;
 import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.adapter.HomeAdapter;
-import com.bee.user.ui.adapter.HomeGridview2Adapter;
 import com.bee.user.ui.adapter.HomeGridviewAdapter;
+import com.bee.user.ui.adapter.NewHomeGridview2Adapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
 import com.bee.user.ui.location.SelectLocationActivity;
 import com.bee.user.ui.nearby.FoodActivity;
@@ -95,8 +98,10 @@ public class HomeFragment extends BaseFragment {
 
     private List<BannerBean> bannerList = new ArrayList<>();//banner数据
     private List<BannerBean> bannerList3 = new ArrayList<>();//banner3数据
+    private List<HomeGridview2Bean> homeGridview2Beans = new ArrayList<>();
     private DingweiDialog dingweiDialog;
     private HomeGridviewAdapter homeCatogoryAdapter;
+    private NewHomeGridview2Adapter homeGridview2Adapter;
 
 
     public static HomeFragment newInstance(int arg) {
@@ -115,6 +120,65 @@ public class HomeFragment extends BaseFragment {
         BannerUtils.getBannerDatas(Constants.BANNER_TYPE_HOME_MIDELE,banner3,bannerList3);
         getTuijian();
         getIndexCatogory();
+        getFirst();
+    }
+
+    private void getFirst() {
+        Api.getClient(HttpRequest.baseUrl_shop).first().
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<FirstBean>() {
+                    @Override
+                    public void onSuccess(FirstBean data) {
+                        FirstBean.FlashGoodBean flashGoods = data.flashGoods;
+                        FirstBean.ChoicenesBean choiceness = data.choiceness;
+                        FirstBean.TopBean top = data.top;
+                        FirstBean.NearStroeBean nearStroe = data.nearStroe;
+                        HomeGridview2Bean bean = new HomeGridview2Bean();
+                        if(flashGoods != null) {
+                            bean.name = flashGoods.getProductName();
+                            bean.time = "00:00:00";
+                            bean.money = flashGoods.getSalePrice();
+                            bean.moneypast = flashGoods.getOriginalPrice();
+                            bean.title = "限时秒杀";
+                            bean.image = flashGoods.getPic();
+                            homeGridview2Beans.add(bean);
+                        }
+
+                        if(choiceness != null) {
+                            bean = new HomeGridview2Bean();
+                            bean.name = choiceness.getProductName();
+                            bean.money = choiceness.getPrice();
+                            bean.title = "精选午餐";
+                            bean.image = flashGoods.getPic();
+                            homeGridview2Beans.add(bean);
+                        }
+
+                        if(top != null) {
+                            bean = new HomeGridview2Bean();
+                            bean.name = top.getProductName();
+                            bean.money = top.getPrice();
+                            bean.title = "销量排行榜";
+                            bean.image = flashGoods.getPic();
+                            homeGridview2Beans.add(bean);
+                        }
+
+                        if(nearStroe != null) {
+                            bean = new HomeGridview2Bean();
+                            bean.name = nearStroe.getName();
+                            bean.distance = nearStroe.getDistance();
+                            bean.title = "附近好店";
+                            bean.image = nearStroe.getLogoUrl();
+                            homeGridview2Beans.add(bean);
+                        }
+                        homeGridview2Adapter.setList(homeGridview2Beans);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
     }
 
     private void getIndexCatogory() {
@@ -294,63 +358,38 @@ public class HomeFragment extends BaseFragment {
         banner3 = headerView3.findViewById(R.id.banner3);
         BannerUtils.initBanner(banner3,bannerList3);
 
-        MyGridView gridview = headerView3.findViewById(R.id.gridview);
-
-        List<HomeGridview2Bean> homeGridview2Beans = new ArrayList<>();
-        HomeGridview2Bean bean = new HomeGridview2Bean();
-        bean.name = "鸡胸肉沙拉";
-        bean.time = "00:00:00";
-        bean.money = "10.0";
-        bean.title = "限时秒杀";
-
-        homeGridview2Beans.add(bean);
-        bean = new HomeGridview2Bean();
-        bean.name = "鸡胸肉沙拉";
-        bean.time = "";
-        bean.money = "10.0";
-        bean.title = "精选午餐";
-        homeGridview2Beans.add(bean);
-        bean = new HomeGridview2Bean();
-        bean.name = "鸡胸肉沙拉";
-        bean.time = "";
-        bean.money = "10.0";
-        bean.title = "销量排行榜";
-        homeGridview2Beans.add(bean);
-        bean = new HomeGridview2Bean();
-        bean.name = "鸡胸肉沙拉";
-        bean.time = "";
-        bean.money = "10.0";
-        bean.title = "附近好店";
-        homeGridview2Beans.add(bean);
-
-        gridview.setAdapter(new HomeGridview2Adapter(getActivity(), homeGridview2Beans));
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        Intent intent = new Intent(getContext(), MiaoshaActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        Intent intent1 = new Intent(getContext(), CRecyclerViewActivity.class);
-                        intent1.putExtra("title", "精选午餐");
-                        intent1.putExtra("entity", LunchEntity.class.getName());
-                        startActivity(intent1);
-                        break;
-                    case 2:
-                        Intent intent2 = new Intent(getContext(), CRecyclerViewActivity.class);
-                        intent2.putExtra("title", "销量排行榜");
-                        intent2.putExtra("entity", LunchEntity.class.getName());
-                        startActivity(intent2);
-                        break;
-                    case 3:
-                        Intent intent3 = new Intent(getContext(), CRecyclerViewActivity.class);
-                        intent3.putExtra("title", "附近好店");
-                        intent3.putExtra("entity", NearbyEntity.class.getName());
-                        startActivity(intent3);
-                        break;
-                }
+        RecyclerView gridview = headerView3.findViewById(R.id.gridview);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL,false);
+        gridview.setLayoutManager(layoutManager);
+        homeGridview2Adapter = new NewHomeGridview2Adapter();
+        gridview.setAdapter(homeGridview2Adapter);
+        homeGridview2Adapter.setOnItemClickListener((adapter, view, position) -> {
+            switch (position) {
+                case 0:
+                    Intent intent = new Intent(getContext(), MiaoshaActivity.class);
+                    startActivity(intent);
+                    break;
+                case 1:
+                    Intent intent1 = new Intent(getContext(), CRecyclerViewActivity.class);
+                    intent1.putExtra("title", "精选午餐");
+                    intent1.putExtra("entity", LunchEntity.class.getName());
+                    startActivity(intent1);
+                    break;
+                case 2:
+                    Intent intent2 = new Intent(getContext(), CRecyclerViewActivity.class);
+                    intent2.putExtra("title", "销量排行榜");
+                    intent2.putExtra("entity", LunchEntity.class.getName());
+                    startActivity(intent2);
+                    break;
+                case 3:
+                  /*  Intent intent3 = new Intent(getContext(), CRecyclerViewActivity.class);
+                    intent3.putExtra("title", "附近好店");
+                    intent3.putExtra("entity", NearbyEntity.class.getName());
+                    startActivity(intent3);*/
+                    MainEvent mainEvent = new MainEvent(MainEvent.TYPE_set_index);
+                    mainEvent.index = 1;
+                    EventBus.getDefault().post(mainEvent);
+                    break;
             }
         });
     }

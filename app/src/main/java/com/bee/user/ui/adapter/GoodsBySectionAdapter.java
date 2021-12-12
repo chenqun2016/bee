@@ -35,6 +35,7 @@ public class GoodsBySectionAdapter extends BaseQuickAdapter<GoodsBySectionBean.R
         AppCompatTextView tvMoneypast = baseViewHolder.getView(R.id.tv_moneypast);
         tvMoneypast.getPaint().setFlags( Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG );
         int status = bean.getStatus();//状态 0-进行中，1-未开始，2-已结束
+
         Picasso.with(getContext())
                 .load(bean.getPic())
                 .fit()

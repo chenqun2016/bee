@@ -1,38 +1,16 @@
 package com.bee.user.ui.adapter;
 
 import android.graphics.Paint;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
-
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.GoodsBySectionBean;
-import com.bee.user.event.ChartFragmentEvent;
-import com.bee.user.rest.Api;
-import com.bee.user.rest.BaseSubscriber;
-import com.bee.user.rest.HttpRequest;
 import com.bee.user.utils.DisplayUtil;
-import com.bee.user.utils.LogUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.squareup.picasso.Picasso;
-
-import org.greenrobot.eventbus.EventBus;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 /**
  - @Description:
@@ -56,6 +34,7 @@ public class LunchAdapter extends BaseQuickAdapter<GoodsBySectionBean.RecordBean
                 .load(bean.getPic())
                 .fit()
                 .transform(new PicassoRoundTransform(DisplayUtil.dip2px(getContext(),10),0, PicassoRoundTransform.CornerType.TOP))
+                .centerCrop()
                 .into(tvImage);
         Picasso.with(getContext())
                 .load(bean.getStoreLogo())

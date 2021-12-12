@@ -241,4 +241,7 @@ public class HttpRequest {
 
     //查询销量排行榜
     public static final String salesList = "auth/shop/salesList";
+
+    //获取秒杀、精选、排行榜、附近好店数据 (header需设置经纬度（longitude，latitude）)
+    public static final String first = "app-sys-shop-store/index/first";
 }
