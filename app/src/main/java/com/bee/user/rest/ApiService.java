@@ -643,4 +643,20 @@ public interface ApiService {
     @POST(HttpRequest.getMemberLevelMessage)
     Observable<BaseResult<MemberCenterBean>> getMemberLevelMessage();
 
+    /**
+     * 精选午餐
+     *
+     * @return
+     */
+    @POST(HttpRequest.goodFoodList)
+    Observable<BaseResult<List<GoodsBySectionBean.RecordBean>>> goodFoodList();
+
+    /**
+     * 精选午餐
+     *
+     * @return
+     */
+    @POST(HttpRequest.salesList)
+    Observable<BaseResult<List<GoodsBySectionBean.RecordBean>>> salesList();
+
 }

@@ -235,4 +235,10 @@ public class HttpRequest {
 
     //获取会员等级权益信息
     public static final String getMemberLevelMessage = "memberIdentity/getMemberLevelMessage";
+
+    //精选午餐
+    public static final String goodFoodList = "auth/shop/goodFoodList";
+
+    //查询销量排行榜
+    public static final String salesList = "auth/shop/salesList";
 }

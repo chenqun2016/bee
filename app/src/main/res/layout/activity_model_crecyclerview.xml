@@ -45,8 +45,8 @@
         android:textSize="18sp" />
 
 
-    <com.huaxiafinance.www.crecyclerview.crecyclerView.CRecyclerView
-        android:id="@+id/crecyclerview"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_below="@+id/toolbar_title"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="7dp"

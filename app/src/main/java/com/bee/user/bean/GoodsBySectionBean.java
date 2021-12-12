@@ -191,6 +191,32 @@ public class GoodsBySectionBean implements Serializable {
         private String sale;
         private long amount;
         private int buyMax;
+
+        public String getPrice() {
+            return price;
+        }
+
+        private String price;
+
+        public String getSubTitle() {
+            return subTitle;
+        }
+
+        public void setSubTitle(String subTitle) {
+            this.subTitle = subTitle;
+        }
+
+        private String subTitle;
+
+        public int getStock() {
+            return stock;
+        }
+
+        public void setStock(int stock) {
+            this.stock = stock;
+        }
+
+        private int stock;
     }
 /*    public  boolean isSelected = false;
 

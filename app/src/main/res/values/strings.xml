@@ -12,7 +12,6 @@
     <string name="tv_login_pass_set">已设置</string>
     <string name="tv_lianxuqiandao">连续签到%s天</string>
     <string name="tv_sign_inform">已连续签到%s天，领取</string>
-    <string name="tv_remain_bumber">剩%s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tv_remain_bumber">剩%s份</string>
+    <string name="tv_sale_number">月售%s份</string>
 </resources>
