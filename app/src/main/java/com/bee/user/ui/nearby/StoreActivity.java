@@ -712,7 +712,7 @@ public class StoreActivity extends BaseActivity {
                 fragment = new CommentFragment(0,id, 0);
                 break;
             case 2:
-                fragment = new StoreDesFragment();
+                fragment = new StoreDesFragment(id);
                 break;
         }
         mFragments[index] = fragment;

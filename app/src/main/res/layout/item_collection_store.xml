@@ -56,6 +56,7 @@
                     android:layout_marginTop="2dp"
                     android:numStars="5"
                     android:stepSize="0.5"
+                    android:isIndicator="true"
                     android:layout_below="@id/tv_name"
                     android:layout_toRightOf="@+id/icon"
                     app:mrb_progressBackgroundTint="@color/color_ccc"

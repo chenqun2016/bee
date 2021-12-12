@@ -12,6 +12,7 @@ public class FoodDetailBean {
     public Integer skuId;
     public String skuName;
     public String pic;
+    public String[] bizPicture;
     public int sale;
     public float price;
     public Float originalPrice;

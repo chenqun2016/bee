@@ -33,6 +33,7 @@ public class HttpRequest {
 
     //附件 店铺
     public static final String shop_nearby = "app-sys-shop-store/search/nearby";
+    public static final String shop_getDetail_full = "app-sys-shop-store/getDetail/{id}";
     public static final String shop_getDetail = "app-sys-shop-store/getShopInfoSimple/{id}";
     //APP获取【店铺类目】列表
     public static final String shop_queryProductList = "app-sys-industry-category-shop/queryAppIndustryList/{storeId}";

@@ -74,17 +74,12 @@ public  class ChartNoDataDrawerView extends FrameLayout implements View.OnClickL
     public void setDatas(List<ChartBean> beans){
         chartUnavalabeRecyclerviewAdapter.setNewInstance(beans);
         isShow = false;
+        resetSize();
         if(beans.size()<=0){
-            return;
+            setVisibility(GONE);
+        }else{
+            setVisibility(VISIBLE);
         }
-        ll_drawer.post(new Runnable() {
-            @Override
-            public void run() {
-                params.height = commonHeight;
-                ll_drawer.setLayoutParams(params);
-                ll_drawer.setVisibility(View.VISIBLE);
-            }
-        });
     }
 
 
@@ -93,7 +88,8 @@ public  class ChartNoDataDrawerView extends FrameLayout implements View.OnClickL
 
 
     public void show() {
-        if(isShow){
+        if(isShow ){
+            close();
             return;
         }
         if(heightSelected <= commonHeight){
@@ -105,7 +101,7 @@ public  class ChartNoDataDrawerView extends FrameLayout implements View.OnClickL
 
         if (null == showAnimation) {
             showAnimation = ValueAnimator.ofInt(commonHeight, heightSelected);
-            showAnimation.setDuration(800);
+            showAnimation.setDuration(300);
             showAnimation.setInterpolator(new LinearInterpolator());
             showAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
@@ -131,7 +127,7 @@ public  class ChartNoDataDrawerView extends FrameLayout implements View.OnClickL
         }
         if (null == closeAnimation) {
             closeAnimation = ValueAnimator.ofInt(heightSelected, commonHeight);
-            closeAnimation.setDuration(800);
+            closeAnimation.setDuration(300);
             closeAnimation.setInterpolator(new LinearInterpolator());
             closeAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
@@ -161,15 +157,17 @@ public  class ChartNoDataDrawerView extends FrameLayout implements View.OnClickL
     }
 
     public void resetSize() {
-
+        ll_drawer.setVisibility(View.INVISIBLE);
         params.height = WRAP_CONTENT;
         ll_drawer.setLayoutParams(params);
         ll_drawer.post(new Runnable() {
             @Override
             public void run() {
                 heightSelected = ll_drawer.getMeasuredHeight();
+                params.height = commonHeight;
+                ll_drawer.setLayoutParams(params);
+                ll_drawer.setVisibility(View.VISIBLE);
             }
         });
-
     }
 }

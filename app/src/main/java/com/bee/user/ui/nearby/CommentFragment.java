@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 /**
  * 创建人：进京赶考
@@ -53,6 +55,17 @@ public class CommentFragment extends BaseFragment {
     CommentAdapter mAdapter;
 
     LoadmoreUtils loadmoreUtils;
+
+    @BindView(R.id.tv_point)
+    TextView tv_point;
+    @BindView(R.id.mrb)
+    MaterialRatingBar mrb;
+    @BindView(R.id.tv_manyidu_num)
+    TextView tv_manyidu_num;
+    @BindView(R.id.tv_baozhuang_num)
+    TextView tv_baozhuang_num;
+    @BindView(R.id.tv_kouwei_num)
+    TextView tv_kouwei_num;
 
     //1:商品评价列表。 0：店铺评价列表
     int type = 0;
@@ -90,6 +103,8 @@ public class CommentFragment extends BaseFragment {
 
         if (type == 1) {
             store_point.setVisibility(View.GONE);
+        }else{
+            initStoreComments();
         }
         recyclerview.setLayoutManager(new LinearLayoutManager(recyclerview.getContext()));
         mAdapter = new CommentAdapter();
@@ -101,6 +116,10 @@ public class CommentFragment extends BaseFragment {
 
 //        refresh();
 
+    }
+
+    private void initStoreComments() {
+        mrb.setIsIndicator(true);
     }
 
     private List<String> dataSource = new ArrayList<>();

@@ -121,7 +121,6 @@
                     android:layout_marginTop="30dp"
                     android:maxWidth="25dp"
                     android:maxHeight="25dp"
-                    android:stepSize="1"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_pinfen"
