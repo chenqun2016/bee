@@ -574,7 +574,7 @@ public class FoodActivity extends BaseActivity {
 //        mAdapter.addFooterView(bottom);
 
 
-        getComments();
+
         initScroll();
         getDatas();
         tv_money_past.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
@@ -639,6 +639,8 @@ public class FoodActivity extends BaseActivity {
 //                        chart_bottom_dialog_view.reflushAdapter(objects);
 
                         getChartDatas();
+
+                        getComments();
                     }
 
                     @Override
@@ -775,7 +777,7 @@ public class FoodActivity extends BaseActivity {
      * 刷新
      */
     private void getComments() {
-        Api.getClient(HttpRequest.baseUrl_eva).queryListBySkuId(skuId + "", 1, LoadmoreUtils.PAGE_SIZE)
+        Api.getClient(HttpRequest.baseUrl_eva).queryListBySkuId(mBeans.shopProductId + "", 1, LoadmoreUtils.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<CommentWrapBean>() {
@@ -792,6 +794,7 @@ public class FoodActivity extends BaseActivity {
                                     Intent intent = new Intent(FoodActivity.this, CommentActivity.class);
                                     intent.putExtra("storeId", storeId);
                                     intent.putExtra("skuId", skuId);
+                                    intent.putExtra("shopProductId", shopProductId);
                                     startActivity(intent);
                                 }
                             });
