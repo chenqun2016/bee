@@ -236,4 +236,13 @@ public class HttpRequest {
 
     //获取会员等级权益信息
     public static final String getMemberLevelMessage = "memberIdentity/getMemberLevelMessage";
+
+    //精选午餐
+    public static final String goodFoodList = "auth/shop/goodFoodList";
+
+    //查询销量排行榜
+    public static final String salesList = "auth/shop/salesList";
+
+    //获取秒杀、精选、排行榜、附近好店数据 (header需设置经纬度（longitude，latitude）)
+    public static final String first = "app-sys-shop-store/index/first";
 }

@@ -2,28 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="5dp"
-    android:paddingRight="5dp"
-    android:paddingLeft="5dp"
     android:paddingBottom="17dp"
-    android:background="@drawable/shadow">
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/bg_round10dp_white">
 
 
     <ImageView
         android:id="@+id/tv_image"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"/>
+        android:layout_height="355dp"
+        android:scaleType="centerCrop"
+       />
 
     <ImageView
         android:id="@+id/iv_icon"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_marginTop="-18dp"
         android:layout_marginRight="12dp"
         android:layout_below="@+id/tv_image"
-        android:background="#000000"/>
+        android:padding="2.5dp"
+        android:background="@drawable/bg_white_round5"/>
 
     <TextView
         android:id="@+id/tv_money"

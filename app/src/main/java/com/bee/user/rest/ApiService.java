@@ -13,6 +13,7 @@ import com.bee.user.bean.CommentWrapBean;
 import com.bee.user.bean.CouponBean;
 import com.bee.user.bean.DictByTypeBean;
 import com.bee.user.bean.DingWeiBean;
+import com.bee.user.bean.FirstBean;
 import com.bee.user.bean.FoodDetailBean;
 import com.bee.user.bean.GiftcardBean;
 import com.bee.user.bean.GoodsBySectionBean;
@@ -648,5 +649,30 @@ public interface ApiService {
      */
     @POST(HttpRequest.getMemberLevelMessage)
     Observable<BaseResult<MemberCenterBean>> getMemberLevelMessage();
+
+    /**
+     * 精选午餐
+     *
+     * @return
+     */
+    @POST(HttpRequest.goodFoodList)
+    Observable<BaseResult<List<GoodsBySectionBean.RecordBean>>> goodFoodList();
+
+    /**
+     * 精选午餐
+     *
+     * @return
+     */
+    @POST(HttpRequest.salesList)
+    Observable<BaseResult<List<GoodsBySectionBean.RecordBean>>> salesList();
+
+    /**
+     * 获取秒杀、精选、排行榜、附近好店数据 (header需设置经纬度（longitude，latitude）)
+     *
+     * @return
+     */
+    @POST(HttpRequest.first)
+    Observable<BaseResult<FirstBean>> first();
+
 
 }

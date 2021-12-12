@@ -13,4 +13,6 @@ public class HomeGridview2Bean {
     public String name;
     public String money;
     public String moneypast;
+    public String distance;
 }
+
