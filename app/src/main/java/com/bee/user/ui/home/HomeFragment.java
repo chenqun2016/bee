@@ -130,6 +130,7 @@ public class HomeFragment extends BaseFragment {
                 .subscribe(new BaseSubscriber<FirstBean>() {
                     @Override
                     public void onSuccess(FirstBean data) {
+                        homeGridview2Beans.clear();
                         FirstBean.FlashGoodBean flashGoods = data.flashGoods;
                         FirstBean.ChoicenesBean choiceness = data.choiceness;
                         FirstBean.TopBean top = data.top;
