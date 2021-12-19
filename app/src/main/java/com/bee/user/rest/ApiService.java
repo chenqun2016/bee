@@ -136,7 +136,7 @@ public interface ApiService {
      * 获取APP【店铺商家】详情
      */
     @POST(HttpRequest.shop_getDetail_full)
-    Observable<BaseResult<StoreDetailFullBean>> shop_getDetail_full(@Path("id") String id);
+    Observable<BaseResult<StoreDetailFullBean>> shop_getDetail_full(@Path("storeId") String id);
 
     /**
      * 获取APP【店铺商家】详情

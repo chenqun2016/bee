@@ -356,7 +356,7 @@ public class MineFragment extends BaseFragment {
     }
 
     public void setUserDatas() {
-        if(SPUtils.geTinstance().isLogin() && null != SPUtils.geTinstance().getUserInfo()){
+        if(SPUtils.geTinstance().isLogin() && null != SPUtils.geTinstance().getUserInfo() && null != huiyuan){
             huiyuan.setVisibility(View.VISIBLE);
             tv_des.setVisibility(View.GONE);
             UserBean userInfo = SPUtils.geTinstance().getUserInfo();

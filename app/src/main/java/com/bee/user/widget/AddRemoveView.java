@@ -202,7 +202,7 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
             y = DisplayUtil.dip2px(context,100);
         }
         float y1 = startY - y;
-        if(startY < toY){
+        if(startY < toY+50){
             //向下动画
             path.cubicTo(x1, y1, toX, startY, toX, toY);
         }else{

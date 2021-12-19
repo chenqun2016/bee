@@ -7,6 +7,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bee.user.R;
+import com.bee.user.bean.StoreDetailFullBean;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,20 +23,25 @@ import butterknife.ButterKnife;
  */
 public class StoreTimeAdapter extends BaseAdapter {
 
-    private  String[] strs = new String[]{"星期一 07:00-20:00","星期二 07:00-20:00","星期三 07:00-20:00",
-    "星期四 07:00-20:00","星期五 07:00-20:00","星期六 07:00-20:00","星期日 07:00-20:00"};
+//    private  String[] strs = new String[]{"星期一 07:00-20:00","星期二 07:00-20:00","星期三 07:00-20:00",
+//    "星期四 07:00-20:00","星期五 07:00-20:00","星期六 07:00-20:00","星期日 07:00-20:00"};
 
-    public StoreTimeAdapter() {
+    List<StoreDetailFullBean.BusinessTimesBean> mDatas ;
+    public StoreTimeAdapter(List<StoreDetailFullBean.BusinessTimesBean> businessTimes) {
+        mDatas = businessTimes;
+        if(null == mDatas){
+            mDatas = new ArrayList<>();
+        }
     }
 
     @Override
     public int getCount() {
-        return strs.length;
+        return mDatas.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return strs[position];
+        return mDatas.get(position);
     }
 
     @Override
@@ -49,9 +59,10 @@ public class StoreTimeAdapter extends BaseAdapter {
         } else {
             viewHolder = (StoreTimeAdapter.StoreTimeHolder) convertView.getTag();
         }
-
-        viewHolder.text.setText(strs[position]);
-        if(1 == position){
+        StoreDetailFullBean.BusinessTimesBean businessTimesBean = mDatas.get(position);
+        viewHolder.text.setText(businessTimesBean.weekdayName+" " + businessTimesBean.startTime + "-" +businessTimesBean.endTime);
+        int i = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        if(businessTimesBean.weekday == i){
             viewHolder.text.setBackgroundResource(R.drawable.bg_yellow_round_8);
             viewHolder.text.setTextColor(viewHolder.text.getContext().getResources().getColor(R.color.color_FF6600));
         }else{

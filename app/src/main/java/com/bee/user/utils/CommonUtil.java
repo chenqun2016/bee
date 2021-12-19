@@ -207,7 +207,9 @@ public class CommonUtil {
     }
 
     public static void callPhone(Context c,String s) {
-        c.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + s)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        if(null != c){
+            c.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + s)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        }
     }
 
     //    取消订单dialog
