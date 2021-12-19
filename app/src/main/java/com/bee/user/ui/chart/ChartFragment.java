@@ -15,9 +15,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bee.user.BeeApplication;
@@ -25,11 +25,13 @@ import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.AddressBean;
 import com.bee.user.bean.ChartBean;
+import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.event.ChartFragmentEvent;
 import com.bee.user.event.MainEvent;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
+import com.bee.user.ui.MainActivity;
 import com.bee.user.ui.adapter.ChartAdapter;
 import com.bee.user.ui.adapter.HomeAdapter;
 import com.bee.user.ui.base.fragment.BaseFragment;
@@ -98,7 +100,8 @@ public class ChartFragment extends BaseFragment {
     @BindView(R.id.checkbox)
     CheckBox checkbox;
 
-
+    HomeAdapter homeAdapter;
+    ChartNoDataDrawerView ll_products;
 
     private  ChartAdapter adapter;
 
@@ -153,12 +156,9 @@ public class ChartFragment extends BaseFragment {
                             public void onSuccess(String s) {
                                 adapter.setNewInstance(new ArrayList<>());
 
-                                ll_nonet.setVisibility(View.GONE);
-                                ll_nodata.setVisibility(View.VISIBLE);
-                                ll_havedata.setVisibility(View.GONE);
 
 //                initNoNet();
-                                initNoDatas();
+                                setNoDataViews(mUnAvalableBeans);
 //                initDatas();
 
                             }
@@ -270,7 +270,6 @@ public class ChartFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ll_products.resetSize();
         if(isChartDataDurty){
             loadmoreUtils.reSetPageInfo();
             getAddress();
@@ -367,6 +366,7 @@ public class ChartFragment extends BaseFragment {
             }
         };
         loadmoreUtils.initLoadmore(adapter,swiperefresh);
+        loadmoreUtils.setEmptyView(null);
     }
 
     private void getCartDatas() {
@@ -391,10 +391,6 @@ public class ChartFragment extends BaseFragment {
                             tv_heji_money.setText("¥"+totalMoney);
                             caculate(beans);
                         }else{
-                            ll_nonet.setVisibility(View.GONE);
-                            ll_nodata.setVisibility(View.VISIBLE);
-                            ll_havedata.setVisibility(View.GONE);
-
                             setNoDataViews(beans);
                         }
                     }
@@ -408,6 +404,10 @@ public class ChartFragment extends BaseFragment {
     }
 
     private void setNoDataViews(List<ChartBean> beans) {
+        ll_nonet.setVisibility(View.GONE);
+        ll_nodata.setVisibility(View.VISIBLE);
+        ll_havedata.setVisibility(View.GONE);
+
         HashMap<Integer, List<ChartBean>> objectObjectHashMap = new HashMap<>();
         List<ChartBean> chartBeans = null;
         for(ChartBean item : beans){
@@ -428,6 +428,8 @@ public class ChartFragment extends BaseFragment {
 
         mUnAvalableBeans = chartBeans;
         ll_products.setDatas(chartBeans);
+
+        getTuijian();
     }
 
     private void caculate(List<ChartBean> beans) {
@@ -457,13 +459,19 @@ public class ChartFragment extends BaseFragment {
             }
         }
         ArrayList<List<ChartBean>> lists = new ArrayList<>(integerListHashMap.values());
-        loadmoreUtils.onSuccess(adapter,lists);
+        if(lists.size()>0){
+            loadmoreUtils.onSuccess(adapter,lists);
+        }else{
+
+
+            setNoDataViews(unAvalableBeans);
+        }
     }
 
     private void initNoNet() {
 
     }
-    ChartNoDataDrawerView ll_products;
+
     private void initNoDatas() {
 
         swiperefresh_tuijian.setColorSchemeResources(com.huaxiafinance.www.crecyclerview.R.color.colorPrimary,
@@ -475,8 +483,8 @@ public class ChartFragment extends BaseFragment {
             }
         });
 
-        HomeAdapter homeAdapter = new HomeAdapter();
-        recyclerview_tuijian.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        homeAdapter = new HomeAdapter();
+        recyclerview_tuijian.setLayoutManager(new StaggeredGridLayoutManager( 2, StaggeredGridLayoutManager.VERTICAL));
         recyclerview_tuijian.setAdapter(homeAdapter);
 
         View head = View.inflate(getContext(), R.layout.head_fragment_chart_nodata, null);
@@ -492,14 +500,15 @@ public class ChartFragment extends BaseFragment {
         ll_products = head.findViewById(R.id.ll_products);
 
         homeAdapter.addHeaderView(head);
-
+        MainActivity activity = (MainActivity) getActivity();
+        homeAdapter.setAddChartAnimatorView(activity.fl_content,activity.getAddChartAnimatorEndView());
         homeAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                startActivity(new Intent(getContext(), FoodActivity.class));
+                StoreFoodItem2Bean bean = (StoreFoodItem2Bean) adapter.getData().get(position);
+                FoodActivity.newInstance(getContext(),bean.shopProductId,bean.storeId,bean.skuId);
             }
         });
-
         homeAdapter.setNewInstance(new ArrayList<>());
     }
     private int totalMoney;
@@ -509,9 +518,31 @@ public class ChartFragment extends BaseFragment {
     public void onChartFragmentEvent(ChartFragmentEvent event) {
         switch (event.type){
             case ChartFragmentEvent.TYPE_REFLUSH:
-                isChartDataDurty = true;
+                if(isResumed()){
+                    loadmoreUtils.reSetPageInfo();
+                    getAddress();
+                }else{
+                    isChartDataDurty = true;
+                }
                 break;
         }
     }
 
+
+    private void getTuijian() {
+        Api.getClient(HttpRequest.baseUrl_shop).homeRecommand().
+                subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<StoreFoodItem2Bean>>() {
+                    @Override
+                    public void onSuccess(List<StoreFoodItem2Bean> data) {
+                        homeAdapter.setNewInstance(data);
+                    }
+
+                    @Override
+                    public void onFail(String fail) {
+                        super.onFail(fail);
+                    }
+                });
+    }
 }

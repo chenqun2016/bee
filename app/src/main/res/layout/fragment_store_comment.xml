@@ -41,12 +41,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                android:id="@+id/mrb"
                 style="@style/Widget.MaterialRatingBar.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="2dp"
-                android:rating="4.6"
+                android:rating="4.5"
+                android:isIndicator="true"
                 app:layout_constraintLeft_toRightOf="@id/tv_point"
                 app:layout_constraintTop_toBottomOf="@id/tv_des"
                 app:mrb_progressTint="@color/color_FF6100"

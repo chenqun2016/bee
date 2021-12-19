@@ -71,8 +71,10 @@ public class LoadmoreUtils {
         }
     }
     public void setEmptyViewText(String text){
-        TextView tv_empty_text = emptyView.findViewById(R.id.tv_empty);
-        tv_empty_text.setText(text);
+        if(null != emptyView){
+            TextView tv_empty_text = emptyView.findViewById(R.id.tv_empty);
+            tv_empty_text.setText(text);
+        }
     }
     public View getEmptyView(){
         return emptyView;
@@ -136,7 +138,7 @@ public class LoadmoreUtils {
         if (pageInfo.isFirstPage()) {
             //如果是加载的第一页数据，用 setData()
             mAdapter.setList(data);
-            if(!mAdapter.hasEmptyView()){
+            if(!mAdapter.hasEmptyView() && null != emptyView){
                 mAdapter.setEmptyView(emptyView);
             }
         } else {

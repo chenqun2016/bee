@@ -34,6 +34,7 @@ import com.bee.user.bean.PeiSongCardBean;
 import com.bee.user.bean.PointDetailBen;
 import com.bee.user.bean.SignInMessageBean;
 import com.bee.user.bean.StoreDetailBean;
+import com.bee.user.bean.StoreDetailFullBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.bean.StoreListBean;
@@ -131,6 +132,11 @@ public interface ApiService {
                                                       @Query("pageSize") int pageSize,
                                                       @Body RequestBody info);
 
+    /**
+     * 获取APP【店铺商家】详情
+     */
+    @POST(HttpRequest.shop_getDetail_full)
+    Observable<BaseResult<StoreDetailFullBean>> shop_getDetail_full(@Path("id") String id);
 
     /**
      * 获取APP【店铺商家】详情

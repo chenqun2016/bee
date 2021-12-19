@@ -38,7 +38,7 @@ public class CommentBean {
     public static class Detail {
         public int id;
         public int shopOrderCommentId;
-        public Object star;
+        public int star;
         public int commentObjId;
         public String commentObj;
         public int delFlag;

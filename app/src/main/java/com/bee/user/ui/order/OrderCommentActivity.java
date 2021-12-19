@@ -201,13 +201,13 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
         CommentParams.DetailsBean detailsBean1 = new CommentParams.DetailsBean();
         detailsBean1.commentObjId = 1;
         detailsBean1.commentObj = "包装";
-        detailsBean1.give = ratin2.getRating();
+        detailsBean1.star = (int) ratin2.getRating();
         detailsBean1.commentType = 1;
         details.add(detailsBean1);
         CommentParams.DetailsBean detailsBean2 = new CommentParams.DetailsBean();
         detailsBean2.commentObjId = 2;
         detailsBean2.commentObj = "味道";
-        detailsBean2.give = ratin2.getRating();
+        detailsBean2.star = (int) ratin3.getRating();
         detailsBean2.commentType = 1;
         details.add(detailsBean2);
         for (FoodBean bean : data) {
@@ -230,6 +230,7 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
                     @Override
                     public void onSuccess(Object str) {
                         closeLoadingDialog();
+                        finish();
                         startActivity(new Intent(OrderCommentActivity.this, OrderCommentStatusActivity.class));
                     }
 
@@ -442,11 +443,11 @@ public class OrderCommentActivity extends BaseActivity implements GridImageAdapt
             for (CommentBean.Detail detail : bean.details) {
                 if (detail.commentType == 1) {
                     if (detail.commentObjId == 1) {
-                        ratin2.setRating(detail.give);
-                        ratin_text2.setText(starDes[detail.give - 1]);
+                        ratin2.setRating(detail.star);
+                        ratin_text2.setText(starDes[detail.star - 1]);
                     } else if (detail.commentObjId == 2) {
-                        ratin3.setRating(detail.give);
-                        ratin_text3.setText(starDes[detail.give - 1]);
+                        ratin3.setRating(detail.star);
+                        ratin_text3.setText(starDes[detail.star - 1]);
                     }
                 } else {
                     FoodBean foodBean = new FoodBean();

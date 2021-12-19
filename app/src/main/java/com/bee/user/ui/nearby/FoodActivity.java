@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
-import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.CommentWrapBean;
 import com.bee.user.bean.FoodDetailBean;
@@ -36,10 +35,10 @@ import com.bee.user.params.AddFavoritesParams;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
+import com.bee.user.ui.StringBannerImageHolder;
 import com.bee.user.ui.adapter.CommentAdapter;
 import com.bee.user.ui.adapter.FoodChooseTypeAdapter;
 import com.bee.user.ui.base.activity.BaseActivity;
-import com.bee.user.ui.home.BannerImageHolder;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
 import com.bee.user.utils.LoadmoreUtils;
@@ -222,7 +221,7 @@ public class FoodActivity extends BaseActivity {
     int skuId;
     int shopProductId;
 
-    @OnClick({R.id.view1, R.id.view2, R.id.view3, R.id.tv_sure, R.id.tv_add_to_chart, R.id.iv_chart,R.id.iv_share})
+    @OnClick({R.id.view1, R.id.view2, R.id.view3, R.id.tv_sure, R.id.tv_add_to_chart, R.id.iv_chart,R.id.iv_share,R.id.tv_to_store})
     public void onClick(View view) {
         scrollview.stopNestedScroll();
 
@@ -284,6 +283,11 @@ public class FoodActivity extends BaseActivity {
                 break;
             case R.id.iv_share:
                 toShoucang();
+                break;
+            case R.id.tv_to_store:
+                Intent intent = new Intent(this, StoreActivity.class);
+                intent.putExtra("id",mBeans.storeId+"");
+                startActivity(intent);
                 break;
         }
     }
@@ -402,6 +406,7 @@ public class FoodActivity extends BaseActivity {
         storeId = getIntent().getIntExtra("storeId", 0);
         shopProductId = getIntent().getIntExtra("shopProductId", 0);
 
+        mrb.setIsIndicator(true);
         chart_bottom_dialog_view.initDatas(DisplayUtil.getWindowHeight(this));
         chart_bottom_dialog_view.setChartBottomDialogListener(new ChartBottomDialogView.ChartBottomDialogListener() {
             @Override
@@ -573,7 +578,9 @@ public class FoodActivity extends BaseActivity {
 //        View bottom = View.inflate(this, R.layout.bottom_food_list, null);
 //        mAdapter.addFooterView(bottom);
 
-
+        ViewGroup.LayoutParams layoutParams1 = banner2.getLayoutParams();
+        layoutParams1.height = layoutParams1.width;
+        banner2.setLayoutParams(layoutParams1);
 
         initScroll();
         getDatas();
@@ -777,7 +784,7 @@ public class FoodActivity extends BaseActivity {
      * 刷新
      */
     private void getComments() {
-        Api.getClient(HttpRequest.baseUrl_eva).queryListBySkuId(mBeans.shopProductId + "", 1, LoadmoreUtils.PAGE_SIZE)
+        Api.getClient(HttpRequest.baseUrl_eva).queryListBySkuId(shopProductId + "", 1, LoadmoreUtils.PAGE_SIZE)
                 .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<CommentWrapBean>() {
@@ -949,20 +956,15 @@ public class FoodActivity extends BaseActivity {
 //        params2.width = DisplayUtil.getWindowWidth(getActivity());
 //        params2.height = (int) ((params2.width - DisplayUtil.dip2px(getContext(), 30)) * Constants.RATE_HOME) + DisplayUtil.dip2px(getContext(), 35);
 //        mBanner.setLayoutParams(params2);
-        BannerBean bannerBean = new BannerBean();
-        bannerBean.imageUrl = mBeans.pic;
-
-        List<BannerBean> adsList = new ArrayList<>();//banner数据
-        adsList.add(bannerBean);
-        adsList.add(bannerBean);
-        adsList.add(bannerBean);
+        String[] pics = mBeans.bizPicture;
+        List<String> adsList = Arrays.asList(pics);
 
         totalPage = adsList.size();
         tv_index.setText(1 + "/" + totalPage);
         banner2.setPages(new CBViewHolderCreator() {
             @Override
             public Holder createHolder(View itemView) {
-                return new BannerImageHolder(itemView);
+                return new StringBannerImageHolder(itemView);
             }
 
             @Override

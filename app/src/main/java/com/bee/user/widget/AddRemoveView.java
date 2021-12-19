@@ -202,7 +202,14 @@ public class AddRemoveView extends FrameLayout implements View.OnClickListener {
             y = DisplayUtil.dip2px(context,100);
         }
         float y1 = startY - y;
-        path.cubicTo(x1, y1, toX, startY, toX, toY);
+        if(startY < toY){
+            //向下动画
+            path.cubicTo(x1, y1, toX, startY, toX, toY);
+        }else{
+            //向上动画
+            path.cubicTo(startX, y1, startX, toY, toX, toY);
+        }
+
         //mPathMeasure用来计算贝塞尔曲线的曲线长度和贝塞尔曲线中间插值的坐标，
         // 如果是true，path会形成一个闭环
         PathMeasure mPathMeasure = new PathMeasure(path, false);

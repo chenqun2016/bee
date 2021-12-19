@@ -29,7 +29,7 @@ public class CommentParams {
         public float give;
         public Integer id;
         public Integer shopOrderCommentId;
-        public Integer star;
+        public int star;
         public Integer updateBy;
         public String updateName;
         public String updateTime;
