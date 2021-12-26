@@ -235,8 +235,10 @@ public class OrderFragmentAdapter extends BaseMultiItemQuickAdapter<OrderBean, B
                 AMap aMap = map.getMap();
                 UiSettings mUiSettings = aMap.getUiSettings();
                 mUiSettings.setAllGesturesEnabled(false);
-                mUiSettings.setZoomControlsEnabled(false);//设置地图默认的缩放按钮是否显示
-                mUiSettings.setMyLocationButtonEnabled(false);// 设置地图默认的定位按钮是否显示
+                //设置地图默认的缩放按钮是否显示
+                mUiSettings.setZoomControlsEnabled(false);
+                // 设置地图默认的定位按钮是否显示
+                mUiSettings.setMyLocationButtonEnabled(false);
                 aMap.setOnMapClickListener(new AMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {

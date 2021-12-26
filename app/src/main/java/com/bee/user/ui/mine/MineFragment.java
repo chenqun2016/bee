@@ -356,45 +356,48 @@ public class MineFragment extends BaseFragment {
     }
 
     public void setUserDatas() {
-        if(SPUtils.geTinstance().isLogin() && null != SPUtils.geTinstance().getUserInfo() && null != huiyuan){
-            huiyuan.setVisibility(View.VISIBLE);
-            tv_des.setVisibility(View.GONE);
-            UserBean userInfo = SPUtils.geTinstance().getUserInfo();
-            tv_name.setText(userInfo.nickname);
-            huiyuan.setText(userInfo.levelName);
-            Picasso.with(getContext())
-                    .load(userInfo.icon)
-                    .fit()
-                    .transform(new PicassoRoundTransform(DisplayUtil.dip2px(getContext(),100),0, PicassoRoundTransform.CornerType.ALL))
-                    .into(tv_icon);
-            Target target = new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
-                    //替换背景
-                    huiyuan.setBackgroundDrawable(new BitmapDrawable(getResources(), bitmap));
-                }
+        if( null != huiyuan){
+            if(SPUtils.geTinstance().isLogin() && null != SPUtils.geTinstance().getUserInfo()){
+                huiyuan.setVisibility(View.VISIBLE);
+                tv_des.setVisibility(View.GONE);
+                UserBean userInfo = SPUtils.geTinstance().getUserInfo();
+                tv_name.setText(userInfo.nickname);
+                huiyuan.setText(userInfo.levelName);
+                Picasso.with(getContext())
+                        .load(userInfo.icon)
+                        .fit()
+                        .transform(new PicassoRoundTransform(DisplayUtil.dip2px(getContext(),100),0, PicassoRoundTransform.CornerType.ALL))
+                        .into(tv_icon);
+                Target target = new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
+                        //替换背景
+                        huiyuan.setBackgroundDrawable(new BitmapDrawable(getResources(), bitmap));
+                    }
 
-                @Override
-                public void onBitmapFailed(Drawable drawable) {
+                    @Override
+                    public void onBitmapFailed(Drawable drawable) {
 
-                }
+                    }
 
-                @Override
-                public void onPrepareLoad(Drawable drawable) {
+                    @Override
+                    public void onPrepareLoad(Drawable drawable) {
 
-                }
-            };
-            Picasso.with(getActivity()).load(userInfo.levelIcon).into(target);
-        }else{
-            huiyuan.setVisibility(View.GONE);
-            tv_des.setVisibility(View.VISIBLE);
-            tv_name.setText("立即登陆");
-            tv_des.setText("省多少你说了算");
-            Picasso.with(getContext())
-                    .load(R.drawable.icon_touxiang)
-                    .fit()
-                    .into(tv_icon);
+                    }
+                };
+                Picasso.with(getActivity()).load(userInfo.levelIcon).into(target);
+            }else{
+                huiyuan.setVisibility(View.GONE);
+                tv_des.setVisibility(View.VISIBLE);
+                tv_name.setText("立即登陆");
+                tv_des.setText("省多少你说了算");
+                Picasso.with(getContext())
+                        .load(R.drawable.icon_touxiang)
+                        .fit()
+                        .into(tv_icon);
+            }
         }
+
 
     }
 }

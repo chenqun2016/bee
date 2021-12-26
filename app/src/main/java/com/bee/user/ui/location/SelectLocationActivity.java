@@ -161,7 +161,7 @@ public class SelectLocationActivity extends BaseActivity {
             public void onItemClick(@NonNull @NotNull BaseQuickAdapter<?, ?> adapter, @NonNull @NotNull View view, int position) {
                 AddressBean addressBean = chooseAddressAdapter.getData().get(position);
                 MainEvent mainEvent = new MainEvent(TYPE_reset_Location);
-                mainEvent.locationInfo = new MainEvent.LocationInfo(addressBean.name,addressBean.latitude,addressBean.longitude);
+                mainEvent.locationInfo = new MainEvent.LocationInfo(addressBean.detailAddress,addressBean.latitude,addressBean.longitude);
                 EventBus.getDefault().post(mainEvent);
                 finish();
             }
