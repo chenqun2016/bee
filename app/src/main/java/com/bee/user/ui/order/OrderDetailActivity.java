@@ -458,9 +458,8 @@ public class OrderDetailActivity extends BaseActivity  implements AMap.OnMapLoad
 
 
     String str = "等待支付，剩余";
-
     private void countDown() {
-        Disposable subscription = Observable.interval(0, 1, TimeUnit.SECONDS).
+        subscription = Observable.interval(0, 1, TimeUnit.SECONDS).
                 take(time + 1).
                 subscribeOn(Schedulers.io()).
                 observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {

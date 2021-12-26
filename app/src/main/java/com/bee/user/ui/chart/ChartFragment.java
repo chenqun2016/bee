@@ -273,6 +273,7 @@ public class ChartFragment extends BaseFragment {
         if(isChartDataDurty){
             loadmoreUtils.reSetPageInfo();
             getAddress();
+            isChartDataDurty = false;
         }
     }
 

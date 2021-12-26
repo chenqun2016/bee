@@ -23,7 +23,7 @@ import com.bee.user.R;
 import com.bee.user.bean.AddChartBean;
 import com.bee.user.bean.ChartBean;
 import com.bee.user.bean.FoodTypeBean;
-import com.bee.user.bean.StoreDetailBean;
+import com.bee.user.bean.StoreDetailFullBean;
 import com.bee.user.bean.StoreFoodItem1Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
 import com.bee.user.event.AddChartEvent;
@@ -150,7 +150,7 @@ public class StoreActivity extends BaseActivity {
     @BindView(R.id.tv_confirm)
     TextView tv_confirm;
     String[] titles = new String[]{"菜单", "评价", "商家"};
-    StoreDetailBean storeDetailBean;
+    StoreDetailFullBean storeDetailBean;
     private Fragment[] mFragments;
     private String id;
     //只要有改变就刷新购物车数据
@@ -417,13 +417,18 @@ public class StoreActivity extends BaseActivity {
     private void getDatas() {
 
 
-        Api.getClient(HttpRequest.baseUrl_shop).shop_getDetail(id).subscribeOn(Schedulers.io())
+        Api.getClient(HttpRequest.baseUrl_shop).shop_getDetail_full(id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<StoreDetailBean>() {
+                .subscribe(new BaseSubscriber<StoreDetailFullBean>() {
                     @Override
-                    public void onSuccess(StoreDetailBean storeDetailBean) {
+                    public void onSuccess(StoreDetailFullBean storeDetailBean) {
                         StoreActivity.this.storeDetailBean = storeDetailBean;
                         setViews(storeDetailBean);
+
+                        CommentFragment fragments1 = (CommentFragment) createFragments(1);
+                        fragments1.setStorePointData(storeDetailBean);
+                        StoreDesFragment fragments2 = (StoreDesFragment) createFragments(2);
+                        fragments2.setStoreData(storeDetailBean);
                     }
 
                     @Override
@@ -525,7 +530,7 @@ public class StoreActivity extends BaseActivity {
                 });
     }
 
-    private void setViews(StoreDetailBean data) {
+    private void setViews(StoreDetailFullBean data) {
 
 //        Picasso.with(this)
 //                .load(storeDetailBean.getLogoUrl())

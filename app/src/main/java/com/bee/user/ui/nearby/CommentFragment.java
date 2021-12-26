@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bee.user.R;
 import com.bee.user.bean.CommentWrapBean;
+import com.bee.user.bean.StoreDetailFullBean;
 import com.bee.user.rest.Api;
 import com.bee.user.rest.BaseSubscriber;
 import com.bee.user.rest.HttpRequest;
@@ -69,6 +70,7 @@ public class CommentFragment extends BaseFragment {
 
     //1:商品评价列表。 0：店铺评价列表
     int type = 0;
+    private StoreDetailFullBean mStoreDatas;
 
     public CommentFragment(int shopProductId,String storeId, int type) {
         super();
@@ -113,6 +115,8 @@ public class CommentFragment extends BaseFragment {
         initLoadMore();
 
         initTags();
+
+        setStorePoint();
 
 //        refresh();
 
@@ -213,5 +217,22 @@ public class CommentFragment extends BaseFragment {
                         loadmoreUtils.onFail(mAdapter, fail);
                     }
                 });
+    }
+
+    public void setStorePointData(StoreDetailFullBean storeDetailBean) {
+        this.mStoreDatas = storeDetailBean;
+        if(null != mrb){
+            setStorePoint();
+        }
+    }
+
+    private void setStorePoint() {
+        if(null != mStoreDatas){
+            mrb.setRating(mStoreDatas.star);
+            tv_point.setText(mStoreDatas.star+"");
+            tv_manyidu_num.setText(mStoreDatas.deliverySatisfaction);
+            tv_baozhuang_num.setText(mStoreDatas.packStar);
+            tv_kouwei_num.setText(mStoreDatas.tasteStar);
+        }
     }
 }

@@ -8,8 +8,8 @@ package com.bee.user.rest;
 public class HttpRequest {
 //    http://dev-beeweb.quxianfeng.vip/bee-member-zuul-gateway/api-shop/app-sys-shop-store/getDetail/6
 
-
     public static final String baseUrl = "http://dev-beeweb.quxianfeng.vip/bee-member-zuul-gateway/";
+//    public static final String baseUrl = "http://192.168.0.117:8082/bee-member-zuul-gateway/";
 
     public static final  String baseUrl_user = baseUrl + "api-uaa/";
     public static final String baseUrl_pay = baseUrl + "api-pay/";
@@ -33,7 +33,9 @@ public class HttpRequest {
 
     //附件 店铺
     public static final String shop_nearby = "app-sys-shop-store/search/nearby";
-    public static final String shop_getDetail_full = "app-sys-shop-store/getDetail/{id}";
+
+    //店铺详情
+    public static final String shop_getDetail_full = "app-sys-shop-store/getShopInfo/{storeId}";
     public static final String shop_getDetail = "app-sys-shop-store/getShopInfoSimple/{id}";
     //APP获取【店铺类目】列表
     public static final String shop_queryProductList = "app-sys-industry-category-shop/queryAppIndustryList/{storeId}";
