@@ -16,17 +16,12 @@
         android:textStyle="bold"
         android:textColor="@color/color_282525"/>
 
-    <TextView
+    <com.bee.user.widget.SecondDownTimerView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/tv_title"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="2dp"
-        android:text="03:27:48"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        android:textColor="@color/color_282525"/>
+        android:layout_marginLeft="6dp" />
 
     <ImageView
         android:id="@+id/tv_image"
