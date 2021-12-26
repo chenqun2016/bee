@@ -4,6 +4,8 @@ import android.graphics.Paint;
 import android.widget.ImageView;
 import com.bee.user.R;
 import com.bee.user.bean.HomeGridview2Bean;
+import com.bee.user.widget.OnCountDownTimerListener;
+import com.bee.user.widget.SecondDownTimerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.squareup.picasso.Picasso;
@@ -32,13 +34,20 @@ public class NewHomeGridview2Adapter extends BaseQuickAdapter<HomeGridview2Bean,
         switch (bean.title){
             case "限时秒杀":
                 AppCompatTextView tvMoneypast = viewHolder.getView(R.id.tv_moneypast);
+                SecondDownTimerView tvTime = viewHolder.getView(R.id.tv_time);
                 tvMoneypast.getPaint().setFlags( Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG );
                 viewHolder.setVisible(R.id.tv_moneypast,true)
-                        .setGone(R.id.tv_time,true)
+                        .setGone(R.id.tv_time,false)
                         .setText(R.id.tv_moneypast,"￥"+bean.moneypast)
-                .setText(R.id.tv_time,bean.time)
                 .setText(R.id.tv_money,"￥"+bean.money)
                  .setTextColor(R.id.tv_money,getContext().getResources().getColor(R.color.color_FF5050));
+                if(tvTime.getCountDownTimer() != null) {
+                    tvTime.cancelDownTimer();
+                }
+                tvTime.setDownTime(bean.time);
+                if(bean.time>0) {
+                    tvTime.startDownTimer();
+                }
                 break;
             case "精选午餐":
             case "销量排行榜":

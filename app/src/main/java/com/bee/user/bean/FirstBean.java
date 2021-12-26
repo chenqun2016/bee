@@ -80,6 +80,16 @@ public class FirstBean {
         private String originalPrice;
         private String salePrice;
         private String pic;
+
+        public long getEndTimeSecond() {
+            return endTimeSecond;
+        }
+
+        public void setEndTimeSecond(long endTimeSecond) {
+            this.endTimeSecond = endTimeSecond;
+        }
+
+        private long endTimeSecond;
     }
 
     public class ChoicenesBean {

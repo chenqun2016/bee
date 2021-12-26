@@ -8,7 +8,7 @@ package com.bee.user.bean;
 public class HomeGridview2Bean {
 
     public String title;
-    public String time;
+    public long time;
     public String image;
     public String name;
     public String money;

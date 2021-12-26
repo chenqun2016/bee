@@ -138,7 +138,7 @@ public class HomeFragment extends BaseFragment {
                         HomeGridview2Bean bean = new HomeGridview2Bean();
                         if(flashGoods != null) {
                             bean.name = flashGoods.getProductName();
-                            bean.time = "00:00:00";
+                            bean.time = flashGoods.getEndTimeSecond();
                             bean.money = flashGoods.getSalePrice();
                             bean.moneypast = flashGoods.getOriginalPrice();
                             bean.title = "限时秒杀";
