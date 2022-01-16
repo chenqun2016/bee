@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatTextView;
+
 /**
  - @Description: 标签制作
  - @Author: bxy
@@ -15,13 +17,13 @@ import android.widget.TextView;
 public class GradientTextView {
 
 	private GradientDrawable mGradientDrawable;
-	private TextView mLabelTextView;
+	private AppCompatTextView mLabelTextView;
 	private Context mContext;
 
 	public GradientTextView(Context _context) {
 		this.mContext = _context;
 		mGradientDrawable = new GradientDrawable();
-		mLabelTextView = new TextView(mContext);
+		mLabelTextView = new AppCompatTextView(mContext);
 		initGradientDrawable();
 		initLabelTextView();
 	}
@@ -35,7 +37,7 @@ public class GradientTextView {
 		mGradientDrawable.setCornerRadius(dip2px(1));
 		mGradientDrawable.setStroke(dip2px(1), mContext.getResources()
 				.getColor(android.R.color.holo_blue_light));
-		mGradientDrawable.setAlpha(128);
+		//mGradientDrawable.setAlpha(128);
 	}
 
 	/**
@@ -90,13 +92,11 @@ public class GradientTextView {
 	 *
 	 * @return
 	 */
-	public GradientTextView setTextColor(String color) {
-		if (!empty(color)) {
-			try {
-				mLabelTextView.setTextColor(parseColor(color));
-			} catch (Exception e) {
+	public GradientTextView setTextColor(int color) {
+		try {
+			mLabelTextView.setTextColor(color);
+		} catch (Exception e) {
 
-			}
 		}
 		return this;
 	}
@@ -106,10 +106,8 @@ public class GradientTextView {
 	 *
 	 * @return
 	 */
-	public GradientTextView setBackgroundColor(String color) {
-		if (!empty(color)) {
-			mGradientDrawable.setColor(parseColor(color));
-		}
+	public GradientTextView setBackgroundColor(int color) {
+		mGradientDrawable.setColor(color);
 		return this;
 	}
 
@@ -118,10 +116,8 @@ public class GradientTextView {
 	 *
 	 * @return
 	 */
-	public GradientTextView setStrokeColor(String color) {
-		if (!empty(color)) {
-			mGradientDrawable.setStroke(dip2px(1), parseColor(color));
-		}
+	public GradientTextView setStrokeColor(int color) {
+		mGradientDrawable.setStroke(dip2px(1), color);
 		return this;
 	}
 
@@ -158,7 +154,7 @@ public class GradientTextView {
 	 * 
 	 * @return
 	 */
-	public TextView build() {
+	public AppCompatTextView build() {
 		mLabelTextView.setBackgroundDrawable(mGradientDrawable);
 		return mLabelTextView;
 	}

@@ -5,11 +5,11 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-public abstract class BaseCountDownTimerView extends LinearLayout {
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.LinearLayoutCompat;
+
+public abstract class BaseCountDownTimerView extends LinearLayoutCompat {
 
 	private Context mContext;
 
@@ -25,38 +25,38 @@ public abstract class BaseCountDownTimerView extends LinearLayout {
 	/**
 	 * 时
 	 */
-	private TextView mHourTextView;
+	private AppCompatTextView mHourTextView;
 
 	/**
 	 * 分
 	 */
-	private TextView mMinTextView;
+	private AppCompatTextView mMinTextView;
 
 	/**
 	 * 秒
 	 */
-	private TextView mSecondTextView;
+	private AppCompatTextView mSecondTextView;
 
 	/**
 	 * 获取边框颜色
 	 * 
 	 * @return
 	 */
-	protected abstract String getStrokeColor();
+	protected abstract int getStrokeColor();
 
 	/**
 	 * 设置背景色
 	 * 
 	 * @return
 	 */
-	protected abstract String getBackgroundColor();
+	protected abstract int getBackgroundColor();
 
 	/**
 	 * 获取文字颜色
 	 * 
 	 * @return
 	 */
-	protected abstract String getTextColor();
+	protected abstract int getTextColor();
 
 	/**
 	 * 获取边框圆角
@@ -119,8 +119,8 @@ public abstract class BaseCountDownTimerView extends LinearLayout {
 	 * 
 	 * @return
 	 */
-	private TextView createColon() {
-		TextView textView = new TextView(mContext);
+	private AppCompatTextView createColon() {
+		AppCompatTextView textView = new AppCompatTextView(mContext);
 		textView.setTextColor(Color.BLACK);
 		textView.setText(":");
 		return textView;
@@ -131,10 +131,11 @@ public abstract class BaseCountDownTimerView extends LinearLayout {
 	 * 
 	 * @return
 	 */
-	private TextView createLabel() {
-		TextView textView = new GradientTextView(mContext)
-				.setTextColor(getTextColor()).setStrokeColor(getStrokeColor())
-				.setBackgroundColor(getBackgroundColor())
+	private AppCompatTextView createLabel() {
+		AppCompatTextView textView = new GradientTextView(mContext)
+				.setTextColor(mContext.getResources().getColor(getTextColor()))
+				.setStrokeColor(mContext.getResources().getColor(getStrokeColor()))
+				.setBackgroundColor(mContext.getResources().getColor(getBackgroundColor()))
 				.setTextSize(getTextSize()).setStrokeRadius(getCornerRadius())
 				.build();
 		textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
@@ -167,15 +168,11 @@ public abstract class BaseCountDownTimerView extends LinearLayout {
 	 * @param millis
 	 */
 	private void setSecond(long millis) {
-		long totalSeconds = millis / 1000;
-		String second = (int) (totalSeconds % 60) + "";// 秒
-		long totalMinutes = totalSeconds / 60;
+		String second = (int) (millis % 60) + "";// 秒
+		long totalMinutes = millis / 60;
 		String minute = (int) (totalMinutes % 60) + "";// 分
 		long totalHours = totalMinutes / 60;
 		String hour = (int) (totalHours % 24) + "";// 时
-		Log.i("TAG", "hour:" + hour);
-		Log.i("TAG", "minute:" + minute);
-		Log.i("TAG", "second:" + second);
 		if (hour.length() == 1) {
 			hour = "0" + hour;
 		}
