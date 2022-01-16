@@ -8,8 +8,8 @@ package com.bee.user.rest;
 public class HttpRequest {
 //    http://dev-beeweb.quxianfeng.vip/bee-member-zuul-gateway/api-shop/app-sys-shop-store/getDetail/6
 
-    public static final String baseUrl = "http://dev-beeweb.quxianfeng.vip/bee-member-zuul-gateway/";
-//    public static final String baseUrl = "http://dev-beeweb2.quxianfeng.vip:15889/bee-member-zuul-gateway/";
+//    public static final String baseUrl = "http://dev-beeweb.quxianfeng.vip/bee-member-zuul-gateway/";
+    public static final String baseUrl = "http://dev-beeweb2.quxianfeng.vip:15889/bee-member-zuul-gateway/";
 //    public static final String baseUrl = "http://192.168.0.117:8082/bee-member-zuul-gateway/";
 
     public static final  String baseUrl_user = baseUrl + "api-uaa/";
