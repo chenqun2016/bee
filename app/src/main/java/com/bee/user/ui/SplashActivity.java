@@ -2,16 +2,16 @@ package com.bee.user.ui;
 
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
-import android.view.View;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.amap.api.maps.MapsInitializer;
+import com.amap.api.services.core.ServiceSettings;
 import com.bee.user.R;
 import com.bee.user.ui.base.activity.BaseActivity;
 import com.gyf.immersionbar.ImmersionBar;
@@ -37,9 +37,17 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initViews() {
+        showPrivacy();
+    }
+
+    private void showPrivacy() {
+        //高德地图隐私
+        MapsInitializer.updatePrivacyShow(this,true,true);
+        MapsInitializer.updatePrivacyAgree(this,true);
+        ServiceSettings.updatePrivacyShow(this,true,true);
+        ServiceSettings.updatePrivacyAgree(this,true);
+
         getPermissions();
-
-
     }
 
     private void getPermissions() {

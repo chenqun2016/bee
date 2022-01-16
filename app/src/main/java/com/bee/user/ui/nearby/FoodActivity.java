@@ -3,9 +3,8 @@ package com.bee.user.ui.nearby;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -65,10 +64,14 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
@@ -186,7 +189,7 @@ public class FoodActivity extends BaseActivity {
 
     //只要有改变就刷新购物车数据
     private boolean isChanged = false;
-    private static final Handler handler  = new Handler(Looper.getMainLooper());
+//    private static final Handler handler  = new Handler(Looper.getMainLooper());
 
     CommentAdapter mAdapter;
 
@@ -212,6 +215,10 @@ public class FoodActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
         if (isChanged) {
             EventBus.getDefault().post(new ChartFragmentEvent(ChartFragmentEvent.TYPE_REFLUSH));
+        }
+        if (null != subscription && !subscription.isDisposed()) {
+            subscription.dispose();
+            subscription = null;
         }
     }
 
@@ -674,6 +681,7 @@ public class FoodActivity extends BaseActivity {
                     }
                 });
     }
+    private Disposable subscription;
 
     private void setFoodDetail(FoodDetailBean beans) {
         if(beans.flashSaleStatus == 1){
@@ -681,7 +689,21 @@ public class FoodActivity extends BaseActivity {
 
             if(beans.endTimeSecond>0){
                 endTimeSecond = beans.endTimeSecond;
-                startCutDown();
+                if(null != subscription && !subscription.isDisposed()){
+                    subscription.dispose();
+                }
+                subscription = Observable.interval(0, 1, TimeUnit.SECONDS).
+                        take(endTimeSecond+1).
+                        subscribeOn(Schedulers.io()).
+                        observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Throwable {
+                        Log.d(TAG, "setFoodDetail: "+aLong);
+
+                        startCutDown(endTimeSecond-aLong);
+                    }
+
+                });
             }
         }else{
             showMiaoSha(false);
@@ -719,33 +741,31 @@ public class FoodActivity extends BaseActivity {
         }
     }
 
-    private void startCutDown() {
-        int hour = (int) Math.floor(endTimeSecond  / 3600);
-        int min = (int) Math.floor((endTimeSecond  % 3600) / 60);
-        int sec = (int) ((endTimeSecond  % 3600) % 60);
+    private void startCutDown(long time) {
+        int hour = (int) Math.floor(time  / 3600);
+        int min = (int) Math.floor((time  % 3600) / 60);
+        int sec = (int) ((time  % 3600) % 60);
         String h = hour < 10 ? ("0" + hour) : hour+"";
         String m = min < 10 ? ("0" + min) : min+"";
         String s = sec < 10 ? ("0" + sec) : sec+"";
         tv_hour.setText(h);
         tv_min.setText(m);
         tv_sec.setText(s);
-//        Log.d(TAG, "setFoodDetail: "+endTimeSecond+"/"+hour+"/"+min+"/"+sec);
-        endTimeSecond--;
-        if(endTimeSecond>=0){
-            handler.postDelayed(runnable,1000);
-        }else{
+        Log.d(TAG, "setFoodDetail: "+time+"/"+hour+"/"+min+"/"+sec);
+//        endTimeSecond--;
+        if(time==0){
             reflushProductDetail();
         }
     }
-    private final Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            if (isFinishing() || isDestroyed()){
-                return;
-            }
-            startCutDown();
-        }
-    };
+//    private final Runnable runnable = new Runnable() {
+//        @Override
+//        public void run() {
+//            if (isFinishing() || isDestroyed()){
+//                return;
+//            }
+//            startCutDown();
+//        }
+//    };
 
 
     private void setCartQuantity() {

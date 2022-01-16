@@ -19,7 +19,7 @@ import butterknife.OnClick;
 /**
  * 创建人：进京赶考
  * 创建时间：2020/08/21  21：17
- * 描述：登录页面
+ * 描述：一键登录页面
  */
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.tv_xieyi) TextView tv_xieyi;
