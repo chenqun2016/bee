@@ -158,7 +158,7 @@ public class CollectionProductFragment extends BaseFragment implements OnItemChi
         UpAndDownFavoritesParams params = new UpAndDownFavoritesParams();
         params.setBizId(recordBean.getBizId());
         params.setTop(recordBean.getTop()==0?1:0);
-        params.favoritesType = "SHOP";
+        params.favoritesType = "GOOD";
         Api.getClient(HttpRequest.baseUrl_member).upAndDownFavorites(Api.getRequestBody(params)).
                 subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
                 .observeOn(AndroidSchedulers.mainThread())
