@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.CountDownTimer;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -168,11 +169,11 @@ public abstract class BaseCountDownTimerView extends LinearLayoutCompat {
 	 * @param millis
 	 */
 	private void setSecond(long millis) {
-		String second = (int) (millis % 60) + "";// 秒
-		long totalMinutes = millis / 60;
-		String minute = (int) (totalMinutes % 60) + "";// 分
+		String second = (int) (millis / 1000) + "";// 秒
+		long totalMinutes = millis / 1000;
+		String minute = (int) (totalMinutes / 60) + "";// 分
 		long totalHours = totalMinutes / 60;
-		String hour = (int) (totalHours % 24) + "";// 时
+		String hour = (int) (totalHours / 24) + "";// 时
 		if (hour.length() == 1) {
 			hour = "0" + hour;
 		}
@@ -217,7 +218,7 @@ public abstract class BaseCountDownTimerView extends LinearLayoutCompat {
 
 	public void cancelDownTimer() {
 		mCountDownTimer.cancel();
-		mCountDownTimer = null;
+		//mCountDownTimer = null;
 	}
 
 	public CountDownTimer getCountDownTimer(){
