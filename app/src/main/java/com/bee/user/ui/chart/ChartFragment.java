@@ -39,7 +39,6 @@ import com.bee.user.ui.nearby.FoodActivity;
 import com.bee.user.ui.nearby.StoreActivity;
 import com.bee.user.ui.xiadan.OrderingActivity;
 import com.bee.user.utils.DisplayUtil;
-import com.bee.user.utils.LoadmoreUtils;
 import com.bee.user.utils.LogUtil;
 import com.bee.user.utils.NetWorkUtil;
 import com.bee.user.utils.ToastUtil;
@@ -79,15 +78,8 @@ public class ChartFragment extends BaseFragment {
     Unbinder bind;
     @BindView(R.id.ll_nonet)
     LinearLayout ll_nonet;
-    @BindView(R.id.ll_nodata)
-    LinearLayout ll_nodata;
     @BindView(R.id.ll_havedata)
     RelativeLayout ll_havedata;
-
-    @BindView(R.id.swiperefresh_tuijian)
-    SwipeRefreshLayout swiperefresh_tuijian;
-    @BindView(R.id.recyclerview_tuijian)
-    RecyclerView recyclerview_tuijian;
 
     @BindView(R.id.swiperefresh)
     SwipeRefreshLayout swiperefresh;
@@ -102,10 +94,10 @@ public class ChartFragment extends BaseFragment {
 
     HomeAdapter homeAdapter;
     ChartNoDataDrawerView ll_products;
-
     private  ChartAdapter adapter;
 
-    LoadmoreUtils loadmoreUtils;
+    View ll_empty;
+    RecyclerView rv_chat_datas;
 
     HashMap<Integer, List<ChartBean>> integerListHashMap = new HashMap<>();
     private List<ChartBean> mAvalableBeans;
@@ -156,11 +148,7 @@ public class ChartFragment extends BaseFragment {
                             public void onSuccess(String s) {
                                 adapter.setNewInstance(new ArrayList<>());
 
-
-//                initNoNet();
                                 setNoDataViews(mUnAvalableBeans);
-//                initDatas();
-
                             }
 
                             @Override
@@ -177,7 +165,8 @@ public class ChartFragment extends BaseFragment {
 
     @Override
     protected void getDatas() {
-
+        getInitDatas();
+        getTuijian();
     }
 
     @Override public void onDestroyView() {
@@ -189,20 +178,16 @@ public class ChartFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_chart_nodata, container, false);
         bind = ButterKnife.bind(this,view);
-
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         EventBus.getDefault().register(this);
         initViews();
-
     }
 
 
@@ -219,32 +204,21 @@ public class ChartFragment extends BaseFragment {
         });
         ViewGroup.LayoutParams layoutParams = status_bar1.getLayoutParams();
         layoutParams.height = ImmersionBar.getStatusBarHeight(this);
-
         ll_nonet.setVisibility(View.GONE);
-        ll_nodata.setVisibility(View.GONE);
         ll_havedata.setVisibility(View.VISIBLE);
-
-        initNoNet();
-        initNoDatas();
-        initDatas();
-
-        getInitDatas();
-
+        initView();
 
     }
 
     private void getInitDatas() {
         if(NetWorkUtil.isNetConnected(getContext())){
             ll_nonet.setVisibility(View.GONE);
-            ll_nodata.setVisibility(View.VISIBLE);
-            ll_havedata.setVisibility(View.GONE);
+            ll_havedata.setVisibility(View.VISIBLE);
             getAddress();
         }else{
             ll_nonet.setVisibility(View.VISIBLE);
-            ll_nodata.setVisibility(View.GONE);
             ll_havedata.setVisibility(View.GONE);
         }
-        swiperefresh_tuijian.setRefreshing(false);
     }
 
     private void getAddress() {
@@ -255,8 +229,7 @@ public class ChartFragment extends BaseFragment {
                     public void onSuccess(List<AddressBean> addressBean2) {
                         if(null != addressBean2 && addressBean2.size()>0){
                             mAddress = addressBean2.get(0);
-
-                            loadmoreUtils.refresh(adapter);
+                            getCartDatas();
                         }
                     }
 
@@ -271,103 +244,9 @@ public class ChartFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         if(isChartDataDurty){
-            loadmoreUtils.reSetPageInfo();
             getAddress();
             isChartDataDurty = false;
         }
-    }
-
-    private void initDatas() {
-        adapter     = new ChartAdapter();
-
-        recyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerview.setHasFixedSize(false);
-        recyclerview.setAdapter(adapter);
-
-        adapter.addChildClickViewIds(R.id.tv_clear, R.id.tv_store);
-        adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-//                ChartBean item = (ChartBean) adapter.getItem(position);
-
-                switch (view.getId()){
-                    case R.id.tv_store:
-                        Intent intent = new Intent(getContext(), StoreActivity.class);
-                        List<ChartBean> data = (List<ChartBean>) adapter.getData().get(position);
-
-                        if(null != data && null != data.get(0)){
-                            intent.putExtra("id",data.get(0).getStoreId()+"");
-                        }
-
-                        startActivity(intent);
-                        break;
-                    case R.id.tv_clear:
-                        adapter.removeAt(position);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-
-
-        View foot = View.inflate(getContext(), R.layout.foot_chart, null);
-        ImageView imageview = foot.findViewById(R.id.imageview);
-        Picasso.with(getContext()).
-                load(R.drawable.banner).
-                fit().
-                transform(new PicassoRoundTransform(DisplayUtil.dip2px(getContext(),10),0, PicassoRoundTransform.CornerType.ALL)).
-                into(imageview);
-        adapter.addFooterView(foot);
-
-//        recyclerview.setHasFixedSize(true);
-//        recyclerview.setNestedScrollingEnabled(false);
-//        recyclerview.setItemViewCacheSize(200);
-//        RecyclerView.RecycledViewPool recycledViewPool = new
-//                RecyclerView.RecycledViewPool();
-//        recyclerview.setRecycledViewPool(recycledViewPool);
-
-//        ArrayList<ChartBean> beans = new ArrayList<>();
-//        beans.add(new ChartBean());
-//        beans.add(new ChartBean());
-//        beans.add(new ChartBean());
-//        beans.add(new ChartBean());
-//        beans.add(new ChartBean());
-//        adapter.setNewInstance(beans);
-
-
-        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                for (List<ChartBean> beans : adapter.getData()){
-                    if(beans.size()>0){
-                        beans.get(0).selectedAll = b;
-                    }
-                }
-                adapter.notifyDataSetChanged();
-
-                LogUtil.d("totalMoney = 0");
-                totalMoney = 0;
-                if(b){
-                    for (List<ChartBean> beans : adapter.getData()){
-                        for(ChartBean  bean : beans){
-                            totalMoney += bean.getPrice().intValue()*bean.getQuantity();
-                        }
-                    }
-                }
-                tv_heji_money.setText("¥"+totalMoney);
-            }
-        });
-
-
-        loadmoreUtils = new LoadmoreUtils(){
-            @Override
-            protected void getDatas(int page) {
-                getCartDatas();
-            }
-        };
-        loadmoreUtils.initLoadmore(adapter,swiperefresh);
-        loadmoreUtils.setEmptyView(null);
     }
 
     private void getCartDatas() {
@@ -384,10 +263,6 @@ public class ChartFragment extends BaseFragment {
                     public void onSuccess(List<ChartBean> beans) {
 
                         if(beans!= null && beans.size()>0){
-                            ll_nonet.setVisibility(View.GONE);
-                            ll_nodata.setVisibility(View.GONE);
-                            ll_havedata.setVisibility(View.VISIBLE);
-
                             totalMoney = 0;
                             tv_heji_money.setText("¥"+totalMoney);
                             caculate(beans);
@@ -399,15 +274,13 @@ public class ChartFragment extends BaseFragment {
                     @Override
                     public void onFail(String fail) {
                         super.onFail(fail);
-                        loadmoreUtils.onFail(adapter,fail);
                     }
                 });
     }
 
     private void setNoDataViews(List<ChartBean> beans) {
-        ll_nonet.setVisibility(View.GONE);
-        ll_nodata.setVisibility(View.VISIBLE);
-        ll_havedata.setVisibility(View.GONE);
+        ll_empty.setVisibility(View.VISIBLE);
+        rv_chat_datas.setVisibility(View.GONE);
 
         HashMap<Integer, List<ChartBean>> objectObjectHashMap = new HashMap<>();
         List<ChartBean> chartBeans = null;
@@ -429,8 +302,6 @@ public class ChartFragment extends BaseFragment {
 
         mUnAvalableBeans = chartBeans;
         ll_products.setDatas(chartBeans);
-
-        getTuijian();
     }
 
     private void caculate(List<ChartBean> beans) {
@@ -461,34 +332,87 @@ public class ChartFragment extends BaseFragment {
         }
         ArrayList<List<ChartBean>> lists = new ArrayList<>(integerListHashMap.values());
         if(lists.size()>0){
-            loadmoreUtils.onSuccess(adapter,lists);
+            adapter.setNewInstance(lists);
+            if(mUnAvalableBeans.size()>0){
+                ll_products.setDatas(mUnAvalableBeans);
+            }
         }else{
-
-
             setNoDataViews(unAvalableBeans);
         }
+        swiperefresh.setRefreshing(false);
     }
 
-    private void initNoNet() {
+    private void initView() {
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                for (List<ChartBean> beans : adapter.getData()){
+                    if(beans.size()>0){
+                        beans.get(0).selectedAll = b;
+                    }
+                }
+                adapter.notifyDataSetChanged();
 
-    }
-
-    private void initNoDatas() {
-
-        swiperefresh_tuijian.setColorSchemeResources(com.huaxiafinance.www.crecyclerview.R.color.colorPrimary,
+                LogUtil.d("totalMoney = 0");
+                totalMoney = 0;
+                if(b){
+                    for (List<ChartBean> beans : adapter.getData()){
+                        for(ChartBean  bean : beans){
+                            totalMoney += bean.getPrice().intValue()*bean.getQuantity();
+                        }
+                    }
+                }
+                tv_heji_money.setText("¥"+totalMoney);
+            }
+        });
+        swiperefresh.setColorSchemeResources(com.huaxiafinance.www.crecyclerview.R.color.colorPrimary,
                 com.huaxiafinance.www.crecyclerview.R.color.colorPrimaryDark);
-        swiperefresh_tuijian.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getInitDatas();
+                getTuijian();
             }
         });
-
-        homeAdapter = new HomeAdapter();
-        recyclerview_tuijian.setLayoutManager(new StaggeredGridLayoutManager( 2, StaggeredGridLayoutManager.VERTICAL));
-        recyclerview_tuijian.setAdapter(homeAdapter);
-
         View head = View.inflate(getContext(), R.layout.head_fragment_chart_nodata, null);
+        ImageView imageview = head.findViewById(R.id.imageview);
+        Picasso.with(getContext()).
+                load(R.drawable.banner).
+                fit().
+                transform(new PicassoRoundTransform(DisplayUtil.dip2px(getContext(),10),0, PicassoRoundTransform.CornerType.ALL)).
+                into(imageview);
+        ll_empty = head.findViewById(R.id.ll_empty);
+        ll_empty.setVisibility(View.GONE);
+        rv_chat_datas = head.findViewById(R.id.rv_chat_datas);
+        adapter = new ChartAdapter();
+        rv_chat_datas.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rv_chat_datas.setHasFixedSize(false);
+        rv_chat_datas.setAdapter(adapter);
+        adapter.addChildClickViewIds(R.id.tv_clear, R.id.tv_store);
+        adapter.setOnItemChildClickListener(new OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+//                ChartBean item = (ChartBean) adapter.getItem(position);
+
+                switch (view.getId()){
+                    case R.id.tv_store:
+                        Intent intent = new Intent(getContext(), StoreActivity.class);
+                        List<ChartBean> data = (List<ChartBean>) adapter.getData().get(position);
+
+                        if(null != data && null != data.get(0)){
+                            intent.putExtra("id",data.get(0).getStoreId()+"");
+                        }
+
+                        startActivity(intent);
+                        break;
+                    case R.id.tv_clear:
+                        adapter.removeAt(position);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
         View tv_guangguang = head.findViewById(R.id.tv_guangguang);
         tv_guangguang.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -500,6 +424,7 @@ public class ChartFragment extends BaseFragment {
         });
         ll_products = head.findViewById(R.id.ll_products);
 
+        homeAdapter = new HomeAdapter();
         homeAdapter.addHeaderView(head);
         MainActivity activity = (MainActivity) getActivity();
         homeAdapter.setAddChartAnimatorView(activity.fl_content,activity.getAddChartAnimatorEndView());
@@ -510,8 +435,11 @@ public class ChartFragment extends BaseFragment {
                 FoodActivity.newInstance(getContext(),bean.shopProductId,bean.storeId,bean.skuId);
             }
         });
+        recyclerview.setLayoutManager(new StaggeredGridLayoutManager( 2, StaggeredGridLayoutManager.VERTICAL));
+        recyclerview.setAdapter(homeAdapter);
         homeAdapter.setNewInstance(new ArrayList<>());
     }
+
     private int totalMoney;
 
     private boolean isChartDataDurty = false;
@@ -520,7 +448,6 @@ public class ChartFragment extends BaseFragment {
         switch (event.type){
             case ChartFragmentEvent.TYPE_REFLUSH:
                 if(isResumed()){
-                    loadmoreUtils.reSetPageInfo();
                     getAddress();
                 }else{
                     isChartDataDurty = true;

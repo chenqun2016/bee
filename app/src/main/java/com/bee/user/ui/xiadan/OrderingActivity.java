@@ -549,6 +549,10 @@ public class OrderingActivity extends BaseActivity {
                             }
                         }
                     });
+                    RadioButton rb_1 = dialog.findViewById(R.id.rb_1);
+                    rb_1.setText("今天("+CommonUtil.getWeek(0)+")");
+                    RadioButton rb_2 = dialog.findViewById(R.id.rb_2);
+                    rb_2.setText("明天("+CommonUtil.getWeek(1)+")");
                     RadioGroupPlus buttons = dialog.findViewById(R.id.buttons);
                     RecyclerView choosetimeRec = dialog.findViewById(R.id.recyclerview);
                     choosetimeRec.setLayoutManager(new LinearLayoutManager(choosetimeRec.getContext()));
@@ -617,7 +621,6 @@ public class OrderingActivity extends BaseActivity {
                         }
                     });
 
-                    RadioButton rb_1 = dialog.findViewById(R.id.rb_1);
                     if (chooseTimeBean.today == null || chooseTimeBean.today.size()==0) {
                         rb_1.setVisibility(View.GONE);
                         buttons.check(R.id.rb_2);

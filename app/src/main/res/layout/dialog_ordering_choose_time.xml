@@ -46,7 +46,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="今天(周二)"
+                android:text="今天"
                 android:background="@drawable/color_choose_time_background"
                 android:textColor="@drawable/color_choose_time_selector"
                 android:textSize="14sp" />
@@ -58,7 +58,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="明天(周三)"
+                android:text="明天"
                 android:background="@drawable/color_choose_time_background"
                 android:textColor="@drawable/color_choose_time_selector"
                 android:textSize="14sp" />

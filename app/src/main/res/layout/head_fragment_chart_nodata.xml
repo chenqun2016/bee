@@ -17,6 +17,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_height="400dp">
 
 
@@ -62,19 +63,49 @@
             android:text="去随便逛逛"/>
     </LinearLayout>
 
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_chat_datas"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="rv_chat_datas,ll_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <com.bee.user.widget.ChartNoDataDrawerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:id="@+id/ll_products"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_empty"/>
+        app:layout_constraintTop_toBottomOf="@+id/barrier"/>
 
+
+    <ImageView
+        android:id="@+id/imageview"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_products"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:scaleType="fitXY"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
     <TextView
         android:id="@+id/tv_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_products"
+        app:layout_constraintTop_toBottomOf="@+id/imageview"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="20dp"
         android:text="为你推荐附近精选"

@@ -53,6 +53,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -628,5 +629,42 @@ public class CommonUtil {
                 return "退款";
         }
         return "";
+    }
+
+    /**
+     * 根据当前日期获得是星期几
+     * time=yyyy-MM-dd
+     * @return
+     */
+    public static String getWeek(int day) {
+        String Week = "";
+        Calendar c = Calendar.getInstance();
+        if(day > 0){
+            c.add(Calendar.DAY_OF_WEEK,1);
+        }
+        int wek=c.get(Calendar.DAY_OF_WEEK);
+
+        if (wek == 1) {
+            Week += "星期日";
+        }
+        if (wek == 2) {
+            Week += "星期一";
+        }
+        if (wek == 3) {
+            Week += "星期二";
+        }
+        if (wek == 4) {
+            Week += "星期三";
+        }
+        if (wek == 5) {
+            Week += "星期四";
+        }
+        if (wek == 6) {
+            Week += "星期五";
+        }
+        if (wek == 7) {
+            Week += "星期六";
+        }
+        return Week;
     }
 }

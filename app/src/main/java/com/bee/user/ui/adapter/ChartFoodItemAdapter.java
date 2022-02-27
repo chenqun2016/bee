@@ -36,8 +36,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * 描述：
  */
 public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHolder> {
-    public ChartFoodItemAdapter(@Nullable List<ChartBean> data) {
+    OnFoodAllRemovedListener mListener;
+    public ChartFoodItemAdapter(@Nullable List<ChartBean> data,OnFoodAllRemovedListener listener) {
         super(R.layout.item_chart_food, data);
+        this.mListener = listener;
     }
 
     @Override
@@ -133,8 +135,12 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
                                 @Override
                                 public void onSuccess(String s) {
                                     if (null != getData() && null != foodBean) {
+                                        int indexOf = getData().indexOf(foodBean);
                                         getData().remove(foodBean);
-                                        notifyItemRemoved(getData().indexOf(foodBean));
+                                        notifyItemRemoved(indexOf);
+                                        if((null == getData() || getData().size()==0) && null != mListener){
+                                            mListener.onFoodAllRemoved();
+                                        }
                                     }
                                 }
 
@@ -164,4 +170,7 @@ public class ChartFoodItemAdapter extends BaseQuickAdapter<ChartBean, BaseViewHo
     }
 
 
+    public interface OnFoodAllRemovedListener{
+        void onFoodAllRemoved();
+    }
 }

@@ -64,41 +64,6 @@
             android:textSize="17sp" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_nodata"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/status_bar1"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="5dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="10dp"
-            android:text="购物车"
-            android:textColor="@color/color_282525"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swiperefresh_tuijian"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_tuijian"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:cacheColorHint="@null"
-                android:scrollbars="none" />
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    </LinearLayout>
-
     <RelativeLayout
         android:id="@+id/ll_havedata"
         android:layout_width="match_parent"
@@ -130,11 +95,6 @@
             android:text="全部清空"
             android:textColor="@color/color_3B3838"
             android:textSize="12sp" />
-
-
-
-
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_qujiesuan"

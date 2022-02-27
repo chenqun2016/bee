@@ -52,7 +52,14 @@ public class ChartAdapter extends BaseQuickAdapter<List<ChartBean>, BaseViewHold
         RecyclerView recyclerview = holder.findView(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(recyclerview.getContext()));
         recyclerview.setHasFixedSize(false);
-        ChartFoodItemAdapter chartFoodItemAdapter = new ChartFoodItemAdapter(storeBean);
+        ChartFoodItemAdapter chartFoodItemAdapter = new ChartFoodItemAdapter(storeBean, new ChartFoodItemAdapter.OnFoodAllRemovedListener() {
+            @Override
+            public void onFoodAllRemoved() {
+                int indexOf = getData().indexOf(storeBean);
+                getData().remove(storeBean);
+                notifyItemRemoved(indexOf);
+            }
+        });
         recyclerview.setAdapter(chartFoodItemAdapter);
 
         CheckBox cb_1 = holder.findView(R.id.cb_1);
