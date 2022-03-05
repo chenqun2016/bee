@@ -1,5 +1,8 @@
 package com.bee.user.bean;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -66,10 +69,13 @@ public class OrderingConfirmBean {
         public int currentDay;
         public int feightTemplateDetailId;
         public String feightTemplateDetail;
+        public int selectedCoupon = -1;
         private int storeId;
         private Object storeName;
         private CalcAmountBean calcAmount;
         private List<ProductsBean> products;
+        public List<OrderingCouponBean> couponList;
+
 
         public int getStoreId() {
             return storeId;
@@ -223,6 +229,27 @@ public class OrderingConfirmBean {
             public void setProductAttr(Object productAttr) {
                 this.productAttr = productAttr;
             }
+        }
+
+    }
+
+    public static class OrderingCouponBean implements Serializable, MultiItemEntity {
+        public  static final int type1 = 0;
+        public  static final int type2 = 1;
+        public boolean isSelected = false;
+
+        public String cardName;
+        public String cardType;
+        public Integer couponId;
+        public String expireTime;
+        public String faceValue;
+        public String memo;
+        public String minAmount;
+        public Integer status;
+
+        @Override
+        public int getItemType() {
+            return status;
         }
     }
 }

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bee.user.Constants;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.AddChartBean;
@@ -70,6 +72,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+
+import static com.bee.user.Constants.REQUEST_CODE_ORDERING;
 
 /**
  * 创建人：进京赶考
@@ -174,7 +178,7 @@ public class StoreActivity extends BaseActivity {
                         }
                     }
                 }
-                startActivity(OrderingActivity.newIntent(this, 2, intss, storeIds));
+                startActivityForResult(OrderingActivity.newIntent(this, 2, intss, storeIds), REQUEST_CODE_ORDERING);
                 break;
             case R.id.cl_qujiesuan:
 
@@ -195,6 +199,16 @@ public class StoreActivity extends BaseActivity {
                 break;
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_ORDERING && resultCode == Constants.RESULT_CODE_ORDERING){
+            hashMap.clear();
+            resetView();
+            chart_bottom_dialog_view.close();
+        }
     }
 
     private void toShoucang() {

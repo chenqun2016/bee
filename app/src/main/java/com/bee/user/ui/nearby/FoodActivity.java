@@ -15,11 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bee.user.Constants;
 import com.bee.user.PicassoRoundTransform;
 import com.bee.user.R;
 import com.bee.user.bean.ChartBean;
@@ -74,6 +76,8 @@ import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
+
+import static com.bee.user.Constants.REQUEST_CODE_ORDERING;
 
 /**
  * 创建人：进京赶考
@@ -276,7 +280,7 @@ public class FoodActivity extends BaseActivity {
                             storeIds.add(bean.getStoreId());
                         }
                     }
-                    startActivity(OrderingActivity.newIntent(this, 2, intss, storeIds));
+                    startActivityForResult(OrderingActivity.newIntent(this, 2, intss, storeIds),REQUEST_CODE_ORDERING);
                 }
 
                 break;
@@ -296,6 +300,18 @@ public class FoodActivity extends BaseActivity {
                 intent.putExtra("id",mBeans.storeId+"");
                 startActivity(intent);
                 break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_ORDERING && resultCode == Constants.RESULT_CODE_ORDERING){
+            hashMap.clear();
+            setCartQuantity();
+            chart_bottom_dialog_view.close();
         }
     }
 

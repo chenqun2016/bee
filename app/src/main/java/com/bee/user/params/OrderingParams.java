@@ -39,6 +39,7 @@ public class OrderingParams implements Serializable {
     //订单来源:[0.PC订单;1.商品详情;2.h5;3.微信小程序;4.支付宝小程序;5.app订单]
     public int sourceType ;
 
+    public List<CouponInfo> shopCoupons;
 
     public static class FeightTemplateModel implements Serializable{
         public int feightTemplateDetailId;
@@ -48,5 +49,15 @@ public class OrderingParams implements Serializable {
             this.feightTemplateDetailId = feightTemplateDetailId;
             this.storeId = storeId;
         }
+    }
+
+    public static class CouponInfo{
+        public CouponInfo(int couponId, int storeId) {
+            this.couponId = couponId;
+            this.storeId = storeId;
+        }
+
+        public int couponId;
+        public int storeId;
     }
 }

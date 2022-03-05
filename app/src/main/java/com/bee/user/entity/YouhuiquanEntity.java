@@ -1,14 +1,13 @@
 package com.bee.user.entity;
 
+import android.app.Activity;
 import android.content.Context;
-import android.view.View;
-import android.widget.CheckBox;
+import android.content.Intent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bee.user.R;
-import com.bee.user.bean.YouhuiquanBean;
-import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
+import com.bee.user.bean.OrderingConfirmBean;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseCEntity;
@@ -21,7 +20,7 @@ import io.reactivex.rxjava3.core.Observable;
  * 创建时间：2020/09/05  21：14
  * 描述：
  */
-public class YouhuiquanEntity extends BaseCEntity<YouhuiquanBean> {
+public class YouhuiquanEntity extends BaseCEntity<OrderingConfirmBean.OrderingCouponBean> {
 
     private int index = -1;
     @Override
@@ -30,12 +29,12 @@ public class YouhuiquanEntity extends BaseCEntity<YouhuiquanBean> {
     }
 
     @Override
-    public void onClick(Context context, BaseQuickAdapter<YouhuiquanBean, BaseViewHolder> mAdapter, int position) {
-        YouhuiquanBean item = mAdapter.getItem(position);
-        if(item.type == 0){
+    public void onClick(Context context, BaseQuickAdapter<OrderingConfirmBean.OrderingCouponBean, BaseViewHolder> mAdapter, int position) {
+        OrderingConfirmBean.OrderingCouponBean item = mAdapter.getItem(position);
+        if(item.status == 0){
 
             if(index != -1 && index != position){
-                YouhuiquanBean itemPre = mAdapter.getItem(index);
+                OrderingConfirmBean.OrderingCouponBean itemPre = mAdapter.getItem(index);
                 if(itemPre.isSelected){
                     itemPre.isSelected = false;
                     mAdapter.notifyItemChanged(index);
@@ -44,11 +43,18 @@ public class YouhuiquanEntity extends BaseCEntity<YouhuiquanBean> {
             item.isSelected = !item.isSelected;
             this. index = position;
             mAdapter.notifyItemChanged(position);
+
+            if(context instanceof Activity){
+                Intent intent = new Intent();
+                intent.putExtra("index",position);
+                ((Activity) context).setResult(55,intent);
+                ((Activity) context).finish();
+            }
         }
     }
 
     @Override
-    public void onClick(Context context, YouhuiquanBean item,int position) {
+    public void onClick(Context context, OrderingConfirmBean.OrderingCouponBean item,int position) {
         super.onClick(context, item,position);
 
     }
@@ -58,16 +64,16 @@ public class YouhuiquanEntity extends BaseCEntity<YouhuiquanBean> {
     @Override
     public void addItemType(CMultiRecyclerView.MultipleItemQuickAdapter adapter) {
         super.addItemType(adapter);
-        adapter.addItemTypes(YouhuiquanBean.type1,R.layout.item_youhuiquan);
-        adapter.addItemTypes(YouhuiquanBean.type2,R.layout.item_youhuiquan_2);
+        adapter.addItemTypes(OrderingConfirmBean.OrderingCouponBean.type1,R.layout.item_youhuiquan);
+        adapter.addItemTypes(OrderingConfirmBean.OrderingCouponBean.type2,R.layout.item_youhuiquan_2);
     }
 
     @Override
-    public void convert(BaseQuickAdapter adapter, BaseViewHolder helper, YouhuiquanBean item, int position) {
+    public void convert(BaseQuickAdapter adapter, BaseViewHolder helper, OrderingConfirmBean.OrderingCouponBean item, int position) {
         super.convert(adapter, helper, item, position);
 
         switch (helper.getItemViewType()) {
-            case YouhuiquanBean.type1:
+            case OrderingConfirmBean.OrderingCouponBean.type1:
                 TextView tv_money = helper.findView(R.id.tv_money);
                 TextView tv_money_value = helper.findView(R.id.tv_money_value);
                 TextView tv_limit = helper.findView(R.id.tv_limit);
@@ -76,7 +82,7 @@ public class YouhuiquanEntity extends BaseCEntity<YouhuiquanBean> {
                 TextView tv_des3 = helper.findView(R.id.tv_des3);
                 ImageView cb_1 = helper.findView(R.id.cb_1);
 
-                if(item.type == 0){
+                if(item.status == 0){
                     tv_money.setTextColor(tv_money.getResources().getColor(R.color.color_FF5549));
                     tv_money_value.setTextColor(tv_money.getResources().getColor(R.color.color_FF5549));
                     tv_limit.setTextColor(tv_money.getResources().getColor(R.color.color_7C7877));
@@ -102,7 +108,7 @@ public class YouhuiquanEntity extends BaseCEntity<YouhuiquanBean> {
 
 
                 break;
-            case YouhuiquanBean.type2:
+            case OrderingConfirmBean.OrderingCouponBean.type2:
                 break;
             default:
                 break;

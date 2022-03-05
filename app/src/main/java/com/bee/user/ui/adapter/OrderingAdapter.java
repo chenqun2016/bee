@@ -11,7 +11,6 @@ import com.bee.user.R;
 import com.bee.user.bean.OrderingConfirmBean;
 import com.bee.user.event.OrderingEvent;
 import com.bee.user.ui.nearby.StoreActivity;
-import com.bee.user.ui.xiadan.YouhuiquanActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 
@@ -79,15 +78,8 @@ public class OrderingAdapter extends BaseQuickAdapter<OrderingConfirmBean.StoreO
         TextView tv_peisongfei_value = baseViewHolder.findView(R.id.tv_peisongfei_value);
         tv_peisongfei_value.setText(""+calcAmount.getFreightAmount());
         TextView tv_youhuiquan_value = baseViewHolder.findView(R.id.tv_youhuiquan_value);
-        tv_youhuiquan_value.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(tv_youhuiquan_value.getContext(), YouhuiquanActivity.class);
-                tv_youhuiquan_value.getContext().startActivity(intent);
-
-            }
-        });
+        int size = storeBean.couponList ==null?0:storeBean.couponList.size();
+        tv_youhuiquan_value.setText(size + "张可用");
         TextView tv_total_value = baseViewHolder.findView(R.id.tv_total_value);
         tv_total_value.setText(""+calcAmount.getPayAmount());
         TextView tv_total_youhui_value = baseViewHolder.findView(R.id.tv_total_youhui_value);

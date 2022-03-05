@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,6 +72,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  */
 public class ChartFragment extends BaseFragment {
 
+    @BindView(R.id.tv_clear)
+    TextView tv_clear;
 
     @BindView(R.id.status_bar1)
     View status_bar1;
@@ -91,6 +94,9 @@ public class ChartFragment extends BaseFragment {
 
     @BindView(R.id.checkbox)
     CheckBox checkbox;
+
+    @BindView(R.id.cl_qujiesuan)
+    ConstraintLayout cl_qujiesuan;
 
     HomeAdapter homeAdapter;
     ChartNoDataDrawerView ll_products;
@@ -166,7 +172,6 @@ public class ChartFragment extends BaseFragment {
     @Override
     protected void getDatas() {
         getInitDatas();
-        getTuijian();
     }
 
     @Override public void onDestroyView() {
@@ -215,12 +220,14 @@ public class ChartFragment extends BaseFragment {
             ll_nonet.setVisibility(View.GONE);
             ll_havedata.setVisibility(View.VISIBLE);
             getAddress();
+            getTuijian();
         }else{
             ll_nonet.setVisibility(View.VISIBLE);
             ll_havedata.setVisibility(View.GONE);
         }
     }
 
+    //TODO 有没有查询地址单独的接口？
     private void getAddress() {
         Api.getClient(HttpRequest.baseUrl_member).listAddress().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -251,6 +258,7 @@ public class ChartFragment extends BaseFragment {
 
     private void getCartDatas() {
         if(null == mAddress){
+            swiperefresh.setRefreshing(false);
             return ;
         }
         List<String> integers = new ArrayList<>();
@@ -269,18 +277,33 @@ public class ChartFragment extends BaseFragment {
                         }else{
                             setNoDataViews(beans);
                         }
+                        swiperefresh.setRefreshing(false);
                     }
 
                     @Override
                     public void onFail(String fail) {
+                        swiperefresh.setRefreshing(false);
                         super.onFail(fail);
                     }
                 });
     }
 
+    private void setHasDatas(Boolean hasDatas){
+        if(hasDatas){
+            ll_empty.setVisibility(View.GONE);
+            rv_chat_datas.setVisibility(View.VISIBLE);
+            tv_clear.setVisibility(View.VISIBLE);
+            cl_qujiesuan.setVisibility(View.VISIBLE);
+        }else{
+            ll_empty.setVisibility(View.VISIBLE);
+            rv_chat_datas.setVisibility(View.GONE);
+            tv_clear.setVisibility(View.GONE);
+            cl_qujiesuan.setVisibility(View.GONE);
+        }
+    }
+
     private void setNoDataViews(List<ChartBean> beans) {
-        ll_empty.setVisibility(View.VISIBLE);
-        rv_chat_datas.setVisibility(View.GONE);
+        setHasDatas(false);
 
         HashMap<Integer, List<ChartBean>> objectObjectHashMap = new HashMap<>();
         List<ChartBean> chartBeans = null;
@@ -332,6 +355,7 @@ public class ChartFragment extends BaseFragment {
         }
         ArrayList<List<ChartBean>> lists = new ArrayList<>(integerListHashMap.values());
         if(lists.size()>0){
+            setHasDatas(false);
             adapter.setNewInstance(lists);
             if(mUnAvalableBeans.size()>0){
                 ll_products.setDatas(mUnAvalableBeans);
@@ -339,7 +363,6 @@ public class ChartFragment extends BaseFragment {
         }else{
             setNoDataViews(unAvalableBeans);
         }
-        swiperefresh.setRefreshing(false);
     }
 
     private void initView() {
@@ -371,7 +394,6 @@ public class ChartFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 getInitDatas();
-                getTuijian();
             }
         });
         View head = View.inflate(getContext(), R.layout.head_fragment_chart_nodata, null);
@@ -382,7 +404,6 @@ public class ChartFragment extends BaseFragment {
                 transform(new PicassoRoundTransform(DisplayUtil.dip2px(getContext(),10),0, PicassoRoundTransform.CornerType.ALL)).
                 into(imageview);
         ll_empty = head.findViewById(R.id.ll_empty);
-        ll_empty.setVisibility(View.GONE);
         rv_chat_datas = head.findViewById(R.id.rv_chat_datas);
         adapter = new ChartAdapter();
         rv_chat_datas.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -427,6 +448,12 @@ public class ChartFragment extends BaseFragment {
         homeAdapter = new HomeAdapter();
         homeAdapter.addHeaderView(head);
         MainActivity activity = (MainActivity) getActivity();
+        homeAdapter.setListener(new HomeAdapter.OnAddChartListener() {
+            @Override
+            public void onAddChart() {
+                getCartDatas();
+            }
+        });
         homeAdapter.setAddChartAnimatorView(activity.fl_content,activity.getAddChartAnimatorEndView());
         homeAdapter.setOnItemClickListener(new com.chad.library.adapter.base.listener.OnItemClickListener() {
             @Override

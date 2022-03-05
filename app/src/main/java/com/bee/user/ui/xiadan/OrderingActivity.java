@@ -35,6 +35,7 @@ import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.AddRemoveView;
 import com.bee.user.widget.RadioGroupPlus;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.gyf.immersionbar.ImmersionBar;
@@ -42,7 +43,9 @@ import com.gyf.immersionbar.ImmersionBar;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -149,6 +152,10 @@ public class OrderingActivity extends BaseActivity {
             String beizhu = data.getStringExtra(TEXT_BEIZHU);
             tv_beizhu.setText(beizhu);
         }
+        if(requestCode == 55 && resultCode == 55){
+            int index = data.getIntExtra("index",-1);
+            selectedCouponBean.selectedCoupon = index;
+        }
     }
 
 
@@ -168,7 +175,7 @@ public class OrderingActivity extends BaseActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-
+    OrderingConfirmBean.StoreOrderConfirmItemsBean  selectedCouponBean;
     @Override
     public void initViews() {
         EventBus.getDefault().register(this);
@@ -189,8 +196,21 @@ public class OrderingActivity extends BaseActivity {
 
 
         orderingAdapter  = new OrderingAdapter(isSingle);
+        orderingAdapter.addChildClickViewIds(R.id.tv_youhuiquan_value);
+        orderingAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(@NonNull @NotNull BaseQuickAdapter adapter, @NonNull @NotNull View view, int position) {
+                if(view.getId() == R.id.tv_youhuiquan_value){
+                    selectedCouponBean = (OrderingConfirmBean.StoreOrderConfirmItemsBean) adapter.getData().get(position);
+                    if(null != selectedCouponBean.couponList && selectedCouponBean.couponList.size()>0){
+                        Intent intent = new Intent(OrderingActivity.this, YouhuiquanActivity.class);
+                        intent.putExtra("datas", (Serializable) selectedCouponBean.couponList);
+                        startActivityForResult(intent,55);
+                    }
+                }
+            }
+        });
         recyclerView.setAdapter(orderingAdapter);
-
 
         View head = View.inflate(this, R.layout.head_ordering, null);
         View foot = View.inflate(this, R.layout.foot_ordering, null);
@@ -476,9 +496,18 @@ public class OrderingActivity extends BaseActivity {
         OrderingParams orderingParams = new OrderingParams();
         orderingParams.addressId = mAddress.id;
 
+        //设置优惠券
+        List<OrderingParams.CouponInfo> shopCoupons = new ArrayList();
+        List<OrderingConfirmBean.StoreOrderConfirmItemsBean> data1 = orderingAdapter.getData();
+        for(int i=0;i<data1.size();i++){
+            OrderingConfirmBean.StoreOrderConfirmItemsBean bean = data1.get(i);
+            if(bean.selectedCoupon != -1){
+                shopCoupons.add(new OrderingParams.CouponInfo(bean.selectedCoupon,bean.getStoreId()));
+            }
+        }
+
         int feightTemplateDetailId =0 ;
         List<OrderingParams.FeightTemplateModel> feightTemplateModels = new ArrayList<>();
-
         for(int i=0;i<storeIds.size();i++){
             List<OrderingConfirmBean.StoreOrderConfirmItemsBean> data = orderingAdapter.getData();
             OrderingConfirmBean.StoreOrderConfirmItemsBean bean = data.get(i);
@@ -495,6 +524,7 @@ public class OrderingActivity extends BaseActivity {
         orderingParams.payType = 1;
         orderingParams.pickupWay = 1;
         orderingParams.sourceType = 5;
+        orderingParams.shopCoupons = shopCoupons;
 
         showLoadingDialog();
         Api.getClient(HttpRequest.baseUrl_order).ordering(Api.getRequestBody(orderingParams)).
@@ -514,6 +544,7 @@ public class OrderingActivity extends BaseActivity {
                         payParams.orderIds = ins;
                         startActivity( PayActivity.newIntent(OrderingActivity.this,payParams,totalMoney));
                         closeLoadingDialog();
+                        setResult(RESULT_CODE_ORDERING);
                         finish();
                     }
 

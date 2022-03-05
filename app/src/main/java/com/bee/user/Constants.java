@@ -102,7 +102,7 @@ public class Constants {
     public static final String PDF_Common = "common";
 
 
-    public static final int REQUEST_CODE_ORDERING = 5;//订单备注
+    public static final int REQUEST_CODE_ORDERING = 4;//订单备注
     public static final int RESULT_CODE_ORDERING = 5;//订单备注
     public static final String TEXT_BEIZHU = "beizhu";//订单备注
 
