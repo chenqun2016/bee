@@ -155,6 +155,8 @@ public class OrderingActivity extends BaseActivity {
         if(requestCode == 55 && resultCode == 55){
             int index = data.getIntExtra("index",-1);
             selectedCouponBean.selectedCoupon = index;
+            orderingAdapter.notifyDataSetChanged();
+            setCouponText();
         }
     }
 
@@ -206,6 +208,7 @@ public class OrderingActivity extends BaseActivity {
                         Intent intent = new Intent(OrderingActivity.this, YouhuiquanActivity.class);
                         intent.putExtra("datas", (Serializable) selectedCouponBean.couponList);
                         startActivityForResult(intent,55);
+
                     }
                 }
             }
@@ -219,6 +222,17 @@ public class OrderingActivity extends BaseActivity {
         initHeadFootView(head, foot);
 
         getDatas();
+    }
+
+    private void setCouponText() {
+        int coupon = 0;
+        for(int i=0;i<orderingAdapter.getData().size();i++){
+            OrderingConfirmBean.StoreOrderConfirmItemsBean bean = orderingAdapter.getData().get(i);
+            if(bean.selectedCoupon != -1){
+                coupon += Float.parseFloat(bean.couponList.get(bean.selectedCoupon).faceValue);
+            }
+        }
+        tv_youhui_value.setText("¥"+coupon);
     }
 
 
@@ -502,7 +516,7 @@ public class OrderingActivity extends BaseActivity {
         for(int i=0;i<data1.size();i++){
             OrderingConfirmBean.StoreOrderConfirmItemsBean bean = data1.get(i);
             if(bean.selectedCoupon != -1){
-                shopCoupons.add(new OrderingParams.CouponInfo(bean.selectedCoupon,bean.getStoreId()));
+                shopCoupons.add(new OrderingParams.CouponInfo(bean.couponList.get(bean.selectedCoupon).couponId,bean.getStoreId()));
             }
         }
 
@@ -535,14 +549,16 @@ public class OrderingActivity extends BaseActivity {
                     public void onSuccess(OrderingBean userBean) {
                         PayParams payParams = new PayParams();
                         List<Integer> ins = new ArrayList<>();
+                        int payMoney = 0;
                         if(null != userBean && null != userBean.orderList){
                             for(OrderingBean.OrderListBean bean : userBean.orderList){
                                 ins.add(bean.id);
+                                payMoney += bean.totalAmount;
                             }
                         }
 
                         payParams.orderIds = ins;
-                        startActivity( PayActivity.newIntent(OrderingActivity.this,payParams,totalMoney));
+                        startActivity( PayActivity.newIntent(OrderingActivity.this,payParams,payMoney));
                         closeLoadingDialog();
                         setResult(RESULT_CODE_ORDERING);
                         finish();

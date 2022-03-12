@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.bee.user.R;
 import com.bee.user.bean.OrderingConfirmBean;
+import com.bee.user.utils.CommonUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huaxiafinance.www.crecyclerview.crecyclerView.BaseCEntity;
@@ -65,7 +66,7 @@ public class YouhuiquanEntity extends BaseCEntity<OrderingConfirmBean.OrderingCo
     public void addItemType(CMultiRecyclerView.MultipleItemQuickAdapter adapter) {
         super.addItemType(adapter);
         adapter.addItemTypes(OrderingConfirmBean.OrderingCouponBean.type1,R.layout.item_youhuiquan);
-        adapter.addItemTypes(OrderingConfirmBean.OrderingCouponBean.type2,R.layout.item_youhuiquan_2);
+//        adapter.addItemTypes(OrderingConfirmBean.OrderingCouponBean.type2,R.layout.item_youhuiquan_2);
     }
 
     @Override
@@ -81,6 +82,12 @@ public class YouhuiquanEntity extends BaseCEntity<OrderingConfirmBean.OrderingCo
                 TextView tv_des2 = helper.findView(R.id.tv_des2);
                 TextView tv_des3 = helper.findView(R.id.tv_des3);
                 ImageView cb_1 = helper.findView(R.id.cb_1);
+
+                tv_money_value.setText(item.faceValue + "");
+                tv_limit.setText("满" + item.minAmount + "元可用");
+                tv_des1.setText(item.cardName + "");
+                tv_des2.setText(CommonUtil.getNomalTime(item.expireTime));
+                tv_des3.setText("通用");
 
                 if(item.status == 0){
                     tv_money.setTextColor(tv_money.getResources().getColor(R.color.color_FF5549));

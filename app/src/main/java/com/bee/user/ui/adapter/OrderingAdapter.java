@@ -79,7 +79,11 @@ public class OrderingAdapter extends BaseQuickAdapter<OrderingConfirmBean.StoreO
         tv_peisongfei_value.setText(""+calcAmount.getFreightAmount());
         TextView tv_youhuiquan_value = baseViewHolder.findView(R.id.tv_youhuiquan_value);
         int size = storeBean.couponList ==null?0:storeBean.couponList.size();
-        tv_youhuiquan_value.setText(size + "张可用");
+        if(storeBean.selectedCoupon != -1){
+            tv_youhuiquan_value.setText(storeBean.couponList.get(storeBean.selectedCoupon).faceValue+"元");
+        }else{
+            tv_youhuiquan_value.setText(size + "张可用");
+        }
         TextView tv_total_value = baseViewHolder.findView(R.id.tv_total_value);
         tv_total_value.setText(""+calcAmount.getPayAmount());
         TextView tv_total_youhui_value = baseViewHolder.findView(R.id.tv_total_youhui_value);

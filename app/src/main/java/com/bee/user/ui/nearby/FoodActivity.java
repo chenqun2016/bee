@@ -281,8 +281,14 @@ public class FoodActivity extends BaseActivity {
                         }
                     }
                     startActivityForResult(OrderingActivity.newIntent(this, 2, intss, storeIds),REQUEST_CODE_ORDERING);
-                }
+                }else{
+                    //没有加入购物车的情况下，直接加入购物车后跳下单页面
+                    if (isTagStyle()) {
 
+                    } else {
+                        doAddToChart(mBeans.skuId + "", "",true,null,mBeans.flashSaleGoodsId+"");
+                    }
+                }
                 break;
             case R.id.tv_add_to_chart:
                 if (isTagStyle()) {

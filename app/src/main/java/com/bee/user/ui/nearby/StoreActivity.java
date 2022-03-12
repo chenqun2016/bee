@@ -887,7 +887,7 @@ public class StoreActivity extends BaseActivity {
         float totalMoney = 0;
         for (Map.Entry<String, AddChartBean> entry : entries) {
             total += entry.getValue().num;
-            totalMoney += entry.getValue().money.multiply(new BigDecimal(entry.getValue().num)).floatValue();
+            totalMoney += entry.getValue().data.getPrice().multiply(new BigDecimal(entry.getValue().num)).floatValue();
         }
 
         if (total > 0) {

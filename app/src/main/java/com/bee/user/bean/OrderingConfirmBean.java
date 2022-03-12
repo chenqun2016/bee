@@ -3,6 +3,7 @@ package com.bee.user.bean;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -241,7 +242,7 @@ public class OrderingConfirmBean {
         public String cardName;
         public String cardType;
         public Integer couponId;
-        public String expireTime;
+        public Date expireTime;
         public String faceValue;
         public String memo;
         public String minAmount;
@@ -249,7 +250,7 @@ public class OrderingConfirmBean {
 
         @Override
         public int getItemType() {
-            return status;
+            return type1;
         }
     }
 }
