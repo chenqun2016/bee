@@ -208,6 +208,7 @@ public class StoreActivity extends BaseActivity {
             hashMap.clear();
             resetView();
             chart_bottom_dialog_view.close();
+            getDatas();
         }
     }
 
