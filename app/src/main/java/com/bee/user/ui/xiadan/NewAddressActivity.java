@@ -86,8 +86,10 @@ public class NewAddressActivity extends BaseActivity {
                     intent.putExtra("latitude",address.latitude+"");
                 }else{
                     AMapLocation location = SPUtils.geTinstance().getLocation();
-                    intent.putExtra("longitude",location.getLongitude()+"");
-                    intent.putExtra("latitude",location.getLatitude()+"");
+                    if(null != location){
+                        intent.putExtra("longitude",location.getLongitude()+"");
+                        intent.putExtra("latitude",location.getLatitude()+"");
+                    }
                 }
 
                 startActivityForResult(intent,REQUEST_CODE_LOCATION_ACTIVITY);
@@ -284,15 +286,17 @@ public class NewAddressActivity extends BaseActivity {
         }else{
             AMapLocation location = SPUtils.geTinstance().getLocation();
 
-            map.put("id", "");
-            map.put("memberId", "");
-            map.put("defaultStatus", "");
-            map.put("postCode", location.getCityCode()+"");
-            map.put("province", location.getProvince()+"");
-            map.put("city", location.getCity()+"");
-            map.put("district",location.getDistrict()+"");
-            map.put("latitude", location.getLatitude()+"");
-            map.put("longitude", location.getLongitude()+"");
+            if(null != location){
+                map.put("id", "");
+                map.put("memberId", "");
+                map.put("defaultStatus", "");
+                map.put("postCode", location.getCityCode()+"");
+                map.put("province", location.getProvince()+"");
+                map.put("city", location.getCity()+"");
+                map.put("district",location.getDistrict()+"");
+                map.put("latitude", location.getLatitude()+"");
+                map.put("longitude", location.getLongitude()+"");
+            }
         }
 
 

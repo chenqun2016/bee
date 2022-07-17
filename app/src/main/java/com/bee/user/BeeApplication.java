@@ -10,6 +10,7 @@ import androidx.multidex.MultiDex;
 
 import com.bee.user.utils.LogUtil;
 import com.bee.user.vm.AppViewModelStore;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -99,7 +100,7 @@ public class BeeApplication extends Application {
 
     private void initBugly() {
         CrashHandler.getInstance().init();
-
+        CrashReport.initCrashReport(getApplicationContext(), "5ae469d9b8", true);
     }
 
 

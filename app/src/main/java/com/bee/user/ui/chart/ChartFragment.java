@@ -355,10 +355,13 @@ public class ChartFragment extends BaseFragment {
         }
         ArrayList<List<ChartBean>> lists = new ArrayList<>(integerListHashMap.values());
         if(lists.size()>0){
-            setHasDatas(false);
+            setHasDatas(true);
             adapter.setNewInstance(lists);
             if(mUnAvalableBeans.size()>0){
+                ll_products.setVisibility(View.VISIBLE);
                 ll_products.setDatas(mUnAvalableBeans);
+            }else{
+                ll_products.setVisibility(View.GONE);
             }
         }else{
             setNoDataViews(unAvalableBeans);
