@@ -23,7 +23,6 @@ import com.bee.user.Constants;
 import com.bee.user.R;
 import com.bee.user.bean.BannerBean;
 import com.bee.user.bean.FirstBean;
-import com.bee.user.bean.GoodsBySectionBean;
 import com.bee.user.bean.HomeCatogoryBean;
 import com.bee.user.bean.HomeGridview2Bean;
 import com.bee.user.bean.StoreFoodItem2Bean;
@@ -151,7 +150,7 @@ public class HomeFragment extends BaseFragment {
                             bean.name = choiceness.getProductName();
                             bean.money = choiceness.getPrice();
                             bean.title = "精选午餐";
-                            bean.image = flashGoods.getPic();
+                            bean.image = choiceness.getPic();
                             homeGridview2Beans.add(bean);
                         }
 
@@ -160,7 +159,7 @@ public class HomeFragment extends BaseFragment {
                             bean.name = top.getProductName();
                             bean.money = top.getPrice();
                             bean.title = "销量排行榜";
-                            bean.image = flashGoods.getPic();
+                            bean.image = top.getPic();
                             homeGridview2Beans.add(bean);
                         }
 

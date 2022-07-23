@@ -100,7 +100,7 @@ public class BeeApplication extends Application {
 
     private void initBugly() {
         CrashHandler.getInstance().init();
-        CrashReport.initCrashReport(getApplicationContext(), "5ae469d9b8", true);
+        CrashReport.initCrashReport(getApplicationContext(), "8a3adb0fad", true);
     }
 
 

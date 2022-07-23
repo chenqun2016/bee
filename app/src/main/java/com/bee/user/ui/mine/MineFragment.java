@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bee.user.Constants;
@@ -217,7 +218,7 @@ public class MineFragment extends BaseFragment {
                         miLiBean = s;
                         String str = ""+ s.surplusAmount;
                         SpannableString msp = new SpannableString(str + "\n米粒/充值");
-                        msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+                        msp.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(),R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
                         msp.setSpan(new AbsoluteSizeSpan(16, true), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                          msp.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -266,28 +267,28 @@ public class MineFragment extends BaseFragment {
 
         String str = ""+ CommonUtil.moneyType(0d);
         SpannableString msp = new SpannableString(str + "\n米粒/充值");
-        msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        msp.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(),R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         msp.setSpan(new AbsoluteSizeSpan(16, true), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         msp.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv_1.setText(msp);
 
         str = "0";
         msp = new SpannableString(str + "\n卡包券");
-        msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        msp.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(),R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         msp.setSpan(new AbsoluteSizeSpan(16, true), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         msp.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv_2.setText(msp);
 
         str = "0";
         msp = new SpannableString(str + "\n礼品卡");
-        msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        msp.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(),R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         msp.setSpan(new AbsoluteSizeSpan(16, true), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         msp.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv_3.setText(msp);
 
         str = "0";
         msp = new SpannableString(str + "\n我的积分");
-        msp.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        msp.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(),R.color.color_FF6200)), 0, str.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         msp.setSpan(new AbsoluteSizeSpan(16, true), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         msp.setSpan(new StyleSpan(Typeface.BOLD), 0, str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv_4.setText(msp);
@@ -372,7 +373,9 @@ public class MineFragment extends BaseFragment {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
                         //替换背景
-                        huiyuan.setBackgroundDrawable(new BitmapDrawable(getResources(), bitmap));
+                        if(null != getContext()){
+                            huiyuan.setBackgroundDrawable(new BitmapDrawable(getResources(), bitmap));
+                        }
                     }
 
                     @Override

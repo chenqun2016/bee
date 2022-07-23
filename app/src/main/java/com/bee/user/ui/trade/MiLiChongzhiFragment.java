@@ -138,6 +138,14 @@ public class MiLiChongzhiFragment extends BaseFragment implements View.OnClickLi
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(null != bottomSheetDialog){
+            bottomSheetDialog.dismiss();
+        }
+    }
+
     ImageView checkbox_zhifubao;
     ImageView checkbox_weixin;
     TextView tv_dialog_sure;

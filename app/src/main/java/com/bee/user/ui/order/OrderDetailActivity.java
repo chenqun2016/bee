@@ -566,6 +566,7 @@ public class OrderDetailActivity extends BaseActivity  implements AMap.OnMapLoad
 
 //        LatLng CHENGDU = new LatLng(30.679879, 104.064855);// 成都市经纬度
 
+        if(null == location) return;
         LatLng locationBean1 = new LatLng(location.getLatitude()+0.005d, location.getLongitude()-0.005d);
         MarkerOptions markerOption1 = new MarkerOptions();
         markerOption1.position(locationBean1);

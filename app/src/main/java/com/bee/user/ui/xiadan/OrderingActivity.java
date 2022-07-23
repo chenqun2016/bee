@@ -34,6 +34,7 @@ import com.bee.user.utils.CommonUtil;
 import com.bee.user.utils.sputils.SPUtils;
 import com.bee.user.widget.AddRemoveView;
 import com.bee.user.widget.RadioGroupPlus;
+import com.blankj.utilcode.util.ObjectUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -290,7 +291,15 @@ public class OrderingActivity extends BaseActivity {
                                 tomorrow.get(0).choosed = true;
                                 bean.pre2 = 0;
                             }
+                            if(ObjectUtils.isNotEmpty(bean.today)){
+                                bean.mCurrentChooseTimeBean = bean.today.get(0);
+                                bean.pre = 0;
+                            }else if(ObjectUtils.isNotEmpty(bean.tomorrow)){
+                                bean.mCurrentChooseTimeBean = bean.tomorrow.get(0);
+                                bean.pre2 = 0;
+                            }
                             timeBeanHashMaps.put(storeId+"", bean);
+                            setTimeView(storeId.toString(),bean.mCurrentChooseTimeBean,bean.pre >= 0?0:1);
                         }
 
                         @Override
